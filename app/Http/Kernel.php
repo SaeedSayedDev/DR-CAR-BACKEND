@@ -54,6 +54,8 @@ class Kernel extends HttpKernel
      */
     protected $middlewareAliases = [
         'IsEnable' => \App\Http\Middleware\IsEnableAuth::class,
+        'checkTypeProvider' => \App\Http\Middleware\checkTypeProvider::class,
+        'checkTypeUser' => \App\Http\Middleware\checkTypeUser::class,
         'apiAuth' => \App\Http\Middleware\ApiAuthenticate::class,
 
         'auth' => \App\Http\Middleware\Authenticate::class,

@@ -10,7 +10,7 @@ class CategoryTranslation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'desc'
+        'name', 'desc', 'locale',
     ];
 
     public function category()

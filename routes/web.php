@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/logout', function () {
-    dd('logoutt');
+    dd('logout');
 });
 Route::get('/', function () {
     return view('dashboard.index');

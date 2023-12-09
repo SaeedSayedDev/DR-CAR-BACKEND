@@ -10,6 +10,6 @@ class ServiceTranslation extends Model
     use HasFactory;
     
     protected $fillable = [
-        'name', 'desc'
+        'name', 'desc', 'locale',
     ];
 }

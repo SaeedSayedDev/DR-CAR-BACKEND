@@ -22,6 +22,10 @@ return new class extends Migration
             $table->boolean('featured')->default(false);
             $table->boolean('enable_booking')->default(false);
             $table->integer('rating')->nullable();
+
+            $table->unsignedBigInteger('provider_id');
+            $table->foreign('provider_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

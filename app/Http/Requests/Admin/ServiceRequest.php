@@ -15,8 +15,10 @@ class ServiceRequest extends FormRequest
     {
         return [
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
-            'name' => 'string|required|max:255',
-            'desc' => 'string|nullable',
+            'name.en' => 'string|required|max:255',
+            'name.ar' => 'string|required|max:255',
+            'desc.en' => 'string|nullable',
+            'desc.ar' => 'string|nullable',
             'price' => 'required|numeric',
             'discount_price' => 'numeric',
             'price_unit' => 'required|boolean',

@@ -46,6 +46,34 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Repositories\ChatRepository'
         );
 
+        $this->app->bind(
+            'App\Http\Interfaces\ReviewInterface',
+            'App\Http\Repositories\ReviewRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\FavouriteInterface',
+            'App\Http\Repositories\FavouriteRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\BookingServiceInterface',
+            'App\Http\Repositories\BookingServiceRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\CouponInterface',
+            'App\Http\Repositories\CouponRepository'
+        );
+        
+        
+
+        $this->app->bind(
+            'App\Http\Interfaces\AccountInterface',
+            'App\Http\Repositories\AccountRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Admin\StatusOrderInterface',
+            'App\Http\Repositories\Admin\StatusOrderRepository'
+        );
+
     }
 
     /**

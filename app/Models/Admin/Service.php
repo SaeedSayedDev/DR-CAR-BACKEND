@@ -13,7 +13,7 @@ class Service extends Model
 
     protected $fillable = [
         'image', 'name', 'desc', 'price', 'discount_price', 'price_unit',
-        'quantity_unit', 'duration', 'featured', 'enable_booking', 'rating',
+        'quantity_unit', 'duration', 'featured', 'enable_booking', 'rating','provider_id'
     ];
     protected $translatedAttributes = [
         'name', 'desc',
