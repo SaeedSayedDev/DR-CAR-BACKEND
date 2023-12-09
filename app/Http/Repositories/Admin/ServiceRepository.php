@@ -4,11 +4,14 @@ namespace App\Http\Repositories\Admin;
 
 use App\Http\Interfaces\Admin\ServiceInterface;
 use App\Models\Admin\Service;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use App\Services\ImageService;
 
 class ServiceRepository implements ServiceInterface
 {
+    function __construct(private ImageService $imageService)
+    {
+    }
+
     public function index()
     {
         $servicesWithItems = Service::with('items')->get();
@@ -20,16 +23,28 @@ class ServiceRepository implements ServiceInterface
     public function store($request)
     {
         $requestData = request()->all();
+        $requestData['provider_id'] = auth()->user()->id;
         if ($request->has('image')) {
             $requestData['image'] = time() . '.' . $request->image->extension();
             $request->file('image')->storeAs("public/images/admin/services", $requestData['image']);
         }
+        if (!isset($request->discount_price) or isset($request->discount_price) and $request->discount_price == 0)
+            $requestData['discount_price'] = $request->price;
+        $requestData['image'] = $this->imageService->store($request, 'admin/services');
+
         $service = Service::create($requestData);
+        $requestData = $request->all();
+        foreach (['en', 'ar'] as $locale) {
+            $service->translations()->create([
+                'locale' => $locale,
+                'name' => $requestData['name'][$locale],
+                'desc' => $requestData['desc'][$locale],
+            ]);
+        }
+
         $service->items()->attach($requestData['items']);
-        return response()->json([
-            'message' => 'created successfully',
-            'data' => $service,
-        ]);
+        return response()->json(['message' => 'success']);
+
     }
 
     public function show($id)
@@ -50,11 +65,22 @@ class ServiceRepository implements ServiceInterface
                 if (File::exists($pathOldImage)) {
                     unlink($pathOldImage);
                 }
-            }    
+            }
             $requestData['image'] = time() . '.' . $request->image->extension();
             $request->file('image')->storeAs("public/images/admin/services", $requestData['image']);
         }
+
+        $requestData['image'] = $this->imageService->update($request, $service, 'admin/services');
+
+ 
         $service->update($requestData);
+        $requestData = $request->all();
+        foreach (['en', 'ar'] as $locale) {
+            $service->translateOrNew($locale)->name = $requestData['name'][$locale];
+            $service->translateOrNew($locale)->desc = $requestData['desc'][$locale];
+        }
+        $service->save();
+
         $service->items()->sync($requestData['items']);
         return response()->json([
             'message' => 'updated successfully',
@@ -65,13 +91,8 @@ class ServiceRepository implements ServiceInterface
     public function delete($id)
     {
         $service = Service::findOrFail($id);
+        $this->imageService->delete($service, 'admin/services');
         $service->delete();
-        if ($service->image) {
-            $pathOldImage  = storage_path("app/public/images/admin/services/" . $service->image);
-            if (File::exists($pathOldImage)) {
-                unlink($pathOldImage);
-            }
-        }
         return response()->json([
             'message' => 'deleted successfully'
         ]);

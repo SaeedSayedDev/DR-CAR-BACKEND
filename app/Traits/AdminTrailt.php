@@ -5,10 +5,10 @@ namespace App\Traits;
 class AdminTrailt
 {
     public static  $roles = [
-        ['name'=>'admin'],
-        ['name'=>'customer'],
-        ['name'=>'winch'],
-        ['name'=>'garage'],
+        ['name' => 'admin'],
+        ['name' => 'customer'],
+        ['name' => 'winch'],
+        ['name' => 'garage'],
     ];
 
 
@@ -150,61 +150,17 @@ class AdminTrailt
 
 
     public static $services = [
-        [
-            'name' => [
-                'en' => 'Oil Change',
-                'ar' => 'تغيير الزيت',
-            ],
-            'desc' => [
-                'en' => 'Regular oil change services for vehicles.',
-                'ar' => 'خدمات تغيير الزيت الدورية للمركبات.',
-            ],
-            'item_ids' => [2, 4, 7],
-        ],
-        [
-            'name' => [
-                'en' => 'Dent Repair',
-                'ar' => 'إصلاح الخدوش',
-            ],
-            'desc' => [
-                'en' => 'Professional dent repair services for vehicle bodywork.',
-                'ar' => 'خدمات إصلاح الخدوش المحترفة لهيكل المركبة.',
-            ],
-            'item_ids' => [1, 5, 9],
-        ],
-        [
-            'name' => [
-                'en' => 'Wheel Alignment',
-                'ar' => 'ضبط العجلات',
-            ],
-            'desc' => [
-                'en' => 'Professional wheel alignment services for optimal vehicle performance.',
-                'ar' => 'خدمات ضبط العجلات المحترفة للحصول على أداء مركبة مثالي.',
-            ],
-            'item_ids' => [3, 6, 8],
-        ],
-        [
-            'name' => [
-                'en' => 'Brake Pad Replacement',
-                'ar' => 'تبديل الأقراص الفرامل',
-            ],
-            'desc' => [
-                'en' => 'Quality brake pad replacement services for enhanced safety.',
-                'ar' => 'خدمات تبديل الأقراص الفرامل ذات الجودة لتعزيز السلامة.',
-            ],
-            'item_ids' => [2, 4, 7],
-        ],
-        [
-            'name' => [
-                'en' => 'Car Detailing',
-                'ar' => 'تنظيف السيارة',
-            ],
-            'desc' => [
-                'en' => 'Comprehensive car detailing services for a clean and polished look.',
-                'ar' => 'خدمات شاملة لتنظيف السيارة للحصول على مظهر نظيف ومصقول.',
-            ],
-            'item_ids' => [1, 3, 5],
-        ],
-    ];
 
+        'name' => [
+            'en' => 'Oil Change',
+            'ar' => 'تغيير الزيت',
+        ],
+        'desc' => [
+            'en' => 'Regular oil change services for vehicles.',
+            'ar' => 'خدمات تغيير الزيت الدورية للمركبات.',
+        ],
+        'item_ids' => [2, 4, 7],
+        'provider_id' => 2
+
+    ];
 }

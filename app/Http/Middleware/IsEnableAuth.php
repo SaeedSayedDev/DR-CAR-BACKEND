@@ -25,7 +25,6 @@ class IsEnableAuth
         if (!$user)
             return response()->json(['message' => 'This User Is Not Found'], 404);
 
-
         if (!$user->email_verified_at) {
             $this->otpService->createEmail($user->email, $user->id, 'user');
             return response()->json(['message' => 'please verify your email']);

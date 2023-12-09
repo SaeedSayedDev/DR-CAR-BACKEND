@@ -4,10 +4,14 @@ namespace App\Http\Repositories\Admin;
 
 use App\Http\Interfaces\Admin\CategoryInterface;
 use App\Models\Admin\Category;
-use Illuminate\Support\Facades\File;
+use App\Services\ImageService;
 
 class CategoryRepository implements CategoryInterface
 {
+    function __construct(private ImageService $imageService)
+    {
+    }
+
     public function index()
     {
         $categories = Category::with('items')->get();
@@ -18,14 +22,23 @@ class CategoryRepository implements CategoryInterface
 
     public function store($request)
     {
-        $requestData = request()->all();
-        if ($request->has('image')) {
-            $requestData['image'] = time() . '.' . $request->image->extension();
-            $request->file('image')->storeAs("public/images/admin/categories", $requestData['image']);
+        $requestData = $request->all();
+        $requestData['image'] = $this->imageService->store($request, 'admin/categories');
+
+        $category = Category::create([
+            'image' => $requestData['image'],
+        ]);
+        foreach (['en', 'ar'] as $locale) {
+            $category->translations()->create([
+                'locale' => $locale,
+                'name' => $requestData['name'][$locale],
+                'desc' => $requestData['desc'][$locale],
+            ]);
         }
-        $category = Category::create($requestData);
+
         return response()->json([
-            'message' => 'success',
+            'message' => 'stored successfully',
+            'data' => $category,
         ]);
     }
 
@@ -40,18 +53,18 @@ class CategoryRepository implements CategoryInterface
     public function update($request, $id)
     {
         $category = Category::findOrFail($id);
-        $requestData = request()->all();
-        if ($request->has('image')) {
-            if ($category->image) {
-                $pathOldImage  = storage_path("app/public/images/admin/categories/" . $category->image);
-                if (File::exists($pathOldImage)) {
-                    unlink($pathOldImage);
-                }
-            }
-                $requestData['image'] = time() . '.' . $request->image->extension();
-            $request->file('image')->storeAs("public/images/admin/categories", $requestData['image']);
+        $requestData = $request->all();
+        $requestData['image'] = $this->imageService->update($request, $category, 'admin/categories');
+
+        $category->update([
+            'image' => $requestData['image'],
+        ]);
+        foreach (['en', 'ar'] as $locale) {
+            $category->translateOrNew($locale)->name = $requestData['name'][$locale];
+            $category->translateOrNew($locale)->desc = $requestData['desc'][$locale];
         }
-        $category->update($requestData);
+        $category->save();
+
         return response()->json([
             'message' => 'updated successfully',
             'data' => $category,
@@ -61,13 +74,8 @@ class CategoryRepository implements CategoryInterface
     public function delete($id)
     {
         $category = Category::findOrFail($id);
+        $this->imageService->delete($category, 'admin/categories');
         $category->delete();
-        if ($category->image) {
-            $pathOldImage  = storage_path("app/public/images/admin/categories/" . $category->image);
-            if (File::exists($pathOldImage)) {
-                unlink($pathOldImage);
-            }
-        }
         return response()->json([
             'message' => 'deleted successfully'
         ]);

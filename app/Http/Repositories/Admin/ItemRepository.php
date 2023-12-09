@@ -4,10 +4,14 @@ namespace App\Http\Repositories\Admin;
 
 use App\Http\Interfaces\Admin\ItemInterface;
 use App\Models\Admin\Item;
-use Illuminate\Support\Facades\File;
+use App\Services\ImageService;
 
 class ItemRepository implements ItemInterface
 {
+    function __construct(private ImageService $imageService)
+    {
+    }
+
     public function index()
     {
         $items = Item::all();
@@ -18,14 +22,24 @@ class ItemRepository implements ItemInterface
 
     public function store($request)
     {
-        $requestData = request()->all();
-        if ($request->has('image')) {
-            $requestData['image'] = time() . '.' . $request->image->extension();
-            $request->file('image')->storeAs("public/images/admin/items", $requestData['image']);
+        $requestData = $request->all();
+        $requestData['image'] = $this->imageService->store($request, 'admin/items');
+
+        $item = Item::create([
+            'image' => $requestData['image'],
+            'category_id' => $requestData['category_id'],
+        ]);
+        foreach (['en', 'ar'] as $locale) {
+            $item->translations()->create([
+                'locale' => $locale,
+                'name' => $requestData['name'][$locale],
+                'desc' => $requestData['desc'][$locale],
+            ]);
         }
-        $item = Item::create($requestData);
+
         return response()->json([
-            'message' => 'success',
+            'message' => 'stored successfully',
+            'data' => $item,
         ]);
     }
 
@@ -40,33 +54,30 @@ class ItemRepository implements ItemInterface
     public function update($request, $id)
     {
         $item = Item::findOrFail($id);
-        $requestData = request()->all();
-        if ($request->has('image')) {
-            if ($item->image) {
-                $pathOldImage  = storage_path("app/public/images/admin/items/" . $item->image);
-                if (File::exists($pathOldImage)) {
-                    unlink($pathOldImage);
-                }
-            }
-            $requestData['image'] = time() . '.' . $request->image->extension();
-            $request->file('image')->storeAs("public/images/admin/items", $requestData['image']);
+        $requestData = $request->all();
+        $requestData['image'] = $this->imageService->update($request, $item, 'admin/items');
+
+        $item->update([
+            'image' => $requestData['image'],
+            'category_id' => $requestData['category_id'],
+        ]);
+        foreach (['en', 'ar'] as $locale) {
+            $item->translateOrNew($locale)->name = $requestData['name'][$locale];
+            $item->translateOrNew($locale)->desc = $requestData['desc'][$locale];
         }
-        $item->update($requestData);
+        $item->save();
+
         return response()->json([
-            'message' => 'success',
+            'message' => 'updated successfully',
+            'data' => $item,
         ]);
     }
 
     public function delete($id)
     {
         $item = Item::findOrFail($id);
+        $this->imageService->delete($item, 'admin/items');
         $item->delete();
-        if ($item->image) {
-            $pathOldImage  = storage_path("app/public/images/admin/items/" . $item->image);
-            if (File::exists($pathOldImage)) {
-                unlink($pathOldImage);
-            }
-        }
         return response()->json([
             'message' => 'deleted successfully'
         ]);

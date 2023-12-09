@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Interfaces\AccountInterface;
 use App\Http\Interfaces\AuthInterface;
 use App\Http\Interfaces\ConfirmEmailPhoneInterface;
 use App\Http\Interfaces\PasswordInterface;
+use App\Http\Requests\AccountRequest;
 use App\Http\Requests\changePasswordRequest;
 use App\Http\Requests\ConfirmEmailRequest;
 use App\Http\Requests\ForgetPasswordRequest;
@@ -17,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
 
-    public function __construct(private AuthInterface $authInterface, private ConfirmEmailPhoneInterface $confirmEmailPhoneInterface, private PasswordInterface $passwordInterface)
+    public function __construct(private AuthInterface $authInterface, private ConfirmEmailPhoneInterface $confirmEmailPhoneInterface, private PasswordInterface $passwordInterface, private AccountInterface $accountInterface)
     {
     }
 
@@ -64,5 +66,21 @@ class AuthController extends Controller
     function changePassword(changePasswordRequest $request)
     {
         return $this->passwordInterface->changePassword($request);
+    }
+
+
+
+
+    public function showAccount($id)
+    {
+        return $this->accountInterface->show($id);
+    }
+    public function updateAccount(AccountRequest $request, $id)
+    {
+        return $this->accountInterface->update($request, $id);
+    }
+    public function deleteAccount($id)
+    {
+        return $this->accountInterface->delete($id);
     }
 }

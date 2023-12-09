@@ -38,7 +38,7 @@ class AdminSeeder extends Seeder
             }
         }
 
-        
+
         $items = AdminTrailt::$items;
         foreach ($items as $itemData) {
             $item = Item::create([
@@ -56,20 +56,6 @@ class AdminSeeder extends Seeder
         }
 
 
-        $services = AdminTrailt::$services;
-        foreach ($services as $serviceData) {
-            $service = Service::factory()->create([
-                'image' => 'text.jpg',
-            ]);
-            $service->items()->attach($serviceData['item_ids']);
-            foreach (['en', 'ar'] as $locale) {
-                ServiceTranslation::create([
-                    'service_id' => $service->id,
-                    'locale' => $locale,
-                    'name' => $serviceData['name'][$locale],
-                    'desc' => $serviceData['desc'][$locale],
-                ]);
-            }
-        }
+     
     }
 }
