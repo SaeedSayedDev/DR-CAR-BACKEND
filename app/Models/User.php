@@ -74,4 +74,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(OtpUser::class, 'user_id',  'id')->where('type_user', 'user');
     }
+
+    public function userRole()
+    {
+        return $this->belongsTo(Role::class, 'role_id',  'id');
+    }
 }

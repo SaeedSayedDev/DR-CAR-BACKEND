@@ -22,10 +22,10 @@ class AuthRepository implements AuthInterface
     public function login($request)
     {
         $credentials = request(['email', 'password']);
-        if ($token = auth()->claims(['role_type' => 'user'])->attempt($credentials)) {
-            // $user_id = auth()->user()->id;
+        if ($token = auth()->attempt($credentials)) {
+            $user = auth()->user();;
             // $this->authServcie->createOrUpdateFirbaseTokenUser(false, $user_id);
-            return $this->authServcie->respondWithToken($token);
+            return $this->authServcie->respondWithToken($token, $user->userRole->name);
         }
         return response()->json(['error' => 'Unauthorized'], 401);
     }
