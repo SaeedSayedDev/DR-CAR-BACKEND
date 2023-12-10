@@ -13,13 +13,14 @@ class AccountRequest extends FormRequest
 
     public function rules(): array
     {
+        $id = auth()->user()->id;
         return [
-            'full_name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|unique:users,email,' . $this->id,
-            
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+
             'phone_number' => 'nullable|string',
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
-            'address' => 'nullable|string',
+            'address' => 'required|string|min:3',
             'short_biography' => 'nullable|string',
         ];
     }

@@ -9,17 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
-    use Translatable;
 
     protected $fillable = [
         'image', 'name', 'desc', 'price', 'discount_price', 'price_unit',
-        'quantity_unit', 'duration', 'featured', 'enable_booking', 'rating','provider_id'
+        'quantity_unit', 'duration', 'featured', 'enable_booking', 'rating', 'provider_id'
     ];
-    protected $translatedAttributes = [
-        'name', 'desc',
-    ];
+
     protected $hidden = [
-        'created_at', 'updated_at', 'translations',
+        'created_at', 'updated_at',
     ];
     protected $casts = [
         'price_unit' => 'boolean',
@@ -27,10 +24,7 @@ class Service extends Model
         'enable_booking' => 'boolean',
     ];
 
-    public function translations()
-    {
-        return $this->hasMany(ServiceTranslation::class);
-    }
+
 
     public function items()
     {

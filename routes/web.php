@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('success', [ServiceController::class, 'success']);
+Route::get('error', [ServiceController::class, 'error']);
+
+
 
 Route::get('/logout', function () {
     dd('logout');

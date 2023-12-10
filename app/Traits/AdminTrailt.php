@@ -163,4 +163,19 @@ class AdminTrailt
         'provider_id' => 2
 
     ];
+
+
+    public static $paymentMethods = [
+        [
+            'payment_type' => 1,
+            'name' => 'Paypal',
+            'logo' => 'paypal.jpg',
+            'default' => true,
+        ],
+        [
+            'payment_type' => 2,
+            'name' => 'Stripe',
+            'logo' => 'stripe.jpg',
+        ],
+    ];
 }
