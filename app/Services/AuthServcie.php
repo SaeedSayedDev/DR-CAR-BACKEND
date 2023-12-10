@@ -17,12 +17,13 @@ class AuthServcie
     // function __construct(private MyfatoorhService $myfatoorhService)
     // {
     // }
-    public function respondWithToken($token)
+    public function respondWithToken($token, $role_type)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
+            'role_type' => $role_type
         ]);
     }
 
