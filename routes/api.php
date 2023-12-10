@@ -26,14 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/confirm-email', [AuthController::class, 'confirmCodeEmail']);
 
 Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-Route::group(['middleware' => 'IsEnable'], function () {
+Route::group(['middleware' => 'isEnable'], function () {
     Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser');
     Route::post('provider/login', [AuthController::class, 'login'])->middleware('checkTypeProvider');
 });
@@ -76,11 +75,10 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::post('chat/store', [ChatController::class, 'store']);
     Route::get('chat/show/{chat_id}', [ChatController::class, 'show']);
     Route::post('chatMessage/store', [ChatController::class, 'storeMessage']);
-  
-  Route::get('account/show/{id}', [AuthController::class, 'showAccount']);
-Route::put('account/update/{id}', [AuthController::class, 'updateAccount']);
-Route::delete('account/delete/{id}', [AuthController::class, 'deleteAccount']);
 
+    Route::get('account/show/{id}', [AuthController::class, 'showAccount']);
+    Route::put('account/update/{id}', [AuthController::class, 'updateAccount']);
+    Route::delete('account/delete/{id}', [AuthController::class, 'deleteAccount']);
 });
 
 
@@ -103,4 +101,3 @@ Route::post('statusOrder/store', [StatusOrderController::class, 'store']);
 Route::get('statusOrder/show/{id}', [StatusOrderController::class, 'show']);
 Route::put('statusOrder/update/{id}', [StatusOrderController::class, 'update']);
 Route::delete('statusOrder/delete/{id}', [StatusOrderController::class, 'delete']);
-
