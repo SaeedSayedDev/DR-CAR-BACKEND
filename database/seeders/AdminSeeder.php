@@ -6,6 +6,7 @@ use App\Models\Admin\Category;
 use App\Models\Admin\CategoryTranslation;
 use App\Models\Admin\Item;
 use App\Models\Admin\ItemTranslation;
+use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\Admin\ServiceTranslation;
 use App\Traits\AdminTrailt;
@@ -56,6 +57,9 @@ class AdminSeeder extends Seeder
         }
 
 
-     
+        $paymentMethods = AdminTrailt::$paymentMethods;
+        foreach ($paymentMethods as $paymentMethod) {
+            PaymentMethod::create($paymentMethod);
+        }
     }
 }

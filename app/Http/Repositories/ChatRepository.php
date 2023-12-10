@@ -82,7 +82,6 @@ class ChatRepository implements ChatInterface
         // }
 
         $chat = $this->getPreviousChat($data['otherUserId']);
-        return $chat;
         if ($chat === null) {
 
             $chat = Chat::create($data['data']);

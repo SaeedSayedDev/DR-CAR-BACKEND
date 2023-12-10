@@ -108,7 +108,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="{!! route('experiences.index') !!}">
                     @if ($icons)
                         <i class="nav-icon fas fa-briefcase"></i>
@@ -116,9 +116,9 @@
                     <p>
                         {{ trans('lang.experience_plural') }}</p>
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="{!! route('availabilityHours.index') !!}">
                     @if ($icons)
                         <i class="nav-icon fas fa-business-time"></i>
@@ -126,8 +126,8 @@
                     <p>
                         {{ trans('lang.availability_hour_plural') }}</p>
                 </a>
-            </li>
-            <li class="nav-item">
+            </li> --}}
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="{!! route('addresses.index') !!}">
                     @if ($icons)
                         <i class="nav-icon fas fa-map-marked-alt"></i>
@@ -135,10 +135,10 @@
                     <p>
                         {{ trans('lang.address_plural') }}</p>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="{!! route('categories.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-folder-open"></i>
@@ -146,10 +146,10 @@
             <p>
                 {{ trans('lang.category_plural') }}</p>
         </a>
-    </li>
+    </li> --}}
 
 
-    <li class="nav-item has-treeview">
+    {{-- <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
             @if ($icons)
                 <i class="nav-icon fas fa-pencil-ruler"></i>
@@ -196,9 +196,9 @@
             </li>
 
         </ul>
-    </li>
+    </li> --}}
 
-    <li class="nav-item has-treeview">
+    {{-- <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
             @if ($icons)
                 <i class="nav-icon fas fa-calendar-check"></i>
@@ -225,20 +225,20 @@
                     <p>
                         {{ trans('lang.booking_status_plural') }}</p>
                 </a>
-            </li>
+            </li> --}}
 
-            {{--            @can('deliveryAddresses.index') --}}
-            {{--                <li class="nav-item"> --}}
-            {{--                    <a class="nav-link {{ Request::is('deliveryAddresses*') ? 'active' : '' }}" href="{!! route('deliveryAddresses.index') !!}">@if ($icons) --}}
-            {{--                            <i class="nav-icon fas fa-map"></i>@endif<p>{{trans('lang.delivery_address_plural')}}</p></a> --}}
-            {{--                </li> --}}
-            {{--            @endcan --}}
+    {{--            @can('deliveryAddresses.index') --}}
+    {{--                <li class="nav-item"> --}}
+    {{--                    <a class="nav-link {{ Request::is('deliveryAddresses*') ? 'active' : '' }}" href="{!! route('deliveryAddresses.index') !!}">@if ($icons) --}}
+    {{--                            <i class="nav-icon fas fa-map"></i>@endif<p>{{trans('lang.delivery_address_plural')}}</p></a> --}}
+    {{--                </li> --}}
+    {{--            @endcan --}}
 
-        </ul>
-    </li>
+    {{--   </ul>
+    </li> --}}
     {{-- @endcan --}}
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="{!! route('coupons.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-ticket-alt"></i>
@@ -246,10 +246,9 @@
             <p>
                 {{ trans('lang.coupon_plural') }} </p>
         </a>
-    </li>
-    <li class="nav-item">
-        <a href="#"
-            class="nav-link {{ Request::is('faqs*') || Request::is('faqCategories*') ? 'active' : '' }}">
+    </li> --}}
+    {{-- <li class="nav-item">
+        <a href="#" class="nav-link {{ Request::is('faqs*') || Request::is('faqCategories*') ? 'active' : '' }}">
             @if ($icons)
                 <i class="nav-icon fas fa-question-circle"></i>
             @endif
@@ -258,8 +257,7 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('faqCategories*') ? 'active' : '' }}"
-                    href="{!! route('faqCategories.index') !!}">
+                <a class="nav-link {{ Request::is('faqCategories*') ? 'active' : '' }}" href="{!! route('faqCategories.index') !!}">
                     @if ($icons)
                         <i class="nav-icon fas fa-folder-open"></i>
                     @endif
@@ -276,12 +274,11 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> --}}
     {{-- @if (Module::isActivated('Subscription')) --}}
-    <li class="nav-header">{{ trans('subscription::lang.subscriptions') }}</li>
+    {{-- <li class="nav-header">{{ trans('subscription::lang.subscriptions') }}</li>
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('subscriptionPackages*') ? 'active' : '' }}"
-            href="{!! route('subscriptionPackages.index') !!}">
+        <a class="nav-link {{ Request::is('subscriptionPackages*') ? 'active' : '' }}" href="{!! route('subscriptionPackages.index') !!}">
             @if ($icons)
                 <i class="nav-icon fa fa-th-list"></i>
             @endif
@@ -291,9 +288,9 @@
                 @endif
             </p>
         </a>
-    </li>
+    </li> --}}
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link {{ Request::is('eProviderSubscriptions*') ? 'active' : '' }}"
             href="{!! route('eProviderSubscriptions.index') !!}">
             @if ($icons)
@@ -305,9 +302,9 @@
                 @endif
             </p>
         </a>
-    </li>
+    </li> --}}
     {{-- @endif --}}
-    <li class="nav-header">{{ trans('lang.payment_plural') }}</li>
+    {{-- <li class="nav-header">{{ trans('lang.payment_plural') }}</li>
     <li
         class="nav-item has-treeview {{ Request::is('payments*') || Request::is('paymentMethods*') || Request::is('paymentStatuses*') || Request::is('eProviderPayouts*') ? 'menu-open' : '' }}">
         <a href="#"
@@ -363,8 +360,8 @@
             </li>
 
         </ul>
-    </li>
-    <li class="nav-item has-treeview {{ Request::is('wallet*') ? 'menu-open' : '' }}">
+    </li> --}}
+    {{-- <li class="nav-item has-treeview {{ Request::is('wallet*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link {{ Request::is('wallet*') ? 'active' : '' }}">
             @if ($icons)
                 <i class="nav-icon fas fa-wallet"></i>
@@ -403,8 +400,8 @@
             <p>
                 {{ trans('lang.earning_plural') }} </p>
         </a>
-    </li>
-    <li class="nav-header">{{ trans('lang.app_setting') }}</li>
+    </li> --}}
+    {{-- <li class="nav-header">{{ trans('lang.app_setting') }}</li>
     <li class="nav-item">
         <a class="nav-link {{ Request::is('medias*') ? 'active' : '' }}" href="{!! url('medias') !!}">
             @if ($icons)
@@ -412,8 +409,8 @@
             @endif
             <p>{{ trans('lang.media_plural') }}</p>
         </a>
-    </li>
-
+    </li> --}}
+    {{-- 
     <li
         class="nav-item has-treeview {{ Request::is('settings/mobile*') || Request::is('slides*') || Request::is('customPages*') ? 'menu-open' : '' }}">
         <a href="#"
@@ -656,4 +653,4 @@
             </li>
 
         </ul>
-    </li>
+    </li> --}}

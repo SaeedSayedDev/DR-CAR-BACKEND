@@ -25,6 +25,8 @@ class BookingService extends Model
         'cancel',
         'payment_stataus',
         'payment_amount',
+        'payment_type',
+        'payment_id',
     
     ];
 }

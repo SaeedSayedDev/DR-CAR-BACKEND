@@ -73,6 +73,14 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\Admin\StatusOrderInterface',
             'App\Http\Repositories\Admin\StatusOrderRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\SlideInterface',
+            'App\Http\Repositories\SlideRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Admin\PaymentMethodInterface',
+            'App\Http\Repositories\Admin\PaymentMethodRepository'
+        );
 
     }
 

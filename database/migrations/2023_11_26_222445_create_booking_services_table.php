@@ -13,19 +13,21 @@ return new class extends Migration
     {
         Schema::create('booking_services', function (Blueprint $table) {
             $table->id();
-        
+
             $table->longText('address');
             $table->text('hint')->nullable();
             $table->smallInteger('quantity')->default(1);
             $table->integer('order_status_id')->default(1);
             $table->Text('coupon')->nullable();
             $table->boolean('as_soon_as')->default(1);
-            $table->boolean('come_to_address_date')->nullable();//required if as_soon_as false
+            $table->boolean('come_to_address_date')->nullable(); //required if as_soon_as false
 
             $table->string('taxes')->nullable();
             $table->boolean('cancel')->default(0);
             $table->string('payment_stataus')->default('unpaid');
             $table->string('payment_amount');
+            $table->string('payment_type')->nullable();
+            $table->string('payment_id')->nullable();
 
             // $table->dateTime('start_at')->nullable();
             // $table->dateTime('ends_at')->nullable();

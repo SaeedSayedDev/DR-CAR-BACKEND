@@ -4,9 +4,9 @@ namespace App\Http\Interfaces;
 
 interface AccountInterface
 {
-    public function show($id);
+    public function show();
 
-    public function update($request, $id);
+    public function update($request);
 
-    public function delete($id);
+    public function delete();
 }

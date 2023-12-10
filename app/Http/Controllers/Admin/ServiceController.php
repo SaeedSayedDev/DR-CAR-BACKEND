@@ -9,6 +9,8 @@ use App\Http\Interfaces\CouponInterface;
 use App\Http\Requests\Admin\ServiceRequest;
 use App\Http\Requests\BookingServiceRequest;
 use App\Http\Requests\CouponRequest;
+use App\Http\Requests\payBookingSeriviceRequest;
+use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -41,8 +43,19 @@ class ServiceController extends Controller
     // Booking service
     public function bookingService(BookingServiceRequest $request)
     {
-
-        return $this->bookingServiceInterface->bookingService($request );
+        return $this->bookingServiceInterface->bookingService($request);
+    }
+    public function payBookingSerivice(payBookingSeriviceRequest $request, $service_id)
+    {
+        return $this->bookingServiceInterface->payBookingSerivice($request, $service_id);
+    }
+    public function success(Request $request)
+    {
+        return $this->bookingServiceInterface->success($request);
+    }
+    public function error()
+    {
+        return 'User declined the payment!';
     }
 
 

@@ -12,9 +12,10 @@ class AccountRepository implements AccountInterface
     {
     }
 
-    public function show($id)
+    public function show()
     {
-        $user = User::findOrFail($id);
+        $user_id = auth()->user()->id;
+        $user = User::findOrFail($user_id);
         $user->load(match ($user->role_id) {
             2 => 'user_information',
             3 => 'winch_information',
@@ -25,10 +26,11 @@ class AccountRepository implements AccountInterface
         ]);
     }
 
-    public function update($request, $id)
+    public function update($request)
     {
         $requestData = request()->all();
-        $user = User::findOrFail($id);
+        $user_id = auth()->user()->id;
+        $user = User::findOrFail($user_id);
         $user->update($requestData);
         switch ($user->role_id) {
             case 2:
@@ -49,9 +51,12 @@ class AccountRepository implements AccountInterface
         ]);
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $user = User::findOrFail($id);
+        $user_id = auth()->user()->id;
+        $user = User::findOrFail($user_id);
+        $user->delete();
+
         switch ($user->role_id) {
             case 2:
                 $this->imageService->delete($user->user_information, 'accounts');

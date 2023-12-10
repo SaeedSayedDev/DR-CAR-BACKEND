@@ -27,10 +27,7 @@ class StatusOrderRepository implements StatusOrderInterface
             ]);
         }
 
-        return response()->json([
-            'message' => 'stored successfully',
-            'data' => $statusOrder,
-        ]);
+        return response()->json(['message' => 'success']);
     }
 
     public function show($id)
@@ -52,10 +49,8 @@ class StatusOrderRepository implements StatusOrderInterface
 
         $statusOrder->save();
 
-        return response()->json([
-            'message' => 'updated successfully',
-            'data' => $statusOrder,
-        ]);
+        return response()->json(['message' => 'success']);
+
     }
 
     public function delete($id)
@@ -63,8 +58,7 @@ class StatusOrderRepository implements StatusOrderInterface
         $statusOrder = StatusOrder::findOrFail($id);
         $statusOrder->delete();
 
-        return response()->json([
-            'message' => 'deleted successfully'
-        ]);
+        return response()->json(['message' => 'success']);
+
     }
 }
