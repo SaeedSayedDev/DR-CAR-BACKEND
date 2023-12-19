@@ -19,7 +19,7 @@ class checkTypeProvider
         $routeName = $request->route()->getName();
 
         if ($routeName == 'login.provider') {
-            if ($request->header('device_token')) {
+            if ($request->header('fcsToken')) {
                 $credentials = request(['email', 'password']);
 
                 if ($request['token'] = auth()->attempt($credentials)) {

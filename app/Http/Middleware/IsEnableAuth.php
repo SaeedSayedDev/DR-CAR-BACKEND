@@ -20,7 +20,7 @@ class IsEnableAuth
     }
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->header('device_token')) {
+        if ($request->header('fcsToken')) {
             $user =  User::where('email', $request->email)->first();
             if (!$user)
                 return response()->json(['message' => 'This User Is Not Found'], 404);
