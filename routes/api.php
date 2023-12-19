@@ -10,7 +10,9 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SlideController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,10 +37,10 @@ Route::post('/confirm-email', [AuthController::class, 'confirmCodeEmail']);
 Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-Route::group(['middleware' => 'IsEnable'], function () {
-    Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser');
-    Route::post('provider/login', [AuthController::class, 'login'])->middleware('checkTypeProvider');
-});
+// Route::group(['middleware' => 'IsEnable'], function () {
+Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser')->name('login.user');
+Route::post('provider/login', [AuthController::class, 'login'])->middleware('checkTypeProvider')->name('login.provider');
+// });
 
 
 Route::group(['middleware' => 'apiAuth'], function () {
@@ -84,6 +86,12 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::put('account/update', [AuthController::class, 'updateAccount']);
     Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
+
+    Route::post('charge/wallet', [WalletController::class, 'chargeWallet']);
+
+    Route::post('WithdrawWallet/store', [WalletController::class, 'WithdrawWallet']);
+
+    Route::get('WithdrawWallet/cancel/{id}', [WalletController::class, 'cancel']);
 });
 
 
@@ -119,3 +127,21 @@ Route::post('payment_method/store', [PaymentMethodController::class, 'store'])->
 Route::get('payment_method/show/{id}', [PaymentMethodController::class, 'show'])->name('payment_method.show');
 Route::put('payment_method/update/{id}', [PaymentMethodController::class, 'update'])->name('payment_method.update');
 Route::delete('payment_method/delete/{id}', [PaymentMethodController::class, 'delete'])->name('payment_method.delete');
+
+
+Route::put('withdraw/confirm/{withdraw_id}', [WalletController::class, 'confirm_admin']);
+
+
+// Route::get('fixer', function () {
+//     $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');
+
+//     $response = Http::withHeaders([
+//         'apikey' => env('FIXER_API_KEY'),
+//     ])->get('https://api.apilayer.com/fixer/convert', [
+//         'from' => 'AED',
+//         'to' => 'USD',
+//         'amount' => 100,
+//         'date' =>  date('Y-m-d'),
+//     ]);
+//     return $response['result'];
+// });

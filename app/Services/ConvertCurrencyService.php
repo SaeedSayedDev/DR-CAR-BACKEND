@@ -6,53 +6,37 @@ namespace App\Services;
 use App\Models\ProfileBusiness;
 use App\Models\setting\Country;
 use AmrShawky\LaravelCurrency\Facade\Currency;
+use Illuminate\Support\Facades\Http;
 
 class ConvertCurrencyService
 {
-    // convertCurrency
-    function convertCurrency($fromCurrency, $toCurrency, $amountValue)
+ 
+
+    function convertAmountFromAEDToUSA($amount)
     {
-        $amountConvertValue = Currency::convert()
-            ->from($fromCurrency)
-            ->to($toCurrency)
-            ->amount($amountValue)
-            ->get();
-        return $amountConvertValue;
+        $response = Http::withHeaders([
+            'apikey' => env('FIXER_API_KEY'),
+        ])->get('https://api.apilayer.com/fixer/convert', [
+            'from' => 'AED',
+            'to' => 'USD',
+            'amount' => $amount,
+            'date' =>  date('Y-m-d'),
+        ]);
+        return $response['result'];
     }
-
-    // function convertFromDisplayValueToInvoceValue($profile_business_id, $currency_id, $invoice_display_value)
-    // {
-    //     $getProfileUser = ProfileBusiness::with('country')->find($profile_business_id);
-    //     $getCurrencyOfDispalyValue = Country::find($currency_id);
-
-    //     $displayUserCurrency = $getCurrencyOfDispalyValue->short_currency;
-    //     $profileBusinessCurrency = $getProfileUser->country->short_currency;
-
-    //     return $this->convertCurrency($displayUserCurrency, $profileBusinessCurrency, $invoice_display_value);
-    // }
-
-    // function convertCurrencyAdmin($currency, $amount)
-    // {
-    //     return $this->convertCurrency($currency, 'USD', $amount);
-    // }
-
-
-    // function convertCurrencyStripe($short_currency_stripe, $short_currency_profile, $amount)
-    // {
-    //     return $this->convertCurrency($short_currency_stripe, $short_currency_profile, $amount);
-    // }
-
-    public function convartCurrencyInvoiceToAED($short_currency_display_invoice, $amount)
+    function convertAmountFromUSDToAED($amount)
     {
-        return $this->convertCurrency($short_currency_display_invoice, 'AED', $amount);
-    }
-    // public function convartCurrencyWalletToUSA($short_currency_profile, $amount)
-    // {
-    //     return $this->convertCurrency($short_currency_profile, 'USD', $amount);
-    // }
+        $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');
 
-    // public function convertCurrency30cToProfile( $short_currency_profile)
-    // {
-    //     return $this->convertCurrency('USD', $short_currency_profile, 0.30);
-    // }
+        $response = Http::withHeaders([
+            'apikey' => env('FIXER_API_KEY'),
+        ])->get('https://api.apilayer.com/fixer/convert', [
+            'from' => 'USD',
+            'to' => 'AED',
+            'amount' => $amount,
+            'date' =>  date('Y-m-d'),
+        ]);
+        return $response['result'];
+    }
+   
 }

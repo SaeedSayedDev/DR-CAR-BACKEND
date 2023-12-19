@@ -12,6 +12,7 @@ use App\Models\Favourite;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Services\BookingServices;
+use App\Services\ConvertCurrencyService;
 use App\Services\PaypalService;
 use App\Services\StripeService;
 use App\Services\WalletService;
@@ -21,7 +22,7 @@ use Stripe\Charge;
 class BookingServiceRepository implements BookingServiceInterface
 {
 
-    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService)
+    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService)
     {
     }
 
@@ -47,7 +48,7 @@ class BookingServiceRepository implements BookingServiceInterface
         return response()->json(['message' => 'success']);
     }
 
-    
+
     public function payBookingSerivice($request, $service_id)
     {
         $user_id = auth()->user()->id;
@@ -56,7 +57,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         if (isset($bookingService)) {
             if ($payment_method->name == 'Stripe') {
-                
+
                 $retrieve = $this->payWithStripe($request, $bookingService->payment_amount);
 
                 $this->bookingService->updateBookingService($bookingService, 2, $retrieve->id);
@@ -64,14 +65,13 @@ class BookingServiceRepository implements BookingServiceInterface
                 $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100);
 
                 return response()->json(['message' => 'success']);
-
             } elseif ($payment_method->name == 'Paypal') {
+                $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
 
-                return  $this->paypalService->createOrder($bookingService->payment_amount, $bookingService->id);
-
+                return  $this->paypalService->createOrder($amount_usd, $bookingService->id, 'booking');
             }
         }
-        return response()->json(['message' => 'this booking arleady paid'], 404);
+        return response()->json(['message' => 'this booking not found or paid'], 404);
     }
 
     function payWithStripe($request, $payment_amount)

@@ -6,6 +6,7 @@ use App\Models\BookingService;
 use App\Services\BookingServices;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Omnipay\Omnipay;
 
@@ -14,19 +15,20 @@ class PaypalService
     private $client_id;
     private $secret_id;
 
-    public function __construct(private BookingServices $bookingService, private WalletService $walletService)
+    public function __construct(private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService)
     {
         $this->client_id = env('PAYPAL_CLIENT_ID');
         $this->secret_id = env('PAYPAL_CLIENT_SECRET');
     }
-    public function createOrder($amount, $booking_id)
+    public function createOrder($amount, $custom_id, $type)
     {
+        // dump($custom_id);
+        // dd($type);
         try {
-            $data = $this->data($amount, $booking_id);
-
+            $data = $this->data($amount, $custom_id, $type);
             $res = Http::withBasicAuth($this->client_id, $this->secret_id)
                 ->post(
-                    'https://api-m.paypal.com/v2/checkout/orders',
+                    'https://api-m.sandbox.paypal.com/v2/checkout/orders',
                     $data
                 );
             return response()->json(['message' => $res['links'][1]['href']]);
@@ -36,7 +38,7 @@ class PaypalService
     }
 
 
-    function data($amount, $booking_id)
+    function data($amount, $custom_id, $type)
     {
         return [
             'intent' => 'CAPTURE',
@@ -44,9 +46,12 @@ class PaypalService
                 [
                     'amount' => [
                         'currency_code' => 'USD',
-                        'value' => "$amount" // Amount for the order
+                        'value' => number_format($amount, 2, '.', '') // Amount for the order
                     ],
-                    "custom_id" => "$booking_id"
+
+                    "custom_id" => "$custom_id",
+                    'soft_descriptor' => "$type"
+
                 ]
             ],
             'application_context' => [
@@ -59,22 +64,47 @@ class PaypalService
     public function success(Request $request)
     {
         try {
-            $order = Http::withBasicAuth($this->client_id, $this->secret_id)
-                ->get('https://api-m.paypal.com/v2/checkout/orders/' . $request->query('token'));
+            DB::beginTransaction();
 
+            $retrieveOrder = $this->capture_and_retrieve_order($request['token']);
 
-            if ($order && $order['payer']['payer_id'] == $request->input('PayerID')) {
+            if (isset($retrieveOrder['status']) and $retrieveOrder['status'] == 'COMPLETED' and $retrieveOrder['payer']['payer_id'] == $request['PayerID']) {
 
-                $booking_service = BookingService::find($order['purchase_units'][0]['custom_id']);
+                // $bookingId_or_userId =  $retrieveOrder['purchase_units'][0]['custom_id'] ;    
+                // $type =  $retrieveOrder['purchase_units'][0]['soft_descriptor']
+                // $net = $retrieveOrder['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value']
+                $net_aed = $this->convertCurrencyService->convertAmountFromUSDToAED($retrieveOrder['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value']);
+                if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'booking') {
 
-                $this->bookingService->updateBookingService($booking_service, 1, $request->query('token'));
-
-                $this->walletService->updateWallet($booking_service->user_id, $order['purchase_units'][0]['amount']['value']);
+                    $booking_service = BookingService::find($retrieveOrder['purchase_units'][0]['custom_id']);
+                    $this->bookingService->updateBookingService($booking_service, 1, $request['token']);
+                    $this->walletService->updateWallet($booking_service->user_id, $net_aed);
+                } else if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'user') {
+                    $this->walletService->updateWallet($retrieveOrder['purchase_units'][0]['custom_id'], $net_aed);
+                }
+                DB::commit();
 
                 return response()->json(['message' => 'success']);
             }
+            return response()->json(['message' => 'issue in paypal'], 404);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }
+    }
+
+
+    function capture_and_retrieve_order($order_id)
+    {
+        Http::withBasicAuth($this->client_id, $this->secret_id)->post(
+            "https://api-m.sandbox.paypal.com/v2/checkout/orders/$order_id/capture",
+            [
+                'note_to_payer' => 'Thank you',
+            ]
+        );
+        $retrieveOrder = Http::withBasicAuth($this->client_id, $this->secret_id)
+            ->get(
+                "https://api-m.sandbox.paypal.com/v2/checkout/orders/$order_id"
+            );
+        return $retrieveOrder;
     }
 }

@@ -16,16 +16,27 @@ class checkTypeProvider
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth()->user();
-        if ($user and ($user->role_id == 4 or $user->role_id == 3)) {
+        $routeName = $request->route()->getName();
+
+        if ($routeName == 'login.provider') {
+            if ($request->header('fcsToken')) {
+                $credentials = request(['email', 'password']);
+
+                if ($request['token'] = auth()->attempt($credentials)) {
+
+                    $user = auth()->user();
+
+                    if ($user->userRole->id == 3 or $user->userRole->id == 4 or $user->userRole->id == 1)
+                        return $next($request);
+
+                    return response()->json(['message' => 'your email can not access this app'], 404);
+                }
+                return response()->json(['message' => 'unauthorized'], 404);
+            }
+            return response()->json(['message' => 'send fcs token'], 404);
+        } else if ($user = auth()->user() and ($user->userRole->id == 3 or $user->userRole->id == 4 or $user->userRole->id == 1)) {
             return $next($request);
-        } elseif (!$user) {
-            $user =  User::where('email', $request->email)->where('role_id', 3)->orWhere('email', $request->email)->where('role_id', 4)->first();
-            if ($user)
-                return $next($request);
-            else
-                return response()->json(['message' => 'your email is not correct or has not premession'], 404);
-        } else
-            return response()->json(['message' => 'your email can not access this api'], 404);
+        }
+        return response()->json(['message' => 'please login'], 404);
     }
 }

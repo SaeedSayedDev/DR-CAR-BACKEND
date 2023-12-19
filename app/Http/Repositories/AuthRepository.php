@@ -25,7 +25,7 @@ class AuthRepository implements AuthInterface
         if ($token = auth()->attempt($credentials)) {
             $user = auth()->user();
             $user->api_token = $token;
-            // $this->authServcie->createOrUpdateFirbaseTokenUser(false, $user_id);
+            $this->authServcie->createOrUpdateFirbaseTokenUser($user->id);
             return $this->authServcie->respondWithToken($user, $user->userRole->name);
         }
         return response()->json(['error' => 'Unauthorized'], 401);

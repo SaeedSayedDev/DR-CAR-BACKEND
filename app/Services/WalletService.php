@@ -14,8 +14,31 @@ class WalletService
             ['user_id' => $user_id],
             [
                 'total_balance' => DB::raw("total_balance + $net"),
-                'awating_transfer' => DB::raw("total_balance + $net"),
+                'awating_transfer' => DB::raw("awating_transfer"),
             ],
         );
+    }
+
+    function updateWalletAndWithdraw($request, $wallet, $withdraw)
+    {
+        DB::beginTransaction();
+
+        if ($request->status == 'paid') {
+
+            $wallet->update([
+                'awating_transfer' => ($wallet->awating_transfer - $withdraw->amount),
+                'total_balance' => ($wallet->total_balance - $withdraw->amount),
+            ]);
+            $withdraw->update(['status' => $request->status]);
+        } else if ($request->status == 'unpaid') {
+
+            $wallet->update([
+                'awating_transfer' => ($wallet->awating_transfer - $withdraw->amount),
+            ]);
+            $withdraw->update(['status' => $request->status]);
+        } else {
+            $withdraw->update(['status' => $request->status]);
+        }
+        DB::commit();
     }
 }
