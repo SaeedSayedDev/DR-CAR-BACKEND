@@ -84,7 +84,8 @@ class AuthServcie
     public function createOrUpdateFirbaseTokenUser( $user_id)
     {
         FirbaseToken::updateOrCreate([
-            'fcsToken' => request()->header('fcsToken'),
+            'device_token' => request()->header('device_token'),
+            // device_token
         ], [
             'user_id' => $user_id
         ]);

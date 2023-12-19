@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class FirbaseToken extends Model
 {
     use HasFactory;
-    protected $fillable = ['fcsToken', 'user_id', 'user_type'];
+    protected $fillable = ['device_token', 'user_id', 'user_type'];
 }
