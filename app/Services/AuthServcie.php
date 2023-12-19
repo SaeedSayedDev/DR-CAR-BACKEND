@@ -9,6 +9,7 @@ use App\Models\MultiAuthUser;
 use App\Models\User;
 use App\Models\UserInformation;
 use App\Models\WinchInformation;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,13 +18,16 @@ class AuthServcie
     // function __construct(private MyfatoorhService $myfatoorhService)
     // {
     // }
-    public function respondWithToken($token, $role_type)
+    public function respondWithToken($user, $role_type)
     {
         return response()->json([
-            'access_token' => $token,
+            'success' => true,
+            'data' => $user,
             'token_type' => 'bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
-            'role_type' => $role_type
+            // 'role_type' => $role_type
+            "message" => "User retrieved successfully"
+
         ]);
     }
 
