@@ -210,7 +210,7 @@ class ChatRepository implements ChatInterface
 
     // public function MessageFirbase($type_id, $otherUserId, $type_name, $text, $notification_type, $api, $reciver_id)
     // {
-    //     $firebaseTokens = FirbaseToken::where('user_type', false)->where('user_id', $otherUserId)->pluck('fcsToken')->all();
+    //     $firebaseTokens = FirbaseToken::where('user_type', false)->where('user_id', $otherUserId)->pluck('device_token')->all();
     //     $chat = [
     //         'title' => $type_name,
     //         'body' => $text
