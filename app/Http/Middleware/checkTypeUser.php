@@ -20,7 +20,7 @@ class checkTypeUser
     {
         $routeName = $request->route()->getName();
         if ($routeName == 'login.user') {
-            if ($request->header('device_token')) {
+            if ($request->header('fcsToken')) {
                 $credentials = request(['email', 'password']);
 
                 if ($request['token'] = auth()->attempt($credentials)) {
