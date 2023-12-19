@@ -77,13 +77,12 @@ class AuthServcie
     // }
 
 
-    // public function createOrUpdateFirbaseTokenUser($user_type, $user_id)
-    // {
-    //     FirbaseToken::updateOrCreate([
-    //         'fcsToken' => request()->header('fcsToken'),
-    //     ], [
-    //         'user_id' => $user_id,
-    //         'user_type' => $user_type
-    //     ]);
-    // }
+    public function createOrUpdateFirbaseTokenUser( $user_id)
+    {
+        FirbaseToken::updateOrCreate([
+            'fcsToken' => request()->header('fcsToken'),
+        ], [
+            'user_id' => $user_id
+        ]);
+    }
 }

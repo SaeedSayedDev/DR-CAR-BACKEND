@@ -20,19 +20,17 @@ class IsEnableAuth
     }
     public function handle(Request $request, Closure $next): Response
     {
-        $user =  User::where('email', $request->email)->first();
-        // $admin =  Admin::where('email', $request->email)->first();
-        if (!$user)
-            return response()->json(['message' => 'This User Is Not Found'], 404);
+        if ($request->header('fcsToken')) {
+            $user =  User::where('email', $request->email)->first();
+            if (!$user)
+                return response()->json(['message' => 'This User Is Not Found'], 404);
 
-        if (!$user->email_verified_at) {
-            $this->otpService->createEmail($user->email, $user->id, 'user');
-            return response()->json(['message' => 'please verify your email']);
+            return $next($request);
+
+            //  elseif ($admin) {
+            //     return $next($request);
+            // }
         }
-        return $next($request);
-
-        //  elseif ($admin) {
-        //     return $next($request);
-        // }
+        return response()->json(['message' => 'Please Send Firbase Token'], 404);
     }
 }

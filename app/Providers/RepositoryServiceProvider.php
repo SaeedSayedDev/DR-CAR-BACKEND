@@ -63,8 +63,6 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Repositories\CouponRepository'
         );
         
-        
-
         $this->app->bind(
             'App\Http\Interfaces\AccountInterface',
             'App\Http\Repositories\AccountRepository'
@@ -80,6 +78,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Http\Interfaces\Admin\PaymentMethodInterface',
             'App\Http\Repositories\Admin\PaymentMethodRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\WalletInterface',
+            'App\Http\Repositories\WalletRepository'
         );
 
     }
