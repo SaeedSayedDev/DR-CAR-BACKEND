@@ -23,7 +23,7 @@ class AuthRepository implements AuthInterface
     {
 
         $user = auth()->user();
-        $this->authServcie->createOrUpdateFirbaseTokenUser($user->id);
+        // $this->authServcie->createOrUpdateFirbaseTokenUser($user->id);
         return $this->authServcie->respondWithToken($request['token'], $user->userRole->name);
     }
     function logout()

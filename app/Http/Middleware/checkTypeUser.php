@@ -21,7 +21,7 @@ class checkTypeUser
         $routeName = $request->route()->getName();
         
         if ($routeName == 'login.user') {
-            if ($request->header('fcsToken')) {
+            // if ($request->header('fcsToken')) {
                 $credentials = request(['email', 'password']);
 
                 if ($request['token'] = auth()->attempt($credentials)) {
@@ -34,8 +34,8 @@ class checkTypeUser
                     return response()->json(['message' => 'your email can not access this app'], 404);
                 }
                 return response()->json(['message' => 'unauthorized'], 404);
-            }
-            return response()->json(['message' => 'send fcs token'], 404);
+            // }
+            // return response()->json(['message' => 'send fcs token'], 404);
         }
         else if($user = auth()->user() and ($user->userRole->id == 2 or $user->userRole->id == 1))
         {
