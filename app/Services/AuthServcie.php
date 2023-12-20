@@ -18,6 +18,17 @@ class AuthServcie
     // function __construct(private MyfatoorhService $myfatoorhService)
     // {
     // }
+    public function credentialUser($request)
+    {
+        $credentials = request(['email', 'password']);
+        if ($token = auth()->attempt($credentials)) {
+            $user = auth()->user();
+            $user->api_token = $token;
+            $this->createOrUpdateFirbaseTokenUser($user->id);
+            return $user;
+        }
+        return null;
+    }
     public function respondWithToken($user, $role_type)
     {
         return response()->json([

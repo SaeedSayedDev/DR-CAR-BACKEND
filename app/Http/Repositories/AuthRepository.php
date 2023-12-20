@@ -21,11 +21,7 @@ class AuthRepository implements AuthInterface
     }
     public function login($request)
     {
-        $credentials = request(['email', 'password']);
-        if ($token = auth()->attempt($credentials)) {
-            $user = auth()->user();
-            $user->api_token = $token;
-            $this->authServcie->createOrUpdateFirbaseTokenUser($user->id);
+        if ($user = $this->authServcie->credentialUser($request)) {
             return $this->authServcie->respondWithToken($user, $user->userRole->name);
         }
         return response()->json(['error' => 'Unauthorized'], 401);
@@ -52,41 +48,47 @@ class AuthRepository implements AuthInterface
             else if ($request->role_id == 4)
                 $this->authServcie->createGarageInfo($request->phone_number, $request->garage_type,  $user->id);
         }
-        $this->otpService->createEmail($user->email, $user->id, 'user');
+
+        // $this->otpService->createEmail($user->email, $user->id, 'user');
         DB::commit();
-        return response()->json(['message' => 'please verify your email']);
+        $user = $this->authServcie->credentialUser($request);
+        $user->user_role;
+        return response()->json([
+            "success" => true,
+            'data' => $user
+        ]);
     }
 
 
     public function me()
     {
+        return 'User';
+        //     if ($admin = auth()->guard('admin')->user()) {
+        //         return response()->json($admin);
+        //     }
+        //     $user = auth()->user();
+        //     $imageUrlUser = url("api/images/user");
+        //     if ($user->user_type == 'user') {
+        //         $imageUrlCompany = url("api/images/company");
+        //         $imageUrlEmployee = url("api/images/employee");
 
-        if ($admin = auth()->guard('admin')->user()) {
-            return response()->json($admin);
-        }
-        $user = auth()->user();
-        $imageUrlUser = url("api/images/user");
-        if ($user->user_type == 'user') {
-            $imageUrlCompany = url("api/images/company");
-            $imageUrlEmployee = url("api/images/employee");
+        //         $user->user_information;
+        //         $user->bookingMe;
+        //         $user->favouriteCompany;
+        //         $user->favouriteEmployee;
 
-            $user->user_information;
-            $user->bookingMe;
-            $user->favouriteCompany;
-            $user->favouriteEmployee;
-
-            return response()->json([
-                'data' => $user, 'imageUrlUser' => $imageUrlUser,
-                'imageUrlCompany' => $imageUrlCompany, 'imageUrlEmployee' => $imageUrlEmployee
-            ]);
-        } elseif ($user->user_type == 'company') {
-            $logoUrlCompany = url("api/images/company");
-            $user->company_information;
-            $user->reviewCompany;
-            if ($user->company_information->company_type == 'cleaning') {
-                $user->services;
-            }
-            return response()->json(['data' => $user, 'imageUrlUser' => $imageUrlUser, 'logoUrlCompany' => $logoUrlCompany]);
-        }
+        //         return response()->json([
+        //             'data' => $user, 'imageUrlUser' => $imageUrlUser,
+        //             'imageUrlCompany' => $imageUrlCompany, 'imageUrlEmployee' => $imageUrlEmployee
+        //         ]);
+        //     } elseif ($user->user_type == 'company') {
+        //         $logoUrlCompany = url("api/images/company");
+        //         $user->company_information;
+        //         $user->reviewCompany;
+        //         if ($user->company_information->company_type == 'cleaning') {
+        //             $user->services;
+        //         }
+        //         return response()->json(['data' => $user, 'imageUrlUser' => $imageUrlUser, 'logoUrlCompany' => $logoUrlCompany]);
+        //     }
     }
 }
