@@ -43,6 +43,7 @@ Route::post('provider/login', [AuthController::class, 'login'])->middleware('che
 // });
 
 
+
 Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::group(['middleware' => 'checkTypeUser'], function () {
