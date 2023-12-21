@@ -18,7 +18,7 @@ class Category extends Model
         'name', 'desc'
     ];
     protected $hidden = [
-        'created_at', 'updated_at', 'translations',
+        'created_at', 'updated_at',
     ];
 
     public function translations()

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StatusOrderController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
@@ -27,9 +28,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
+
+
+
 
 
 Route::post('/register', [AuthController::class, 'register']);
