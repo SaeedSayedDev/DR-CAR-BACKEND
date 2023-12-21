@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('success', [ServiceController::class, 'success']);
+
+
+Route::get('test/{otp}', function () {
+    return view('auth.passwords.reset');
+});
+
 Route::get('error', [ServiceController::class, 'error']);
 
 Route::get('test/{otp}', function () {

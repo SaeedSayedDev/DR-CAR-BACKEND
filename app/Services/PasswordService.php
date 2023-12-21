@@ -15,14 +15,14 @@ class PasswordService
     public function checkEmail($email)
     {
         $user = User::where('email', $email)->first();
-        if ($user->email_verified_at)  #check on email verafication
-            return $user;
+        // if ($user->email_verified_at)  #check on email verafication
+        return $user;
 
         // $admin = Admin::where('email', $email)->first();
         // if ($admin)  #check on email verafication
         //     return $admin;
 
-        return;
+        // return;
     }
 
     public function setNewPassword($password, $passwordReset, $user)

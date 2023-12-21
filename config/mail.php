@@ -36,13 +36,13 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.hostinger.com'),
-            'port' => env('MAIL_PORT', 465),
-            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
-            'username' => env('MAIL_USERNAME', 'khedmah@abdelrahman-salah.online'),
-            'password' => env('MAIL_PASSWORD', 'Abdo11@@'),
+            'host' => 'smtp.hostinger.com',
+            'port' => 465,
+            'encryption' =>  'ssl',
+            'username' => 'drcar@abdelrahman-salah.online',
+            'password' =>  'Abdo11@@',
             'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'local_domain' => null,
         ],
 
         'ses' => [
@@ -92,8 +92,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => 'drcar@abdelrahman-salah.online',
+        'name' => 'Dr.Car',
     ],
 
     /*
