@@ -15,12 +15,36 @@ class ServiceRepository implements ServiceInterface
 
     public function index()
     {
-        $servicesWithItems = Service::with('provider.userRole', 'items')->get();
-        $imageUrl = url("api/images/Service/");
+        $services = Service::with(['provider.userRole'])
+            ->with([
+                'provider' => function ($query) {
+                    $query->with(
+                        match ($query->first()->userRole->id) {
+                            2 => 'user_information',
+                            3 => 'winch_information:winch_id,image',
+                            4 => 'garage_information:garage_id,image',
+                        }
+                    );
+                },
+                'items'
+            ])->get();
+
+
+        // $servicesWithItems = Service::with(['provider', function ($query) {
+        //     $query->with('userRole')->load(match ('provider->id') {
+        //             2 => 'user_information',
+        //             3 => 'winch_information',
+        //             4 => 'garage_information',
+        //         });
+        // }], 'items')->get();
+
+        $service_image_url = url("api/images/Service/");
+        $provider_image_url = url("api/images/Provider/");
 
         return response()->json([
-            'data' => $servicesWithItems,
-            'image_url' => $imageUrl
+            'data' => $services,
+            'service_image_url' => $service_image_url,
+            'provider_image_url' => $provider_image_url
 
         ]);
     }
