@@ -42,7 +42,7 @@ class PasswordRepository implements PasswordInterface
         $passwordReset =  PasswordReset::Where('email', $user->email)->first();
 
         if (isset($passwordReset)) {
-            if ($request->verification_code == $user->otpUser->otp and $user->otpUser->updated_at->addMinutes(10) >= Carbon::now()) {
+            if (request()->route('otp') == $user->otpUser->otp and $user->otpUser->updated_at->addMinutes(10) >= Carbon::now()) {
                 return  $this->passwordService->setNewPassword($request->password, $passwordReset, $user);
             } else {
                 return response()->json(['message' => 'This code is not correct or expire'], 401);

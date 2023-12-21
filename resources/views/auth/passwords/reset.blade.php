@@ -3,10 +3,10 @@
     <div class="card-body login-card-body">
         <p class="login-box-msg">{{__('auth.reset_password_title')}}</p>
 
-        <form method="POST" action="{{ route('password.request') }}">
+        <form method="POST" action="">
             {!! csrf_field() !!}
 
-            <input type="hidden" name="token" value="{{ $token }}">
+            <input type="hidden" name="token" value="">
 
             <div class="input-group mb-3">
                 <input value="{{ old('email') }}" type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" placeholder="{{__('auth.email')}}" aria-label="{{__('auth.email')}}">

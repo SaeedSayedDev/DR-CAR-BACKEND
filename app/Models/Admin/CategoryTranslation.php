@@ -12,6 +12,10 @@ class CategoryTranslation extends Model
     protected $fillable = [
         'name', 'desc', 'locale',
     ];
+    protected $hidden = [
+        'locale','created_at','updated_at'
+    ];
+
 
     public function category()
     {
