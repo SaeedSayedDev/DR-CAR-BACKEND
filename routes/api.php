@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\StatusOrderController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
@@ -132,6 +133,7 @@ Route::delete('payment_method/delete/{id}', [PaymentMethodController::class, 'de
 
 Route::put('withdraw/confirm/{withdraw_id}', [WalletController::class, 'confirm_admin']);
 
+Route::post('/artisanOrder', [SettingController::class, 'artisanOrder'])->name('artisanOrder');
 
 // Route::get('fixer', function () {
 //     $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');

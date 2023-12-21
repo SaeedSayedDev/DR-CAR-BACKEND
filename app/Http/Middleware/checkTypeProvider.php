@@ -32,7 +32,7 @@ class checkTypeProvider
                 // }
                 // return response()->json(['message' => 'unauthorized'], 404);
             }
-            return response()->json(['message' => 'send fcs token'], 404);
+            return response()->json(['message' => 'send device token'], 404);
         } else if ($user = auth()->user() and ($user->userRole->id == 3 or $user->userRole->id == 4 or $user->userRole->id == 1)) {
             return $next($request);
         }

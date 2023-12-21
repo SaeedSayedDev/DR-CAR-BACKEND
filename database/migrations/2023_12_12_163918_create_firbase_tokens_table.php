@@ -15,9 +15,7 @@ class CreateFirbaseTokensTable extends Migration
     {
         Schema::create('firbase_tokens', function (Blueprint $table) {
             $table->id();
-           
             $table->text('fcsToken');
-
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

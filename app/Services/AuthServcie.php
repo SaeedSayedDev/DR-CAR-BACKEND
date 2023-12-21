@@ -17,13 +17,27 @@ class AuthServcie
     // function __construct(private MyfatoorhService $myfatoorhService)
     // {
     // }
-    public function respondWithToken($token, $role_type)
+    public function credentialUser($request)
+    {
+        $credentials = request(['email', 'password']);
+        if ($token = auth()->attempt($credentials)) {
+            $user = auth()->user();
+            $user->api_token = $token;
+            $this->createOrUpdateFirbaseTokenUser($user->id);
+            return $user;
+        }
+        return null;
+    }
+    public function respondWithToken($user, $role_type)
     {
         return response()->json([
-            'access_token' => $token,
+            'success' => true,
+            'data' => $user,
             'token_type' => 'bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
-            'role_type' => $role_type
+            // 'role_type' => $role_type
+            "message" => "User retrieved successfully"
+
         ]);
     }
 
@@ -77,7 +91,7 @@ class AuthServcie
     // }
 
 
-    public function createOrUpdateFirbaseTokenUser( $user_id)
+    public function createOrUpdateFirbaseTokenUser($user_id)
     {
         FirbaseToken::updateOrCreate([
             'fcsToken' => request()->header('fcsToken'),
