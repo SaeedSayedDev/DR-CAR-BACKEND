@@ -148,23 +148,11 @@ class AdminTrailt
         ],
     ];
 
+    
 
-    public static $services = [
+  
 
-        'name' => [
-            'en' => 'Oil Change',
-            'ar' => 'تغيير الزيت',
-        ],
-        'desc' => [
-            'en' => 'Regular oil change services for vehicles.',
-            'ar' => 'خدمات تغيير الزيت الدورية للمركبات.',
-        ],
-        'item_ids' => [2, 4, 7],
-        'provider_id' => 2
-
-    ];
-
-
+   
     public static $paymentMethods = [
         [
             'payment_type' => 1,
@@ -178,4 +166,5 @@ class AdminTrailt
             'logo' => 'stripe.jpg',
         ],
     ];
+  
 }

@@ -15,4 +15,13 @@ class ImageController extends Controller
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
     }
+    function imageService($name)
+    {
+        try {
+            return response()->file("../storage/app/public/images/admin/services/$name");
+        } catch (Exception $e) {
+            return response()->json(['message' => "This File $name Is Not Found"], 404);
+        }
+    }
+    
 }
