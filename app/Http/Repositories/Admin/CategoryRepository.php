@@ -37,12 +37,10 @@ class CategoryRepository implements CategoryInterface
                 'desc' => $requestData['desc'][$locale],
             ]);
         }
-        $imageUrl = url("api/images/Category/");
 
         return response()->json([
             'message' => 'stored successfully',
             'data' => $category,
-            'image_url' => $imageUrl
 
         ]);
     }
@@ -50,8 +48,12 @@ class CategoryRepository implements CategoryInterface
     public function show($id)
     {
         $category = Category::findOrFail($id)->load('items');
+        $imageUrl = url("api/images/Category/");
+
         return response()->json([
-            'data' => $category
+            'data' => $category,
+            'image_url' => $imageUrl
+
         ]);
     }
 

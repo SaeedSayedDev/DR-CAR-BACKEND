@@ -15,9 +15,13 @@ class ServiceRepository implements ServiceInterface
 
     public function index()
     {
-        $servicesWithItems = Service::with('items')->get();
+        $servicesWithItems = Service::with('provider.userRole', 'items')->get();
+        $imageUrl = url("api/images/Service/");
+
         return response()->json([
-            'data' => $servicesWithItems
+            'data' => $servicesWithItems,
+            'image_url' => $imageUrl
+
         ]);
     }
 
@@ -41,9 +45,12 @@ class ServiceRepository implements ServiceInterface
 
     public function show($id)
     {
-        $service = Service::findOrFail($id)->load('items');
+        $service = Service::findOrFail($id)->load('provider.userRole', 'items');
+        $imageUrl = url("api/images/Service/");
+
         return response()->json([
-            'data' => $service
+            'data' => $service,
+            'image_url' => $imageUrl
         ]);
     }
 

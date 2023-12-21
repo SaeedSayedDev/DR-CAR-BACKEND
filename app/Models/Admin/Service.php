@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\User;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,5 +30,9 @@ class Service extends Model
     public function items()
     {
         return $this->belongsToMany(Item::class);
+    }
+    public function provider()
+    {
+        return $this->belongsTo(User::class, 'provider_id');
     }
 }
