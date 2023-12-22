@@ -79,4 +79,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Role::class, 'role_id',  'id');
     }
+
+    public function media()
+    {
+        return $this->hasMany(Media::class, 'type_id')->where('type','user');
+    }
 }

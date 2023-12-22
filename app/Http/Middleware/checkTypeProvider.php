@@ -19,7 +19,7 @@ class checkTypeProvider
         $routeName = $request->route()->getName();
 
         if ($routeName == 'login.provider') {
-            // if ($request->header('fcsToken')) {
+            if ($request->header('fcsToken')) {
                 $credentials = request(['email', 'password']);
 
                 if ($request['token'] = auth()->attempt($credentials)) {
@@ -29,8 +29,8 @@ class checkTypeProvider
                         return $next($request);
 
                     return response()->json(['message' => 'your email can not access this app'], 404);
-                // }
-                // return response()->json(['message' => 'unauthorized'], 404);
+                }
+                return response()->json(['message' => 'unauthorized'], 404);
             }
             return response()->json(['message' => 'send device token'], 404);
         } else if ($user = auth()->user() and ($user->userRole->id == 3 or $user->userRole->id == 4 or $user->userRole->id == 1)) {

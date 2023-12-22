@@ -13,11 +13,11 @@ class UserTrait
     ];
 
     public static  $user_information = [
-        ['phone_number' => '01096505009', 'image' => 'image.png', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'user_id' => 1]
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'user_id' => 1]
     ];
 
     public static  $garage_information = [
-        ['phone_number' => '01096505009', 'image' => 'image.png', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2, 'garage_type' => 'private']
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2, 'garage_type' => 'private']
     ];
 
     public static $services = [
