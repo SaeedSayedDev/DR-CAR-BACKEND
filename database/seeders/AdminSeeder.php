@@ -11,6 +11,7 @@ use App\Models\Admin\Service;
 use App\Models\Admin\ServiceTranslation;
 use App\Traits\AdminTrailt;
 use App\Models\Role;
+use App\Models\Slide;
 use Illuminate\Database\Seeder;
 
 class AdminSeeder extends Seeder
@@ -61,5 +62,9 @@ class AdminSeeder extends Seeder
         foreach ($paymentMethods as $paymentMethod) {
             PaymentMethod::create($paymentMethod);
         }
+
+
+
+       
     }
 }

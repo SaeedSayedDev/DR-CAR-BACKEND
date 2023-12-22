@@ -30,6 +30,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
 
+Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
+Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
+
 
 
 
@@ -44,6 +47,7 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser')->name('login.user');
 Route::post('provider/login', [AuthController::class, 'login'])->middleware('checkTypeProvider')->name('login.provider');
 // });
+
 
 
 Route::group(['middleware' => 'apiAuth'], function () {

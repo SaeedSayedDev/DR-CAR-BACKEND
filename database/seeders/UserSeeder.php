@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin\Service;
 use App\Models\GarageInformation;
+use App\Models\Slide;
 use App\Models\User;
 use App\Models\UserInformation;
 use App\Traits\UserTrait;
@@ -29,6 +31,16 @@ class UserSeeder extends Seeder
         $garage_informations = UserTrait::$garage_information;
         foreach ($garage_informations as $garage_information) {
             GarageInformation::create($garage_information);
+        }
+
+
+        $services = UserTrait::$services;
+        foreach ($services as $service) {
+            Service::create($service);
+        }
+        $slides = UserTrait::$slides;
+        foreach ($slides as $slide) {
+            Slide::create($slide);
         }
     }
 }

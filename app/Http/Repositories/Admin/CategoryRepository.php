@@ -43,15 +43,18 @@ class CategoryRepository implements CategoryInterface
             'message' => 'stored successfully',
             'data' => $category,
             'image_url' => $imageUrl
-
         ]);
     }
 
     public function show($id)
     {
         $category = Category::findOrFail($id)->load('items');
+        $imageUrl = url("api/images/Category/");
+
         return response()->json([
-            'data' => $category
+            'data' => $category,
+            'image_url' => $imageUrl
+
         ]);
     }
 

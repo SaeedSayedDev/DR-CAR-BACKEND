@@ -9,7 +9,6 @@ use App\Models\MultiAuthUser;
 use App\Models\User;
 use App\Models\UserInformation;
 use App\Models\WinchInformation;
-use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
