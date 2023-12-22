@@ -27,12 +27,15 @@ class PasswordRepository implements PasswordInterface
         }
 
         PasswordReset::create(['email' => $user->email, 'created_at' => now()]);
-
-        $this->otpService->createEmail($user->email, $user->id, 'user');
-        return response()->json(['message' => 'please check your email to set your new password']);
+        try {
+            $this->otpService->createEmail($user->email, $user->id, 'user');
+            return response()->json(['message' => 'please check your email to set your new password']);
+        } catch (Exception $e) {
+            return  response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
-    
+
     public function resetPassword($request)
     {
         $user = $this->passwordService->checkEmail($request->email);

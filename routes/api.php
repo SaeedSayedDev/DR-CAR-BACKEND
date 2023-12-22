@@ -29,8 +29,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
+
 Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
+
 
 
 

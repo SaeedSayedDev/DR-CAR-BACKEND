@@ -15,6 +15,7 @@ class ImageController extends Controller
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
     }
+
     function imageService($name)
     {
         try {
