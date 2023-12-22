@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('garage_information', function (Blueprint $table) {
             $table->id();
             $table->string('phone_number')->unique()->nullable();
-            $table->string('image')->nullable();
             $table->string('address')->nullable();
             $table->string('short_biography')->nullable();
             $table->timestamp('phone_verified_at')->nullable();

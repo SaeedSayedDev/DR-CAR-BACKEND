@@ -32,17 +32,20 @@ class AccountRepository implements AccountInterface
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
         $user->update($requestData);
+
+         $this->imageService->storeMedia($request, $user->id , 'user' ,'public/images/accounts');
+
         switch ($user->role_id) {
             case 2:
-                $requestData['image'] = $this->imageService->update($request, $user->user_information, 'accounts');
+                // $requestData['image'] = $this->imageService->update($request, $user->user_information, 'accounts');
                 $user->user_information->update($requestData);
                 break;
             case 3:
-                $requestData['image'] = $this->imageService->update($request, $user->winch_information, 'accounts');
+                // $requestData['image'] = $this->imageService->update($request, $user->winch_information, 'accounts');
                 $user->winch_information->update($requestData);
                 break;
             case 4:
-                $requestData['image'] = $this->imageService->update($request, $user->garage_information, 'accounts');
+                // $requestData['image'] = $this->imageService->update($request, $user->garage_information, 'accounts');
                 $user->garage_information->update($requestData);
                 break;
         }

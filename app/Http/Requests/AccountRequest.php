@@ -19,9 +19,12 @@ class AccountRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $id,
 
             'phone_number' => 'nullable|string',
-            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
             'address' => 'required|string|min:3',
             'short_biography' => 'nullable|string',
+
+            'images' => 'array',
+            'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
     }
 }

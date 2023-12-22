@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserInformation extends Model
+class Media extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'address', 'short_biography', 'phone_number','phone_verified_at'
+        'image', 'type', 'type_id'
     ];
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
+
 }

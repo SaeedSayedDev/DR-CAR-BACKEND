@@ -27,6 +27,9 @@ class ServiceRequest extends FormRequest
             'rating' => 'required|integer|between:1,5',
             'items' => 'array',
             'items.*' => 'exists:items,id',
+            'images' => 'array',
+            'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
     }
 }
