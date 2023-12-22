@@ -5,6 +5,7 @@ namespace App\Http\Repositories\Admin;
 use App\Http\Interfaces\Admin\ServiceInterface;
 use App\Models\Admin\Service;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class ServiceRepository implements ServiceInterface
@@ -15,28 +16,7 @@ class ServiceRepository implements ServiceInterface
 
     public function index()
     {
-        $services = Service::with(['provider.userRole'])
-            ->with([
-                'provider' => function ($query) {
-                    $query->with(
-                        match ($query->first()->userRole->id) {
-                            2 => 'user_information',
-                            3 => 'winch_information:winch_id,image',
-                            4 => 'garage_information:garage_id,image',
-                        }
-                    );
-                },
-                'items'
-            ])->get();
-
-
-        // $servicesWithItems = Service::with(['provider', function ($query) {
-        //     $query->with('userRole')->load(match ('provider->id') {
-        //             2 => 'user_information',
-        //             3 => 'winch_information',
-        //             4 => 'garage_information',
-        //         });
-        // }], 'items')->get();
+        $services = Service::with('provider.userRole','provider.media' , 'media' ,'items')->get();
 
         $service_image_url = url("api/images/Service/");
         $provider_image_url = url("api/images/Provider/");
@@ -52,16 +32,17 @@ class ServiceRepository implements ServiceInterface
     public function store($request)
     {
         $requestData = request()->all();
-        if ($request->has('image')) {
-            $requestData['image'] = time() . '.' . $request->image->extension();
-            $request->file('image')->storeAs("public/images/admin/services", $requestData['image']);
-        }
+        $requestData['provider_id'] = auth()->user()->id;
+
         if (!isset($request->discount_price) or isset($request->discount_price) and $request->discount_price == 0) {
             $requestData['discount_price'] = $request->price;
         }
-        $requestData['image'] = $this->imageService->store($request, 'admin/services');
-        $requestData['provider_id'] = auth()->user()->id;
+        DB::beginTransaction();
+
         $service = Service::create($requestData);
+
+        $this->imageService->storeMedia($request, $service->id , 'service' ,'public/images/admin/services');
+        DB::commit();
 
         $service->items()->attach($requestData['items']);
         return response()->json(['message' => 'success']);

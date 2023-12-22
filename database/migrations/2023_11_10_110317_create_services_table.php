@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('desc')->nullable();
-            $table->string('image')->nullable();
             $table->decimal('price');
             $table->decimal('discount_price')->default(0);
             $table->boolean('price_unit')->comment("0 -> hourly, 1 -> fixed");
