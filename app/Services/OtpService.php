@@ -25,13 +25,11 @@ class OtpService
     }
     public function createEmail($email, $user_id, $type_user)
     {
-        $data['email'] = $email;
         $data['title'] = "Dr.car";
         $data['otp'] = rand(100000, 999999);
 
-        // $this->SendMailService->getInfoMailConfig();
-        Mail::send('sendEmailOtp',  ['data' => $data], function ($message) use ($data) {
-            $message->to($data['email'])->subject($data['title']);
+        Mail::send('sendEmailOtp',  ['otp' => $data['otp']], function ($message) use ($data, $email) {
+            $message->to($email)->subject($data['title']);
         });
         OtpUser::updateOrCreate(
             [

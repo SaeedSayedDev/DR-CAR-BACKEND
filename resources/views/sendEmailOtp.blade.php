@@ -196,11 +196,11 @@
                                                                     <td style="background-color:#ffffff;padding:0px 0px 0px 0px;text-align:inherit;"
                                                                         height="100%" valign="top" bgcolor="#ffffff">
                                                                         <h4>link is <a
-                                                                                href="{{ url('test/' . $data['otp']) }}">test</a>
+                                                                                href="{{ url('reset-password/' . $otp) }}">Reset Password</a>
                                                                         </h4>
                                                                     </td>
                                                                 </tr>
-                                                            </table>    
+                                                            </table>
 
                                                             <table class="module" role="module" data-type="spacer"
                                                                 border="0" cellpadding="0" cellspacing="0"

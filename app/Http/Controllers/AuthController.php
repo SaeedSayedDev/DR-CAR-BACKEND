@@ -67,6 +67,10 @@ class AuthController extends Controller
     {
         return $this->passwordInterface->changePassword($request);
     }
+    function pageResetPassword($otp)
+    {
+        return $this->passwordInterface->pageResetPassword($otp);
+    }
 
 
 

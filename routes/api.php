@@ -41,7 +41,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/confirm-email', [AuthController::class, 'confirmCodeEmail']);
 
 Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
-Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // Route::group(['middleware' => 'IsEnable'], function () {
 Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser')->name('login.user');
