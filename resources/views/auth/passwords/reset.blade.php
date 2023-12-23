@@ -1,15 +1,27 @@
 @extends('layouts.auth.default')
 @section('content')
     <div class="card-body login-card-body">
-        <p class="login-box-msg">{{__('auth.reset_password_title')}}</p>
+        <p class="login-box-msg">{{ __('auth.reset_password_title') }}</p>
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+        @if (session('erorr'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('erorr') }}
+            </div>
+        @endif
 
-        <form method="POST" action="">
+        <form method="POST" action="{{ route('reset.password') }}">
             {!! csrf_field() !!}
 
-            <input type="hidden" name="token" value="">
+            <input type="hidden" name="otp" value="{{ $otp }}">
 
             <div class="input-group mb-3">
-                <input value="{{ old('email') }}" type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" placeholder="{{__('auth.email')}}" aria-label="{{__('auth.email')}}">
+                <input value="{{ old('email') }}" type="email"
+                    class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
+                    placeholder="{{ __('auth.email') }}" aria-label="{{ __('auth.email') }}">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                 </div>
@@ -21,7 +33,9 @@
             </div>
 
             <div class="input-group mb-3">
-                <input value="{{ old('password') }}" type="password" class="form-control  {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{__('auth.password')}}" aria-label="{{__('auth.password')}}">
+                <input value="{{ old('password') }}" type="password"
+                    class="form-control  {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
+                    placeholder="{{ __('auth.password') }}" aria-label="{{ __('auth.password') }}">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
                 </div>
@@ -33,7 +47,10 @@
             </div>
 
             <div class="input-group mb-3">
-                <input value="{{ old('password_confirmation') }}" type="password" class="form-control  {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" placeholder="{{__('auth.password_confirmation')}}" aria-label="{{__('auth.password_confirmation')}}">
+                <input value="{{ old('password_confirmation') }}" type="password"
+                    class="form-control  {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
+                    name="password_confirmation" placeholder="{{ __('auth.password_confirmation') }}"
+                    aria-label="{{ __('auth.password_confirmation') }}">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
                 </div>
@@ -46,13 +63,13 @@
 
             <div class="row mb-2">
                 <div class="col-4 ml-auto">
-                    <button type="submit" class="btn btn-primary btn-block">{{__('auth.reset_password')}}</button>
+                    <button type="submit" class="btn btn-primary btn-block">{{ __('auth.reset_password') }}</button>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
         <p class="mb-1 text-center">
-            <a href="{{ url('/login') }}" class="text-center">{{__('auth.remember_password')}}</a>
+            <a href="{{ url('/login') }}" class="text-center">{{ __('auth.remember_password') }}</a>
         </p>
     </div>
     <!-- /.login-card-body -->
