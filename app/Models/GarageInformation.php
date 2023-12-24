@@ -9,6 +9,7 @@ class GarageInformation extends Model
 {
     use HasFactory;
     protected $fillable = [
+
         'garage_id', 'address', 'short_biography', 'phone_number','phone_verified_at' //private,company
     ];
 }
