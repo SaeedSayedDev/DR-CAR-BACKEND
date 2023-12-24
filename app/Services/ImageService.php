@@ -60,10 +60,10 @@ class ImageService
         if (request()->isMethod('put')) {
             $mediaDelete = Media::where('type_id', $type_id)->where('type', $type)->get();
             foreach ($mediaDelete as $media) {
-
                 $pathOldImage = storage_path("app/$path/" . $media->image);
                 if (File::exists($pathOldImage)) {
                     unlink($pathOldImage);
+                    $media->delete();
                 }
             }
         }

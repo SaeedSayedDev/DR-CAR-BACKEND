@@ -16,7 +16,7 @@ class ServiceRepository implements ServiceInterface
 
     public function index()
     {
-        $services = Service::with('provider.userRole','provider.media' , 'media' ,'items')->get();
+        $services = Service::with('provider.userRole', 'provider.media', 'media', 'items')->get();
 
         $service_image_url = url("api/images/Service/");
         $provider_image_url = url("api/images/Provider/");
@@ -26,6 +26,17 @@ class ServiceRepository implements ServiceInterface
             'service_image_url' => $service_image_url,
             'provider_image_url' => $provider_image_url
 
+        ]);
+    }
+    
+    public function show($id)
+    {
+        $service = Service::findOrFail($id)->load('provider.userRole', 'provider.media', 'media', 'items');
+        $imageUrl = url("api/images/Service/");
+
+        return response()->json([
+            'data' => $service,
+            'image_url' => $imageUrl
         ]);
     }
 
@@ -41,23 +52,14 @@ class ServiceRepository implements ServiceInterface
 
         $service = Service::create($requestData);
 
-        $this->imageService->storeMedia($request, $service->id , 'service' ,'public/images/admin/services');
+        $this->imageService->storeMedia($request, $service->id, 'service', 'public/images/admin/services');
         DB::commit();
 
         $service->items()->attach($requestData['items']);
         return response()->json(['message' => 'success']);
     }
 
-    public function show($id)
-    {
-        $service = Service::findOrFail($id)->load('provider.userRole', 'items');
-        $imageUrl = url("api/images/Service/");
-
-        return response()->json([
-            'data' => $service,
-            'image_url' => $imageUrl
-        ]);
-    }
+ 
 
     public function update($request, $id)
     {
@@ -95,7 +97,7 @@ class ServiceRepository implements ServiceInterface
     public function delete($id)
     {
         $service = Service::findOrFail($id);
-        $this->imageService->delete($service, 'admin/services');
+        // $this->imageService->delete($service, 'admin/services');
         $service->delete();
         return response()->json([
             'message' => 'deleted successfully'

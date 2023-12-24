@@ -27,9 +27,7 @@ class AdminSeeder extends Seeder
 
         $categories = AdminTrailt::$categories;
         foreach ($categories as $categoryData) {
-            $category = Category::create([
-                'image' => 'text.jpg',
-            ]);
+            $category = Category::create();
             foreach (['en', 'ar'] as $locale) {
                 CategoryTranslation::create([
                     'category_id' => $category->id,
@@ -44,7 +42,6 @@ class AdminSeeder extends Seeder
         $items = AdminTrailt::$items;
         foreach ($items as $itemData) {
             $item = Item::create([
-                'image' => 'text.jpg',
                 'category_id' => $itemData['category_id'],
             ]);
             foreach (['en', 'ar'] as $locale) {

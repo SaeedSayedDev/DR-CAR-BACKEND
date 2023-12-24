@@ -14,21 +14,38 @@ class ItemRepository implements ItemInterface
 
     public function index()
     {
-        $items = Item::all();
+        $items = Item::with('media')->get();
+        $imageUrl = url("api/images/Item/");
+
         return response()->json([
-            'data' => $items
+            'data' => $items,
+            'image_url' => $imageUrl
         ]);
     }
+
+
+    public function show($id)
+    {
+        $item = Item::with('media')->findOrFail($id);
+        $imageUrl = url("api/images/Item/");
+
+        return response()->json([
+            'data' => $item,
+            'image_url' => $imageUrl
+
+        ]);
+    }
+
 
     public function store($request)
     {
         $requestData = $request->all();
-        $requestData['image'] = $this->imageService->store($request, 'admin/items');
-
         $item = Item::create([
-            'image' => $requestData['image'],
             'category_id' => $requestData['category_id'],
         ]);
+
+        $this->imageService->storeMedia($request, $item->id, 'item', 'public/images/admin/items');
+
         foreach (['en', 'ar'] as $locale) {
             $item->translations()->create([
                 'locale' => $locale,
@@ -43,24 +60,17 @@ class ItemRepository implements ItemInterface
         ]);
     }
 
-    public function show($id)
-    {
-        $item = Item::findOrFail($id);
-        return response()->json([
-            'data' => $item
-        ]);
-    }
-
     public function update($request, $id)
     {
         $item = Item::findOrFail($id);
         $requestData = $request->all();
-        $requestData['image'] = $this->imageService->update($request, $item, 'admin/items');
+
+        $this->imageService->storeMedia($request, $item->id, 'item', 'public/images/admin/items');
 
         $item->update([
-            'image' => $requestData['image'],
             'category_id' => $requestData['category_id'],
         ]);
+
         foreach (['en', 'ar'] as $locale) {
             $item->translateOrNew($locale)->name = $requestData['name'][$locale];
             $item->translateOrNew($locale)->desc = $requestData['desc'][$locale];
@@ -76,7 +86,7 @@ class ItemRepository implements ItemInterface
     public function delete($id)
     {
         $item = Item::findOrFail($id);
-        $this->imageService->delete($item, 'admin/items');
+        // $this->imageService->delete($item, 'admin/items');
         $item->delete();
         return response()->json([
             'message' => 'deleted successfully'
