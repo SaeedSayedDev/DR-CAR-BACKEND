@@ -46,6 +46,15 @@ class ServiceRepository implements ServiceInterface
         ]);
     }
 
+    public function show($id)
+    {
+        $service = Service::findOrFail($id)->load('provider.userRole', 'provider.media', 'media', 'items');
+
+        return response()->json([
+            'data' => $service,
+        ]);
+    }
+
     public function store($request)
     {
         $requestData = request()->all();

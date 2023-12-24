@@ -28,7 +28,6 @@ class UserTrait
             'price'=>100,
             'price_unit'=>1,
             'enable_booking'=>true
-
         ],
         [
             'name' => 'Body Car',
