@@ -16,13 +16,25 @@ class ServiceRepository implements ServiceInterface
 
     public function index()
     {
-        $services = Service::with('provider.userRole', 'provider.media', 'media', 'items')->get();
+        $services = Service::with('provider.userRole', 'provider.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review')
+            ->get()
+            ->map(function ($service) {
+                $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                unset($service->favourite);
+                return  $service;
+            });
+        return ['data' => $services];
 
+        // $transformedData = $services->map(function ($service) {
 
-        return response()->json([
-            'data' => $services,
+        // });
 
-        ]);
+        // $transformedValues = $transformedData->values();
+
+        // return response()->json($transformedValues);
     }
 
     public function show($id)

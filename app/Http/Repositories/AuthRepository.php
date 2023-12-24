@@ -63,7 +63,6 @@ class AuthRepository implements AuthInterface
     public function me()
     {
         $user = auth()->user();
-        $user->userRole;
         $user->load(match ($user->role_id) {
             2 => 'user_information',
             3 => 'winch_information',
