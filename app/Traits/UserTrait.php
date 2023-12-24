@@ -17,7 +17,7 @@ class UserTrait
     ];
 
     public static  $garage_information = [
-        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2, 'garage_type' => 'private']
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2]
     ];
 
     public static $services = [
@@ -25,15 +25,15 @@ class UserTrait
             'name' => 'Oil Change',
             'desc' => 'Regular oil change services for vehicles.',
             'provider_id' => 2,
-            'price'=>100,
-            'price_unit'=>1
+            'price' => 100,
+            'price_unit' => 1
         ],
         [
             'name' => 'Body Car',
             'desc' => 'fix your body car.',
             'provider_id' => 2,
-            'price'=>20,
-            'price_unit'=>2
+            'price' => 20,
+            'price_unit' => 2
         ]
 
     ];

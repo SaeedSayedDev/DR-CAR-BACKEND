@@ -8,7 +8,7 @@ class AdminTrailt
         ['name' => 'admin'],
         ['name' => 'customer'],
         ['name' => 'winch'],
-        ['name' => 'garage'],
+        ['name' => 'garage']
     ];
 
 
