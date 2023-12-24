@@ -28,7 +28,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function bookingService($request)
     {
-        $service =  Service::where('enable_booking', true)->find($request->service_id);
+        $service =  Service::where('enable_booking', true)->findOrFail($request->service_id);
         if (isset($request->quantity) and $service->price_unit == 1)
             $service_price = $service->discount_price * $request->quantity;
         else

@@ -29,7 +29,8 @@ class BookingServiceRequest extends FormRequest
             'as_soon_as' => 'required|boolean',
             'come_to_address_date' => 'required_if:as_soon_as,==,1|string',
             'quantity' => 'nullable|integer',
-
+            'delivery_car'=>'required|boolean'
+            
         ];
     }
 }

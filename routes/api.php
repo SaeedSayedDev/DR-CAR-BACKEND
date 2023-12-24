@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\StatusOrderController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
@@ -29,9 +30,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
+Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 
 Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
+Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
 
 
 
@@ -51,17 +54,22 @@ Route::post('provider/login', [AuthController::class, 'login'])->middleware('che
 
 Route::group(['middleware' => 'apiAuth'], function () {
 
+
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
-        Route::post('review/store', [ReviewController::class, 'store']);
+        Route::post('review/service/store', [ReviewController::class, 'store'])->name('review.service');
+        Route::post('review/provider/store', [ReviewController::class, 'store'])->name('review.provider');
         Route::put('review/update/{id}', [ReviewController::class, 'update']);
         Route::delete('review/delete/{id}', [ReviewController::class, 'delete']);
 
+        Route::get('favourites', [FavouriteController::class, 'index']);
         Route::post('favourite/store', [FavouriteController::class, 'store']);
         Route::delete('favourite/delete/{id}', [FavouriteController::class, 'delete']);
 
         Route::post('booking/service', [ServiceController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
+
+        Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
     });
 
 
@@ -78,6 +86,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::delete('coupon/delete/{id}', [ServiceController::class, 'deleteCoupon'])->name('coupon.delete');
     });
 
+    Route::get('me', [AuthController::class, 'me'])->name('me');
+
     Route::post('change-password', [AuthController::class, 'changePassword']);
 
     Route::get('services', [ServiceController::class, 'index'])->name('services');
@@ -88,7 +98,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::get('chat/show/{chat_id}', [ChatController::class, 'show']);
     Route::post('chatMessage/store', [ChatController::class, 'storeMessage']);
 
-    Route::get('account/show', [AuthController::class, 'showAccount']);
 
     Route::put('account/update', [AuthController::class, 'updateAccount']);
     Route::delete('account/delete', [AuthController::class, 'deleteAccount']);

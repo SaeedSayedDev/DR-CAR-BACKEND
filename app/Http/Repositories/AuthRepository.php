@@ -62,33 +62,19 @@ class AuthRepository implements AuthInterface
 
     public function me()
     {
-        return 'User';
-        //     if ($admin = auth()->guard('admin')->user()) {
-        //         return response()->json($admin);
-        //     }
-        //     $user = auth()->user();
-        //     $imageUrlUser = url("api/images/user");
-        //     if ($user->user_type == 'user') {
-        //         $imageUrlCompany = url("api/images/company");
-        //         $imageUrlEmployee = url("api/images/employee");
+        $user = auth()->user();
+        $user->userRole;
+        $user->load(match ($user->role_id) {
+            2 => 'user_information',
+            3 => 'winch_information',
+            4 => 'garage_information',
+        });
 
-        //         $user->user_information;
-        //         $user->bookingMe;
-        //         $user->favouriteCompany;
-        //         $user->favouriteEmployee;
+        $user->media;
 
-        //         return response()->json([
-        //             'data' => $user, 'imageUrlUser' => $imageUrlUser,
-        //             'imageUrlCompany' => $imageUrlCompany, 'imageUrlEmployee' => $imageUrlEmployee
-        //         ]);
-        //     } elseif ($user->user_type == 'company') {
-        //         $logoUrlCompany = url("api/images/company");
-        //         $user->company_information;
-        //         $user->reviewCompany;
-        //         if ($user->company_information->company_type == 'cleaning') {
-        //             $user->services;
-        //         }
-        //         return response()->json(['data' => $user, 'imageUrlUser' => $imageUrlUser, 'logoUrlCompany' => $logoUrlCompany]);
-        //     }
+
+        return response()->json([
+            'data' => $user,
+        ]);
     }
 }

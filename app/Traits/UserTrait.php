@@ -25,33 +25,33 @@ class UserTrait
             'name' => 'Oil Change',
             'desc' => 'Regular oil change services for vehicles.',
             'provider_id' => 2,
-            'price' => 100,
-            'price_unit' => 1
+            'price'=>100,
+            'price_unit'=>1,
+            'enable_booking'=>true
+
         ],
         [
             'name' => 'Body Car',
             'desc' => 'fix your body car.',
             'provider_id' => 2,
-            'price' => 20,
-            'price_unit' => 2
+            'price'=>20,
+            'price_unit'=>2,
+            'enable_booking'=>true
+
         ]
 
     ];
 
     public static $slides = [
         [
-            'image' => 'image_1.png',
             'text' => 'slide 1',
             'order' => '1',
             'service_id' => 1,
-            'user_id' => 2,
         ],
         [
-            'image' => 'image_2.png',
             'text' => 'slide 2',
             'order' => '2',
             'service_id' => 1,
-            'user_id' => 2,
         ],
     ];
 }

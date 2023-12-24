@@ -18,8 +18,11 @@ class ItemRequest extends FormRequest
             'name.ar' => 'string|required|max:255',
             'desc.en' => 'string|nullable',
             'desc.ar' => 'string|nullable',
-            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id' => 'string|required|exists:categories,id',
+
+            'images' => 'array',
+            'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
     }
 }

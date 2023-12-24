@@ -14,22 +14,36 @@ class CategoryRepository implements CategoryInterface
 
     public function index()
     {
-        $categories = Category::with('items')->get();
-        $imageUrl = url("api/images/Category/");
+        $categories = Category::with('items.media', 'media')->get();
+
         return response()->json([
             'data' => $categories,
-            'image_url' => $imageUrl
         ]);
     }
+
+
+    public function show($id)
+    {
+        $category = Category::findOrFail($id)->load('items.media', 'media');
+
+
+        return response()->json([
+            'data' => $category,
+
+
+        ]);
+    }
+
 
     public function store($request)
     {
         $requestData = $request->all();
-        $requestData['image'] = $this->imageService->store($request, 'admin/categories');
 
-        $category = Category::create([
-            'image' => $requestData['image'],
-        ]);
+        $category = Category::create();
+
+        $this->imageService->storeMedia($request, $category->id, 'category', 'public/images/admin/categories', url("api/images/Category/"));
+
+
         foreach (['en', 'ar'] as $locale) {
             $category->translations()->create([
                 'locale' => $locale,
@@ -46,27 +60,15 @@ class CategoryRepository implements CategoryInterface
         ]);
     }
 
-    public function show($id)
-    {
-        $category = Category::findOrFail($id)->load('items');
-        $imageUrl = url("api/images/Category/");
 
-        return response()->json([
-            'data' => $category,
-            'image_url' => $imageUrl
-
-        ]);
-    }
 
     public function update($request, $id)
     {
         $category = Category::findOrFail($id);
         $requestData = $request->all();
-        $requestData['image'] = $this->imageService->update($request, $category, 'admin/categories');
 
-        $category->update([
-            'image' => $requestData['image'],
-        ]);
+        $this->imageService->storeMedia($request, $category->id, 'category', 'public/images/admin/categories', url("api/images/Category/"));
+
         foreach (['en', 'ar'] as $locale) {
             $category->translateOrNew($locale)->name = $requestData['name'][$locale];
             $category->translateOrNew($locale)->desc = $requestData['desc'][$locale];
@@ -79,10 +81,11 @@ class CategoryRepository implements CategoryInterface
         ]);
     }
 
+
     public function delete($id)
     {
+
         $category = Category::findOrFail($id);
-        $this->imageService->delete($category, 'admin/categories');
         $category->delete();
         return response()->json([
             'message' => 'deleted successfully'

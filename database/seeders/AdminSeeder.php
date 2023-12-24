@@ -12,6 +12,7 @@ use App\Models\Admin\ServiceTranslation;
 use App\Traits\AdminTrailt;
 use App\Models\Role;
 use App\Models\Slide;
+use App\Models\WeekDays;
 use Illuminate\Database\Seeder;
 
 class AdminSeeder extends Seeder
@@ -27,9 +28,7 @@ class AdminSeeder extends Seeder
 
         $categories = AdminTrailt::$categories;
         foreach ($categories as $categoryData) {
-            $category = Category::create([
-                'image' => 'text.jpg',
-            ]);
+            $category = Category::create();
             foreach (['en', 'ar'] as $locale) {
                 CategoryTranslation::create([
                     'category_id' => $category->id,
@@ -44,7 +43,6 @@ class AdminSeeder extends Seeder
         $items = AdminTrailt::$items;
         foreach ($items as $itemData) {
             $item = Item::create([
-                'image' => 'text.jpg',
                 'category_id' => $itemData['category_id'],
             ]);
             foreach (['en', 'ar'] as $locale) {
@@ -63,8 +61,9 @@ class AdminSeeder extends Seeder
             PaymentMethod::create($paymentMethod);
         }
 
-
-
-       
+        $weekDays = AdminTrailt::$weekDays;
+        foreach ($weekDays as $weekDay) {
+            WeekDays::create($weekDay);
+        }
     }
 }

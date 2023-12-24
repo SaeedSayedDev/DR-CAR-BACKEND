@@ -18,7 +18,9 @@ class CategoryRequest extends FormRequest
             'name.ar' => 'string|required|max:255',
             'desc.en' => 'string|nullable',
             'desc.ar' => 'string|nullable',
-            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
+            
+            'images' => 'array',
+            'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }
