@@ -84,6 +84,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Repositories\WalletRepository'
         );
 
+        $this->app->bind(
+            'App\Http\Interfaces\ProviderInterface',
+            'App\Http\Repositories\ProviderRepository'
+        );
+
     }
 
     /**

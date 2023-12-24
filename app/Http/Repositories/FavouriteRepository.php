@@ -8,7 +8,12 @@ use App\Models\User;
 
 class FavouriteRepository implements FavouriteInterface
 {
-
+    public function index()
+    {
+        $user =  auth()->user();
+        $favourites =Favourite::where('user_id', $user->id)->with('service.media')->get();
+        return response()->json(['data' => $favourites]);
+    }
 
     //favourite
     public function store($request)

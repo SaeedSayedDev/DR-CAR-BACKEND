@@ -17,11 +17,9 @@ class SlideRepository implements SlideInterface
     {
         $slides = Slide::with('media')->get();
 
-        $slide_url = url("api/images/Slide/");
 
         return response()->json([
             'data' => $slides,
-            'url_image' => $slide_url
         ]);
     }
 
@@ -31,7 +29,7 @@ class SlideRepository implements SlideInterface
         // $requestData['image'] = $this->imageService->store($request, 'slides');
         $slide = Slide::create($requestData);
 
-        $this->imageService->storeMedia($request, $slide->id, 'slide', 'public/images/admin/slides');
+        $this->imageService->storeMedia($request, $slide->id, 'slide', 'public/images/admin/slides', url("api/images/Slide/"));
 
         return response()->json([
             'message' => 'stored successfully',
@@ -42,11 +40,9 @@ class SlideRepository implements SlideInterface
     public function show($id)
     {
         $slide = Slide::with('service.provider', 'media')->findOrFail($id);
-        $slide_url = url("api/images/Slide/");
 
         return response()->json([
             'data' => $slide,
-            'url_image' => $slide_url
 
         ]);
     }
@@ -55,7 +51,7 @@ class SlideRepository implements SlideInterface
     {
         $slide = Slide::findOrFail($id);
         $requestData = $request->all();
-        $this->imageService->storeMedia($request, $slide->id, 'slide', 'public/images/admin/slides');
+        $this->imageService->storeMedia($request, $slide->id, 'slide', 'public/images/admin/slides', url("api/images/Slide/"));
         $slide->update($requestData);
         return response()->json([
             'message' => 'updated successfully',

@@ -64,14 +64,17 @@ class AuthRepository implements AuthInterface
     {
         $user = auth()->user();
         $user->userRole;
+        $user->load(match ($user->role_id) {
+            2 => 'user_information',
+            3 => 'winch_information',
+            4 => 'garage_information',
+        });
+
         $user->media;
 
-        $provider_image_url = url("api/images/Provider/");
 
         return response()->json([
             'data' => $user,
-            'provider_image_url' => $provider_image_url
-
         ]);
     }
 }

@@ -71,10 +71,7 @@ class AuthController extends Controller
 
 
 
-    public function showAccount()
-    {
-        return $this->accountInterface->show();
-    }
+ 
     public function updateAccount(AccountRequest $request)
     {
         return $this->accountInterface->update($request);

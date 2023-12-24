@@ -15,11 +15,9 @@ class ItemRepository implements ItemInterface
     public function index()
     {
         $items = Item::with('media')->get();
-        $imageUrl = url("api/images/Item/");
 
         return response()->json([
             'data' => $items,
-            'image_url' => $imageUrl
         ]);
     }
 
@@ -27,11 +25,9 @@ class ItemRepository implements ItemInterface
     public function show($id)
     {
         $item = Item::with('media')->findOrFail($id);
-        $imageUrl = url("api/images/Item/");
 
         return response()->json([
             'data' => $item,
-            'image_url' => $imageUrl
 
         ]);
     }
@@ -44,7 +40,7 @@ class ItemRepository implements ItemInterface
             'category_id' => $requestData['category_id'],
         ]);
 
-        $this->imageService->storeMedia($request, $item->id, 'item', 'public/images/admin/items');
+        $this->imageService->storeMedia($request, $item->id, 'item', 'public/images/admin/items' ,url("api/images/Item/"));
 
         foreach (['en', 'ar'] as $locale) {
             $item->translations()->create([
@@ -65,7 +61,7 @@ class ItemRepository implements ItemInterface
         $item = Item::findOrFail($id);
         $requestData = $request->all();
 
-        $this->imageService->storeMedia($request, $item->id, 'item', 'public/images/admin/items');
+        $this->imageService->storeMedia($request, $item->id, 'item', 'public/images/admin/items', url("api/images/Item/"));
 
         $item->update([
             'category_id' => $requestData['category_id'],
