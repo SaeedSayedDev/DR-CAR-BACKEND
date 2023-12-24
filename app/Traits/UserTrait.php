@@ -25,18 +25,18 @@ class UserTrait
             'name' => 'Oil Change',
             'desc' => 'Regular oil change services for vehicles.',
             'provider_id' => 2,
-            'price' => 100,
-            'price_unit' => 1,
-            'enable_booking' => true
-
+            'price'=>100,
+            'price_unit'=>1,
+            'enable_booking'=>true
         ],
         [
             'name' => 'Body Car',
             'desc' => 'fix your body car.',
             'provider_id' => 2,
-            'price' => 20,
-            'price_unit' => 2,
-            'enable_booking' => true
+            'price'=>20,
+            'price_unit'=>2,
+            'enable_booking'=>true
+
         ]
 
     ];

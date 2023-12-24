@@ -2,8 +2,10 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Favourite;
 use App\Models\ImagesService;
 use App\Models\Media;
+use App\Models\Review;
 use App\Models\User;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -39,6 +41,17 @@ class Service extends Model
     }
     public function media()
     {
-        return $this->hasMany(Media::class, 'type_id')->where('type','service');
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'service');
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class, 'service_id');
+    }
+
+
+    public function favourite()
+    {
+        return $this->belongsToMany( Service::class ,Favourite::class);
     }
 }
