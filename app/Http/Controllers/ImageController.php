@@ -15,6 +15,16 @@ class ImageController extends Controller
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
     }
+    
+    function imageItem($name)
+    {
+        try {
+            return response()->file("../storage/app/public/images/admin/items/$name");
+        } catch (Exception $e) {
+            return response()->json(['message' => "This File $name Is Not Found"], 404);
+        }
+    }
+    
     function imageService($name)
     {
         try {
@@ -28,6 +38,15 @@ class ImageController extends Controller
     {
         try {
             return response()->file("../storage/app/public/images/accounts/$name");
+        } catch (Exception $e) {
+            return response()->json(['message' => "This File $name Is Not Found"], 404);
+        }
+    }
+
+    function imageSlide($name)
+    {
+        try {
+            return response()->file("../storage/app/public/images/admin/slides/$name");
         } catch (Exception $e) {
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }

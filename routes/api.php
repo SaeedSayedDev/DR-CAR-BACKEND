@@ -29,8 +29,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
+Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
+Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
 
 
 
@@ -49,6 +51,7 @@ Route::post('provider/login', [AuthController::class, 'login'])->middleware('che
 
 
 Route::group(['middleware' => 'apiAuth'], function () {
+
 
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
@@ -76,6 +79,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('coupon/update/{id}', [ServiceController::class, 'updateCoupon'])->name('coupon.update');
         Route::delete('coupon/delete/{id}', [ServiceController::class, 'deleteCoupon'])->name('coupon.delete');
     });
+
+    Route::get('me', [AuthController::class, 'me'])->name('me');
 
     Route::post('change-password', [AuthController::class, 'changePassword']);
 

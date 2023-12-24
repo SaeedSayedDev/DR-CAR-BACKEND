@@ -33,7 +33,7 @@ class AccountRepository implements AccountInterface
         $user = User::findOrFail($user_id);
         $user->update($requestData);
 
-         $this->imageService->storeMedia($request, $user->id , 'user' ,'public/images/accounts');
+        $this->imageService->storeMedia($request, $user->id, 'user', 'public/images/accounts');
 
         switch ($user->role_id) {
             case 2:
@@ -62,15 +62,15 @@ class AccountRepository implements AccountInterface
 
         switch ($user->role_id) {
             case 2:
-                $this->imageService->delete($user->user_information, 'accounts');
+                // $this->imageService->delete($user->user_information, 'accounts');
                 $user->user_information->delete();
                 break;
             case 3:
-                $this->imageService->delete($user->winch_information, 'accounts');
+                // $this->imageService->delete($user->winch_information, 'accounts');
                 $user->winch_information->delete();
                 break;
             case 4:
-                $this->imageService->delete($user->garage_information, 'accounts');
+                // $this->imageService->delete($user->garage_information, 'accounts');
                 $user->garage_information->delete();
                 break;
         }

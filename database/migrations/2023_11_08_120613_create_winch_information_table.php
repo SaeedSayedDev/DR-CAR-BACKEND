@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('phone_number')->unique()->nullable();
             $table->string('address')->nullable();
             $table->string('short_biography')->nullable();
+            $table->string('KM_price')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
 
             $table->unsignedBigInteger('winch_id');

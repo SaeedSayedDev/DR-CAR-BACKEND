@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Media;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ class Category extends Model
     use Translatable;
 
     protected $fillable = [
-        'name', 'desc', 'image'
+        'name', 'desc'
     ];
     public $translatedAttributes = [
         'name', 'desc'
@@ -29,5 +30,10 @@ class Category extends Model
     public function items()
     {
         return $this->hasMany(Item::class);
+    }
+
+    public function media()
+    {
+        return $this->hasMany(Media::class, 'type_id')->where('type','category');
     }
 }

@@ -10,7 +10,7 @@ class Slide extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['image', 'text', 'order', 'service_id', 'user_id'];
+    protected $fillable = [ 'text', 'order', 'service_id'];
 
     public function service()
     {
@@ -20,5 +20,10 @@ class Slide extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function media()
+    {
+        return $this->hasMany(Media::class, 'type_id')->where('type','slide');
     }
 }

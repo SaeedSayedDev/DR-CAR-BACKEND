@@ -14,11 +14,13 @@ class SlideRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'text' => 'required|string',
             'order' => 'required|integer',
             'service_id' => 'required|exists:services,id',
-            'user_id' => 'required|exists:users,id',
+            
+            'images' => 'array',
+            'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
     }
 }
