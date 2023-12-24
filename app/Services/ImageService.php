@@ -38,15 +38,16 @@ class ImageService
         }
     }
 
-    public function storeMedia($request, $type_id, $type, $path)
+    public function storeMedia($request, $type_id, $type, $path, $api_image)
     {
         if ($request->hasFile('images')) {
-            $this->deleteMedia($type_id, $type, $path);
-
+            $this->deleteMedia($type_id, $type, $path, $api_image);
+            
             foreach ($request->images as $index => $image) {
-                $data['image'] = time() . $index . '.' . $image->extension();
+                $data['image'] =  time() . $index . '.' . $image->extension();
+                
                 Media::create([
-                    'image' => $data['image'],
+                    'image' => $api_image . '/' . $data['image'],
                     'type_id' => $type_id,
                     'type' => $type
                 ]);
@@ -55,15 +56,18 @@ class ImageService
         }
     }
 
-    public function deleteMedia($type_id, $type, $path)
+    public function deleteMedia($type_id, $type, $path, $api_image)
     {
         if (request()->isMethod('put')) {
             $mediaDelete = Media::where('type_id', $type_id)->where('type', $type)->get();
             foreach ($mediaDelete as $media) {
-                $pathOldImage = storage_path("app/$path/" . $media->image);
+                
+                $media->delete();
+                
+                $directoryName = basename(parse_url($media->image, PHP_URL_PATH));
+                $pathOldImage = storage_path("app/$path/" . $directoryName);
                 if (File::exists($pathOldImage)) {
                     unlink($pathOldImage);
-                    $media->delete();
                 }
             }
         }

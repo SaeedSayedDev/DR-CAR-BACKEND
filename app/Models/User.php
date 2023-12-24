@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Admin\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -83,5 +85,10 @@ class User extends Authenticatable implements JWTSubject
     public function media()
     {
         return $this->hasMany(Media::class, 'type_id')->where('type','user');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'provider_id');
     }
 }

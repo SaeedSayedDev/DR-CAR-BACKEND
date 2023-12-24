@@ -13,6 +13,7 @@ class ServiceRequest extends FormRequest
 
     public function rules(): array
     {
+
         return [
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'string|required|max:255',

@@ -15,13 +15,9 @@ class CategoryRepository implements CategoryInterface
     public function index()
     {
         $categories = Category::with('items.media', 'media')->get();
-        $cateory_image_url = url("api/images/Category/");
-        $Item_image_irl = url("api/images/Item/");
 
         return response()->json([
             'data' => $categories,
-            'cateory_image_url' => $cateory_image_url,
-            'Item_image_irl' => $Item_image_irl
         ]);
     }
 
@@ -29,14 +25,10 @@ class CategoryRepository implements CategoryInterface
     public function show($id)
     {
         $category = Category::findOrFail($id)->load('items.media', 'media');
-        $cateory_image_url = url("api/images/Category/");
-        $Item_image_irl = url("api/images/Item/");
 
 
         return response()->json([
             'data' => $category,
-            'cateory_image_url' => $cateory_image_url,
-            'Item_image_irl' => $Item_image_irl
 
 
         ]);
@@ -49,7 +41,7 @@ class CategoryRepository implements CategoryInterface
 
         $category = Category::create();
 
-        $this->imageService->storeMedia($request, $category->id, 'category', 'public/images/admin/categories');
+        $this->imageService->storeMedia($request, $category->id, 'category', 'public/images/admin/categories', url("api/images/Category/"));
 
 
         foreach (['en', 'ar'] as $locale) {
@@ -75,7 +67,7 @@ class CategoryRepository implements CategoryInterface
         $category = Category::findOrFail($id);
         $requestData = $request->all();
 
-        $this->imageService->storeMedia($request, $category->id, 'category', 'public/images/admin/categories');
+        $this->imageService->storeMedia($request, $category->id, 'category', 'public/images/admin/categories', url("api/images/Category/"));
 
         foreach (['en', 'ar'] as $locale) {
             $category->translateOrNew($locale)->name = $requestData['name'][$locale];

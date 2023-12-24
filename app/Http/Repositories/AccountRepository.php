@@ -12,19 +12,7 @@ class AccountRepository implements AccountInterface
     {
     }
 
-    public function show()
-    {
-        $user_id = auth()->user()->id;
-        $user = User::findOrFail($user_id);
-        $user->load(match ($user->role_id) {
-            2 => 'user_information',
-            3 => 'winch_information',
-            4 => 'garage_information',
-        });
-        return response()->json([
-            'data' => $user
-        ]);
-    }
+
 
     public function update($request)
     {
@@ -33,7 +21,7 @@ class AccountRepository implements AccountInterface
         $user = User::findOrFail($user_id);
         $user->update($requestData);
 
-        $this->imageService->storeMedia($request, $user->id, 'user', 'public/images/accounts');
+        $this->imageService->storeMedia($request, $user->id, 'user', 'public/images/accounts', url("api/images/Provider/"));
 
         switch ($user->role_id) {
             case 2:

@@ -14,6 +14,12 @@ class FavouriteController extends Controller
     }
 
     // Favourite
+
+    public function index()
+    {
+        return $this->favouriteInterface->index();
+    }
+    
     public function store(FavouriteRequest $request)
     {
         return $this->favouriteInterface->store($request);

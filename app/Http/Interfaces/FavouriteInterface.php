@@ -6,6 +6,8 @@ namespace App\Http\Interfaces;
 interface FavouriteInterface
 {
 
+    
+    public function index();
 
     public function store($request);
 

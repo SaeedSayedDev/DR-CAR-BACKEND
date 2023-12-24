@@ -87,6 +87,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\AddressInterface',
             'App\Http\Repositories\AddressRepository'
         );
+
+        $this->app->bind(
+            'App\Http\Interfaces\ProviderInterface',
+            'App\Http\Repositories\ProviderRepository'
+        );
     }
 
     /**
