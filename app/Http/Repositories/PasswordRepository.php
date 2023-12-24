@@ -26,28 +26,33 @@ class PasswordRepository implements PasswordInterface
             return response()->json(['message' => 'This email is not found or confirm it first'], 404);
         }
 
-        PasswordReset::create(['email' => $user->email, 'created_at' => now()]);
+        try {
+            $this->otpService->createEmail($user->email, $user->id, 'user');
 
-        $this->otpService->createEmail($user->email, $user->id, 'user');
-        return response()->json(['message' => 'please check your email to set your new password']);
+            return response()->json(['message' => 'please check your email to set your new password']);
+        } catch (Exception $e) {
+            return  response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
-    
+
+    public function pageResetPassword($otp)
+    {
+        return view('auth.passwords.reset', ['otp' => $otp]);
+    }
+
     public function resetPassword($request)
     {
-        $user = $this->passwordService->checkEmail($request->email);
-        if (!$user)
-            return response()->json(['message' => 'This Sender is not found or confirm it first'], 404);
+        $user = User::where('email', $request->email)
+            ->whereHas('otpUser')->firstOrFail();
 
-        $passwordReset =  PasswordReset::Where('email', $user->email)->first();
-
-        if (isset($passwordReset)) {
-            if (request()->route('otp') == $user->otpUser->otp and $user->otpUser->updated_at->addMinutes(10) >= Carbon::now()) {
-                return  $this->passwordService->setNewPassword($request->password, $passwordReset, $user);
-            } else {
-                return response()->json(['message' => 'This code is not correct or expire'], 401);
-            }
+        if ($request->otp == $user->otpUser->otp and $user->otpUser->updated_at->addMinutes(10) >= now()) {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+            return redirect()->back()->with('status', trans('passwords.reset'));
         }
+        return redirect()->back()->with('erorr', 'this otp is expired');
     }
 
     public function changePassword($request)

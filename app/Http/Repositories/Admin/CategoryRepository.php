@@ -51,11 +51,12 @@ class CategoryRepository implements CategoryInterface
                 'desc' => $requestData['desc'][$locale],
             ]);
         }
+        $imageUrl = url("api/images/Category/");
 
         return response()->json([
             'message' => 'stored successfully',
             'data' => $category,
-
+            'image_url' => $imageUrl
         ]);
     }
 

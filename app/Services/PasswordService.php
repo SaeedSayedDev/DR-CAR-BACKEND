@@ -22,24 +22,6 @@ class PasswordService
         // if ($admin)  #check on email verafication
         //     return $admin;
 
-        return;
-    }
-
-    public function setNewPassword($password, $passwordReset, $user)
-    {
-
-        if (Carbon::parse($passwordReset->created_at) < Carbon::now()->addMinute(10)) {
-            if ($user) {
-
-                $user->update([
-                    'password' => Hash::make($password)
-                ]);
-            }
-            $passwordReset->delete();
-
-            return response()->json(['message' => 'your password reset success']);
-        }
-        $passwordReset->delete();
-        return response()->json(['message' => 'this link is expiry'], 404);
+        // return;
     }
 }

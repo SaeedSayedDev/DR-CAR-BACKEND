@@ -46,7 +46,7 @@ class AuthRepository implements AuthInterface
             else if ($request->role_id == 3)
                 $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
             else if ($request->role_id == 4)
-                $this->authServcie->createGarageInfo($request->phone_number, $request->garage_type,  $user->id);
+                $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
         }
 
         // $this->otpService->createEmail($user->email, $user->id, 'user');

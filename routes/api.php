@@ -31,9 +31,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
 Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
+
 Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
 Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
+
 
 
 
@@ -42,7 +44,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/confirm-email', [AuthController::class, 'confirmCodeEmail']);
 
 Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
-Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // Route::group(['middleware' => 'IsEnable'], function () {
 Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser')->name('login.user');

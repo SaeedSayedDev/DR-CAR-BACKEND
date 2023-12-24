@@ -17,7 +17,7 @@ class UserTrait
     ];
 
     public static  $garage_information = [
-        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2, 'garage_type' => 'private']
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2]
     ];
 
     public static $services = [
@@ -37,6 +37,7 @@ class UserTrait
             'price'=>20,
             'price_unit'=>2,
             'enable_booking'=>true
+
         ]
 
     ];
