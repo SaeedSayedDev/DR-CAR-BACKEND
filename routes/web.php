@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('success', [ServiceController::class, 'success']);
-Route::get('error', [ServiceController::class, 'error']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
 
-Route::get('test/{otp}', function () {
-    return view('auth.passwords.reset');
-});
+
+Route::get('reset-password/{otp}', [AuthController::class, 'pageResetPassword'])->name('page.resetPassword');
+
+Route::get('error', [ServiceController::class, 'error']);
 
 
 Route::get('/logout', function () {

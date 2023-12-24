@@ -25,28 +25,21 @@ class OtpService
     }
     public function createEmail($email, $user_id, $type_user)
     {
-        try {
-            $data['email'] = $email;
-            $data['title'] = "Dr.car";
-            $data['otp'] = rand(100000, 999999);
+        $data['title'] = "Dr.car";
+        $data['otp'] = rand(100000, 999999);
 
-            // $this->SendMailService->getInfoMailConfig();
-            Mail::send('sendEmailOtp', ['data' => $data], function ($message) use ($data) {
-                $message->to($data['email'])->subject($data['title']);
-            });
-
-            OtpUser::updateOrCreate(
-                [
-                    'user_id' => $user_id,
-                    'type_user' => $type_user
-                ],
-                [
-                    'otp' => $data['otp'],
-                    'type_user' => $type_user
-                ]
-            );
-        } catch (Exception $e) {
-            return  response()->json(['message' => $e->getMessage()], 404);
-        }
+        Mail::send('sendEmailOtp',  ['otp' => $data['otp']], function ($message) use ($data, $email) {
+            $message->to($email)->subject($data['title']);
+        });
+        OtpUser::updateOrCreate(
+            [
+                'user_id' => $user_id,
+                'type_user' => $type_user
+            ],
+            [
+                'otp' => $data['otp'],
+                'type_user' => $type_user
+            ]
+        );
     }
 }
