@@ -148,7 +148,10 @@ Route::delete('payment_method/delete/{id}', [PaymentMethodController::class, 'de
 Route::put('withdraw/confirm/{withdraw_id}', [WalletController::class, 'confirm_admin']);
 
 Route::post('/artisanOrder', [SettingController::class, 'artisanOrder'])->name('artisanOrder');
-
+// Route::get('env/data', [SettingController::class, 'Dotenv'])->name('Dotenv');
+Route::get('env/data', function () {
+    dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
+});
 // Route::get('fixer', function () {
 //     $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');
 
