@@ -52,6 +52,6 @@ class Service extends Model
 
     public function favourite()
     {
-        return $this->belongsToMany( Service::class ,Favourite::class);
+        return $this->belongsToMany(Service::class, Favourite::class)->where('user_id', auth()->user()->id);
     }
 }
