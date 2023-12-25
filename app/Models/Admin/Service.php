@@ -6,6 +6,7 @@ use App\Models\Favourite;
 use App\Models\GarageData;
 use App\Models\ImagesService;
 use App\Models\Media;
+use App\Models\Options;
 use App\Models\Review;
 use App\Models\User;
 use Astrotomic\Translatable\Translatable;
@@ -18,7 +19,7 @@ class Service extends Model
 
     protected $fillable = [
         'name', 'desc', 'price', 'discount_price', 'price_unit',
-        'quantity_unit', 'duration', 'featured', 'enable_booking', 'rating', 'provider_id'
+        'quantity_unit', 'duration', 'featured', 'enable_booking', 'provider_id'
     ];
 
     protected $hidden = [
@@ -53,6 +54,6 @@ class Service extends Model
 
     public function favourite()
     {
-        return $this->belongsToMany(Service::class, Favourite::class);
+        return $this->belongsToMany(Service::class, Favourite::class)->where('user_id', auth()->user() ? auth()->user()->id : 0);
     }
 }
