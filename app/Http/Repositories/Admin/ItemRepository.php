@@ -26,9 +26,11 @@ class ItemRepository implements ItemInterface
     {
         $item = Item::with('media')->findOrFail($id);
 
+    
         return response()->json([
+            'success' => true,
             'data' => $item,
-
+            "message" => "Items retrieved successfully"
         ]);
     }
 

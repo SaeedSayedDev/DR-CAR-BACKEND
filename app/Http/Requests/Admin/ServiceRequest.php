@@ -26,8 +26,8 @@ class ServiceRequest extends FormRequest
             'featured' => 'boolean',
             'enable_booking' => 'boolean',
             'rating' => 'required|integer|between:1,5',
-            'items' => 'array',
-            'items.*' => 'exists:items,id',
+            'items' => 'required|array',
+            'items.*' => 'required|exists:items,id',
             'images' => 'array',
             'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
 
