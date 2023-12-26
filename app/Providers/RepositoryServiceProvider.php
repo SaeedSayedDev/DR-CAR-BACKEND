@@ -95,7 +95,6 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\AddressInterface',
             'App\Http\Repositories\AddressRepository'
         );
-
     }
 
     /**

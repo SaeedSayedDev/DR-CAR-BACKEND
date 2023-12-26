@@ -13,4 +13,8 @@ class SettingController extends Controller
         $status = Artisan::call($request->order);
         return response()->json([$request['order'] => 'success', 'status' => $status]);
     }
+    // public function Dotenv()
+    // {
+    //     dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
+    // }
 }

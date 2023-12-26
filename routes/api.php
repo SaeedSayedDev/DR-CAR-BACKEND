@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
 Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 
@@ -57,7 +58,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
-        Route::post('review/store', [ReviewController::class, 'store']);
+        Route::post('review/service/store', [ReviewController::class, 'store'])->name('review.service');
+        Route::post('review/provider/store', [ReviewController::class, 'store'])->name('review.provider');
         Route::put('review/update/{id}', [ReviewController::class, 'update']);
         Route::delete('review/delete/{id}', [ReviewController::class, 'delete']);
 
@@ -146,7 +148,10 @@ Route::delete('payment_method/delete/{id}', [PaymentMethodController::class, 'de
 Route::put('withdraw/confirm/{withdraw_id}', [WalletController::class, 'confirm_admin']);
 
 Route::post('/artisanOrder', [SettingController::class, 'artisanOrder'])->name('artisanOrder');
-
+// Route::get('env/data', [SettingController::class, 'Dotenv'])->name('Dotenv');
+Route::get('env/data', function () {
+    dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
+});
 // Route::get('fixer', function () {
 //     $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');
 
