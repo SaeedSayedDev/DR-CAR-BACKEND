@@ -15,9 +15,13 @@ class PaymentMethodRepository implements PaymentMethodInterface
     public function index()
     {
         $paymentMethods = PaymentMethod::all();
+    
         return response()->json([
-            'data' => $paymentMethods
+            'success' => true,
+            'data' => $paymentMethods,
+            "message" => "Payments retrieved successfully"
         ]);
+        
     }
 
     public function store($request)

@@ -17,9 +17,10 @@ class SlideRepository implements SlideInterface
     {
         $slides = Slide::with('media')->get();
 
-
         return response()->json([
+            'success' => true,
             'data' => $slides,
+            "message" => "Slide retrieved successfully"
         ]);
     }
 

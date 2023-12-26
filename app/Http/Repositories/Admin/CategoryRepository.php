@@ -17,7 +17,9 @@ class CategoryRepository implements CategoryInterface
         $categories = Category::with('items.media', 'media')->get();
 
         return response()->json([
+            'success' => true,
             'data' => $categories,
+            "message" => "Categories retrieved successfully"
         ]);
     }
 

@@ -10,8 +10,11 @@ class StatusOrderRepository implements StatusOrderInterface
     public function index()
     {
         $statusOrders = StatusOrder::all();
+     
         return response()->json([
-            'data' => $statusOrders
+            'success' => true,
+            'data' => $statusOrders,
+            "message" => "Statuss retrieved successfully"
         ]);
     }
 

@@ -53,7 +53,13 @@ class ServiceRepository implements ServiceInterface
                 unset($service->favourite);
                 return  $service;
             });
-        return ['data' => $services];
+        return [
+            'success' => true,
+            'data' => $services,
+            "message" => "Services retrieved successfully"
+
+        ];
+
     }
     public function show($id)
     {
