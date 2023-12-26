@@ -25,7 +25,6 @@ class ServiceRequest extends FormRequest
             'duration' => 'nullable|date_format:H:i',
             'featured' => 'boolean',
             'enable_booking' => 'boolean',
-            'rating' => 'required|integer|between:1,5',
             // 'items' => 'array',
             'items.*' => 'exists:items,id',
             'images' => 'array',
