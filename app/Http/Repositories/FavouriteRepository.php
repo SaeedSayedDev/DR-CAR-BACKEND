@@ -12,7 +12,11 @@ class FavouriteRepository implements FavouriteInterface
     {
         $user =  auth()->user();
         $favourites =Favourite::where('user_id', $user->id)->with('service.media')->get();
-        return response()->json(['data' => $favourites]);
+        return response()->json([
+            'success' => true,
+            'data' => $favourites,
+            "message" => "Favourite retrieved successfully"
+        ]);
     }
 
     //favourite

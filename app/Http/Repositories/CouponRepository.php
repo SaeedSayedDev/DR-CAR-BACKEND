@@ -11,7 +11,11 @@ class CouponRepository implements CouponInterface
     {
         $provider_id = auth()->user()->id;
         $coupons = Coupon::where('provider_id', $provider_id)->get();
-        return response()->json(['message' => $coupons]);
+        return response()->json([
+            'success' => true,
+            'message' => $coupons,
+            "message" => "Coupons retrieved successfully"
+        ]);
     }
     public function show($coupon_id)
     {
