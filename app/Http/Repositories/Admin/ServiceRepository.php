@@ -32,16 +32,25 @@ class ServiceRepository implements ServiceInterface
             "message" => "Services retrieved successfully"
 
         ];
-
     }
 
     public function show($id)
     {
-        $service = Service::findOrFail($id)->load('provider.userRole', 'provider.media', 'media', 'items');
+        $service = Service::with('provider.userRole', 'provider.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review')
+            ->findOrFail($id);
 
-        return response()->json([
+        $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+        $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+        unset($service->favourite);
+
+
+        return [
+            'success' => true,
             'data' => $service,
-        ]);
+            "message" => "Service retrieved successfully"
+        ];
     }
 
     public function store($request)

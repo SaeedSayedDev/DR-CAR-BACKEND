@@ -53,10 +53,10 @@ Route::post('provider/login', [AuthController::class, 'login'])->middleware('che
 
 
 
-Route::group(['middleware' => 'apiAuth'], function () {
+// Route::group(['middleware' => 'apiAuth'], function () {
 
 
-    Route::group(['middleware' => 'checkTypeUser'], function () {
+//     Route::group(['middleware' => 'checkTypeUser'], function () {
 
         Route::post('review/service/store', [ReviewController::class, 'store'])->name('review.service');
         Route::post('review/provider/store', [ReviewController::class, 'store'])->name('review.provider');
@@ -71,7 +71,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
 
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
-    });
+    // });
 
 
     Route::group(['middleware' => 'checkTypeProvider'], function () {
@@ -108,7 +108,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::post('WithdrawWallet/store', [WalletController::class, 'WithdrawWallet']);
 
     Route::get('WithdrawWallet/cancel/{id}', [WalletController::class, 'cancel']);
-});
+// });
 
 
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
