@@ -15,15 +15,14 @@ class CreateAvailabilityTimesTable extends Migration
     {
         Schema::create('availability_times', function (Blueprint $table) {
             $table->id();
-            
-            $table->date('start_data');
-            $table->date('end_data');
 
-            $table->unsignedBigInteger('garage_id');
-            $table->foreign('garage_id')->references('id')->on('users');
+            $table->string('start_date');
+            $table->string('end_date');
+            $table->string('day');
 
-            $table->unsignedBigInteger('day_id');
-            $table->foreign('day_id')->references('id')->on('week_days');
+            $table->unsignedBigInteger('provider_id');
+            $table->foreign('provider_id')->references('id')->on('garage_data');
+
 
             $table->timestamps();
         });

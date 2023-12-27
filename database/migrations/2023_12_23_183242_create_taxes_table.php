@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWeekDaysTable extends Migration
+class CreateTaxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateWeekDaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('week_days', function (Blueprint $table) {
+        Schema::create('taxes', function (Blueprint $table) {
             $table->id();
-            $table->string('day');
+            $table->string('name');
+            $table->string('value');
+            $table->boolean('type')->comment("0 -> percent, 1 -> fixed");
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateWeekDaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('week_days');
+        Schema::dropIfExists('taxes');
     }
 }

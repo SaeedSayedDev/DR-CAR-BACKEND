@@ -3,6 +3,8 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\AccountInterface;
+use App\Models\availabilityTime;
+use App\Models\GarageData;
 use App\Models\User;
 use App\Services\ImageService;
 
@@ -66,5 +68,29 @@ class AccountRepository implements AccountInterface
         return response()->json([
             'message' => 'deleted successfully'
         ]);
+    }
+
+
+    public function storeGarageData($request)
+    {
+        $data = $request->all();
+        $GarageData = GarageData::updateOrCreate(
+            [
+                'garage_id' => auth()->user()->id,
+            ],
+            $data
+        );
+        return response()->json(['message' => 'success', 'data' => $GarageData]);
+    }
+
+    public function availabilityTime($request)
+    {
+        availabilityTime::updateOrCreate(
+            [
+                'provider_id' => $request->provider_id
+            ],
+            $request->all()
+        );
+        return response()->json(['message' => 'success']);
     }
 }

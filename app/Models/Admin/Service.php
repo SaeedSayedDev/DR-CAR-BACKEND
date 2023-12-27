@@ -5,6 +5,7 @@ namespace App\Models\Admin;
 use App\Models\Favourite;
 use App\Models\ImagesService;
 use App\Models\Media;
+use App\Models\Options;
 use App\Models\Review;
 use App\Models\User;
 use Astrotomic\Translatable\Translatable;
@@ -53,5 +54,10 @@ class Service extends Model
     public function favourite()
     {
         return $this->belongsToMany(Service::class, Favourite::class)->where('user_id', auth()->user() ? auth()->user()->id : 0);
+    }
+
+    public function options()
+    {
+        return $this->hasMany(Options::class, 'service_id');
     }
 }

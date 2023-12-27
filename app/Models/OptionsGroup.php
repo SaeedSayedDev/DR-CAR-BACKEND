@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GarageData extends Model
+class OptionsGroup extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'availability_range', 'garage_id', 'garage_type', 'tax_id'
+        'name'
     ];
 }
