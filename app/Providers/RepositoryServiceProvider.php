@@ -95,6 +95,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\AddressInterface',
             'App\Http\Repositories\AddressRepository'
         );
+
+        $this->app->bind(
+            'App\Http\Interfaces\OptionInterface',
+            'App\Http\Repositories\OptionRepository'
+        );
     }
 
     /**

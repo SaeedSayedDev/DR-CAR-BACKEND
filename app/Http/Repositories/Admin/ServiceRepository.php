@@ -62,7 +62,7 @@ class ServiceRepository implements ServiceInterface
     }
     public function show($id)
     {
-        $service = Service::with('provider.userRole', 'provider.media', 'media', 'items', 'favourite')
+        $service = Service::with('provider.userRole', 'provider.media', 'media', 'items', 'favourite', 'options.media')
             ->withSum('review', 'review_value')
             ->withCount('review')
             ->findOrFail($id);

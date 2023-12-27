@@ -7,12 +7,15 @@ use App\Http\Interfaces\AuthInterface;
 use App\Http\Interfaces\ConfirmEmailPhoneInterface;
 use App\Http\Interfaces\PasswordInterface;
 use App\Http\Requests\AccountRequest;
+use App\Http\Requests\availabilityTimeRequest;
 use App\Http\Requests\changePasswordRequest;
 use App\Http\Requests\ConfirmEmailRequest;
 use App\Http\Requests\ForgetPasswordRequest;
+use App\Http\Requests\GarageDataRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Models\GarageData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,7 +78,7 @@ class AuthController extends Controller
 
 
 
- 
+    //acount
     public function updateAccount(AccountRequest $request)
     {
         return $this->accountInterface->update($request);
@@ -84,4 +87,15 @@ class AuthController extends Controller
     {
         return $this->accountInterface->delete();
     }
+
+    //garage data 
+    public function storeGarageData(GarageDataRequest $request)
+    {
+        return $this->accountInterface->storeGarageData($request);
+    }
+    public function availabilityTime(availabilityTimeRequest $request)
+    {
+        return $this->accountInterface->availabilityTime($request);
+    }
+    
 }

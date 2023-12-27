@@ -56,4 +56,9 @@ class Service extends Model
     {
         return $this->belongsToMany(Service::class, Favourite::class)->where('user_id', auth()->user() ? auth()->user()->id : 0);
     }
+
+    public function options()
+    {
+        return $this->hasMany(Options::class, 'service_id');
+    }
 }

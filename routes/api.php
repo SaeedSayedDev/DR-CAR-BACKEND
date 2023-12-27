@@ -38,7 +38,7 @@ Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
 Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
-
+Route::get('images/Options/{name}', [ImageController::class, 'imageOptions']);
 
 
 
@@ -60,8 +60,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
-        Route::post('review/service/store', [ReviewController::class, 'store'])->name('review.service');
-        Route::post('review/provider/store', [ReviewController::class, 'store'])->name('review.provider');
+        Route::post('review/store', [ReviewController::class, 'store'])->name('review.service');
         Route::put('review/update/{id}', [ReviewController::class, 'update']);
         Route::delete('review/delete/{id}', [ReviewController::class, 'delete']);
 
@@ -82,11 +81,18 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
         Route::delete('service/delete/{id}', [ServiceController::class, 'delete'])->name('service.delete');
 
+        Route::post('options/store', [ServiceController::class, 'storeOPtion'])->name('options.store');
+        Route::put('options/update/{id}', [ServiceController::class, 'updateOption'])->name('options.update');
+
         Route::get('coupons', [ServiceController::class, 'indexCoupon'])->name('coupons');
         Route::get('coupon/show/{id}', [ServiceController::class, 'showCoupon'])->name('coupon.show');
         Route::post('coupon/store', [ServiceController::class, 'storeCoupon'])->name('coupon.store');
         Route::put('coupon/update/{id}', [ServiceController::class, 'updateCoupon'])->name('coupon.update');
         Route::delete('coupon/delete/{id}', [ServiceController::class, 'deleteCoupon'])->name('coupon.delete');
+
+        Route::post('garageData/store', [AuthController::class, 'storeGarageData'])->name('garageData');
+        Route::post('availabilityTime/store', [AuthController::class, 'availabilityTime'])->name('availabilityTime');
+
     });
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
