@@ -61,7 +61,6 @@ class ServiceRepository implements ServiceInterface
     }
     public function indexGarage()
     {
-
         $services = Service::where('provider_id', auth()->user()->id)
             ->with('media', 'items', 'review')
             ->withSum('review', 'review_value')
