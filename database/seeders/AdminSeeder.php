@@ -10,7 +10,7 @@ use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\Admin\ServiceTranslation;
 use App\Models\Admin\StatusOrder;
-use App\Models\optionsGroup;
+use App\Models\OptionsGroup;
 use App\Traits\AdminTrailt;
 use App\Models\Role;
 use App\Models\Slide;
