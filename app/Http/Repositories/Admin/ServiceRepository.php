@@ -14,29 +14,27 @@ class ServiceRepository implements ServiceInterface
     {
     }
     public function index()
-    {
-        $userAddress = auth()->user()->address;
-        // dd($userAddress);
-        if (isset($userAddress)) {
-            // function ($q) use ($userAddress) {
-            //     $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
-            // sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
-            //         ->having('distance_in_km', '<=', 'availability_range');
-            // })
-            $services = Service::whereHas('provider')
-                ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
-                ->withSum('review', 'review_value')
-                ->withCount('review')
-                ->get()
-                ->map(function ($service) {
-                    $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
-                    $service->is_favorite = $service->favourite->count() > 0 ? true : false;
-                    unset($service->favourite);
-                    return  $service;
-                });
-            return ['data' => $services];
-        }
-        return ['message' => 'Please Enter your Address'];
+    {;
+        // if ($userAddress = auth()->user()->address) {
+        // function ($q) use ($userAddress) {
+        //     $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
+        // sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
+        //         ->having('distance_in_km', '<=', 'availability_range');
+        // })
+        $services = Service::whereHas('provider')
+            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review')
+            ->get()
+            ->map(function ($service) {
+                $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                unset($service->favourite);
+                return  $service;
+            });
+        return ['data' => $services];
+        // }
+        // return ['message' => 'Please Enter your Address'];
     }
     public function servicesProvider($provider_id)
     {
