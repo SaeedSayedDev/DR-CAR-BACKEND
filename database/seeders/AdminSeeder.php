@@ -67,14 +67,14 @@ class AdminSeeder extends Seeder
 
         $optionGroups = AdminTrailt::$optionGroups;
         foreach ($optionGroups as $optionGroup) {
-            optionsGroup::create($optionGroup);
+            OptionsGroup::create($optionGroup);
         }
 
         $taxes = AdminTrailt::$taxes;
         foreach ($taxes as $taxe) {
             Taxe::create($taxe);
         }
-        
+
         $statusOrders = AdminTrailt::$statusOrders;
         foreach ($statusOrders as $statusOrder) {
             StatusOrder::create($statusOrder);
