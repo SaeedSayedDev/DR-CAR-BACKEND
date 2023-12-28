@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ItemController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\WalletController;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -92,12 +94,13 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::post('change-password', [AuthController::class, 'changePassword']);
 
     Route::get('services', [ServiceController::class, 'index'])->name('services');
+    Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
     Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
 
-    Route::get('chats', [ChatController::class, 'index']);
-    Route::post('chat/store', [ChatController::class, 'store']);
-    Route::get('chat/show/{chat_id}', [ChatController::class, 'show']);
-    Route::post('chatMessage/store', [ChatController::class, 'storeMessage']);
+    // Route::get('chats', [ChatController::class, 'index']);
+    // Route::post('chat/store', [ChatController::class, 'store']);
+    // Route::get('chat/show/{chat_id}', [ChatController::class, 'show']);
+    // Route::post('chatMessage/store', [ChatController::class, 'storeMessage']);
 
 
     Route::put('account/update', [AuthController::class, 'updateAccount']);
@@ -108,6 +111,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::post('WithdrawWallet/store', [WalletController::class, 'WithdrawWallet']);
 
     Route::get('WithdrawWallet/cancel/{id}', [WalletController::class, 'cancel']);
+
+    Route::get('addresses', [AddressController::class, 'index']);
+    Route::post('address/store', [AddressController::class, 'store']);
 });
 
 
@@ -152,16 +158,16 @@ Route::post('/artisanOrder', [SettingController::class, 'artisanOrder'])->name('
 Route::get('env/data', function () {
     dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
 });
-// Route::get('fixer', function () {
-//     $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');
 
-//     $response = Http::withHeaders([
-//         'apikey' => env('FIXER_API_KEY'),
-//     ])->get('https://api.apilayer.com/fixer/convert', [
-//         'from' => 'AED',
-//         'to' => 'USD',
-//         'amount' => 100,
-//         'date' =>  date('Y-m-d'),
-//     ]);
-//     return $response['result'];
-// });
+Route::post('/findAddressesNearby', function () {
+    $yourLatitude = request()->input('your_latitude');
+    $yourLongitude = request()->input('your_longitude');
+    $distance = 5; // Distance in kilometers
+
+    $addresses = Address::selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
+    sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$yourLatitude, $yourLongitude, $yourLatitude])
+        ->having('distance_in_km', '<=', $distance)
+        ->get();
+
+    return $addresses;
+});

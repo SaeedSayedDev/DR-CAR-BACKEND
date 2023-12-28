@@ -13,6 +13,7 @@ class ServiceRequest extends FormRequest
 
     public function rules(): array
     {
+        request()['items'] = json_decode(request()->items);
 
         return [
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
@@ -22,15 +23,14 @@ class ServiceRequest extends FormRequest
             'discount_price' => 'numeric',
             'price_unit' => 'required|boolean',
             'quantity_unit' => 'integer',
-            'duration' => 'nullable|date_format:H:i:s',
+            'duration' => 'nullable|date_format:H:i',
             'featured' => 'boolean',
             'enable_booking' => 'boolean',
             'rating' => 'required|integer|between:1,5',
-            'items' => 'array',
+            // 'items' => 'array',
             'items.*' => 'exists:items,id',
             'images' => 'array',
             'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
-
         ];
     }
 }

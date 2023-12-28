@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Favourite;
+use App\Models\GarageData;
 use App\Models\ImagesService;
 use App\Models\Media;
 use App\Models\Review;
@@ -37,7 +38,7 @@ class Service extends Model
     }
     public function provider()
     {
-        return $this->belongsTo(User::class, 'provider_id');
+        return $this->belongsTo(GarageData::class, 'provider_id');
     }
     public function media()
     {
@@ -52,6 +53,6 @@ class Service extends Model
 
     public function favourite()
     {
-        return $this->belongsToMany( Service::class ,Favourite::class);
+        return $this->belongsToMany(Service::class, Favourite::class);
     }
 }

@@ -72,9 +72,19 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(GarageInformation::class, 'garage_id',  'id');
     }
 
+    public function garage_data()
+    {
+        return $this->hasOne(GarageData::class, 'garage_id',  'id');
+    }
+
     public function otpUser()
     {
         return $this->hasOne(OtpUser::class, 'user_id',  'id')->where('type_user', 'user');
+    }
+
+    public function address()
+    {
+        return $this->hasOne(Address::class, 'type_id',  'id')->where('type_name', 'user');
     }
 
     public function userRole()
@@ -84,7 +94,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'type_id')->where('type','user');
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'user');
     }
 
     public function services()
