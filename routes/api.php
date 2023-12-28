@@ -69,17 +69,18 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::delete('favourite/delete/{id}', [FavouriteController::class, 'delete']);
 
         Route::get('user/bookings', [ServiceController::class, 'getBookingsInUser']);
+        Route::get('user/booking/show/{booking_id}', [ServiceController::class, 'showBookingInUser']);
         Route::post('booking/service', [ServiceController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
         Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
 
-
+        
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
     });
 
 
     Route::group(['middleware' => 'checkTypeProvider'], function () {
-        Route::get('garage/services', [ServiceController::class, 'updateBookingServiceFromGarage'])->name('services.garage');
+        Route::get('garage/services', [ServiceController::class, 'indexGarage'])->name('services.garage');
 
         Route::post('service/store', [ServiceController::class, 'store'])->name('service.store');
         Route::put('service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
@@ -100,6 +101,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('garage/bookings', [ServiceController::class, 'getBookingsInGarage']);
         Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
     });
+    
+    Route::get('booking/show/{booking_id}', [ServiceController::class, 'showBooking']);
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
 

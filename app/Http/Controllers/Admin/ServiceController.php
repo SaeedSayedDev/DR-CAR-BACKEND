@@ -72,17 +72,25 @@ class ServiceController extends Controller
         return $this->bookingServiceInterface->getBookingsInGarage();
     }
 
-    
+    public function showBooking($booking_id)
+    {
+        return $this->bookingServiceInterface->showBooking($booking_id);
+    }
 
-    
-    
-    
+   
+
+
+
+
+
+
+
     public function updateBookingServiceFromGarage(UpdateBookingServiceRequest $request, $booking_id)
     {
         return $this->bookingServiceInterface->updateBookingServiceFromGarage($request, $booking_id);
     }
 
-    
+
     public function success(Request $request)
     {
         return $this->bookingServiceInterface->success($request);

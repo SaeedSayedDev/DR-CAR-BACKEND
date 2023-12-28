@@ -11,7 +11,16 @@ class FavouriteRepository implements FavouriteInterface
     public function index()
     {
         $user =  auth()->user();
-        $favourites =Favourite::where('user_id', $user->id)->with('service.media')->get();
+        $favourites = Favourite::where('user_id', $user->id)
+            ->with('service', function ($query) {
+                $query->with('media', 'items')
+                    ->withSum('review', 'review_value')
+                    ->withCount('review');
+            })->get()
+            ->map(function ($favourite) {
+                $favourite->service->rate = $favourite->service->review_count > 0 ? $favourite->service->review_sum_review_value / $favourite->service->review_count : 0;
+                return  $favourite->service;
+            });
         return response()->json([
             'success' => true,
             'data' => $favourites,

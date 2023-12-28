@@ -10,6 +10,7 @@ use App\Models\BookingService;
 use App\Models\Coupon;
 use App\Services\BookingServices;
 use App\Services\ConvertCurrencyService;
+use App\Services\NotificationService;
 use App\Services\PaypalService;
 use App\Services\StripeService;
 use App\Services\WalletService;
@@ -19,12 +20,12 @@ use Stripe\Charge;
 class BookingServiceRepository implements BookingServiceInterface
 {
 
-    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService)
+    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService)
     {
     }
 
 
-        /////////////////// booking in user /////////////////////
+    /////////////////// booking in user /////////////////////
 
     public function getBookingsInUser()
     {
@@ -36,6 +37,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         ]);
     }
+
 
     public function bookingService($request)
     {
@@ -55,7 +57,9 @@ class BookingServiceRepository implements BookingServiceInterface
         $requestData = $request->all();
         $requestData['payment_amount'] = $service_price;
         $requestData['user_id'] = auth()->user()->id;
-        BookingService::create($requestData);
+        $bookingService = BookingService::create($requestData);
+
+        $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
         return response()->json(['message' => 'success']);
     }
 
@@ -97,15 +101,21 @@ class BookingServiceRepository implements BookingServiceInterface
         return $this->paypalService->success($request);
     }
 
-    
+
     public function cancelBooking($booking_id)
     {
+        DB::beginTransaction();
+
         $bookingService = BookingService::where('user_id', auth()->user()->id)->findOrFail($booking_id);
 
         $bookingService->update(['cancel' => true]);
+        $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
+
+        DB::commit();
 
         return response()->json(['message' => 'success']);
     }
+
 
 
 
@@ -113,6 +123,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInGarage()
     {
+
         $bookings = BookingService::whereHas('serviceProvider')->with('serviceProvider.media', 'serviceProvider.provider:id,full_name')->get();
         return response()->json([
             'success' => true,
@@ -123,15 +134,46 @@ class BookingServiceRepository implements BookingServiceInterface
     }
 
 
+
+    public function showBooking($booking_id)
+    {
+        $bookingService = BookingService::whereHas('serviceProvider')
+            ->orWhereHas('user')->where('user_id', auth()->user()->id)->with('service.media')->findOrFail($booking_id);
+        return response()->json([
+            'success' => true,
+            'data' => $bookingService,
+            "message" => "Bookings retrieved successfully"
+
+        ]);
+    }
+
+
     public function updateBookingServiceFromGarage($request, $booking_id)
     {
-        $bookingService = BookingService::whereHas('serviceProvider')->findOrFail($booking_id);
+        DB::beginTransaction();
+        $bookingService = BookingService::whereHas('serviceProvider')->with('serviceProvider.media', 'serviceProvider.provider:id,full_name')->findOrFail($booking_id);
         $bookingService->update(['order_status_id' => $request->order_status_id]);
 
+        $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
+        DB::commit();
         return response()->json(['message' => 'success']);
     }
 
 
 
-   
+
+
+
+
+
+    function notification($booking_id, $reciver_id, $creator_name)
+    {
+
+        $text_en = "#$booking_id Booking Status has been changed ";
+        $text_ar = "#$booking_id تم تغيير حالة حجز الخدمة ";
+        $notification_type_en = "booking";
+        $notification_type_ar = "حجز";
+        $api =  url("api/booking/show/" . $booking_id);
+        $this->notificationService->notification($booking_id, $creator_name,  $text_en, $text_ar, $notification_type_en, $notification_type_ar, $api, $reciver_id);
+    }
 }
