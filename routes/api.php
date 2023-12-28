@@ -36,7 +36,7 @@ Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
 Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
-
+Route::get('images/Options/{name}', [ImageController::class, 'imageOptions']);
 
 
 
@@ -58,8 +58,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
-        Route::post('review/service/store', [ReviewController::class, 'store'])->name('review.service');
-        Route::post('review/provider/store', [ReviewController::class, 'store'])->name('review.provider');
+        Route::get('services', [ServiceController::class, 'index'])->name('services');
+
+        Route::post('review/store', [ReviewController::class, 'store'])->name('review.service');
         Route::put('review/update/{id}', [ReviewController::class, 'update']);
         Route::delete('review/delete/{id}', [ReviewController::class, 'delete']);
 
@@ -67,31 +68,46 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('favourite/store', [FavouriteController::class, 'store']);
         Route::delete('favourite/delete/{id}', [FavouriteController::class, 'delete']);
 
+        Route::get('user/bookings', [ServiceController::class, 'getBookingsInUser']);
+        Route::get('user/booking/show/{booking_id}', [ServiceController::class, 'showBookingInUser']);
         Route::post('booking/service', [ServiceController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
+        Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
 
+        
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
     });
 
 
     Route::group(['middleware' => 'checkTypeProvider'], function () {
+        Route::get('garage/services', [ServiceController::class, 'indexGarage'])->name('services.garage');
 
         Route::post('service/store', [ServiceController::class, 'store'])->name('service.store');
         Route::put('service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
         Route::delete('service/delete/{id}', [ServiceController::class, 'delete'])->name('service.delete');
+
+        Route::post('options/store', [ServiceController::class, 'storeOPtion'])->name('options.store');
+        Route::put('options/update/{id}', [ServiceController::class, 'updateOption'])->name('options.update');
 
         Route::get('coupons', [ServiceController::class, 'indexCoupon'])->name('coupons');
         Route::get('coupon/show/{id}', [ServiceController::class, 'showCoupon'])->name('coupon.show');
         Route::post('coupon/store', [ServiceController::class, 'storeCoupon'])->name('coupon.store');
         Route::put('coupon/update/{id}', [ServiceController::class, 'updateCoupon'])->name('coupon.update');
         Route::delete('coupon/delete/{id}', [ServiceController::class, 'deleteCoupon'])->name('coupon.delete');
+
+        Route::post('garageData/store', [AuthController::class, 'storeGarageData'])->name('garageData');
+        Route::post('availabilityTime/store', [AuthController::class, 'availabilityTime'])->name('availabilityTime');
+
+        Route::get('garage/bookings', [ServiceController::class, 'getBookingsInGarage']);
+        Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
     });
+    
+    Route::get('booking/show/{booking_id}', [ServiceController::class, 'showBooking']);
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
 
     Route::post('change-password', [AuthController::class, 'changePassword']);
 
-    Route::get('services', [ServiceController::class, 'index'])->name('services');
     Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
 
     Route::get('chats', [ChatController::class, 'index']);
@@ -152,16 +168,9 @@ Route::post('/artisanOrder', [SettingController::class, 'artisanOrder'])->name('
 Route::get('env/data', function () {
     dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
 });
-// Route::get('fixer', function () {
-//     $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');
 
-//     $response = Http::withHeaders([
-//         'apikey' => env('FIXER_API_KEY'),
-//     ])->get('https://api.apilayer.com/fixer/convert', [
-//         'from' => 'AED',
-//         'to' => 'USD',
-//         'amount' => 100,
-//         'date' =>  date('Y-m-d'),
-//     ]);
-//     return $response['result'];
-// });
+Route::get('fixer', function () {
+    $delimiter = ',';
+    $array = explode($delimiter, '1,2,3'); // Split the string into an array
+    return $array;
+});

@@ -9,6 +9,6 @@ class availabilityTime extends Model
 {
     use HasFactory;
     protected $fillable =[
-        'garage_id' ,'day_id','start_data', 'end_data'
+        'provider_id' ,'day','start_date', 'end_date'
     ];
 }

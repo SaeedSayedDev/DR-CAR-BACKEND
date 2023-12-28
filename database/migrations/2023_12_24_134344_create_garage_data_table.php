@@ -16,6 +16,11 @@ class CreateGarageDataTable extends Migration
         Schema::create('garage_data', function (Blueprint $table) {
             $table->id();
             $table->integer('availability_range');
+            $table->boolean('garage_type')->comment("0 -> private, 1 -> company");
+
+            $table->unsignedBigInteger('tax_id');
+            $table->foreign('tax_id')->references('id')->on('taxes');
+
             $table->unsignedBigInteger('garage_id');
             $table->foreign('garage_id')->references('id')->on('users');
 

@@ -148,11 +148,11 @@ class AdminTrailt
         ],
     ];
 
-    
 
-  
 
-   
+
+
+
     public static $paymentMethods = [
         [
             'payment_type' => 1,
@@ -168,14 +168,61 @@ class AdminTrailt
     ];
 
 
-    public static $weekDays=[
-        ['day'=>'Monday'],
-        ['day'=>'Tuesday'],
-        ['day'=>'Wednesday'],
-        ['day'=>'Thursday'],
-        ['day'=>'Friday'],
-        ['day'=>'Saturday'],
-        ['day'=>'Sunday'],
+
+
+    public static $optionGroups = [
+
+        ['name' => 'Size'],
+        ['name' => 'Area'],
+        ['name' => 'Surface'],
+
     ];
-  
+
+
+
+    public static $taxes = [
+        [
+            'name' => 'tax 20',
+            'value' => '20',
+            'type' => true,
+        ],
+        [
+            'name' => 'tax 10',
+            'value' => '10',
+            'type' => true,
+        ],
+        [
+            'name' => 'maintenance',
+            'value' => '0',
+            'type' => true,
+        ], [
+            'name' => 'tools fee',
+            'value' => '5',
+            'type' => true,
+        ],
+    ];
+
+    public static $statusOrders = [
+        [
+            'name' => 'Received',
+        ],
+        [
+            'name' => 'Accepted',
+        ],
+        [
+            'name' => 'On the way',
+        ],
+        [
+            'name' => 'Ready',
+        ],
+        [
+            'name' => 'in progress',
+        ],
+        [
+            'name' => 'Done',
+        ],
+        [
+            'name' => 'Failed',
+        ],
+    ];
 }

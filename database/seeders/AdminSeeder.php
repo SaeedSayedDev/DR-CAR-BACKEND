@@ -9,9 +9,12 @@ use App\Models\Admin\ItemTranslation;
 use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\Admin\ServiceTranslation;
+use App\Models\Admin\StatusOrder;
+use App\Models\optionsGroup;
 use App\Traits\AdminTrailt;
 use App\Models\Role;
 use App\Models\Slide;
+use App\Models\Taxe;
 use App\Models\WeekDays;
 use Illuminate\Database\Seeder;
 
@@ -61,9 +64,20 @@ class AdminSeeder extends Seeder
             PaymentMethod::create($paymentMethod);
         }
 
-        $weekDays = AdminTrailt::$weekDays;
-        foreach ($weekDays as $weekDay) {
-            WeekDays::create($weekDay);
+
+        $optionGroups = AdminTrailt::$optionGroups;
+        foreach ($optionGroups as $optionGroup) {
+            optionsGroup::create($optionGroup);
+        }
+
+        $taxes = AdminTrailt::$taxes;
+        foreach ($taxes as $taxe) {
+            Taxe::create($taxe);
+        }
+        
+        $statusOrders = AdminTrailt::$statusOrders;
+        foreach ($statusOrders as $statusOrder) {
+            StatusOrder::create($statusOrder);
         }
     }
 }

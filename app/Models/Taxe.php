@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WeekDays extends Model
+class Taxe extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'day'
+    protected $fillable =[
+        'name','value','type'
     ];
 }
