@@ -33,6 +33,10 @@ class ServiceController extends Controller
     {
         return $this->serviceInterface->indexGarage();
     }
+    public function servicesProvider($provider_id)
+    {
+        return $this->serviceInterface->servicesProvider($provider_id);
+    }
     public function store(ServiceRequest $request)
     {
         return $this->serviceInterface->store($request);
@@ -81,7 +85,7 @@ class ServiceController extends Controller
         return $this->bookingServiceInterface->showBooking($booking_id);
     }
 
-   
+
 
 
 

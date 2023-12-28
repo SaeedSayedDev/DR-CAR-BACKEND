@@ -76,7 +76,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
         Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
 
-        
+
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
     });
 
@@ -103,7 +103,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('garage/bookings', [ServiceController::class, 'getBookingsInGarage']);
         Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
     });
-    
+
     Route::get('booking/show/{booking_id}', [ServiceController::class, 'showBooking']);
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
@@ -193,4 +193,16 @@ Route::get('fixer', function () {
     $delimiter = ',';
     $array = explode($delimiter, '1,2,3'); // Split the string into an array
     return $array;
+});
+Route::post('/findAddressesNearby', function () {
+    $yourLatitude = request()->input('your_latitude');
+    $yourLongitude = request()->input('your_longitude');
+    $distance = 5; // Distance in kilometers
+
+    $addresses = Address::selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
+    sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$yourLatitude, $yourLongitude, $yourLatitude])
+        ->having('distance_in_km', '<=', $distance)
+        ->get();
+
+    return $addresses;
 });

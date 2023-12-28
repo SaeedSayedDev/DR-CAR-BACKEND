@@ -61,7 +61,7 @@ class ServiceRepository implements ServiceInterface
     }
     public function indexGarage()
     {
-        
+
         $services = Service::where('provider_id', auth()->user()->id)
             ->with('media', 'items', 'review')
             ->withSum('review', 'review_value')
@@ -76,14 +76,15 @@ class ServiceRepository implements ServiceInterface
             'data' => $services,
             "message" => "Services retrieved successfully"
         ];
+        return ['data' => $services];
     }
-
     public function show($id)
     {
-        $service = Service::with('provider.userRole', 'provider.media', 'media', 'items', 'favourite', 'options.media')
+        $service = Service::with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite', 'options.media')
             ->withSum('review', 'review_value')
             ->withCount('review')
             ->findOrFail($id);
+
 
         $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
         $service->is_favorite = $service->favourite->count() > 0 ? true : false;
