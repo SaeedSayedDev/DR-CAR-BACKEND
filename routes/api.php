@@ -178,23 +178,12 @@ Route::get('env/data', function () {
     dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
 });
 
-Route::post('/findAddressesNearby', function () {
-    $yourLatitude = request()->input('your_latitude');
-    $yourLongitude = request()->input('your_longitude');
-    $distance = 5; // Distance in kilometers
-
-    $addresses = Address::selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
-    sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$yourLatitude, $yourLongitude, $yourLatitude])
-        ->having('distance_in_km', '<=', $distance)
-        ->get();
-
-    return $addresses;
-});
 
 Route::get('fixer', function () {
     $delimiter = ',';
     $array = explode($delimiter, '1,2,3'); // Split the string into an array
     return $array;
+
 });
 Route::post('/findAddressesNearby', function () {
     $yourLatitude = request()->input('your_latitude');
@@ -208,3 +197,4 @@ Route::post('/findAddressesNearby', function () {
 
     return $addresses;
 });
+

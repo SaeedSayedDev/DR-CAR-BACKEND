@@ -17,3 +17,4 @@ interface BookingServiceInterface
     public function getBookingsInGarage();
     public function updateBookingServiceFromGarage($request, $booking_id);
 }
+

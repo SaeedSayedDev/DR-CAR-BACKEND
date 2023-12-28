@@ -25,6 +25,7 @@ class ServiceController extends Controller
     {
         return $this->serviceInterface->index();
     }
+
     public function servicesProvider($provider_id)
     {
         return $this->serviceInterface->servicesProvider($provider_id);
