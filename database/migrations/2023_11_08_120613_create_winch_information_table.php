@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('short_biography')->nullable();
             $table->string('KM_price')->nullable();
+            $table->string('availability_range')->nullable();
+            
             $table->timestamp('phone_verified_at')->nullable();
 
             $table->unsignedBigInteger('winch_id');

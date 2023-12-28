@@ -8,9 +8,6 @@ use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\BookingService;
 use App\Models\Coupon;
-use App\Models\Favourite;
-use App\Models\User;
-use App\Models\Wallet;
 use App\Services\BookingServices;
 use App\Services\ConvertCurrencyService;
 use App\Services\PaypalService;
@@ -24,6 +21,20 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService)
     {
+    }
+
+
+        /////////////////// booking in user /////////////////////
+
+    public function getBookingsInUser()
+    {
+        $bookings = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,full_name')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $bookings,
+            "message" => "Bookings retrieved successfully"
+
+        ]);
     }
 
     public function bookingService($request)
@@ -47,7 +58,6 @@ class BookingServiceRepository implements BookingServiceInterface
         BookingService::create($requestData);
         return response()->json(['message' => 'success']);
     }
-
 
     public function payBookingSerivice($request, $service_id)
     {
@@ -86,4 +96,42 @@ class BookingServiceRepository implements BookingServiceInterface
     {
         return $this->paypalService->success($request);
     }
+
+    
+    public function cancelBooking($booking_id)
+    {
+        $bookingService = BookingService::where('user_id', auth()->user()->id)->findOrFail($booking_id);
+
+        $bookingService->update(['cancel' => true]);
+
+        return response()->json(['message' => 'success']);
+    }
+
+
+
+    /////////////////// booking in garage /////////////////////
+
+    public function getBookingsInGarage()
+    {
+        $bookings = BookingService::whereHas('serviceProvider')->with('serviceProvider.media', 'serviceProvider.provider:id,full_name')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $bookings,
+            "message" => "Bookings retrieved successfully"
+
+        ]);
+    }
+
+
+    public function updateBookingServiceFromGarage($request, $booking_id)
+    {
+        $bookingService = BookingService::whereHas('serviceProvider')->findOrFail($booking_id);
+        $bookingService->update(['order_status_id' => $request->order_status_id]);
+
+        return response()->json(['message' => 'success']);
+    }
+
+
+
+   
 }

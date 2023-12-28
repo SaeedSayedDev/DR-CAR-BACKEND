@@ -18,7 +18,7 @@ class Service extends Model
 
     protected $fillable = [
         'name', 'desc', 'price', 'discount_price', 'price_unit',
-        'quantity_unit', 'duration', 'featured', 'enable_booking', 'rating', 'provider_id'
+        'quantity_unit', 'duration', 'featured', 'enable_booking', 'provider_id'
     ];
 
     protected $hidden = [

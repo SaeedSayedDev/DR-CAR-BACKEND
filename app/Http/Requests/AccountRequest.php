@@ -26,6 +26,7 @@ class AccountRequest extends FormRequest
                 'short_biography' => 'nullable|string',
     
                 'KM_price' => 'required|string',
+                'availability_range'=>'required',
 
                 'images' => 'array',
                 'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',

@@ -15,7 +15,6 @@ class ServiceRequest extends FormRequest
     {
 
         return [
-            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'string|required|max:255',
             'desc' => 'string|nullable',
             'price' => 'required|numeric',
@@ -25,7 +24,6 @@ class ServiceRequest extends FormRequest
             'duration' => 'nullable|date_format:H:i:s',
             'featured' => 'boolean',
             'enable_booking' => 'boolean',
-            'rating' => 'required|integer|between:1,5',
             'items' => 'required|array',
             'items.*' => 'required|exists:items,id',
             'images' => 'array',
