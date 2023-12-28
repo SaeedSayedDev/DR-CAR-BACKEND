@@ -16,6 +16,7 @@ class ServiceRepository implements ServiceInterface
     }
     public function index()
     {
+
         // if ($userAddress = auth()->user()->address) {
         // function ($q) use ($userAddress) {
         //     $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
