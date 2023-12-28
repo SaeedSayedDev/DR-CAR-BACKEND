@@ -15,7 +15,34 @@ class ServiceRepository implements ServiceInterface
     }
     public function index()
     {
-        $services = Service::with('provider.userRole', 'provider.media', 'media', 'items', 'favourite')
+        $userAddress = auth()->user()->address;
+        dd($userAddress);
+        $services = Service::whereHas('provider', function ($q) use ($userAddress) {
+            $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
+            sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
+                ->having('distance_in_km', '<=', 'availability_range');
+        })
+            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review')
+            ->get()
+            ->map(function ($service) {
+                $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                unset($service->favourite);
+                return  $service;
+            });
+        return ['data' => $services];
+    }
+    public function servicesProvider($provider_id)
+    {
+        $userAddress = auth()->user()->address;
+        $services = Service::where()->whereHas('provider', function ($q) use ($userAddress) {
+            $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
+            sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
+                ->having('distance_in_km', '<=', 'availability_range');
+        })
+            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
             ->withCount('review')
             ->get()
@@ -34,7 +61,7 @@ class ServiceRepository implements ServiceInterface
     }
     public function indexGarage()
     {
-        
+
         $services = Service::where('provider_id', auth()->user()->id)
             ->with('media', 'items', 'review')
             ->withSum('review', 'review_value')
@@ -50,7 +77,6 @@ class ServiceRepository implements ServiceInterface
             "message" => "Services retrieved successfully"
         ];
     }
-
     public function show($id)
     {
         $service = Service::with('provider.userRole', 'provider.media', 'media', 'items', 'favourite', 'options.media')
@@ -72,7 +98,7 @@ class ServiceRepository implements ServiceInterface
     public function store($request)
     {
         $requestData = request()->all();
-        $requestData['provider_id'] = auth()->user()->id;
+        $requestData['provider_id'] = auth()->user()->garage_data->id;
 
         if (!isset($request->discount_price) or isset($request->discount_price) and $request->discount_price == 0) {
             $requestData['discount_price'] = $request->price;
@@ -85,7 +111,7 @@ class ServiceRepository implements ServiceInterface
         DB::commit();
 
         $service->items()->attach($requestData['items']);
-        return response()->json(['message' => 'success']);
+        return response()->json(['Success' => true, 'data' => $service, 'message' => 'success']);
     }
 
 

@@ -11,4 +11,9 @@ class GarageData extends Model
     protected $fillable = [
         'availability_range', 'garage_id', 'garage_type', 'tax_id'
     ];
+
+    function user()
+    {
+        return $this->belongsTo(User::class, 'garage_id');
+    }
 }

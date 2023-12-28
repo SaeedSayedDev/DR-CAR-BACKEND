@@ -48,7 +48,7 @@ class BookingServiceRepository implements BookingServiceInterface
             $service_price = $service->discount_price;
 
         if (isset($request->coupon)) {
-            $coupon = Coupon::where('coupon', $request->coupon)->where('provider_id', $service->provider_id)->first();
+            $coupon = Coupon::where('coupon', $request->coupon)->where('provider_id', $service->provider->garage_id)->first();
             if ($coupon->coupon_unit == 0)
                 $service_price = $service_price - $coupon->coupon_price;
             elseif ($coupon->coupon_unit == 1)
