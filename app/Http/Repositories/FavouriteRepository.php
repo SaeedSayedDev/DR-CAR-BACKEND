@@ -19,7 +19,7 @@ class FavouriteRepository implements FavouriteInterface
             })->get()
             ->map(function ($favourite) {
                 $favourite->service->rate = $favourite->service->review_count > 0 ? $favourite->service->review_sum_review_value / $favourite->service->review_count : 0;
-                return  $favourite->service;
+                return  $favourite;
             });
         return response()->json([
             'success' => true,

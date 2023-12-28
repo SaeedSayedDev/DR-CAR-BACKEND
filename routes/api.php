@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StatusOrderController;
+use App\Http\Controllers\Admin\TaxeController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ImageController;
@@ -54,7 +55,6 @@ Route::post('provider/login', [AuthController::class, 'login'])->middleware('che
 // });
 
 
-
 Route::group(['middleware' => 'apiAuth'], function () {
 
 
@@ -99,6 +99,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::post('garageData/store', [AuthController::class, 'storeGarageData'])->name('garageData');
         Route::post('availabilityTime/store', [AuthController::class, 'availabilityTime'])->name('availabilityTime');
+        // 
+        Route::get('taxes', [TaxeController::class, 'index']);
 
         Route::get('garage/bookings', [ServiceController::class, 'getBookingsInGarage']);
         Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
