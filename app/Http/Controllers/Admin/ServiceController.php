@@ -88,7 +88,6 @@ class ServiceController extends Controller
 
 
 
-
     public function updateBookingServiceFromGarage(UpdateBookingServiceRequest $request, $booking_id)
     {
         return $this->bookingServiceInterface->updateBookingServiceFromGarage($request, $booking_id);

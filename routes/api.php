@@ -76,7 +76,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
         Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
 
-
+        
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
     });
 
@@ -103,6 +103,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('garage/bookings', [ServiceController::class, 'getBookingsInGarage']);
         Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
     });
+    
+    Route::get('booking/show/{booking_id}', [ServiceController::class, 'showBooking']);
 
     Route::get('booking/show/{booking_id}', [ServiceController::class, 'showBooking']);
 

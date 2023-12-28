@@ -38,6 +38,7 @@ class BookingServiceRepository implements BookingServiceInterface
         ]);
     }
 
+
     public function bookingService($request)
     {
         $service =  Service::where('enable_booking', true)->findOrFail($request->service_id);
@@ -117,10 +118,12 @@ class BookingServiceRepository implements BookingServiceInterface
 
 
 
+
     /////////////////// booking in garage /////////////////////
 
     public function getBookingsInGarage()
     {
+
         $bookings = BookingService::whereHas('serviceProvider')->with('serviceProvider.media', 'serviceProvider.provider:id,full_name')->get();
         return response()->json([
             'success' => true,
