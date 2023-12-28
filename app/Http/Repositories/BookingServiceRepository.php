@@ -101,7 +101,6 @@ class BookingServiceRepository implements BookingServiceInterface
         return $this->paypalService->success($request);
     }
 
-
     public function cancelBooking($booking_id)
     {
         DB::beginTransaction();
