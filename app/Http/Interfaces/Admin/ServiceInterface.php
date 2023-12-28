@@ -7,7 +7,6 @@ interface ServiceInterface
     public function index();
 
     public function servicesProvider($provider_id);
-    public function indexGarage();
 
     public function store($request);
 
