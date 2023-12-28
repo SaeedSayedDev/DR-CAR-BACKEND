@@ -75,7 +75,6 @@ class ServiceRepository implements ServiceInterface
             'success' => true,
             'data' => $services,
             "message" => "Services retrieved successfully"
-
         ];
     }
 
@@ -89,7 +88,6 @@ class ServiceRepository implements ServiceInterface
         $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
         $service->is_favorite = $service->favourite->count() > 0 ? true : false;
         unset($service->favourite);
-
 
         return [
             'success' => true,

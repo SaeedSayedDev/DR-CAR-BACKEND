@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,6 @@ class Favourite extends Model
 
     public function service()
     {
-        return $this->belongsTo(User::class, 'service_id',  'id');
+        return $this->belongsTo(Service::class, 'service_id');
     }
 }

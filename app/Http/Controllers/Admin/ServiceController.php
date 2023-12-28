@@ -76,6 +76,14 @@ class ServiceController extends Controller
         return $this->bookingServiceInterface->getBookingsInGarage();
     }
 
+    public function showBooking($booking_id)
+    {
+        return $this->bookingServiceInterface->showBooking($booking_id);
+    }
+
+   
+
+
 
 
 
