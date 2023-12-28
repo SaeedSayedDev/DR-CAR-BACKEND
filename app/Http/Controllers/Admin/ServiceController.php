@@ -12,6 +12,7 @@ use App\Http\Requests\BookingServiceRequest;
 use App\Http\Requests\CouponRequest;
 use App\Http\Requests\OPtionRequest;
 use App\Http\Requests\payBookingSeriviceRequest;
+use App\Http\Requests\UpdateBookingServiceRequest;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -27,6 +28,10 @@ class ServiceController extends Controller
     public function servicesProvider($provider_id)
     {
         return $this->serviceInterface->servicesProvider($provider_id);
+    }
+    public function indexGarage()
+    {
+        return $this->serviceInterface->indexGarage();
     }
     public function store(ServiceRequest $request)
     {
@@ -55,6 +60,33 @@ class ServiceController extends Controller
     {
         return $this->bookingServiceInterface->payBookingSerivice($request, $service_id);
     }
+
+    public function getBookingsInUser()
+    {
+        return $this->bookingServiceInterface->getBookingsInUser();
+    }
+    public function cancelBooking($booking_id)
+    {
+        return $this->bookingServiceInterface->cancelBooking($booking_id);
+    }
+
+
+    public function getBookingsInGarage()
+    {
+        return $this->bookingServiceInterface->getBookingsInGarage();
+    }
+
+
+
+
+
+
+    public function updateBookingServiceFromGarage(UpdateBookingServiceRequest $request, $booking_id)
+    {
+        return $this->bookingServiceInterface->updateBookingServiceFromGarage($request, $booking_id);
+    }
+
+
     public function success(Request $request)
     {
         return $this->bookingServiceInterface->success($request);

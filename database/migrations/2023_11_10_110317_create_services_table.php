@@ -22,7 +22,6 @@ return new class extends Migration
             $table->time('duration')->nullable();
             $table->boolean('featured')->default(false);
             $table->boolean('enable_booking')->default(false);
-            $table->integer('rating')->nullable();
             $table->boolean('available')->default(true);
 
             $table->unsignedBigInteger('provider_id');

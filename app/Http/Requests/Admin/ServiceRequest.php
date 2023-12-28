@@ -16,7 +16,6 @@ class ServiceRequest extends FormRequest
         request()['items'] = json_decode(request()->items);
 
         return [
-            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'string|required|max:255',
             'desc' => 'string|nullable',
             'price' => 'required|numeric',

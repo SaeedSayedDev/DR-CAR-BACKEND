@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,18 @@ class BookingService extends Model
         'payment_type',
         'payment_id',
         'delivery_car'
-    
+
     ];
+
+    public function serviceProvider()
+    {
+        return $this->belongsTo(Service::class, 'service_id')->where('provider_id', auth()->user()->id);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
+  
+
 }

@@ -9,6 +9,6 @@ class WinchInformation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'winch_id', 'address', 'short_biography', 'phone_number','phone_verified_at','KM_price'
+        'winch_id', 'address', 'short_biography', 'phone_number','phone_verified_at','KM_price','availability_range'
     ];
 }

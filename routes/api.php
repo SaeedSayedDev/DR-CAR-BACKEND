@@ -60,6 +60,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
+        Route::get('services', [ServiceController::class, 'index'])->name('services');
+
         Route::post('review/store', [ReviewController::class, 'store'])->name('review.service');
         Route::put('review/update/{id}', [ReviewController::class, 'update']);
         Route::delete('review/delete/{id}', [ReviewController::class, 'delete']);
@@ -68,14 +70,18 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('favourite/store', [FavouriteController::class, 'store']);
         Route::delete('favourite/delete/{id}', [FavouriteController::class, 'delete']);
 
+        Route::get('user/bookings', [ServiceController::class, 'getBookingsInUser']);
         Route::post('booking/service', [ServiceController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
+        Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
+
 
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
     });
 
 
     Route::group(['middleware' => 'checkTypeProvider'], function () {
+        Route::get('garage/services', [ServiceController::class, 'updateBookingServiceFromGarage'])->name('services.garage');
 
         Route::post('service/store', [ServiceController::class, 'store'])->name('service.store');
         Route::put('service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
@@ -93,6 +99,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('garageData/store', [AuthController::class, 'storeGarageData'])->name('garageData');
         Route::post('availabilityTime/store', [AuthController::class, 'availabilityTime'])->name('availabilityTime');
 
+        Route::get('garage/bookings', [ServiceController::class, 'getBookingsInGarage']);
+        Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
     });
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
@@ -176,4 +184,10 @@ Route::post('/findAddressesNearby', function () {
         ->get();
 
     return $addresses;
+});
+
+Route::get('fixer', function () {
+    $delimiter = ',';
+    $array = explode($delimiter, '1,2,3'); // Split the string into an array
+    return $array;
 });

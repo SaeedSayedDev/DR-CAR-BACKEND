@@ -201,4 +201,28 @@ class AdminTrailt
             'type' => true,
         ],
     ];
+
+    public static $statusOrders = [
+        [
+            'name' => 'Received',
+        ],
+        [
+            'name' => 'Accepted',
+        ],
+        [
+            'name' => 'On the way',
+        ],
+        [
+            'name' => 'Ready',
+        ],
+        [
+            'name' => 'in progress',
+        ],
+        [
+            'name' => 'Done',
+        ],
+        [
+            'name' => 'Failed',
+        ],
+    ];
 }
