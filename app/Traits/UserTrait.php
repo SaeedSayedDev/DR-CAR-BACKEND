@@ -21,7 +21,7 @@ class UserTrait
     ];
 
     public static  $garage_data = [
-        ['availability_range' => '5', 'garage_id' => 2, 'garage_type' => 0, 'tax_id' => 1]
+        ['name' => 'drCar Garage', 'availability_range' => '5', 'garage_id' => 2, 'garage_type' => 0, 'tax_id' => 1]
     ];
     public static $services = [
         [

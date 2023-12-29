@@ -24,9 +24,10 @@ class GarageDataRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|string|min:3',
             'availability_range' => 'required|integer|min:1',
             'garage_type' => 'required|integer|in:0,1',
-            'tax_id'=>'required|exists:taxes,id',
+            'tax_id' => 'required|exists:taxes,id',
         ];
     }
 }

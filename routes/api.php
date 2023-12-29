@@ -78,6 +78,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
 
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
+        Route::get('providers', [ProviderController::class, 'index'])->name('show.provider');
     });
 
 
@@ -183,7 +184,6 @@ Route::get('fixer', function () {
     $delimiter = ',';
     $array = explode($delimiter, '1,2,3'); // Split the string into an array
     return $array;
-
 });
 Route::post('/findAddressesNearby', function () {
     $yourLatitude = request()->input('your_latitude');
@@ -197,4 +197,3 @@ Route::post('/findAddressesNearby', function () {
 
     return $addresses;
 });
-

@@ -19,7 +19,7 @@ class FavouriteController extends Controller
     {
         return $this->favouriteInterface->index();
     }
-    
+
     public function store(FavouriteRequest $request)
     {
         return $this->favouriteInterface->store($request);
