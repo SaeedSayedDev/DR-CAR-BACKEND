@@ -10,7 +10,7 @@ class GarageData extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'availability_range', 'garage_id', 'garage_type', 'tax_id'
+        'name', 'availability_range', 'garage_id', 'garage_type', 'tax_id'
     ];
 
     function user()
