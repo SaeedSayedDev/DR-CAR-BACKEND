@@ -12,12 +12,14 @@ class ProviderController extends Controller
     public function __construct(private ProviderInterface $providerInterface)
     {
     }
+    public function index()
+    {
+        return $this->providerInterface->index();
+
+    }
 
     public function show($id)
     {
         return $this->providerInterface->show($id);
     }
-
-
-  
 }
