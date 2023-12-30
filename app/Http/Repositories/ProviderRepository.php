@@ -18,7 +18,7 @@ class ProviderRepository implements ProviderInterface
 {
     public function index()
     {
-        $garage = GarageData::with('user.media')->with('services.media')->get();
+        $garage = GarageData::with('user.media')->with('user.garage_information')->with('services.media')->with('address')->get();
         return response()->json([
             'data' => $garage,
         ]);
@@ -26,12 +26,15 @@ class ProviderRepository implements ProviderInterface
     public function show($id)
     {
 
-        $garage = GarageData::with('user.media')->with('services.media')->findOrFail($id);
-        // $user->with(match ($user->role_id) {
-        //     3 => 'winch_information',
-        //     4 => 'garage_information',
-        // });
+        $garage = GarageData::with(['user:id,email', 'user.media', 'user.garage_information'])->with('services', function ($q) {
+            $q->with('media')->with('review')->withSum('review', 'review_value')->withCount('review');
+        })->with(['availabilityTime', 'taxe', 'address'])->findOrFail($id);
 
+        $garage->user->phone = $garage->user->garage_information->phone_number;
+        $garage->user->short_biography = $garage->user->garage_information->short_biography;
+        $garage->review = $garage->services->sum('review_count');
+        $garage->rate = $garage->services->sum('review_sum_review_value') /  $garage->review;
+        unset($garage->user->garage_information);
 
         return response()->json([
             'data' => $garage,

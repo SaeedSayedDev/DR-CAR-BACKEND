@@ -22,7 +22,7 @@ class CreateAddressesTable extends Migration
             $table->double('latitude', 20, 17)->default(0);
             $table->double('longitude', 20, 17)->default(0);
 
-            $table->string('type_name'); // user , booking
+            $table->string('type_name'); // user , provider
             $table->unsignedBigInteger('type_id');
 
             $table->timestamps();

@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\FavouriteInterface;
+use App\Models\Admin\Service;
 use App\Models\Favourite;
 use App\Models\User;
 
@@ -42,10 +43,11 @@ class FavouriteRepository implements FavouriteInterface
         return response()->json(['message' => 'only user can add favourite to service'], 404);
     }
 
-    public function delete($favourite_id)
+    public function delete($service_id)
     {
         $user_id = auth()->user()->id;
-        Favourite::where('user_id', $user_id)->findOrFail($favourite_id)->delete();
+        $service = Service::whereHas('favourite_user')->findOrFail($service_id);
+        $service->favourite_user->delete();
         return response()->json(['message' => 'sucsess']);
     }
 }
