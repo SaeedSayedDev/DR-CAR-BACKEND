@@ -26,12 +26,14 @@ class ServiceRepository implements ServiceInterface
             ->withSum('review', 'review_value')
             ->withCount('review')
             ->get()
-            ->map(function ($service) {
-                $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
-                $service->is_favorite = $service->favourite->count() > 0 ? true : false;
-                unset($service->favourite);
-                return  $service;
-            });
+        ->map(function ($service) {
+            $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+            $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+            unset($service->favourite);
+            return  $service;
+        });
+        // $service
+        // dd($services->review_count);
         return ['data' => $services];
         // }
         // return ['message' => 'Please Enter your Address'];
@@ -63,9 +65,8 @@ class ServiceRepository implements ServiceInterface
     }
     public function indexGarage()
     {
-        if (isset(auth()->user()->provider)) {
-
-            $services = Service::where('provider_id', auth()->user()->provider->id)
+        if (isset(auth()->user()->garage_data)) {
+            $services = Service::where('provider_id', auth()->user()->garage_data->id)
                 ->with('media', 'items', 'review')
                 ->withSum('review', 'review_value')
                 ->withCount('review')

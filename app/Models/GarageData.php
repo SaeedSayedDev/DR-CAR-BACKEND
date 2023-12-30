@@ -22,4 +22,17 @@ class GarageData extends Model
     {
         return $this->hasMany(Service::class, 'provider_id');
     }
+    function address()
+    {
+        return $this->hasOne(Address::class, 'type_id')->where('type_name', 'garage');
+    }
+    function availabilityTime()
+    {
+        return $this->hasOne(availabilityTime::class, 'provider_id');
+    }
+
+    function taxe()
+    {
+        return $this->belongsTo(Taxe::class, 'tax_id');
+    }
 }

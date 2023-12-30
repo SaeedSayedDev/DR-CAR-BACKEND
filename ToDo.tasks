@@ -42,6 +42,13 @@ To Do Tasks Extension:
         return service before create service
         get provider
 
+
+        get address in proveder in services
+        show address in proveder in services (rate paorvider,count review ,taxes,avilabilaty hours)
+        
+        awords{title,desc}
+        experince{title,desc}
+        
         Ask:
 
             ☐ handel dashboard admin filse front => for leter

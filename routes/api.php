@@ -60,7 +60,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
-        Route::get('services', [ServiceController::class, 'index'])->name('services');
+        // Route::get('services', [ServiceController::class, 'index'])->name('services');
 
         Route::post('review/store', [ReviewController::class, 'store'])->name('review.service');
         Route::put('review/update/{id}', [ReviewController::class, 'update']);
@@ -68,7 +68,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::get('favourites', [FavouriteController::class, 'index']);
         Route::post('favourite/store', [FavouriteController::class, 'store']);
-        Route::delete('favourite/delete/{id}', [FavouriteController::class, 'delete']);
+        Route::delete('favourite/delete/{service_id}', [FavouriteController::class, 'delete']);
 
         Route::get('user/bookings', [ServiceController::class, 'getBookingsInUser']);
         Route::get('user/booking/show/{booking_id}', [ServiceController::class, 'showBookingInUser']);
@@ -114,7 +114,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::post('change-password', [AuthController::class, 'changePassword']);
 
     Route::get('services', [ServiceController::class, 'index'])->name('services');
-    Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
+    // Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
     Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
 
     // Route::get('chats', [ChatController::class, 'index']);
