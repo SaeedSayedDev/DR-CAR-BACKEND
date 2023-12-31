@@ -14,25 +14,42 @@ class CategoryRepository implements CategoryInterface
 
     public function index()
     {
-        $categories = Category::with('items.media', 'media')->get();
-
+        $categories = Category::with('items.media', 'media')->get()
+            ->map(function ($category) {
+                return  $this->handelTranslatable($category);
+            });
         return response()->json([
             'success' => true,
-            'data' => $categories,
+            'data' =>  $categories,
             "message" => "Categories retrieved successfully"
         ]);
     }
 
+    public function handelTranslatable($data)
+    {
+        $name_en = isset($data->translate('en')->name) ? $data->translate('en')->name : '';
+        $name_ar = isset($data->translate('ar')->name) ? $data->translate('ar')->name : '';
 
+        $desc_en = isset($data->translate('en')->desc) ? $data->translate('en')->desc : '';
+        $desc_ar = isset($data->translate('ar')->desc) ? $data->translate('ar')->desc : '';
+
+        $array = ['en' => $name_en, 'ar' => $name_ar];
+        $data->name = (object) $array;
+
+        $array = ['en' => $desc_en, 'ar' => $desc_ar];
+        $data->desc = (object) $array;
+
+        return $data;
+    }
     public function show($id)
     {
         $category = Category::findOrFail($id)->load('items.media', 'media');
-
+        $category = $this->handelTranslatable($category);
 
         return response()->json([
+            'success' => true,
             'data' => $category,
-
-
+            "message" => "Category retrieved successfully"
         ]);
     }
 
@@ -40,7 +57,6 @@ class CategoryRepository implements CategoryInterface
     public function store($request)
     {
         $requestData = $request->all();
-
         $category = Category::create();
 
         $this->imageService->storeMedia($request, $category->id, 'category', 'public/images/admin/categories', url("api/images/Category/"));

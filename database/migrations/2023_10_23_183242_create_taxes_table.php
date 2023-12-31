@@ -17,7 +17,7 @@ class CreateTaxesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('value');
-            $table->boolean('type')->comment("0 -> percent, 1 -> fixed");
+            $table->string('type')->comment("percent,fixed");
             $table->timestamps();
         });
     }

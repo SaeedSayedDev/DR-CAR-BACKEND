@@ -49,6 +49,11 @@ To Do Tasks Extension:
         awords{title,desc}
         experince{title,desc}
         
+        rate proveder in show service
+        change type in taxe to string
+        
+        avilabilaty hours
+        insert data category and item and service
         Ask:
 
             ☐ handel dashboard admin filse front => for leter
