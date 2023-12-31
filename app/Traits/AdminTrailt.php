@@ -184,21 +184,21 @@ class AdminTrailt
         [
             'name' => 'tax 20',
             'value' => '20',
-            'type' => true,
+            'type' => 'percent',
         ],
         [
             'name' => 'tax 10',
             'value' => '10',
-            'type' => true,
+            'type' => 'percent',
         ],
         [
             'name' => 'maintenance',
             'value' => '0',
-            'type' => true,
+            'type' => 'fixed',
         ], [
             'name' => 'tools fee',
             'value' => '5',
-            'type' => true,
+            'type' => 'fixed',
         ],
     ];
 

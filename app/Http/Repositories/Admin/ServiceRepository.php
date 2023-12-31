@@ -5,16 +5,17 @@ namespace App\Http\Repositories\Admin;
 use App\Http\Interfaces\Admin\ServiceInterface;
 use App\Models\Admin\Service;
 use App\Services\ImageService;
+use App\Services\ProviderService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class ServiceRepository implements ServiceInterface
 {
-    function __construct(private ImageService $imageService)
+    function __construct(private ImageService $imageService, private ProviderService $providerService)
     {
     }
     public function index()
-    {;
+    {
         // if ($userAddress = auth()->user()->address) {
         // function ($q) use ($userAddress) {
         //     $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
@@ -26,12 +27,12 @@ class ServiceRepository implements ServiceInterface
             ->withSum('review', 'review_value')
             ->withCount('review')
             ->get()
-        ->map(function ($service) {
-            $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
-            $service->is_favorite = $service->favourite->count() > 0 ? true : false;
-            unset($service->favourite);
-            return  $service;
-        });
+            ->map(function ($service) {
+                $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                unset($service->favourite);
+                return  $service;
+            });
         // $service
         // dd($services->review_count);
         return ['data' => $services];
@@ -86,9 +87,10 @@ class ServiceRepository implements ServiceInterface
             "message" => "Please Create Garage"
         ];
     }
+
     public function show($id)
     {
-        $service = Service::with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite', 'options.media')
+        $service = Service::with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite', 'options.media', 'review')
             ->withSum('review', 'review_value')
             ->withCount('review')
             ->findOrFail($id);
@@ -97,6 +99,8 @@ class ServiceRepository implements ServiceInterface
         $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
         $service->is_favorite = $service->favourite->count() > 0 ? true : false;
         unset($service->favourite);
+
+        $service->provider = $this->providerService->reviewAndRate($service->provider);
 
         return [
             'success' => true,
