@@ -1,63 +1,44 @@
 To Do Tasks Extension:
     Tasks:
-        ☐ notification model and migration -> Said
-        ☐ chat company to user -> Said
-        ☐ Wallet Model and migration -> see dashboard admin -> Said
+        ✔ notification model and migration -> Said @done (12/31/2023, 5:15:00 PM)
+        ✔ chat company to user -> Said @done (12/31/2023, 5:15:05 PM)
+        ✔ Wallet Model and migration -> see dashboard admin -> Said @done (12/31/2023, 5:15:13 PM)
+        ✔ login api one for user and one for provider @done (12/31/2023, 5:15:17 PM)
+        ✔ midllewere check type user and admin @done (12/31/2023, 5:15:51 PM)
+        ✔ Edit in user info and all proveder info -> add inputs profile -> user and grage and wench @done (12/31/2023, 5:15:53 PM)
+        ✔ favorite Service (add,delete,get) @done (12/31/2023, 5:15:56 PM)
+        ✔ review service (add , get ) @done (12/31/2023, 5:16:00 PM)
+        ✔ booking user (banding,booking) @done (12/31/2023, 5:16:02 PM)
+        ✔ coupon @done (12/31/2023, 5:16:04 PM)
+        ✔ status order @done (12/31/2023, 5:16:08 PM)
+        ✔ slides @done (12/31/2023, 5:16:11 PM)
+        ✔ payment use (stripe,paypal) @done (12/31/2023, 5:16:16 PM)
+        ✔ payment methods from admin (udpdate from admin) @done (12/31/2023, 5:16:24 PM)
+        ✔ paypal finish @done (12/31/2023, 5:16:40 PM)
+        ✔ fcs token firebase @done (12/31/2023, 5:16:43 PM)
+        ✔ wallet ايداع وسحب @done (12/31/2023, 5:16:45 PM)
+        ✔ notification @done (12/31/2023, 5:16:49 PM)
+        ✔ urlImage In categories -> said @done (12/31/2023, 5:16:53 PM)
+        ✔ send rest email -> said @done (12/31/2023, 5:16:55 PM)
+        ✔ transletion all object in value -> said @done (12/31/2023, 5:16:58 PM)
+        ✔ address @done (12/31/2023, 5:17:01 PM)
+        ✔ return Success True or False @done (12/31/2023, 5:17:04 PM)
+        ✔ get relishan service in item show @done (12/31/2023, 5:17:06 PM)
+        ✔ insert data in service and slides @done (12/31/2023, 5:17:11 PM)
+        ✔ return service before create service @done (12/31/2023, 5:17:14 PM)
+        ✔ get provider @done (12/31/2023, 5:17:16 PM)
+        ✔ get address in proveder in services @done (12/31/2023, 5:17:23 PM)
+        ✔ show address in proveder in services (rate paorvider,count review ,taxes,avilabilaty hours) @done (12/31/2023, 5:17:19 PM)
+        ✔ rate proveder in show service @done (12/31/2023, 5:17:28 PM)
+        ✔ change type in taxe to string @done (12/31/2023, 5:17:31 PM)
         
+        ☐ avilabilaty hours
+        ☐ insert data category and item and service
+        ☐ test awords{title,desc}
+        ☐ test experince{title,desc}
+        ☐ me data user
+        ☐ remove review
+        ☐ image wansh
+    Ask:
 
-
-        ☐ login api one for user and one for provider
-        ☐ midllewere check type user and admin
-        ☐ Edit in user info and all proveder info -> add inputs profile -> user and grage and wench
-        ☐ favorite Service (add,delete,get)
-        ☐ review service (add , get )
-
-        ☐ booking user (banding,booking)
-        
-        ☐ coupon
-        ☐ status order
-
-        
-        
-        ☐ slides
-        ☐ payment use (stripe,paypal)
-        ☐ payment methods from admin (udpdate from admin)
-        ☐ paypal finish
-        
-        ☐ fcs token firebase
-       
-        ☐ wallet ايداع وسحب
-        ☐ notification
-
-
-        ☐ urlImage In categories -> said
-        ☐ send rest email -> said
-        ☐ transletion all object in value -> said
-        ☐ address
-    ☐ return Success True or False
-        ☐ get relishan service in item show
-        ☐ insert data in service and slides
-
-
-        return service before create service
-        get provider
-
-
-        get address in proveder in services
-        show address in proveder in services (rate paorvider,count review ,taxes,avilabilaty hours)
-        
-        awords{title,desc}
-        experince{title,desc}
-        
-        rate proveder in show service
-        change type in taxe to string
-        
-        avilabilaty hours
-        insert data category and item and service
-        Ask:
-
-            ☐ handel dashboard admin filse front => for leter
-
-            fixed and hourly in service
-            confirm booking ?
 
