@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TaxeController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
@@ -78,7 +79,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
 
         Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
-        Route::get('providers', [ProviderController::class, 'index'])->name('show.provider');
+        Route::get('providers', [ProviderController::class, 'index'])->name('providers');
     });
 
 
@@ -107,6 +108,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
     });
 
+    Route::get('notifications', [NotificationController::class, 'index']);
     Route::get('booking/show/{booking_id}', [ServiceController::class, 'showBooking']);
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
@@ -197,3 +199,6 @@ Route::post('/findAddressesNearby', function () {
 
     return $addresses;
 });
+
+
+Route::get('testNotification', [SettingController::class, 'testNotification']);

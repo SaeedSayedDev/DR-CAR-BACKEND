@@ -30,8 +30,14 @@ class NotificationService
         $data = [
             "registration_ids" => $firebaseTokens,
             "notification" => [
-                'title' => $body['notification_type'],
-                'body' => $body['text']
+                'title' => [
+                    'en' => $body['notification_type_en'], // English title
+                    'ar' => $body['notification_type_ar'] // Arabic title
+                ],
+                'body' => [
+                    'en' => $body['text_en'], // English body
+                    'ar' => $body['text_ar'] // Arabic body
+                ]
             ]
         ];
         $dataString = json_encode($data);
