@@ -76,10 +76,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('booking/service', [ServiceController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
         Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
-
-
-        Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
-        Route::get('providers', [ProviderController::class, 'index'])->name('providers');
     });
 
 
@@ -115,10 +111,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::post('change-password', [AuthController::class, 'changePassword']);
 
-    Route::get('services', [ServiceController::class, 'index'])->name('services');
-    // Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
-    Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
-
     // Route::get('chats', [ChatController::class, 'index']);
     // Route::post('chat/store', [ChatController::class, 'store']);
     // Route::get('chat/show/{chat_id}', [ChatController::class, 'show']);
@@ -137,7 +129,12 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::get('addresses', [AddressController::class, 'index']);
     Route::post('address/store', [AddressController::class, 'store']);
 });
+Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
+Route::get('providers', [ProviderController::class, 'index'])->name('providers');
 
+Route::get('services', [ServiceController::class, 'index'])->name('services');
+Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
+// Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
 
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
 Route::post('category/store', [CategoryController::class, 'store'])->name('category.store');
