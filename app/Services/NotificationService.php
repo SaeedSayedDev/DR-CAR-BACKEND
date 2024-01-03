@@ -12,7 +12,7 @@ class NotificationService
 
     public function notification($type_id, $type_name, $text_en, $text_ar, $notification_type_en, $notification_type_ar, $api, $reciver_id)
     {
-        $firebaseTokens = FirbaseToken::where('user_type', false)->where('user_id', $reciver_id)->pluck('fcsToken')->all();
+        $firebaseTokens = FirbaseToken::where('user_id', $reciver_id)->pluck('fcsToken')->all();
         $body = [
             'type_id' => $type_id,
             'creator_name' => $type_name,
