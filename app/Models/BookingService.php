@@ -12,7 +12,7 @@ class BookingService extends Model
     public $fillable = [
         'user_id',
         'service_id',
-        'address',
+        'address_id',
         'hint',
         'coupon',
         'as_soon_as',
@@ -34,18 +34,23 @@ class BookingService extends Model
 
     public function serviceProvider()
     {
-        return $this->belongsTo(Service::class, 'service_id')->where('provider_id', auth()->user()->id);
+        return $this->belongsTo(Service::class, 'service_id')->where('provider_id', auth()->user()->garage_data->id);
     }
 
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_id');
     }
-  
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function booking_winch()
+    {
+        return $this->hasOne(BookingWinch::class, 'booking_service_id')->where('order_status_id', '>', 1)->where('order_status_id', '<', 6)
+            ->where('cancel', false)
+            ->where('payment_stataus', 'unpaid');
+    }
 }
-
