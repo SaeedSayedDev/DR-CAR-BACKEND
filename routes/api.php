@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StatusOrderController;
 use App\Http\Controllers\Admin\TaxeController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ImageController;
@@ -71,11 +72,14 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('favourite/store', [FavouriteController::class, 'store']);
         Route::delete('favourite/delete/{service_id}', [FavouriteController::class, 'delete']);
 
-        Route::get('user/bookings', [ServiceController::class, 'getBookingsInUser']);
-        Route::get('user/booking/show/{booking_id}', [ServiceController::class, 'showBookingInUser']);
-        Route::post('booking/service', [ServiceController::class, 'bookingService']);
-        Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
-        Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
+        Route::get('user/bookings', [BookingController::class, 'getBookingsInUser']);
+        Route::get('user/booking/show/{booking_id}', [BookingController::class, 'showBookingInUser']);
+        Route::post('booking/service', [BookingController::class, 'bookingService']);
+        Route::post('pay/booking/service/{id}', [BookingController::class, 'payBookingSerivice']);
+        Route::put('cancel/booking/{booking_id}', [BookingController::class, 'cancelBooking']);
+
+        Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
+
     });
 
 
@@ -100,12 +104,12 @@ Route::group(['middleware' => 'apiAuth'], function () {
         // 
         Route::get('taxes', [TaxeController::class, 'index']);
 
-        Route::get('garage/bookings', [ServiceController::class, 'getBookingsInGarage']);
-        Route::post('garage/updateBooking/{id}', [ServiceController::class, 'updateBookingService']);
+        Route::get('garage/bookings', [BookingController::class, 'getBookingsInGarage']);
+        Route::post('garage/updateBooking/{id}', [BookingController::class, 'updateBookingServiceFromGarage']);
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
-    Route::get('booking/show/{booking_id}', [ServiceController::class, 'showBooking']);
+    Route::get('booking/show/{booking_id}', [BookingController::class, 'showBooking']);
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
 

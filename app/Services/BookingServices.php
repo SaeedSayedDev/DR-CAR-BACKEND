@@ -4,9 +4,9 @@ namespace App\Services;
 
 class BookingServices
 {
-    function updateBookingService($bookingService, $payment_type, $payment_id)
+    function updateBooking($booking, $payment_type, $payment_id)
     {
-        return  $bookingService->update(
+        return  $booking->update(
             [
                 'payment_type' => $payment_type,
                 'payment_stataus' => 'paid',
