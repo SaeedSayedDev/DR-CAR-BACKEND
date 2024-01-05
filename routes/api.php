@@ -80,6 +80,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
 
+
     });
 
 
