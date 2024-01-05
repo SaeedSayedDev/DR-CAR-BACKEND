@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Models\Address;
 use Illuminate\Support\Facades\Route;
 
@@ -16,13 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('success', [ServiceController::class, 'success']);
+Route::get('success', [BookingController::class, 'success']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
 
 
 Route::get('reset-password/{otp}', [AuthController::class, 'pageResetPassword'])->name('page.resetPassword');
 
-Route::get('error', [ServiceController::class, 'error']);
+Route::get('error', [BookingController::class, 'error']);
 
 Route::get('/calculateDistance', function () {
     function calculateDistance($lat1, $lon1, $lat2, $lon2)

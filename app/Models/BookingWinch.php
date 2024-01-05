@@ -11,11 +11,10 @@ class BookingWinch extends Model
     public $fillable = [
         'user_id',
         'winch_id',
-        'address',
-        'hint',
+        'address_id',
+        'booking_service_id',
 
         'order_status_id',
-        'taxes',
         'cancel',
 
         'payment_stataus',

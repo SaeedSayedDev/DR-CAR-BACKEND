@@ -193,9 +193,10 @@ class AdminTrailt
         ],
         [
             'name' => 'maintenance',
-            'value' => '0',
+            'value' => '2',
             'type' => 'fixed',
-        ], [
+        ],
+        [
             'name' => 'tools fee',
             'value' => '5',
             'type' => 'fixed',

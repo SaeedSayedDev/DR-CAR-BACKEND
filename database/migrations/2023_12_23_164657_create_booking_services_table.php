@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('booking_services', function (Blueprint $table) {
             $table->id();
 
-            $table->longText('address');
             $table->text('hint')->nullable();
             $table->smallInteger('quantity')->default(1);
             $table->integer('order_status_id')->default(1);
@@ -34,6 +33,9 @@ return new class extends Migration
             // $table->dateTime('start_at')->nullable();
             // $table->dateTime('ends_at')->nullable();
             // 'payment_id',
+
+            $table->unsignedBigInteger('address_id');
+            $table->foreign('address_id')->references('id')->on('addresses');
 
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');

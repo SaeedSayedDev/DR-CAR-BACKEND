@@ -100,6 +100,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\OptionInterface',
             'App\Http\Repositories\OptionRepository'
         );
+
+        $this->app->bind(
+            'App\Http\Interfaces\BookingWinchInterface',
+            'App\Http\Repositories\BookingWinchRepository'
+        );
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Models\GarageInformation;
 use App\Models\Slide;
 use App\Models\User;
 use App\Models\UserInformation;
+use App\Models\WinchInformation;
 use App\Traits\UserTrait;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,6 +33,11 @@ class UserSeeder extends Seeder
         $garage_informations = UserTrait::$garage_information;
         foreach ($garage_informations as $garage_information) {
             GarageInformation::create($garage_information);
+        }
+
+        $winch_informations = UserTrait::$winch_information;
+        foreach ($winch_informations as $winch_information) {
+            WinchInformation::create($winch_information);
         }
 
         $all_garage_data = UserTrait::$garage_data;

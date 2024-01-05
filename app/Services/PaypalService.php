@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\BookingService;
+use App\Models\BookingWinch;
 use App\Services\BookingServices;
 use Exception;
 use Illuminate\Http\Request;
@@ -61,6 +62,7 @@ class PaypalService
         ];
     }
 
+
     public function success(Request $request)
     {
         try {
@@ -76,10 +78,18 @@ class PaypalService
                 $net_aed = $this->convertCurrencyService->convertAmountFromUSDToAED($retrieveOrder['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value']);
                 if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'booking') {
 
-                    $booking_service = BookingService::find($retrieveOrder['purchase_units'][0]['custom_id']);
-                    $this->bookingService->updateBookingService($booking_service, 1, $request['token']);
+                    $booking_service = BookingService::with('booking_winch')->find($retrieveOrder['purchase_units'][0]['custom_id']);
+
+                    // $bookingWinch =  BookingWinch::where('booking_service_id', $booking_service->id)
+                    //     ->where('order_status_id', '>', 1)->where('order_status_id', '<', 6)
+                    //     ->where('cancel', false)
+                    //     ->where('payment_stataus', 'unpaid')
+                    //     ->first();
+
+                    $this->bookingService->updateBooking($booking_service, 1, $request['token']);
+                    isset($booking_service->bookingWinch) ?  $this->bookingService->updateBooking($booking_service->bookingWinch, 1, $request['token']) : null;
                     $this->walletService->updateWallet($booking_service->user_id, $net_aed);
-                } else if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'user') {
+                } else if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'user')/* wallet == user  */ {
                     $this->walletService->updateWallet($retrieveOrder['purchase_units'][0]['custom_id'], $net_aed);
                 }
                 DB::commit();
@@ -91,6 +101,7 @@ class PaypalService
             return response()->json(['message' => $e->getMessage()], 404);
         }
     }
+
 
 
     function capture_and_retrieve_order($order_id)

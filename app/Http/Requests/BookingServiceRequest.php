@@ -23,14 +23,14 @@ class BookingServiceRequest extends FormRequest
     {
         return [
             'service_id' => 'required|integer|exists:services,id',
-            'address' => 'required|string',
+            'address_id' => 'required|integer|exists:addresses,id',
             'hint' => 'nullable|string',
             'coupon' => 'nullable|string|exists:coupons,coupon',
             'as_soon_as' => 'required|boolean',
             'come_to_address_date' => 'required_if:as_soon_as,==,1|string',
             'quantity' => 'nullable|integer',
-            'delivery_car'=>'required|boolean'
-            
+            'delivery_car' => 'required|boolean'
+
         ];
     }
 }
