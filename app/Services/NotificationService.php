@@ -31,7 +31,7 @@ class NotificationService
             "registration_ids" => $firebaseTokens,
             "notification" => [
                 'title' => [
-                    'en' => $body['notification_type_en'], // English title
+                    'en' => $body['notification_type_en'], // English titlea
                     'ar' => $body['notification_type_ar'] // Arabic title
                 ],
                 'body' => [

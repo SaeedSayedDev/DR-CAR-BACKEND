@@ -12,7 +12,7 @@ class NotificationController extends Controller
     public function index()
     {
         $user = auth()->user();
-
+        
         return response()->json([
             'data' => Notification::where('user_id', $user->id)->get()
         ]);
