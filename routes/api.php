@@ -72,7 +72,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::delete('favourite/delete/{service_id}', [FavouriteController::class, 'delete']);
 
         Route::get('user/bookings', [ServiceController::class, 'getBookingsInUser']);
-        Route::get('user/booking/show/{booking_id}', [ServiceController::class, 'showBookingInUser']);
+        // Route::get('user/booking/show/{booking_id}', [ServiceController::class, 'showBookingInUser']);
         Route::post('booking/service', [ServiceController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [ServiceController::class, 'payBookingSerivice']);
         Route::put('cancel/booking/{booking_id}', [ServiceController::class, 'cancelBooking']);
