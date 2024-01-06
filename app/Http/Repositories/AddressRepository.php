@@ -23,7 +23,10 @@ class AddressRepository implements AddressInterface
         $data = $this->checkRole($user, $data);
         if ($user->role_id == 4) {
             $data['type_name'] = 'garage';
-            $data['type_id'] = $user->garage_data->id;
+            $user->garage_data ? $data['type_id'] = $user->garage_data->id : null;
+            if (!$data['type_id']) {
+                return response()->json(["success" => false, "message" => "Please Create Your Garge"]);
+            }
         }
         $data = Address::updateOrCreate(['type_name' => $data['type_name'], 'type_id' => $data['type_id'],], $data);
         return response()->json(["success" => true, 'data' => $data, "message" => "Address Updated successfully"]);

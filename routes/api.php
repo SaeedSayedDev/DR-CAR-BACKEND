@@ -72,6 +72,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('favourite/store', [FavouriteController::class, 'store']);
         Route::delete('favourite/delete/{service_id}', [FavouriteController::class, 'delete']);
 
+
         Route::get('user/bookings', [BookingController::class, 'getBookingsInUser']);
         Route::get('user/booking/show/{booking_id}', [BookingController::class, 'showBookingInUser']);
         Route::post('booking/service', [BookingController::class, 'bookingService']);
@@ -79,7 +80,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('cancel/booking/{booking_id}', [BookingController::class, 'cancelBooking']);
 
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
-
 
     });
 
