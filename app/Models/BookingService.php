@@ -15,8 +15,9 @@ class BookingService extends Model
         'address_id',
         'hint',
         'coupon',
-        'as_soon_as',
+        // 'as_soon_as',
         'come_to_address_date', //required if as_soon_as false
+        'booking_at',
         'quantity', // required if unit price in service is fixed
         'order_status_id',
         // 'payment_id',

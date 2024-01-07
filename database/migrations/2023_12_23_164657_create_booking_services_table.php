@@ -20,6 +20,7 @@ return new class extends Migration
             $table->Text('coupon')->nullable();
             $table->boolean('as_soon_as')->default(1);
             $table->boolean('come_to_address_date')->nullable(); //required if as_soon_as false
+            $table->dateTime('booking_at')->nullable();
 
             $table->string('taxes')->nullable();
             $table->boolean('cancel')->default(0);
@@ -34,8 +35,8 @@ return new class extends Migration
             // $table->dateTime('ends_at')->nullable();
             // 'payment_id',
 
-            $table->unsignedBigInteger('address_id');
-            $table->foreign('address_id')->references('id')->on('addresses');
+            // $table->unsignedBigInteger('address_id');
+            // $table->foreign('address_id')->references('id')->on('addresses');
 
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');
