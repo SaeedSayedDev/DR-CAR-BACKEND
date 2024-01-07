@@ -32,7 +32,7 @@ class BookingServiceRequest extends FormRequest
             'coupon' => 'nullable|string|exists:coupons,coupon',
             // 'as_soon_as' => 'required|boolean',
             'come_to_address_date' => 'nullable|string',
-            'booking_at' => 'nullable|date|date_format:Y-m-d H:i:s|after:' . now(),
+            'booking_at' => 'nullable|date|after:' . now(),
             'quantity' => 'nullable|integer',
             'delivery_car' => 'required|boolean',
             'address' => 'nullable|array',
