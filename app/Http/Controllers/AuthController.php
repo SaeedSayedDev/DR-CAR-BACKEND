@@ -91,11 +91,11 @@ class AuthController extends Controller
     //garage data 
     public function storeGarageData(GarageDataRequest $request)
     {
+        // dd('garageData');
         return $this->accountInterface->storeGarageData($request);
     }
     public function availabilityTime(availabilityTimeRequest $request)
     {
         return $this->accountInterface->availabilityTime($request);
     }
-    
 }

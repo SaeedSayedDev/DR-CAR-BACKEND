@@ -84,7 +84,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function address()
     {
-        return $this->hasOne(Address::class, 'type_id',  'id')->where('type_name', 'user');
+        return $this->hasMany(Address::class, 'user_id',  'id');
     }
 
     public function userRole()

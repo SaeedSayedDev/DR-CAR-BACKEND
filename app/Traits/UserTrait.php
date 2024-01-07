@@ -24,9 +24,11 @@ class UserTrait
     public static  $winch_information = [
         ['phone_number' => '010965050093', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'winch_id' => 3]
     ];
-
+    public static  $addresses = [
+        ['address' => 'السياحى كوبري المثلث مدخل هرم, المريوطيه طريق, السياحي, الهرم، محافظة الجيزة 12919', 'latitude' => 29.817446293635328, 'longitude' => 31.23809960860361, 'user_id' => 2]
+    ];
     public static  $garage_data = [
-        ['name' => 'drCar Garage', 'availability_range' => '5', 'garage_id' => 2, 'garage_type' => 0, 'tax_id' => 1]
+        ['name' => 'drCar Garage', 'availability_range' => '5', 'garage_id' => 2, 'garage_type' => 0, 'tax_id' => 1, 'address_id' => 1]
     ];
     public static $services = [
         [

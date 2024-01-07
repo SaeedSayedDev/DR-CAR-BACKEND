@@ -10,7 +10,7 @@ class GarageData extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'availability_range', 'garage_id', 'garage_type', 'tax_id'
+        'name', 'availability_range', 'garage_id', 'garage_type', 'tax_id', 'address_id'
     ];
 
     function user()
@@ -24,7 +24,7 @@ class GarageData extends Model
     }
     function address()
     {
-        return $this->hasOne(Address::class, 'type_id')->where('type_name', 'garage');
+        return $this->belongsTo(Address::class, 'address_id');
     }
     function availabilityTime()
     {
