@@ -32,7 +32,9 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInUser()
     {
-        $bookings = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')->get();
+        $bookings = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')
+            ->with('address')
+            ->get();
         return response()->json([
             'success' => true,
             'data' => $bookings,
