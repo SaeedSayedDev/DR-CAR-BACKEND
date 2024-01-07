@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\BookingServiceInterface;
 use App\Http\Interfaces\FavouriteInterface;
+use App\Models\Address;
 use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\BookingService;
@@ -44,31 +45,15 @@ class BookingServiceRepository implements BookingServiceInterface
     public function bookingService($request)
     {
         $service =  Service::where('enable_booking', true)->findOrFail($request->service_id);
-        if (isset($request->quantity) and $service->price_unit == 1)
-            $service_price = $service->discount_price * $request->quantity;
-        else
-            $service_price = $service->discount_price;
+        $service_price = $this->bookingService->priceBooking($request, $service);
+        $bookingData = $this->bookingService->bookingData($request, $service_price);
 
-
-        if (isset($request->coupon)) {
-            $coupon = Coupon::where('coupon', $request->coupon)->where('provider_id', $service->provider->garage_id)->first();
-            if ($coupon->coupon_unit == 0)
-                $service_price = $service_price - $coupon->coupon_price;
-            elseif ($coupon->coupon_unit == 1)
-                $service_price = $service_price - $coupon->coupon_price / 100 * $service_price;
-        }
-
-        $requestData = $request->all();
-        $requestData['payment_amount'] = $service_price;
-        $requestData['user_id'] = auth()->user()->id;
-
-        $bookingService = BookingService::create($requestData);
-
-        $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
+        $this->bookingService->addressBooking($request);
+        $this->notification($bookingData->id, auth()->user()->id, auth()->user()->full_name);
 
         return response()->json([
             'success' => true,
-            'data' => $requestData,
+            'data' => $bookingData,
             "message" => "Bookings retrieved successfully"
         ]);
     }
@@ -85,7 +70,7 @@ class BookingServiceRepository implements BookingServiceInterface
             ->where('cancel', false)
             ->findOrFail($booking_service_id);
 
-            $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
+        $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
 
 
         $payment_method =  PaymentMethod::where('enabled', 1)->where('payment_type', $request->payment_type)->firstOrFail();
@@ -169,7 +154,6 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInGarage()
     {
-
         $bookings = BookingService::whereHas('serviceProvider')->with('serviceProvider.media', 'serviceProvider.provider:id,full_name')->get();
         return response()->json([
             'success' => true,

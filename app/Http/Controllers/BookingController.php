@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function __construct(private BookingServiceInterface $bookingServiceInterface,private BookingWinchInterface $bookingWinchInterface)
+    public function __construct(private BookingServiceInterface $bookingServiceInterface, private BookingWinchInterface $bookingWinchInterface)
     {
     }
 
@@ -67,5 +67,4 @@ class BookingController extends Controller
     {
         return $this->bookingWinchInterface->bookingWinch($request);
     }
-    
 }

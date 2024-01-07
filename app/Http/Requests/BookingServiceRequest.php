@@ -21,15 +21,26 @@ class BookingServiceRequest extends FormRequest
      */
     public function rules(): array
     {
+        $checkRerequiredData = 'nullable';
+
+        if (request()->address) {
+            $checkRerequiredData = 'required';
+        }
         return [
             'service_id' => 'required|integer|exists:services,id',
-            'address_id' => 'required|integer|exists:addresses,id',
             'hint' => 'nullable|string',
             'coupon' => 'nullable|string|exists:coupons,coupon',
-            'as_soon_as' => 'required|boolean',
-            'come_to_address_date' => 'required_if:as_soon_as,==,1|string',
+            // 'as_soon_as' => 'required|boolean',
+            'come_to_address_date' => 'nullable|string',
+            'booking_at' => 'nullable|date|date_format:Y-m-d H:i:s|after:' . now(),
             'quantity' => 'nullable|integer',
-            'delivery_car' => 'required|boolean'
+            'delivery_car' => 'required|boolean',
+            'address' => 'nullable|array',
+            'address.address' =>  "$checkRerequiredData|min:5",
+            'address.latitude' => "$checkRerequiredData|numeric",
+            'address.longitude' => "$checkRerequiredData|numeric",
+            'address.description' => 'nullable|string|min:5',
+
 
         ];
     }

@@ -56,8 +56,8 @@ class PaypalService
                 ]
             ],
             'application_context' => [
-                'return_url' => 'http://127.0.0.1:8000/success',
-                'cancel_url' => 'http://127.0.0.1:8000/error'
+                'return_url' => url('success'),
+                'cancel_url' => url('error')
             ]
         ];
     }
