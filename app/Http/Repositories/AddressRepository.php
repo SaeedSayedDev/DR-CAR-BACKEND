@@ -10,8 +10,7 @@ class AddressRepository implements AddressInterface
     public function index()
     {
         $user = auth()->user();
-        $data = $this->checkRole($user);
-        $address = Address::where('type_id', $data['type_id'])->where('type_name', $data['type_name'])->get();
+        $address = Address::where('user_id', $user->id)->get();
 
         return response()->json(['data' => $address]);
     }
@@ -20,11 +19,8 @@ class AddressRepository implements AddressInterface
     {
         $user = auth()->user();
         $data = $request->all();
-        $data = $this->checkRole($user, $data);
-        if ($data['type_id'] == -1) {
-            return response()->json(["success" => false, "message" => "Please Create Garege"]);
-        }
-        $data = Address::updateOrCreate(['type_name' => $data['type_name'], 'type_id' => $data['type_id'],], $data);
+        $data = $user->role_id == 4 ? Address::create($data) :
+            Address::updateOrCreate(['user_id' => $user->id], $data);
         return response()->json(["success" => true, 'data' => $data, "message" => "Address Updated successfully"]);
     }
 

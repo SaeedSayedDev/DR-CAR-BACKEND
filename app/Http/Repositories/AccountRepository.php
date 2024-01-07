@@ -14,8 +14,6 @@ class AccountRepository implements AccountInterface
     {
     }
 
-
-
     public function update($request)
     {
         $requestData = request()->all();

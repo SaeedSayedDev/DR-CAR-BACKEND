@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\Admin\Service;
 use App\Models\GarageData;
 use App\Models\GarageInformation;
@@ -38,6 +39,11 @@ class UserSeeder extends Seeder
         $winch_informations = UserTrait::$winch_information;
         foreach ($winch_informations as $winch_information) {
             WinchInformation::create($winch_information);
+        }
+
+        $addresses = UserTrait::$addresses;
+        foreach ($addresses as $address) {
+            Address::create($address);
         }
 
         $all_garage_data = UserTrait::$garage_data;
