@@ -54,8 +54,7 @@ class BookingServices
             $data = $request['address'];
             $data['user_id'] =  auth()->id();
 
-            $Address = Address::updateOrCreate(['user_id' => auth()->id()], $data);
-            dd($Address);
+            Address::updateOrCreate(['user_id' => auth()->id()], $data);
         }
     }
 }
