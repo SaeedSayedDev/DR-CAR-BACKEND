@@ -169,8 +169,11 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function showBooking($booking_id)
     {
+        // dd(auth()->user()->user_information);
         $bookingService = BookingService::whereHas('serviceProvider')
-            ->orWhereHas('user')->where('user_id', auth()->user()->id)->with('service.media')->findOrFail($booking_id);
+            ->orWhereHas('user')->where('user_id', auth()->user()->id)
+            ->with(['user:id', 'user.user_information', 'service.media', 'address', 'status_order'])
+            ->findOrFail($booking_id);
         return response()->json([
             'success' => true,
             'data' => $bookingService,

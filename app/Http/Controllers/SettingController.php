@@ -19,8 +19,9 @@ class SettingController extends Controller
     {
         //user booked employee ,we should send notification to employeeُ s company 
         // $user = auth()->user();
+        // $firebaseTokens = ['ekCAc2JbGGc5GP6mFiPJnz:APA91bFWqktUZUFZfkMh15vBdsbNxGZsbSzctaCEnCR__s09-l4gwaTL44cmF4QMVMamDuP6ckPuGJAgbpzTqf95Tj7rJ-w_ABiuCgsWnvoLwDLV7talyDYH9bAn6X6ZF-A1vu9a0YIx'];
 
-        $firebaseTokens = ['fVWQpAkjyyzl2ARX2w8ERZ:APA91bGYEms0s35MSbFtuTLtDiQ6R_mkQIh2dr3kFi5hlXVPm-vec71sWDHYnKlCL4snoKX_ItS46JPzBgqvMTme5Swsjf9T6Tdk-O43l9jxm5wUriNJxcSV4-6RCzCGTPJh90xdBNo0'];
+        $firebaseTokens = ['cI2Jh9lqUERtzQKqMyYFyV:APA91bGa1Avjde8HLC2c1E4hgvQlQhOuuDbf0oz6JGv2k2DW_SZ5SL7JV_OZEZkoq48nl2uphQMhmmK9yw2SiPyplCp7K-sXd2RRu8sgr3BAa6l-8mEfu9xTNUtQGU3tNg9SVInUFSRE'];
         $body = [
             'type_id' => 1,
             'creator_name' => 'test noti',
@@ -32,7 +33,10 @@ class SettingController extends Controller
             'api' => 'api_test',
         ];
         DB::beginTransaction();
-        $Firbase_API_KEY = 'AAAAbOBP3Tg:APA91bG4xtId8xJneVeIq3ThmAKhKkm7U3VyHoTlgK0J_R238FyEKQ1y36LzN0rZsrXrighQX7IvBY3VJ1_yPHPOVpUDPP9JrBLSFZeb3fAu-aEvU5I6M_VjxoT0xq26dNsmaDQAIADe';
+        $Firbase_API_KEY = 'AAAASG3qqzk:APA91bEXfBwjnfT4wgcEteBvRt5pfS-zxevfLFCbPWBx8HXeoVRlpfVymQeY_9ktxaLCXPtquweBrhaomIaidpE_cbcR7SZwbVdbQN5y5hGE_AAusGSNv5uvddL7zLB1tHbJlz2wtGgO';
+        // 'AAAASG3qqzk:APA91bE5-yKsR2GwB-p8ClJRg2oFqE7ERrIWSEOoksfDUuoXtktD4flDlnO-bQUu09k8VErtFxf9veZt70X6PZ6tCSfQ4ev3Ugg9Vz0BoTS34Ggn_HMnztj__0uGcnv_y_1fxuOXcTBR';
+
+        // $Firbase_API_KEY = 'AAAAbOBP3Tg:APA91bG4xtId8xJneVeIq3ThmAKhKkm7U3VyHoTlgK0J_R238FyEKQ1y36LzN0rZsrXrighQX7IvBY3VJ1_yPHPOVpUDPP9JrBLSFZeb3fAu-aEvU5I6M_VjxoT0xq26dNsmaDQAIADe';
 
         $data = [
             "registration_ids" => $firebaseTokens,
@@ -48,7 +52,6 @@ class SettingController extends Controller
             ]
         ];
         $dataString = json_encode($data);
-
         $headers = [
             'Authorization: key=' . $Firbase_API_KEY,
             'Content-Type: application/json',
@@ -62,8 +65,8 @@ class SettingController extends Controller
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-        curl_exec($ch);
+        $response = curl_exec($ch);
+        $response = json_decode($response);
         DB::commit();
         // event(new NotificationEvent($user->id));
         // event(new NotificationEvent($employee->company->id));

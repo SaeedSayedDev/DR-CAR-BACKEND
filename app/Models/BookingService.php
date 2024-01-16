@@ -59,4 +59,9 @@ class BookingService extends Model
             ->where('cancel', false)
             ->where('payment_stataus', 'unpaid');
     }
+    public function status_order()
+    {
+        return $this->belongsTo(User::class, 'order_status_id');
+    }
+    
 }

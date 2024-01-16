@@ -74,7 +74,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
 
         Route::get('user/bookings', [BookingController::class, 'getBookingsInUser']);
-        Route::get('user/booking/show/{booking_id}', [BookingController::class, 'showBookingInUser']);
+        // Route::get('user/booking/show/{booking_id}', [BookingController::class, 'showBookingInUser']);
         Route::post('booking/service', [BookingController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [BookingController::class, 'payBookingSerivice']);
         Route::put('cancel/booking/{booking_id}', [BookingController::class, 'cancelBooking']);
