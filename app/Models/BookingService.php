@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Admin\Service;
+use App\Models\Admin\StatusOrder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -61,7 +62,6 @@ class BookingService extends Model
     }
     public function status_order()
     {
-        return $this->belongsTo(User::class, 'order_status_id');
+        return $this->belongsTo(StatusOrder::class, 'order_status_id');
     }
-    
 }
