@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DR Car</title>
-    <link rel="icon" type="image/png" href=""/>
+    <title>{{env('app_name')}} | {{env('app_short_description')}}</title>
+    <link rel="icon" type="image/png" href="{{$app_logo ?? ''}}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,600&display=fallback">
     <link rel="stylesheet" href="{{asset('vendor/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css')}}">
@@ -15,7 +15,7 @@
 <body class="hold-transition login-page">
 <div class="login-box" @if(isset($width)) style="width:{{$width}}" @endif>
     <div class="login-logo">
-        <a href="{{ url('/') }}"><img src="" alt=""></a>
+        {{-- <a href="{{ url('/') }}"><img src="{{$app_logo}}" alt="{{env('app_name')}}"></a> --}}
     </div>
     <!-- /.login-logo -->
     <div class="card shadow-sm">

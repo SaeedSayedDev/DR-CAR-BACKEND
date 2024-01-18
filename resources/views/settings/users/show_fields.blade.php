@@ -8,9 +8,9 @@
 
 <!-- Name Field -->
 <div class="form-group row col-6">
-    {!! Form::label('name', 'Name:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+    {!! Form::label('full_name', 'Name:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
-        <p>{!! $user->name !!}</p>
+        <p>{!! $user->full_name !!}</p>
     </div>
 </div>
 
@@ -22,29 +22,38 @@
     </div>
 </div>
 
-<!-- Password Field -->
+<!-- Image Field -->
 <div class="form-group row col-6">
+    {!! Form::label('image', 'Image:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+    <div class="col-md-9">
+        <img class="col-md-3 control-label text-md-right mx-1" style="height:50px" alt="{{ trans('lang.category_image') }}"
+                src="{{ asset('storage/images/users/' . $user->info()?->image) }}">
+    </div>
+</div>
+
+<!-- Password Field -->
+{{-- <div class="form-group row col-6">
     {!! Form::label('password', 'Password:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->password !!}</p>
     </div>
-</div>
+</div> --}}
 
 <!-- Api Token Field -->
-<div class="form-group row col-6">
+{{-- <div class="form-group row col-6">
     {!! Form::label('api_token', 'Api Token:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->api_token !!}</p>
     </div>
-</div>
+</div> --}}
 
 <!-- Store Id Field -->
-<div class="form-group row col-6">
+{{-- <div class="form-group row col-6">
     {!! Form::label('store_id', 'Store Id:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->store_id !!}</p>
     </div>
-</div>
+</div> --}}
 
 <!-- Role Id Field -->
 <div class="form-group row col-6">
@@ -54,13 +63,13 @@
     </div>
 </div>
 
-<!-- Remember Token Field -->
+{{-- <!-- Remember Token Field -->
 <div class="form-group row col-6">
     {!! Form::label('remember_token', 'Remember Token:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->remember_token !!}</p>
     </div>
-</div>
+</div> --}}
 
 <!-- Created At Field -->
 <div class="form-group row col-6">
