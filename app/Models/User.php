@@ -79,10 +79,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Role::class, 'role_id',  'id');
     }
-
+    public function media()
+    {
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'user');
+    }
     public function info()
     {
-        return match($this->role_id) {
+        return match ($this->role_id) {
             2 => $this->user_information,
             3 => $this->winch_information,
             4 => $this->garage_information,
