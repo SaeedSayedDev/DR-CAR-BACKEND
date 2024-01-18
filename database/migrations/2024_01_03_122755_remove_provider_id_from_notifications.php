@@ -13,11 +13,11 @@ class RemoveProviderIdFromNotifications extends Migration
      */
     public function up()
     {
-        Schema::table('notifications', function (Blueprint $table) {
-            //           
-            $table->dropForeign(['provider_id']);
-            $table->dropColumn('provider_id');
-        });
+        // Schema::table('notifications', function (Blueprint $table) {
+        //     //           
+        //     $table->dropForeign(['provider_id']);
+        //     $table->dropColumn('provider_id');
+        // });
     }
 
     /**
