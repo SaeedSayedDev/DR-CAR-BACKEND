@@ -71,5 +71,7 @@ class Kernel extends HttpKernel
         'checkTypeProvider' => \App\Http\Middleware\checkTypeProvider::class,
         'checkTypeUser' => \App\Http\Middleware\checkTypeUser::class,
         'apiAuth' => \App\Http\Middleware\ApiAuthenticate::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'auth' => \App\Http\Middleware\Authenticate::class,
     ];
 }

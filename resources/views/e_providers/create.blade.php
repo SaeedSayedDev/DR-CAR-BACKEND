@@ -29,8 +29,8 @@
     <!-- /.content-header -->
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
-        @include('adminlte-templates::common.errors')
+        {{-- @include('flash::message')
+        @include('adminlte-templates::common.errors') --}}
         <div class="clearfix"></div>
         <div class="card shadow-sm">
             <div class="card-header">

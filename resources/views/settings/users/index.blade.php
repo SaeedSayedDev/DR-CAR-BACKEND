@@ -1,7 +1,7 @@
 @extends('layouts.settings.default')
 @section('settings_title',trans('lang.user_table'))
 @section('settings_content')
-    @include('flash::message')
+    {{-- @include('flash::message') --}}
     <div class="card shadow-sm">
         <div class="card-header">
             <ul class="nav nav-tabs d-flex flex-md-row flex-column-reverse align-items-start card-header-tabs">

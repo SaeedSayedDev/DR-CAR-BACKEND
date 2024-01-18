@@ -33,7 +33,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                @include('users.show_fields')
+                @include('settings.users.show_fields')
 
                 <!-- Back Field -->
                     <div class="form-group col-12 d-flex flex-column flex-md-row justify-content-md-end justify-content-sm-center border-top pt-4">

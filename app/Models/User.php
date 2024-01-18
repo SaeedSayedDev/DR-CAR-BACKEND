@@ -3,8 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use App\Models\Admin\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -72,19 +70,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(GarageInformation::class, 'garage_id',  'id');
     }
 
-    public function garage_data()
-    {
-        return $this->hasOne(GarageData::class, 'garage_id',  'id');
-    }
-
     public function otpUser()
     {
         return $this->hasOne(OtpUser::class, 'user_id',  'id')->where('type_user', 'user');
-    }
-
-    public function address()
-    {
-        return $this->hasMany(Address::class, 'user_id',  'id');
     }
 
     public function userRole()
@@ -92,13 +80,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Role::class, 'role_id',  'id');
     }
 
-    public function media()
+    public function info()
     {
-        return $this->hasMany(Media::class, 'type_id')->where('type', 'user');
-    }
-
-    public function services()
-    {
-        return $this->hasMany(Service::class, 'provider_id');
+        return match($this->role_id) {
+            2 => $this->user_information,
+            3 => $this->winch_information,
+            4 => $this->garage_information,
+            default => null
+        };
     }
 }

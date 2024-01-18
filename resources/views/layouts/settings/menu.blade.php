@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="card-body p-0">
-        <ul class="nav nav-pills flex-column">
+        {{-- <ul class="nav nav-pills flex-column">
             <li class="nav-item">
                 <a href="{!! route('permissions.index') !!}" class="nav-link {{  Request::is('settings/permissions*') ? 'selected' : '' }}">
                     <i class="fas fa-inbox"></i> {{trans('lang.permission_plural')}}
@@ -27,7 +27,7 @@
                 </a>
             </li>
 
-        </ul>
+        </ul> --}}
     </div>
 </div>
 
@@ -57,7 +57,7 @@
         </div>
     </div>
     <div class="card-body p-0">
-        <ul class="nav nav-pills flex-column">
+        {{-- <ul class="nav nav-pills flex-column">
             <li class="nav-item">
                 <a href="{!! url('settings/app/globals') !!}" class="nav-link {{  Request::is('settings/app/globals*') ? 'selected' : '' }}">
                     <i class="fas fa-cog"></i> {{trans('lang.app_setting_globals')}}
@@ -119,7 +119,7 @@
                 </a>
             </li>
 
-        </ul>
+        </ul> --}}
     </div>
 </div>
 
@@ -134,7 +134,7 @@
         </div>
     </div>
     <div class="card-body p-0">
-        <ul class="nav nav-pills flex-column">
+        {{-- <ul class="nav nav-pills flex-column">
             <li class="nav-item">
                 <a href="{!! url('settings/mobile/globals') !!}" class="nav-link {{  Request::is('settings/mobile/globals*') ? 'selected' : '' }}">
                     <i class="fas fa-inbox"></i> {{trans('lang.mobile_globals')}}
@@ -170,6 +170,6 @@
                 </li>
             @endcan
 
-        </ul>
+        </ul> --}}
     </div>
 </div>

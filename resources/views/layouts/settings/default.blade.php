@@ -23,7 +23,7 @@
 
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
+        {{-- @include('flash::message') --}}
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-3">
