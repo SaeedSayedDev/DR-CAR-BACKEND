@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('desc')->nullable(); 
-            $table->string('image')->nullable();
+            $table->string('desc')->nullable();
             $table->decimal('price');
             $table->decimal('discount_price')->default(0);
             $table->boolean('price_unit')->comment("0 -> hourly, 1 -> fixed");
@@ -23,10 +22,10 @@ return new class extends Migration
             $table->time('duration')->nullable();
             $table->boolean('featured')->default(false);
             $table->boolean('enable_booking')->default(false);
-            $table->integer('rating')->nullable();
+            $table->boolean('available')->default(true);
 
             $table->unsignedBigInteger('provider_id');
-            $table->foreign('provider_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('provider_id')->references('id')->on('garage_data');
 
             $table->timestamps();
         });
