@@ -69,6 +69,7 @@ class ServiceRepository implements ServiceInterface
     {
         if (isset(auth()->user()->garage_data)) {
             $services = Service::where('provider_id', auth()->user()->garage_data->id)
+                ->with('provider.user')
                 ->with('media', 'items', 'review')
                 ->withSum('review', 'review_value')
                 ->withCount('review')

@@ -37,9 +37,10 @@ class Service extends Model
     {
         return $this->belongsToMany(Item::class);
     }
+  
     public function provider()
     {
-        return $this->belongsTo(GarageData::class, 'provider_id');
+        return $this->belongsTo(GarageData::class, 'provider_id')->where('garage_id', auth()->user()->id);
     }
     public function media()
     {
