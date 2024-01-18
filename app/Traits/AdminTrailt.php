@@ -211,19 +211,19 @@ class AdminTrailt
             'name' => 'Accepted',
         ],
         [
-            'name' => 'On the way',
+            'name' => 'On_the_way',
         ],
         [
             'name' => 'Ready',
         ],
         [
-            'name' => 'in progress',
+            'name' => 'in_progress',
         ],
         [
-            'name' => 'Done',
+            'name' => 'done',
         ],
         [
-            'name' => 'Failed',
+            'name' => 'failed',
         ],
     ];
 }
