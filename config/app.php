@@ -179,7 +179,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         // Collective\Html\HtmlServiceProvider::class,
-        Yajra\DataTables\DataTablesServiceProvider::class,
+        // Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
