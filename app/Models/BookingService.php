@@ -53,6 +53,10 @@ class BookingService extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function user_information()
+    {
+        return $this->belongsTo(UserInformation::class, 'user_id');
+    }
 
     public function booking_winch()
     {
