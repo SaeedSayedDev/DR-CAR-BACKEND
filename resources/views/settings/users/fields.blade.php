@@ -1,47 +1,64 @@
-@if($customFields)
+@include('partials.form_errors')
+{{-- @if ($customFields)
     <h5 class="col-12 pb-4">{!! trans('lang.main_fields') !!}</h5>
-@endif
+@endif --}}
 <div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- Name Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('name', trans("lang.user_name"), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+        {!! Form::label('full_name', trans('lang.user_name'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
         <div class="col-md-9">
-            {!! Form::text('name', null,  ['class' => 'form-control','placeholder'=>  trans("lang.user_name_placeholder")]) !!}
+            {!! Form::text('full_name', null, [
+                'class' => 'form-control',
+                'placeholder' => trans('lang.user_name_placeholder'),
+            ]) !!}
             <div class="form-text text-muted">
-                {{ trans("lang.user_name_help") }}
+                {{ trans('lang.user_name_help') }}
             </div>
         </div>
     </div>
 
     <!-- Email Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('email', trans("lang.user_email"), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+        {!! Form::label('email', trans('lang.user_email'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
         <div class="col-md-9">
-            {!! Form::text('email', null,  ['class' => 'form-control','placeholder'=>  trans("lang.user_email_placeholder")]) !!}
+            {!! Form::text('email', null, [
+                'class' => 'form-control',
+                'placeholder' => trans('lang.user_email_placeholder'),
+            ]) !!}
             <div class="form-text text-muted">
-                {{ trans("lang.user_email_help") }}
+                {{ trans('lang.user_email_help') }}
             </div>
         </div>
     </div>
 
     <!-- Phone Number Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('phone_number', trans("lang.user_phone_number"), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+        {!! Form::label('phone_number', trans('lang.user_phone_number'), [
+            'class' => 'col-md-3 control-label text-md-right mx-1',
+        ]) !!}
         <div class="col-md-9">
-            {!! Form::text('phone_number', null,  ['class' => 'form-control','placeholder'=>  trans("lang.user_phone_number_placeholder")]) !!}
+            {!! Form::text('phone_number', null, [
+                'class' => 'form-control',
+                'placeholder' => trans('lang.user_phone_number_placeholder'),
+            ]) !!}
             <div class="form-text text-muted">
-                {{ trans("lang.user_phone_number_help") }}
+                {{ trans('lang.user_phone_number_help') }}
             </div>
         </div>
     </div>
 
     <!-- Password Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('password', trans("lang.user_password"), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+        {!! Form::label('password', trans('lang.user_password'), [
+            'class' => 'col-md-3 control-label text-md-right mx-1',
+        ]) !!}
         <div class="col-md-9">
-            {!! Form::password('password', ['class' => 'form-control','placeholder'=>  trans("lang.user_password_placeholder")]) !!}
+            {!! Form::password('password', [
+                'class' => 'form-control',
+                'placeholder' => trans('lang.user_password_placeholder'),
+            ]) !!}
             <div class="form-text text-muted">
-                {{ trans("lang.user_password_help") }}
+                {{ trans('lang.user_password_help') }}
             </div>
         </div>
     </div>
@@ -49,85 +66,69 @@
 <div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- $FIELD_NAME_TITLE$ Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('avatar', trans("lang.user_avatar"), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+        {!! Form::label('image', trans('lang.user_avatar'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
         <div class="col-md-9">
-            <div style="width: 100%" class="dropzone avatar" id="avatar" data-field="avatar">
-                <input type="hidden" name="avatar">
-            </div>
-            <a href="#loadMediaModal" data-dropzone="avatar" data-toggle="modal" data-target="#mediaModal" class="btn btn-outline-{{setting('theme_color','primary')}} btn-sm float-right mt-1">{{ trans('lang.media_select')}}</a>
+            {!! Form::file('image', ['class' => 'form-control-file']) !!}
             <div class="form-text text-muted w-50">
-                {{ trans("lang.user_avatar_help") }}
+                {{ trans('lang.user_avatar_help') }}
             </div>
         </div>
     </div>
-    @prepend('scripts')
-    <script type="text/javascript">
-        var user_avatar = '';
-        @if(isset($user) && $user->hasMedia('avatar'))
-            user_avatar = {
-            name: "{!! $user->getFirstMedia('avatar')->name !!}",
-            size: "{!! $user->getFirstMedia('avatar')->size !!}",
-            type: "{!! $user->getFirstMedia('avatar')->mime_type !!}",
-            collection_name: "{!! $user->getFirstMedia('avatar')->collection_name !!}"
-        };
-                @endif
-        var dz_user_avatar = $(".dropzone.avatar").dropzone({
-                url: "{!!url('uploads/store')!!}",
-                addRemoveLinks: true,
-                maxFiles: 1,
-                init: function () {
-                    @if(isset($user) && $user->hasMedia('avatar'))
-                    dzInit(this, user_avatar, '{!! url($user->getFirstMediaUrl('avatar','thumb')) !!}')
-                    @endif
-                },
-                accept: function (file, done) {
-                    dzAccept(file, done, this.element, "{!!config('medialibrary.icons_folder')!!}");
-                },
-                sending: function (file, xhr, formData) {
-                    dzSending(this, file, formData, '{!! csrf_token() !!}');
-                },
-                maxfilesexceeded: function (file) {
-                    dz_user_avatar[0].mockFile = '';
-                    dzMaxfile(this, file);
-                },
-                complete: function (file) {
-                    dzComplete(this, file, user_avatar, dz_user_avatar[0].mockFile);
-                    dz_user_avatar[0].mockFile = file;
-                },
-                removedfile: function (file) {
-                    dzRemoveFile(
-                        file, user_avatar, '{!! url("users/remove-media") !!}',
-                        'avatar', '{!! isset($user) ? $user->id : 0 !!}', '{!! url("uplaods/clear") !!}', '{!! csrf_token() !!}'
-                    );
-                }
-        });
-        dz_user_avatar[0].mockFile = user_avatar;
-        dropzoneFields['avatar'] = dz_user_avatar;
-    </script>
-    @endprepend
-    @can('permissions.index')
-    <!-- Roles Field -->
-        <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-            {!! Form::label('roles[]', trans("lang.user_role_id"),['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-            <div class="col-md-9">
-                {!! Form::select('roles[]', $role, $rolesSelected, ['class' => 'select2 form-control' , 'multiple'=>'multiple']) !!}
-                <div class="form-text text-muted">{{ trans("lang.user_role_id_help") }}</div>
-            </div>
-        </div>
-    @endcan
 
+    <!-- Roles Field -->
+    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+        {!! Form::label('role_id', trans('lang.user_role_id'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+        <div class="col-md-9">
+            {!! Form::select('role_id', $roles, null, ['class' => 'select2 form-control']) !!}
+            <div class="form-text text-muted">{{ trans('lang.user_role_id_help') }}</div>
+        </div>
+    </div>
 </div>
-@if($customFields)
-    {{--TODO generate custom field--}}
-    <div class="clearfix"></div>
+
+<!-- Short Biography Field -->
+<div class="form-group align-items-baseline d-flex flex-column flex-md-row col-sm-12 col-md-6">
+    {!! Form::label('short_biography', trans('lang.user_bio'), [
+        'class' => 'col-md-3 control-label text-md-right mx-1',
+    ]) !!}
+    <div class="col-md-9">
+        {!! Form::textarea('short_biography', null, [
+            'class' => 'form-control',
+            'placeholder' => trans('lang.e_provider_description_placeholder'),
+        ]) !!}
+        <div class="form-text text-muted">{{ trans('lang.e_provider_description_help') }}</div>
+    </div>
+</div>
+
+<!-- Addresses Field -->
+<div class="form-group align-items-baseline d-flex flex-column flex-md-row col-sm-12 col-md-6">
+    {!! Form::label('address', trans('lang.e_provider_addresses'), [
+        'class' => 'col-md-3 control-label text-md-right mx-1',
+    ]) !!}
+    <div class="col-md-9">
+        {!! Form::text('address', null, ['class' => 'form-control', 'placeholder' => trans('lang.address')]) !!}
+        <div class="form-text text-muted">
+            {{ trans('lang.e_provider_addresses_help') }}
+            @can('addresses.create')
+                <a href="{{ route('addresses.create') }}"
+                    class="text-success float-right">{{ __('lang.address_create') }}</a>
+            @endcan
+        </div>
+    </div>
+</div>
+
+{{-- @if ($customFields) --}}
+{{-- TODO generate custom field --}}
+{{-- <div class="clearfix"></div>
     <div class="col-12 custom-field-container">
         <h5 class="col-12 pb-4">{!! trans('lang.custom_field_plural') !!}</h5>
         {!! $customFields !!}
     </div>
-@endif
+@endif --}}
 <!-- Submit Field -->
-<div class="form-group col-12 d-flex flex-column flex-md-row justify-content-md-end justify-content-sm-center border-top pt-4">
-    <button type="submit" class="btn bg-{{setting('theme_color')}} mx-md-3 my-lg-0 my-xl-0 my-md-0 my-2">
-        <i class="fas fa-save"></i> {{trans('lang.save')}} {{trans('lang.user')}}</button>
-    <a href="{!! route('users.index') !!}" class="btn btn-default"><i class="fas fa-undo"></i> {{trans('lang.cancel')}}</a>
+<div
+    class="form-group col-12 d-flex flex-column flex-md-row justify-content-md-end justify-content-sm-center border-top pt-4">
+    <button type="submit" class="btn bg-primary mx-md-3 my-lg-0 my-xl-0 my-md-0 my-2">
+        <i class="fas fa-save"></i> {{ trans('lang.save') }} {{ trans('lang.user') }}</button>
+    <a href="{!! route('users.index') !!}" class="btn btn-default"><i class="fas fa-undo"></i>
+        {{ trans('lang.cancel') }}</a>
 </div>

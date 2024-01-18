@@ -12,8 +12,8 @@
 @endpush
 @section('settings_title',trans('lang.user_table'))
 @section('settings_content')
-    @include('flash::message')
-    @include('adminlte-templates::common.errors')
+    {{-- @include('flash::message')
+    @include('adminlte-templates::common.errors') --}}
     <div class="clearfix"></div>
     <div class="card shadow-sm">
         <div class="card-header">

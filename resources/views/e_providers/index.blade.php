@@ -24,7 +24,7 @@
 
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
+        {{-- @include('flash::message') --}}
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-md-row flex-column-reverse align-items-start card-header-tabs">
@@ -32,12 +32,10 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.e_provider_table')}}</a>
                         </li>
-                        @can('eProviders.create')
                             <li class="nav-item">
                                 <a class="nav-link" href="{!! route('eProviders.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.e_provider_create')}}
                                 </a>
                             </li>
-                        @endcan
                     </div>
                     @include('layouts.right_toolbar', compact('dataTable'))
                 </ul>

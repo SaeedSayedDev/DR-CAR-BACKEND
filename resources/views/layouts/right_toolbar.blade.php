@@ -13,7 +13,7 @@
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-eye"></i>
             <span class="d-lg-inline-block d-none">{{trans('lang.columns')}}</span> </a>
         <div class="dropdown-menu">
-            @foreach($dataTable->collection as $key => $item)
+            @foreach($dataTable as $key => $item)
                 <a class="dropdown-item text-bold" href="#" data-column="{{$key}}"> <i class="fas fa-check mr-2"></i>{{$item->title}}</a>
             @endforeach
         </div>

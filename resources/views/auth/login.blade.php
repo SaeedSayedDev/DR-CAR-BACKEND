@@ -4,7 +4,7 @@
     <div class="card-body login-card-body">
         <p class="login-box-msg">{{__('auth.login_title')}}</p>
 
-        <form action="{{ url('/login') }}" method="post">
+        <form action="{{ route('login.store') }}" method="post">
             {!! csrf_field() !!}
 
             <div class="input-group mb-3">
@@ -61,18 +61,18 @@
 
         </form>
 
-        @if(setting('enable_facebook',false) || setting('enable_google',false) || setting('enable_twitter',false))
+        @if(env('enable_facebook',false) || env('enable_google',false) || env('enable_twitter',false))
             <div class="social-auth-links text-center mb-3">
                 <p style="text-transform: uppercase">- {{__('lang.or')}} -</p>
-                @if(setting('enable_facebook',false))
+                @if(env('enable_facebook',false))
                     <a href="{{url('login/facebook')}}" class="btn btn-block btn-facebook"> <i class="fab fa-facebook mr-2"></i> {{__('auth.login_facebook')}}
                     </a>
                 @endif
-                @if(setting('enable_google',false))
+                @if(env('enable_google',false))
                     <a href="{{url('login/google')}}" class="btn btn-block btn-google"> <i class="fab fa-google mr-2"></i> {{__('auth.login_google')}}
                     </a>
                 @endif
-                @if(setting('enable_twitter',false))
+                @if(env('enable_twitter',false))
                     <a href="{{url('login/twitter')}}" class="btn btn-block btn-twitter"> <i class="fab fa-twitter mr-2"></i> {{__('auth.login_twitter')}}
                     </a>
                 @endif

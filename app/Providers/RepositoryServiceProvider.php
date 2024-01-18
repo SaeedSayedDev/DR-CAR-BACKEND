@@ -105,6 +105,24 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\BookingWinchInterface',
             'App\Http\Repositories\BookingWinchRepository'
         );
+        ######################### Web #########################
+
+        $this->app->bind(
+            'App\Http\Interfaces\Web\ItemInterface',
+            'App\Http\Repositories\Web\ItemRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\CategoryInterface',
+            'App\Http\Repositories\Web\CategoryRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\ProviderInterface',
+            'App\Http\Repositories\Web\ProviderRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\UserInterface',
+            'App\Http\Repositories\Web\UserRepository'
+        );
     }
 
     /**

@@ -1293,4 +1293,16 @@ return [
     'wallet_transaction_edit' => 'Edit Wallet Transaction',
     'wallet_transaction_table' => 'Wallet Transactions List',
     'wallet_transaction_create' => 'Create Wallet Transaction',
+
+    ####################################
+
+    'item' => 'عنصر',
+    'item_plural' => 'عناصر',
+    'item_desc' => 'إدارة العناصر',
+    'item_edit' => 'تحرير العنصر',
+    'item_table' => 'قائمة العناصر',
+    'item_create' => 'إنشاء عنصر',
+    'customer' => 'عميل',
+    'winch' => 'ونش',
+    'garage' => 'ورشة',
 ];
