@@ -4,6 +4,7 @@ namespace App\Http\Interfaces;
 
 interface AccountInterface
 {
+    public function show();
 
     public function update($request);
 
@@ -13,5 +14,4 @@ interface AccountInterface
     // garage data
     public function storeGarageData($request);
     public function availabilityTime($request);
-    
 }

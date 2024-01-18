@@ -13,7 +13,19 @@ class AccountRepository implements AccountInterface
     function __construct(private ImageService $imageService)
     {
     }
-
+    public function show()
+    {
+        $user_id = auth()->user()->id;
+        $user = User::findOrFail($user_id);
+        $user->load(match ($user->role_id) {
+            2 => 'user_information',
+            3 => 'winch_information',
+            4 => 'garage_information',
+        });
+        return response()->json([
+            'data' => $user
+        ]);
+    }
     public function update($request)
     {
         $requestData = request()->all();

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('notification_type_ar');
             $table->string('api');
 
+
             // $table->unsignedBigInteger('provider_id');
             // $table->foreign('provider_id')->references('id')->on('users');
 

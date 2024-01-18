@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('winch_information', function (Blueprint $table) {
             $table->id();
             $table->string('phone_number')->unique()->nullable();
+            $table->string('image')->nullable();
             $table->string('address')->nullable();
             $table->string('short_biography')->nullable();
-            $table->string('KM_price')->nullable();
-            $table->string('availability_range')->nullable();
-            
             $table->timestamp('phone_verified_at')->nullable();
 
             $table->unsignedBigInteger('winch_id');
