@@ -97,12 +97,14 @@ class ServiceRepository implements ServiceInterface
             ->withCount('review')
             ->findOrFail($id);
 
-
-        $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
-        $service->is_favorite = $service->favourite->count() > 0 ? true : false;
-        unset($service->favourite);
-
-        $service->provider = $this->providerService->reviewAndRate($service->provider);
+            
+            $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+            $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+            unset($service->favourite);
+            
+            // return isset($service->provider);
+            // return $service;
+            $service->provider = $this->providerService->reviewAndRate($service->provider);
 
         return [
             'success' => true,
