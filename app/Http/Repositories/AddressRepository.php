@@ -19,6 +19,7 @@ class AddressRepository implements AddressInterface
     {
         $user = auth()->user();
         $data = $request->all();
+        $data['user_id'] = $user->id;
         $data = $user->role_id == 4 ? Address::create($data) :
             Address::updateOrCreate(['user_id' => $user->id], $data);
         return response()->json(["success" => true, 'data' => $data, "message" => "Address Updated successfully"]);
