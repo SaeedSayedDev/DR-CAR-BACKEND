@@ -37,10 +37,11 @@ class Service extends Model
     {
         return $this->belongsToMany(Item::class);
     }
-  
+
     public function provider()
     {
-        return $this->belongsTo(GarageData::class, 'provider_id')->where('garage_id', auth()->user()->id);
+        return $this->belongsTo(GarageData::class, 'provider_id');
+        // ->where('garage_id', auth()->user()->id);
     }
     public function media()
     {
@@ -66,5 +67,12 @@ class Service extends Model
     public function options()
     {
         return $this->hasMany(Options::class, 'service_id');
+    }
+    public function scopeGetRelashinIndex($query)
+    {
+        return  $this->whereHas('provider')
+            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review');
     }
 }
