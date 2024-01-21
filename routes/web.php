@@ -82,9 +82,9 @@ Route::get('payments', function () {
     dd('payments');
 })->name('payments.index');
 
-Route::put('eProvider/edit', function () {
-    dd('eProvider-edit');
-})->name('eProviders.edit');
+// Route::put('eProvider/edit', function () {
+//     dd('eProvider-edit');
+// })->name('eProviders.edit');
 
 Route::post('galleries', function () {
     dd('galleries');
