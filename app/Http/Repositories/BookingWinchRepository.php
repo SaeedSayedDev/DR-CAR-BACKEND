@@ -37,7 +37,7 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('order_status_id', '>', 1)->where('order_status_id', '<', 6)
             ->where('cancel', false)
             ->with('service')
-            ->find($data['booking_service_id']);
+            ->findOrFail($data['booking_service_id']);
 
         $range = $this->addressService->calculate_range_beetwen_user_and_garage($bookingService->service->provider_id);
 
@@ -52,5 +52,58 @@ class BookingWinchRepository implements BookingWinchInterface
             'data' => $bookingWinch,
             "message" => "Booking Winch retrieved successfully"
         ]);
+    }
+
+
+
+    public function updateBookingStatusFromWinch($request, $booking_id)
+    {
+        $user = auth()->user();
+
+        DB::beginTransaction();
+
+        $bookingWinch = BookingWinch::where('winch_id', $user->id)->find($booking_id);
+
+        if ($bookingWinch->order_status_id > 2 and $request->order_status_id == 7)
+            return response()->json(['message' => 'you can not decline this booking now'], 404);
+
+        $bookingWinch->update(['order_status_id' => $request->order_status_id]);
+        $this->notification($bookingWinch->id, auth()->user()->id, auth()->user()->full_name);
+
+        DB::commit();
+        return response()->json(['message' => 'success']);
+    }
+
+
+
+
+    public function cancelBookingWinchFromUser($booking_id)
+    {
+        $user = auth()->user();
+
+        DB::beginTransaction();
+        $bookingWinch = BookingWinch::where('user_id', $user->id)->where('order_status_id', 1)->where('id' , $booking_id)->orWhere('order_status_id', 2)->where('id' , $booking_id)->firstOrFail();
+        $bookingWinch->update(['cancel'=> true]);
+        $this->notification($bookingWinch->id, auth()->user()->id, auth()->user()->full_name);
+
+        DB::commit();
+        return response()->json(['message' => 'success']);
+    }
+
+    public function getBookingForGarage()
+    {
+    }
+
+
+
+    function notification($booking_id, $reciver_id, $creator_name)
+    {
+
+        $text_en = "#$booking_id Booking Status has been changed ";
+        $text_ar = "#$booking_id تم تغيير حالة حجز الخدمة ";
+        $notification_type_en = "booking";
+        $notification_type_ar = "حجز";
+        $api =  url("api/booking/show/" . $booking_id);
+        $this->notificationService->notification($booking_id, $creator_name,  $text_en, $text_ar, $notification_type_en, $notification_type_ar, $api, $reciver_id);
     }
 }

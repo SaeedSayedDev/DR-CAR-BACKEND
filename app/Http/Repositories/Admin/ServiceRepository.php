@@ -23,10 +23,10 @@ class ServiceRepository implements ServiceInterface
         // sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
         //         ->having('distance_in_km', '<=', 'availability_range');
         // })
-        $services = Service::whereHas('provider')
-            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
+        $services = Service::with('provider')
+            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite',)
             ->withSum('review', 'review_value')
-            ->withCount('review')
+            ->withCount('review' , 'popular')
             ->get()
             ->map(function ($service) {
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
@@ -40,6 +40,7 @@ class ServiceRepository implements ServiceInterface
         // }
         // return ['message' => 'Please Enter your Address'];
     }
+    
     public function servicesProvider($provider_id)
     {
         $userAddress = auth()->user()->address;

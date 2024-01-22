@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\BookingService;
 use App\Models\Favourite;
 use App\Models\GarageData;
 use App\Models\ImagesService;
@@ -37,10 +38,10 @@ class Service extends Model
     {
         return $this->belongsToMany(Item::class);
     }
-  
+
     public function provider()
     {
-        return $this->belongsTo(GarageData::class, 'provider_id')->where('garage_id', auth()->user()->id);
+        return $this->belongsTo(GarageData::class, 'provider_id');
     }
     public function media()
     {
@@ -66,5 +67,9 @@ class Service extends Model
     public function options()
     {
         return $this->hasMany(Options::class, 'service_id');
+    }
+    public function popular()
+    {
+        return $this->hasMany(BookingService::class, 'service_id');
     }
 }
