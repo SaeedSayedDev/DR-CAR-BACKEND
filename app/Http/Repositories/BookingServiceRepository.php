@@ -139,7 +139,7 @@ class BookingServiceRepository implements BookingServiceInterface
     {
         DB::beginTransaction();
 
-        $bookingService = BookingService::where('user_id', auth()->user()->id)->findOrFail($booking_id);
+        $bookingService = BookingService::where('user_id', auth()->user()->id)->where('order_status_id', 1)->where('id', $booking_id)->orWhere('order_status_id', 2)->where('id', $booking_id)->firstOrFail();
 
         $bookingService->update(['cancel' => true]);
         $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
@@ -172,16 +172,16 @@ class BookingServiceRepository implements BookingServiceInterface
         // dd(auth()->user()->user_information);
         $bookingService = BookingService::whereHas('serviceProvider')
             ->orWhereHas('user')->where('user_id', auth()->user()->id)
-            ->with(['service.media','service.options', 'address', 'status_order'])
+            ->with(['service.media', 'service.options', 'address', 'status_order'])
             ->findOrFail($booking_id);
         $bookingService->user_information->where('user_id', $bookingService->user_id);
-         $bookingService->payment=[
-           'payment_status'=> $bookingService->payment_stataus,
-           'payment_amount'=>  $bookingService->payment_amount,
-           'payment_type'=>  $bookingService->payment_type,
-           'payment_id'=> $bookingService->payment_id
+        $bookingService->payment = [
+            'payment_status' => $bookingService->payment_stataus,
+            'payment_amount' =>  $bookingService->payment_amount,
+            'payment_type' =>  $bookingService->payment_type,
+            'payment_id' => $bookingService->payment_id
         ];
-        unset($bookingService->payment_stataus,$bookingService->payment_amount ,$bookingService->payment_type ,$bookingService->payment_id );
+        unset($bookingService->payment_stataus, $bookingService->payment_amount, $bookingService->payment_type, $bookingService->payment_id);
         return response()->json([
             'success' => true,
             'data' => $bookingService,

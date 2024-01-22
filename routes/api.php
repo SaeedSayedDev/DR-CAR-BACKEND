@@ -80,6 +80,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('cancel/booking/{booking_id}', [BookingController::class, 'cancelBooking']);
 
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
+        Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
+
 
     });
 
@@ -107,6 +109,10 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::get('garage/bookings', [BookingController::class, 'getBookingsInGarage']);
         Route::post('garage/updateBooking/{id}', [BookingController::class, 'updateBookingServiceFromGarage']);
+
+
+
+        Route::post('winch/updateBooking/{id}', [BookingController::class, 'updateBookingStatusFromWinch']);
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
