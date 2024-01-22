@@ -172,16 +172,17 @@ class BookingServiceRepository implements BookingServiceInterface
         // dd(auth()->user()->user_information);
         $bookingService = BookingService::whereHas('serviceProvider')
             ->orWhereHas('user')->where('user_id', auth()->user()->id)
-            ->with(['service.media','service.options', 'address', 'status_order'])
+            ->with(['service.media', 'service.options', 'address', 'status_order'])
             ->findOrFail($booking_id);
         $bookingService->user_information->where('user_id', $bookingService->user_id);
-         $bookingService->payment=[
-           'payment_status'=> $bookingService->payment_stataus,
-           'payment_amount'=>  $bookingService->payment_amount,
-           'payment_type'=>  $bookingService->payment_type,
-           'payment_id'=> $bookingService->payment_id
+        $bookingService->payment = [
+            'payment_status' => $bookingService->payment_stataus,
+            'payment_amount' =>  $bookingService->payment_amount,
+            'payment_type' =>  $bookingService->payment_type,
+            'payment_id' => $bookingService->payment_id,
+            // 'payment_method' => $bookingService->payment_id
         ];
-        unset($bookingService->payment_stataus,$bookingService->payment_amount ,$bookingService->payment_type ,$bookingService->payment_id );
+        unset($bookingService->payment_stataus, $bookingService->payment_amount, $bookingService->payment_type, $bookingService->payment_id);
         return response()->json([
             'success' => true,
             'data' => $bookingService,
