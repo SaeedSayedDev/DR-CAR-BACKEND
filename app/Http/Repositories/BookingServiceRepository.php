@@ -179,7 +179,9 @@ class BookingServiceRepository implements BookingServiceInterface
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
             'payment_type' =>  $bookingService->payment_type,
-            'payment_id' => $bookingService->payment_id
+            'payment_id' => $bookingService->payment_id,
+            // 'payment_method' => $bookingService->payment_id
+
         ];
         unset($bookingService->payment_stataus, $bookingService->payment_amount, $bookingService->payment_type, $bookingService->payment_id);
         return response()->json([
