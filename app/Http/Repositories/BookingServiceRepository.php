@@ -139,7 +139,7 @@ class BookingServiceRepository implements BookingServiceInterface
     {
         DB::beginTransaction();
 
-        $bookingService = BookingService::where('user_id', auth()->user()->id)->findOrFail($booking_id);
+        $bookingService = BookingService::where('user_id', auth()->user()->id)->where('order_status_id', 1)->where('id', $booking_id)->orWhere('order_status_id', 2)->where('id', $booking_id)->firstOrFail();
 
         $bookingService->update(['cancel' => true]);
         $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
@@ -181,6 +181,7 @@ class BookingServiceRepository implements BookingServiceInterface
             'payment_type' =>  $bookingService->payment_type,
             'payment_id' => $bookingService->payment_id,
             // 'payment_method' => $bookingService->payment_id
+
         ];
         unset($bookingService->payment_stataus, $bookingService->payment_amount, $bookingService->payment_type, $bookingService->payment_id);
         return response()->json([

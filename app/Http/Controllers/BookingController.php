@@ -8,6 +8,7 @@ use App\Http\Requests\BookingServiceRequest;
 use App\Http\Requests\BookingWinchRequest;
 use App\Http\Requests\payBookingSeriviceRequest;
 use App\Http\Requests\UpdateBookingServiceRequest;
+use App\Http\Requests\updateBookingWinchRequest;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -35,6 +36,7 @@ class BookingController extends Controller
         return $this->bookingServiceInterface->cancelBooking($booking_id);
     }
 
+    
 
     public function getBookingsInGarage()
     {
@@ -51,7 +53,8 @@ class BookingController extends Controller
     {
         return $this->bookingServiceInterface->updateBookingServiceFromGarage($request, $booking_id);
     }
-
+    
+ 
 
     public function success(Request $request)
     {
@@ -66,5 +69,15 @@ class BookingController extends Controller
     public function bookingWinch(BookingWinchRequest $request)
     {
         return $this->bookingWinchInterface->bookingWinch($request);
+    }
+    
+    public function cancelBookingWinchFromUser($booking_id)
+    {
+        return $this->bookingWinchInterface->cancelBookingWinchFromUser($booking_id);
+    }
+
+    public function updateBookingStatusFromWinch(updateBookingWinchRequest $request, $booking_id)
+    {
+        return $this->bookingWinchInterface->updateBookingStatusFromWinch($request, $booking_id);
     }
 }

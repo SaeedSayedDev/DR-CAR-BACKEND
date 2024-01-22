@@ -26,6 +26,11 @@ class ProviderRepository implements ProviderInterface
         return response()->json([
             'data' => $garage,
         ]);
+        return response()->json([
+            'success' => true,
+            'data' => $garage,
+            "message" => "Providers retrieved successfully"
+        ]);
     }
     public function show($id)
     {
