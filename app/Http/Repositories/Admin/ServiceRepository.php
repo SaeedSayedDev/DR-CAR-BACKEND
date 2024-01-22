@@ -23,22 +23,16 @@ class ServiceRepository implements ServiceInterface
         // sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
         //         ->having('distance_in_km', '<=', 'availability_range');
         // })
-        $services = Service::with('provider')
-            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite',)
-            ->withSum('review', 'review_value')
-            ->withCount('review' , 'popular')
-            ->get()
+
+        $services = Service::getRelashinIndex()->get()
             ->map(function ($service) {
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                 $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                 unset($service->favourite);
                 return  $service;
             });
-        // $service
-        // dd($services->review_count);
+
         return ['data' => $services];
-        // }
-        // return ['message' => 'Please Enter your Address'];
     }
     
     public function servicesProvider($provider_id)
@@ -98,14 +92,14 @@ class ServiceRepository implements ServiceInterface
             ->withCount('review')
             ->findOrFail($id);
 
-            
-            $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
-            $service->is_favorite = $service->favourite->count() > 0 ? true : false;
-            unset($service->favourite);
-            
-            // return isset($service->provider);
-            // return $service;
-            $service->provider = $this->providerService->reviewAndRate($service->provider);
+
+        $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+        $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+        unset($service->favourite);
+
+        // return isset($service->provider);
+        // return $service;
+        $service->provider = $this->providerService->reviewAndRate($service->provider);
 
         return [
             'success' => true,

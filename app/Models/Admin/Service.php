@@ -42,6 +42,7 @@ class Service extends Model
     public function provider()
     {
         return $this->belongsTo(GarageData::class, 'provider_id');
+
     }
     public function media()
     {
@@ -71,5 +72,12 @@ class Service extends Model
     public function popular()
     {
         return $this->hasMany(BookingService::class, 'service_id');
+    }
+    public function scopeGetRelashinIndex($query)
+    {
+        return  $this->whereHas('provider')
+            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review');
     }
 }
