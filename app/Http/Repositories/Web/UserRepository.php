@@ -34,7 +34,6 @@ class UserRepository implements UserInterface
         $requestData = $request->validated();
         $requestData['password'] = Hash::make($request->input('password'));
         $requestData['short_biography'] = strip_tags($request->input('short_biography'));
-        $requestData['image'] = $this->imageService->store($request, 'users');
 
         $user = User::create($requestData);
         switch ($user->role_id) {
@@ -48,6 +47,12 @@ class UserRepository implements UserInterface
                 $requestData['garage_type'] = 'none';
                 $user->garage_information()->create($requestData);
                 break;
+        }
+        if ($request->hasFile('image')) {
+            $user->media()->create([
+                'type' => 'user',
+                'image' => $this->imageService->store($request, 'users')
+            ]);
         }
 
         return redirect()->route('users.index')->with([
@@ -83,10 +88,16 @@ class UserRepository implements UserInterface
         $user = User::findOrFail($id);
         $requestData = $request->validated();
         $requestData['short_biography'] = strip_tags($request->input('short_biography'));
-        $requestData['image'] = $this->imageService->update($request, 'users');
 
         $user->update($requestData);
         $user->info()->update($requestData);
+        if ($request->hasFile('image')) {
+            $user->media()->updateOrCreate([
+                'type' => 'user'
+            ], [
+                'image' => $this->imageService->update($request, $user->media()?->first()?->image, 'users')
+            ]);
+        }
 
         return redirect()->route('users.index')->with([
             'success' => 'Updated successfully',
@@ -96,9 +107,12 @@ class UserRepository implements UserInterface
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        $this->imageService->delete($user, 'users', throw: 'info');
+
+        $this->imageService->delete($user->media()?->first()?->image, 'users');
+        $user->media()->delete();
         $user->info()->delete();
         $user->delete();
+
         return redirect()->route('users.index')->with([
             'success' => 'Deleted successfully'
         ]);

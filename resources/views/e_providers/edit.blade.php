@@ -29,8 +29,8 @@
     <!-- /.content-header -->
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
-        @include('adminlte-templates::common.errors')
+        {{-- @include('flash::message')
+        @include('adminlte-templates::common.errors') --}}
         <div class="clearfix"></div>
         <div class="card shadow-sm">
             <div class="card-header">
@@ -51,7 +51,7 @@
                 </ul>
             </div>
             <div class="card-body">
-                {!! Form::model($eProvider, ['route' => ['eProviders.update', $eProvider->id], 'method' => 'patch']) !!}
+                {!! Form::model($eProvider, ['route' => ['eProviders.update', $eProvider->id], 'method' => 'patch', 'files' => true]) !!}
                 <div class="row">
                     @include('e_providers.fields')
                 </div>

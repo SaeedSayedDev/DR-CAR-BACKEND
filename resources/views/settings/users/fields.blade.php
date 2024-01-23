@@ -48,20 +48,22 @@
     </div>
 
     <!-- Password Field -->
-    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('password', trans('lang.user_password'), [
-            'class' => 'col-md-3 control-label text-md-right mx-1',
-        ]) !!}
-        <div class="col-md-9">
-            {!! Form::password('password', [
-                'class' => 'form-control',
-                'placeholder' => trans('lang.user_password_placeholder'),
+    @if (Route::is('users.create'))
+        <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+            {!! Form::label('password', trans('lang.user_password'), [
+                'class' => 'col-md-3 control-label text-md-right mx-1',
             ]) !!}
-            <div class="form-text text-muted">
-                {{ trans('lang.user_password_help') }}
+            <div class="col-md-9">
+                {!! Form::password('password', [
+                    'class' => 'form-control',
+                    'placeholder' => trans('lang.user_password_placeholder'),
+                ]) !!}
+                <div class="form-text text-muted">
+                    {{ trans('lang.user_password_help') }}
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
 <div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- $FIELD_NAME_TITLE$ Field -->
@@ -76,13 +78,15 @@
     </div>
 
     <!-- Roles Field -->
-    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('role_id', trans('lang.user_role_id'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-        <div class="col-md-9">
-            {!! Form::select('role_id', $roles, null, ['class' => 'select2 form-control']) !!}
-            <div class="form-text text-muted">{{ trans('lang.user_role_id_help') }}</div>
+    @if (Route::is('users.create'))
+        <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+            {!! Form::label('role_id', trans('lang.user_role_id'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+            <div class="col-md-9">
+                {!! Form::select('role_id', $roles, null, ['class' => 'select2 form-control']) !!}
+                <div class="form-text text-muted">{{ trans('lang.user_role_id_help') }}</div>
+            </div>
         </div>
-    </div>
+    @endif
 </div>
 
 <!-- Short Biography Field -->

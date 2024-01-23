@@ -25,7 +25,7 @@
             <tr>
                 <td>
                     <img class="rounded" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                        src="{{ asset('storage/images/users/' . $user->info()?->image) }}">
+                        src="{{ asset('storage/images/users/' . $user->media()?->first()?->image) }}">
                 </td>
                 <td>{{ $user->full_name }}</td>
                 <td>

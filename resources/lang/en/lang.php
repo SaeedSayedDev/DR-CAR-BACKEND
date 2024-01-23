@@ -1377,4 +1377,6 @@ return [
     'customer' => 'Customer',
     'winch' => 'Winch',
     'garage' => 'Garage',
+    'private' => 'Private',
+    'company' => 'Company',
 ];

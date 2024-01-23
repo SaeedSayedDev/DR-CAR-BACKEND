@@ -30,7 +30,7 @@
             </ul>
         </div>
         <div class="card-body">
-            {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
+            {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch', 'files' => true]) !!}
             <div class="row">
                 @include('settings.users.fields')
             </div>

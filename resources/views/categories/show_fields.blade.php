@@ -27,7 +27,7 @@
     {!! Form::label('image', 'Image:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <img class="col-md-3 control-label text-md-right mx-1" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                src="{{ asset('storage/images/admin/categories/' . $category->image) }}">
+                src="{{ asset('storage/images/admin/categories/' . $category->media()?->first()?->image) }}">
     </div>
 </div>
 
