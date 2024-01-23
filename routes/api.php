@@ -81,6 +81,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
+        Route::get('winch/bookings', [BookingController::class, 'getBookingForWinch']);
+
 
 
     });
@@ -132,6 +134,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
 
     Route::post('charge/wallet', [WalletController::class, 'chargeWallet']);
+    Route::get('wallet', [WalletController::class, 'wallet']);
 
     Route::post('WithdrawWallet/store', [WalletController::class, 'WithdrawWallet']);
 

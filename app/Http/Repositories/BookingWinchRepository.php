@@ -28,13 +28,25 @@ class BookingWinchRepository implements BookingWinchInterface
     {
     }
 
+    public function getBookingForWinch()
+    {
+        $bookings = BookingWinch::where('garage_id', auth()->user()->id)->with('user.winch_information')
+            ->with('address')
+            ->get();
+        return response()->json([
+            'success' => true,
+            'data' => $bookings,
+            "message" => "Bookings retrieved successfully"
+
+        ]);
+    }
 
     public function bookingWinch($request)
     {
         $user = auth()->user();
         $data = $request->all();
         $bookingService = BookingService::where('user_id', $user->id)
-            ->where('order_status_id', '>', 1)->where('order_status_id', '<', 6)
+            ->where('order_status_id', '>', 1)->where('order_status_id', '<', 7)
             ->where('cancel', false)
             ->with('service')
             ->findOrFail($data['booking_service_id']);
@@ -82,17 +94,15 @@ class BookingWinchRepository implements BookingWinchInterface
         $user = auth()->user();
 
         DB::beginTransaction();
-        $bookingWinch = BookingWinch::where('user_id', $user->id)->where('order_status_id', 1)->where('id' , $booking_id)->orWhere('order_status_id', 2)->where('id' , $booking_id)->firstOrFail();
-        $bookingWinch->update(['cancel'=> true]);
+        $bookingWinch = BookingWinch::where('user_id', $user->id)->where('order_status_id', 1)->where('id', $booking_id)->orWhere('order_status_id', 2)->where('id', $booking_id)->firstOrFail();
+        $bookingWinch->update(['cancel' => true]);
         $this->notification($bookingWinch->id, auth()->user()->id, auth()->user()->full_name);
 
         DB::commit();
         return response()->json(['message' => 'success']);
     }
 
-    public function getBookingForGarage()
-    {
-    }
+   
 
 
 
