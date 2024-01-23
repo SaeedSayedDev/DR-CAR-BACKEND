@@ -20,7 +20,16 @@ class WalletRepository implements WalletInterface
     public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService)
     {
     }
-
+    public function wallet()
+    {
+        $wallet = Wallet::where('user_id', auth()->user()->id)->first();
+        return response()->json([
+            'success' => true,
+            'data' => $wallet,
+            "message" => "Wallet retrieved successfully"
+        ]);
+    }
+    
     public function chargeWallet($request)
     {
         $user_id = auth()->user()->id;
@@ -82,7 +91,7 @@ class WalletRepository implements WalletInterface
             $Withdraw->update(['status' => 'canceled']);
             return response()->json(['message' => 'success']);
         }
-        return response()->json(['message' => 'you can not cancel this request'] , 404);
+        return response()->json(['message' => 'you can not cancel this request'], 404);
     }
 
     function payWithStripe($request, $payment_amount)

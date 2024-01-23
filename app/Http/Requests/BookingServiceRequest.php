@@ -39,9 +39,6 @@ class BookingServiceRequest extends FormRequest
             'address.address' =>  "$checkRerequiredData|min:5",
             'address.latitude' => "$checkRerequiredData|numeric",
             'address.longitude' => "$checkRerequiredData|numeric",
-            'address.description' => 'nullable|string|min:5',
-
-
-        ];
+            'address.description' => 'nullable|string|min:5',        ];
     }
 }

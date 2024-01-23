@@ -15,6 +15,11 @@ class WalletController extends Controller
     {
     }
 
+    public function wallet()
+    {
+
+        return $this->walletInterface->wallet();
+    }
     public function chargeWallet(chargeWalletRequest $request)
     {
         return $this->walletInterface->chargeWallet($request);
