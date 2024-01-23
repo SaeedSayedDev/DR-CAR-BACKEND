@@ -20,18 +20,18 @@ class ImageService
         }
     }
 
-    public function update($request, $model, $folder = "temp", $file = 'image')
+    public function update($request, $imageName, $folder = "temp", $file = 'image')
     {
         if ($request->has($file)) {
-            $this->delete($model, $folder, $file);
+            $this->delete($imageName, $folder);
             return $this->store($request, $folder, $file);
         }
     }
 
-    public function delete($model, $folder = "temp", $file = 'image')
+    public function delete($imageName, $folder = "temp")
     {
-        if ($model->$file) {
-            $pathOldImage  = storage_path('app/' . self::PATH . $folder . '/' . $model->$file);
+        if ($imageName) {
+            $pathOldImage  = storage_path('app/' . self::PATH . $folder . '/' . $imageName);
             if (File::exists($pathOldImage)) {
                 unlink($pathOldImage);
             }

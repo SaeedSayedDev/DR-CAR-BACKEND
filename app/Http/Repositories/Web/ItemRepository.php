@@ -32,9 +32,14 @@ class ItemRepository implements ItemInterface
     {
         $requestData = $request->validated();
         $requestData['desc'] = strip_tags($request->input('desc'));
-        $requestData['image'] = $this->imageService->store($request, 'admin/items');
 
-        Item::create($requestData);
+        $item = Item::create($requestData);
+        if ($request->hasFile('image')) {
+            $item->media()->create([
+                'type' => 'item',
+                'image' => $this->imageService->store($request, 'admin/items')
+            ]);
+        }
 
         return redirect()->route('items.index')->with([
             'success' => 'Created successfully'
@@ -62,9 +67,15 @@ class ItemRepository implements ItemInterface
         $item = Item::findOrFail($id);
         $requestData = $request->validated();
         $requestData['desc'] = strip_tags($request->input('desc'));
-        $requestData['image'] = $this->imageService->update($request, $item, 'admin/items') ?? $item->image;
 
         $item->update($requestData);
+        if ($request->hasFile('image')) {
+            $item->media()->updateOrCreate([
+                'type' => 'item'
+            ], [
+                'image' => $this->imageService->update($request, $item->media()?->first()?->image, 'admin/items')
+            ]);
+        }
 
         return redirect()->route('items.index')->with([
             'success' => 'Updated successfully',
@@ -74,8 +85,11 @@ class ItemRepository implements ItemInterface
     public function destroy($id)
     {
         $item = Item::findOrFail($id);
-        $this->imageService->delete($item, 'admin/items');
+
+        $this->imageService->delete($item->media()?->first()?->image, 'admin/items');
+        $item->media()->delete();
         $item->delete();
+        
         return redirect()->route('items.index')->with([
             'success' => 'Deleted successfully'
         ]);

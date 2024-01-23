@@ -35,4 +35,9 @@ class GarageData extends Model
     {
         return $this->belongsTo(Taxe::class, 'tax_id');
     }
+
+    public function media()
+    {
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'garage_data');
+    }
 }

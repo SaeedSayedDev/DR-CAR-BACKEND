@@ -46,7 +46,7 @@
                 </ul>
             </div>
             <div class="card-body">
-                {!! Form::open(['route' => 'eProviders.store']) !!}
+                {!! Form::open(['route' => 'eProviders.store', 'files' => true]) !!}
                 <div class="row">
                     @include('e_providers.fields')
                 </div>

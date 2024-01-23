@@ -27,9 +27,14 @@ class CategoryRepository implements CategoryInterface
     {
         $requestData = $request->validated();
         $requestData['desc'] = strip_tags($request->input('desc'));
-        $requestData['image'] = $this->imageService->store($request, 'admin/categories');
 
-        Category::create($requestData);
+        $category = Category::create($requestData);
+        if ($request->hasFile('image')) {
+            $category->media()->create([
+                'type' => 'category',
+                'image' => $this->imageService->store($request, 'admin/categories')
+            ]);
+        }
 
         return redirect()->route('categories.index')->with([
             'success' => 'Created successfully'
@@ -53,9 +58,15 @@ class CategoryRepository implements CategoryInterface
         $category = Category::findOrFail($id);
         $requestData = $request->validated();
         $requestData['desc'] = strip_tags($request->input('desc'));
-        $requestData['image'] = $this->imageService->update($request, $category, 'admin/categories') ?? $category->image;
 
         $category->update($requestData);
+        if ($request->hasFile('image')) {
+            $category->media()->updateOrCreate([
+                'type' => 'category'
+            ], [
+                'image' => $this->imageService->update($request, $category->media()?->first()?->image, 'admin/categories')
+            ]);
+        }
 
         return redirect()->route('categories.index')->with([
             'success' => 'Updated successfully',
@@ -65,8 +76,11 @@ class CategoryRepository implements CategoryInterface
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        $this->imageService->delete($category, 'admin/categories');
+       
+        $this->imageService->delete($category->media()?->first()?->image, 'admin/categories');
+        $category->media()->delete();
         $category->delete();
+
         return redirect()->route('categories.index')->with([
             'success' => 'Deleted successfully'
         ]);

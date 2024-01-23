@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('available')->default(true);
 
             $table->unsignedBigInteger('provider_id');
-            $table->foreign('provider_id')->references('id')->on('garage_data');
+            $table->foreign('provider_id')->references('id')->on('garage_data')->onDelete('cascade');
 
             $table->timestamps();
         });
