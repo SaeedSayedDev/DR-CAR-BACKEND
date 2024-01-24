@@ -80,4 +80,9 @@ class BookingController extends Controller
     {
         return $this->bookingWinchInterface->updateBookingStatusFromWinch($request, $booking_id);
     }
+    public function getBookingForWinch()
+    {
+        return $this->bookingWinchInterface->getBookingForWinch();
+    }
+    
 }

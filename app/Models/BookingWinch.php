@@ -29,6 +29,7 @@ class BookingWinch extends Model
         return $this->belongsTo(BookingService::class, 'booking_service_id');
     }
 
+
     public function address()
     {
         return $this->belongsTo(Address::class, 'user_id');
