@@ -39,8 +39,8 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookingsWinch = BookingWinch::where('user_id', auth()->user()->id)->with('user.user_information', 'winch.winch_information')
             ->with('address')
             ->get();
-            $bookings = collect($bookingsGarage->toArray())->merge($bookingsWinch->toArray());
-            $sortedBookings = $bookings->sortByDesc('created_at');
+        $bookings = collect($bookingsGarage->toArray())->merge($bookingsWinch->toArray());
+        $sortedBookings = $bookings->sortBy('created_at');
 
 
         return response()->json([
@@ -75,10 +75,13 @@ class BookingServiceRepository implements BookingServiceInterface
 
         $bookingService = BookingService::where('user_id', $user_id)
             ->with('booking_winch')
+            ->with('serviceProvider.provider')
             ->where('payment_stataus', 'unpaid')
             ->where('order_status_id', 6)
             ->where('cancel', false)
-            ->findOrFail($booking_service_id);
+            ->find($booking_service_id);
+
+
         if ($bookingService->delivery_car == 1 and !isset($bookingService->booking_winch))
             return response()->json(['message' => 'you should booking winch'], 404);
         $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
@@ -88,13 +91,15 @@ class BookingServiceRepository implements BookingServiceInterface
         if ($payment_method->name == 'Stripe') {
 
             $retrieve = $this->payWithStripe($request, $total_amount);
+            if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
+                $this->bookingService->updateBooking($bookingService->booking_winch, 2, $retrieve->id);
+                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $retrieve->balance_transaction->net / 100);
+            }
 
-            if ($bookingService->delivery_car == true and isset($bookingService->bookingWinch))
-                $this->bookingService->updateBooking($bookingService->bookingWinch, 2, $retrieve->id);
 
             $this->bookingService->updateBooking($bookingService, 2, $retrieve->id);
+            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $retrieve->balance_transaction->net / 100);
 
-            $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100);
 
             return response()->json(['message' => 'success']);
         } elseif ($payment_method->name == 'Paypal') {
@@ -140,7 +145,11 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInGarage()
     {
-        $bookings = BookingService::whereHas('serviceProvider')->with('serviceProvider.media', 'serviceProvider.provider:id,name')->get();
+        $bookings = BookingService::whereHas('serviceProvider', function ($query) {
+            $query->where('provider_id', auth()->user()->garage_data->id);
+        })
+            ->with('serviceProvider.media', 'serviceProvider.provider')
+            ->get();
         return response()->json([
             'success' => true,
             'data' => $bookings,
@@ -154,7 +163,9 @@ class BookingServiceRepository implements BookingServiceInterface
     public function showBooking($booking_id)
     {
         // dd(auth()->user()->user_information);
-        $bookingService = BookingService::whereHas('serviceProvider')
+        $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
+            $query->where('provider_id', auth()->user()->garage_data->id);
+        })
             ->orWhereHas('user')->where('user_id', auth()->user()->id)
             ->with(['service.media', 'service.options', 'address', 'status_order'])
             ->findOrFail($booking_id);
@@ -180,7 +191,10 @@ class BookingServiceRepository implements BookingServiceInterface
     public function updateBookingServiceFromGarage($request, $booking_id)
     {
         DB::beginTransaction();
-        $bookingService = BookingService::whereHas('serviceProvider')->with('serviceProvider.media', 'serviceProvider:id,name')->findOrFail($booking_id);
+        $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
+            $query->where('provider_id', auth()->user()->garage_data->id);
+        })
+            ->with('serviceProvider.media', 'serviceProvider:id,name')->findOrFail($booking_id);
 
         if ($bookingService->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);

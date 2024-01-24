@@ -36,7 +36,7 @@ class BookingService extends Model
 
     public function serviceProvider()
     {
-        return $this->belongsTo(Service::class, 'service_id')->where('provider_id', auth()->user()->garage_data->id);
+        return $this->belongsTo(Service::class, 'service_id');
     }
 
     public function service()

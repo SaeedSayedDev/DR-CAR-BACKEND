@@ -7,6 +7,7 @@ use App\Models\CompanyInformation;
 use App\Models\FirbaseToken;
 use App\Models\User;
 use App\Models\UserInformation;
+use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
 use App\Services\AuthServcie;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,12 @@ class AuthRepository implements AuthInterface
         DB::commit();
         $user = $this->authServcie->credentialUser($request);
         $user->user_role;
+
+        Wallet::create([
+            'user_id'=>$user->id,
+            'total_balance'=>0,
+            'awating_transfer'=>0,
+        ]);
         return response()->json([
             "success" => true,
             'data' => $user
