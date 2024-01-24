@@ -123,6 +123,22 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\Web\UserInterface',
             'App\Http\Repositories\Web\UserRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\BookingServiceInterface',
+            'App\Http\Repositories\Web\BookingServiceRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\BookingWinchInterface',
+            'App\Http\Repositories\Web\BookingWinchRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\CouponInterface',
+            'App\Http\Repositories\Web\CouponRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\DashboardInterface',
+            'App\Http\Repositories\Web\DashboardRepository'
+        );
     }
 
     /**
