@@ -36,13 +36,11 @@
                             <a class="nav-link active" href="{!! url()->current() !!}"><i
                                     class="fa fa-list mr-2"></i>{{ trans('lang.e_provider_table') }}</a>
                         </li>
-                        @if ($dataTable->isEmpty())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{!! route('eProviders.create') !!}"><i
-                                        class="fa fa-plus mr-2"></i>{{ trans('lang.e_provider_create') }}
-                                </a>
-                            </li>
-                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{!! route('eProviders.create') !!}"><i
+                                    class="fa fa-plus mr-2"></i>{{ trans('lang.e_provider_create') }}
+                            </a>
+                        </li>
                     </div>
                     @include('layouts.right_toolbar', compact('dataTable'))
                 </ul>

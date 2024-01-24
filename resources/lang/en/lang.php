@@ -1379,4 +1379,8 @@ return [
     'garage' => 'Garage',
     'private' => 'Private',
     'company' => 'Company',
+
+    'booking_service' => 'Booking Service',
+    'booking_winch' => 'Booking Winch',
+
 ];

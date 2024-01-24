@@ -13,7 +13,7 @@
     <thead>
         <tr class="text-center">
             <th>{{ trans('lang.category_image') }}</th>
-            <th>{{ trans('lang.item') }}</th>
+            <th>{{ trans('lang.category_name') }}</th>
             <th>{{ trans('lang.category_description') }}</th>
             <th>{{ trans('lang.category') }}</th>
             <th>{{ trans('lang.category_updated_at') }}</th>

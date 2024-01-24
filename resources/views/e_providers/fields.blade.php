@@ -42,12 +42,12 @@
 
     <!-- E Provider User Id Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('garage_id', trans('lang.e_provider_users'), [
+        {!! Form::label('garage_id', trans('lang.user'), [
             'class' => 'col-md-3 control-label text-md-right mx-1',
         ]) !!}
         <div class="col-md-9">
             {!! Form::select('garage_id', $eProviderUser, null, ['class' => 'select2 form-control']) !!}
-            <div class="form-text text-muted">{{ trans('lang.e_provider_users_help') }}</div>
+            <div class="form-text text-muted">{{ trans('lang.user') }}</div>
         </div>
     </div>
 </div>
