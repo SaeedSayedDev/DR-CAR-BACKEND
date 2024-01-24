@@ -49,6 +49,7 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('order_status_id', '>', 1)->where('order_status_id', '<', 7)
             ->where('cancel', false)
             ->with('service')
+            ->where('delivery_car', 1)
             ->findOrFail($data['booking_service_id']);
 
         $range = $this->addressService->calculate_range_beetwen_user_and_garage($bookingService->service->provider_id);
@@ -74,7 +75,7 @@ class BookingWinchRepository implements BookingWinchInterface
 
         DB::beginTransaction();
 
-        $bookingWinch = BookingWinch::where('winch_id', $user->id)->find($booking_id);
+        $bookingWinch = BookingWinch::where('winch_id', $user->id)->findOrFail($booking_id);
 
         if ($bookingWinch->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);
@@ -102,7 +103,7 @@ class BookingWinchRepository implements BookingWinchInterface
         return response()->json(['message' => 'success']);
     }
 
-   
+
 
 
 
