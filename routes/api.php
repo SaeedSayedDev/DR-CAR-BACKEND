@@ -81,8 +81,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
-
-
     });
 
 
@@ -184,7 +182,6 @@ Route::delete('payment_method/delete/{id}', [PaymentMethodController::class, 'de
 Route::put('withdraw/confirm/{withdraw_id}', [WalletController::class, 'confirm_admin']);
 
 Route::post('/artisanOrder', [SettingController::class, 'artisanOrder'])->name('artisanOrder');
-// Route::get('env/data', [SettingController::class, 'Dotenv'])->name('Dotenv');
 Route::get('env/data', function () {
     dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
 });
@@ -195,17 +192,35 @@ Route::get('fixer', function () {
     $array = explode($delimiter, '1,2,3'); // Split the string into an array
     return $array;
 });
-Route::post('/findAddressesNearby', function () {
-    $yourLatitude = request()->input('your_latitude');
-    $yourLongitude = request()->input('your_longitude');
-    $distance = 5; // Distance in kilometers
+Route::post('/findAddressesNearby', function (Request $request) {
+    // $yourLatitude = request()->input('your_latitude');
+    // $yourLongitude = request()->input('your_longitude');
+    // $distance = 5; // Distance in kilometers
 
-    $addresses = Address::selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
-    sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$yourLatitude, $yourLongitude, $yourLatitude])
-        ->having('distance_in_km', '<=', $distance)
-        ->get();
+    // $addresses = Address::selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
+    // sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$yourLatitude, $yourLongitude, $yourLatitude])
+    //     ->having('distance_in_km', '<=', $distance)
+    //     ->get();
 
-    return $addresses;
+    // return $addresses;
+    $earthRadius = 6371; // Radius of the Earth in kilometers
+
+    // Convert latitude and longitude from degrees to radians
+    $lat1 = deg2rad($request->lat1);
+    $lon1 = deg2rad($request->lon1);
+    $lat2 = deg2rad($request->lat2);
+    $lon2 = deg2rad($request->lon2);
+
+    // Haversine formula
+    $dlat = $lat2 - $lat1;
+    $dlon = $lon2 - $lon1;
+    $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+    // Calculate distance
+    $distance = $earthRadius * $c;
+
+    return $distance;
 });
 
 
