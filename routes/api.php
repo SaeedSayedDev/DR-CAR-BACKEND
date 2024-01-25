@@ -99,7 +99,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('options/store', [ServiceController::class, 'storeOPtion'])->name('options.store');
         Route::put('options/update/{id}', [ServiceController::class, 'updateOption'])->name('options.update');
 
-        Route::get('coupons', [ServiceController::class, 'indexCoupon'])->name('coupons');
+        Route::get('coupons', [ServiceController::class, 'indexCoupon']);
         Route::get('coupon/show/{id}', [ServiceController::class, 'showCoupon'])->name('coupon.show');
         Route::post('coupon/store', [ServiceController::class, 'storeCoupon'])->name('coupon.store');
         Route::put('coupon/update/{id}', [ServiceController::class, 'updateCoupon'])->name('coupon.update');
