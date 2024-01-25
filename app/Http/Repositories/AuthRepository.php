@@ -57,9 +57,10 @@ class AuthRepository implements AuthInterface
         $user->user_role;
 
         Wallet::create([
-            'user_id'=>$user->id,
-            'total_balance'=>0,
-            'awating_transfer'=>0,
+            'name' => $user->full_name . ' Wallet',
+            'user_id' => $user->id,
+            'total_balance' => 0,
+            'awating_transfer' => 0,
         ]);
         return response()->json([
             "success" => true,

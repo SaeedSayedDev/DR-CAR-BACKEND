@@ -9,6 +9,6 @@ class Wallet extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'total_balance', 'awating_transfer', 'total_balance_doller', 'awating_transfer_doller'
+        'user_id', 'total_balance', 'awating_transfer', 'total_balance_doller', 'awating_transfer_doller','name'
     ];
 }

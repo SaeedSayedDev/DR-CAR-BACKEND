@@ -75,7 +75,7 @@ class Service extends Model
     public function scopeGetRelashinIndex($query)
     {
         return  $this->whereHas('provider')
-            ->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite')
+            ->with('provider.user.userRole','provider.user.address', 'provider.user.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');
     }
