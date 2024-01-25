@@ -11,10 +11,11 @@ class WalletService
     public function updateWallet($user_id, $net)
     {
 
-        Wallet::where('user_id' , $user_id)->update(
+        Wallet::where('user_id', $user_id)->update(
             [
                 'total_balance' => DB::raw("total_balance + $net"),
                 'awating_transfer' => DB::raw("awating_transfer"),
+                'total_earning' => DB::raw("total_earning + $net")
             ],
         );
     }

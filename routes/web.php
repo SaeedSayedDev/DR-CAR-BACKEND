@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('success', [BookingController::class, 'success']);
+// Route::get('success', [BookingController::class, 'success']);
 Route::get('success', [ServiceController::class, 'success']);
 Route::get('error', [ServiceController::class, 'error']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');

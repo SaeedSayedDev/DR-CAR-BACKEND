@@ -17,6 +17,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\WalletController;
 use App\Models\Address;
 use Illuminate\Http\Request;
@@ -115,6 +116,10 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
 
         Route::post('winch/updateBooking/{id}', [BookingController::class, 'updateBookingStatusFromWinch']);
+
+        Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
+
+        
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);

@@ -80,15 +80,20 @@ class PaypalService
 
                     $booking_service = BookingService::with('booking_winch')->find($retrieveOrder['purchase_units'][0]['custom_id']);
 
-                    // $bookingWinch =  BookingWinch::where('booking_service_id', $booking_service->id)
-                    //     ->where('order_status_id', '>', 1)->where('order_status_id', '<', 6)
-                    //     ->where('cancel', false)
-                    //     ->where('payment_stataus', 'unpaid')
-                    //     ->first();
+
+                    // if ($booking_service->delivery_car == true and isset($booking_service->booking_winch)) {
+                    //     $this->booking_service->updateBooking($booking_service->booking_winch, 2, $retrieve->id);
+                    //     $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $netDivision['winch_net']);
+                    // }
+                    $netDivision = $this->bookingService->netDivision($booking_service->delivery_car, $booking_service->payment_amount, $booking_service->booking_winch->payment_amount, $net_aed);
+
+                    if (isset($booking_service->booking_winch) and $booking_service->delivery_car == true) {
+                        $this->bookingService->updateBooking($booking_service->booking_winch, 1, $request['token']);
+                        $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $netDivision['winch_net']);
+                    }
 
                     $this->bookingService->updateBooking($booking_service, 1, $request['token']);
-                    isset($booking_service->bookingWinch) ?  $this->bookingService->updateBooking($booking_service->bookingWinch, 1, $request['token']) : null;
-                    $this->walletService->updateWallet($booking_service->user_id, $net_aed);
+                    $this->walletService->updateWallet($booking_service->serviceProvider->provider->garage_id, $netDivision['garage_net']);
                 } else if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'user')/* wallet == user  */ {
                     $this->walletService->updateWallet($retrieveOrder['purchase_units'][0]['custom_id'], $net_aed);
                 }
