@@ -74,7 +74,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::delete('favourite/delete/{service_id}', [FavouriteController::class, 'delete']);
 
 
-        Route::get('user/bookings', [BookingController::class, 'getBookingsInUser']);
+        Route::get('user/bookings/{filter_key}', [BookingController::class, 'getBookingsInUser']);
         // Route::get('user/booking/show/{booking_id}', [BookingController::class, 'showBookingInUser']);
         Route::post('booking/service', [BookingController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [BookingController::class, 'payBookingSerivice']);
@@ -110,7 +110,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         // 
         Route::get('taxes', [TaxeController::class, 'index']);
 
-        Route::get('garage/bookings', [BookingController::class, 'getBookingsInGarage']);
+        Route::get('garage/bookings/{filter_key}', [BookingController::class, 'getBookingsInGarage']);
         Route::post('garage/updateBooking/{id}', [BookingController::class, 'updateBookingServiceFromGarage']);
 
 
