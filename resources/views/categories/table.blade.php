@@ -13,7 +13,7 @@
     <thead>
         <tr class="text-center">
             <th>{{ trans('lang.category_image') }}</th>
-            <th>{{ trans('lang.category') }}</th>
+            <th>{{ trans('lang.category_name') }}</th>
             <th>{{ trans('lang.category_description') }}</th>
             <th>{{ trans('lang.category_updated_at') }}</th>
             <th>{{ trans('lang.actions') }}</th>
@@ -24,7 +24,7 @@
             <tr>
                 <td>
                     <img class="rounded" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                        src="{{ asset('storage/images/admin/categories/' . $category->image) }}">
+                        src="{{ asset('storage/images/admin/categories/' . $category->media()?->first()?->image) }}">
                 </td>
                 <td>{{ $category->name }}</td>
                 <td>{{ $category->desc }}</td>

@@ -26,14 +26,15 @@
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
-                        <h3 class="text-primary">20</h3>
+                        <h3 class="text-primary">{{ $total_bookings }} د.إ</h3>
 
                         <p>{{ trans('lang.dashboard_total_bookings') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                     </div>
-                    <a href="{{ route('bookings.index') }}" class="small-box-footer">{{ trans('lang.dashboard_more_info') }}
+                    <a href="{{ route('booking.service') }}"
+                        class="small-box-footer">{{ trans('lang.dashboard_more_info') }}
                         <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -42,11 +43,7 @@
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
-                        @if (1 != false)
-                            <h3 class="text-primary"> 100د.إ </h3>
-                        @else
-                            <h3 class="text-primary">100د.إ</h3>
-                        @endif
+                        <h3 class="text-primary">{{ $total_earnings }} د.إ</h3>
 
                         <p>{{ trans('lang.dashboard_total_earnings') }} <span
                                 style="font-size: 11px">({{ trans('lang.dashboard_after taxes') }})</span></p>
@@ -64,7 +61,7 @@
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
-                        <h3 class="text-primary">10</h3>
+                        <h3 class="text-primary">{{ $count_providers }}</h3>
                         <p>{{ trans('lang.e_provider_plural') }}</p>
                     </div>
                     <div class="icon">
@@ -80,7 +77,7 @@
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
-                        <h3 class="text-primary">5</h3>
+                        <h3 class="text-primary">{{ $count_customers }}</h3>
 
                         <p>{{ trans('lang.dashboard_total_customers') }}</p>
                     </div>
@@ -108,22 +105,20 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <p class="d-flex flex-column">
-                                @if (1 != false)
-                                    <span class="text-bold text-lg">50د.إ</span>
-                                @else
-                                    <span class="text-bold text-lg">د.إ50</span>
-                                @endif
+                                @foreach ($bookings as $booking)
+                                    <span class="text-bold text-lg">{{ $booking->payment_amount }}د.إ</span>
+                                @endforeach
                                 <span>{{ trans('lang.dashboard_earning_over_time') }}</span>
                             </p>
                             <p class="ml-auto d-flex flex-column text-right">
-                                <span class="text-success"> 20</span></span>
+                                <span class="text-success">{{ $total_bookings }}</span>
                                 <span class="text-muted">{{ trans('lang.dashboard_total_bookings') }}</span>
                             </p>
                         </div>
                         <!-- /.d-flex -->
 
                         <div class="position-relative mb-4">
-                            <canvas id="sales-chart" height="200"></canvas>
+                            {{-- <canvas id="sales-chart" height="200"></canvas> --}}
                         </div>
 
                         <div class="d-flex flex-row justify-content-end">
@@ -153,23 +148,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($eProviders as $eProvider) --}}
-                                <tr>
-                                    <td>
-                                        {{-- {!! getMediaColumn($eProvider, 'image', 'img-circle mr-2') !!} --}}
-                                        img-circle mr-2
-                                    </td>
-                                    <td>3M Car Detailing</td>
-                                    <td>
-                                        {{-- {!! getArrayColumn($eProvider->addresses, 'address') !!} --}}
-                                        address
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{!! route('eProviders.edit', 1) !!}" class="text-muted"> <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                {{-- @endforeach --}}
+                                @foreach ($eProviders as $eProvider)
+                                    <tr>
+                                        <td>
+                                            <img class="rounded" style="height:50px"
+                                                alt="{{ trans('lang.e_provider_image') }}"
+                                                src="{{ asset('storage/images/providers/' . $eProvider->media()?->first()?->image) }}">
+                                        </td>
+                                        <td>{{ $eProvider->name }}</td>
+                                        <td>{{ $eProvider->address->address }}</td>
+                                        <td class="text-center">
+                                            <a href="{!! route('eProviders.edit', $eProvider->id) !!}" class="text-muted"> <i
+                                                    class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

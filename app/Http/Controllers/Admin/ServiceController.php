@@ -90,4 +90,16 @@ class ServiceController extends Controller
     {
         return $this->optionInterface->update($request, $OPtion_id);
     }
+
+
+
+    // return paypal
+    public function success(Request $request)
+    {
+        return $this->bookingServiceInterface->success($request);
+    }
+    public function error()
+    {
+        return 'User declined the payment!';
+    }
 }

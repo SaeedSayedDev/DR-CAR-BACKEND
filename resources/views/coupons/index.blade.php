@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb bg-white float-sm-right rounded-pill px-4 py-2 d-none d-md-flex">
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt"></i> {{trans('lang.dashboard')}}</a></li>
-                        <li class="breadcrumb-item"><a href="{!! route('coupons.index') !!}">{{trans('lang.coupon_plural')}}</a>
+                        <li class="breadcrumb-item"><a href="{!! route('coupons') !!}">{{trans('lang.coupon_plural')}}</a>
                         </li>
                         <li class="breadcrumb-item active">{{trans('lang.coupon_table')}}</li>
                     </ol>
@@ -23,7 +23,7 @@
 
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
+        {{-- @include('flash::message') --}}
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-md-row flex-column-reverse align-items-start card-header-tabs">

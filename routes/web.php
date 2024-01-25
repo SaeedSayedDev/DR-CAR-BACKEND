@@ -4,7 +4,11 @@ use App\Http\Controllers\Web\ItemController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Web\BookingServiceController;
+use App\Http\Controllers\Web\BookingWinchController;
 use App\Http\Controllers\Web\CategoryController;
+use App\Http\Controllers\Web\CouponController;
+use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\ProviderController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('success', [BookingController::class, 'success']);
+// Route::get('success', [BookingController::class, 'success']);
 Route::get('success', [ServiceController::class, 'success']);
 Route::get('error', [ServiceController::class, 'error']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
@@ -32,14 +36,18 @@ Route::group(['middleware' => 'guest:web'], function () {
 Route::group(['middleware' => 'auth:web'], function () {
     Route::post('logout', [AuthController::class, 'webLogout']);
 
-    Route::get('/', function () {return view('dashboard.index');});
-    Route::get('/dashboard', function () {return view('dashboard.index');});
+    Route::get('/', DashboardController::class);
+    Route::get('/dashboard', DashboardController::class);
 
     # Menue
     Route::resource('items', ItemController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('eProviders', ProviderController::class);
     Route::resource('users', UserController::class);
+
+    Route::get('booking/service', BookingServiceController::class)->name('booking.service');
+    Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
+    Route::get('coupons', CouponController::class)->name('coupons');
 });
 
 Route::get('bookings', function () {

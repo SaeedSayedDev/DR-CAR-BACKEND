@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{setting('app_name')}} | {{setting('app_short_description')}}</title>
+    <title>Dr Car | Manage Mobile Application</title>
     <link rel="icon" type="image/png" href="{{$app_logo ?? ''}}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,600&display=fallback">
     <link rel="stylesheet" href="{{asset('vendor/fontawesome-free/css/all.min.css')}}">

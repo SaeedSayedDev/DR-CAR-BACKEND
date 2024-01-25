@@ -1305,4 +1305,6 @@ return [
     'customer' => 'عميل',
     'winch' => 'ونش',
     'garage' => 'ورشة',
+    'private' => 'خاص',
+    'company' => 'شركة',
 ];

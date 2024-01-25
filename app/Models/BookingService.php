@@ -36,7 +36,7 @@ class BookingService extends Model
 
     public function serviceProvider()
     {
-        return $this->belongsTo(Service::class, 'service_id')->where('provider_id', auth()->user()->garage_data->id);
+        return $this->belongsTo(Service::class, 'service_id');
     }
 
     public function service()
@@ -60,7 +60,7 @@ class BookingService extends Model
 
     public function booking_winch()
     {
-        return $this->hasOne(BookingWinch::class, 'booking_service_id')->where('order_status_id', '>', 1)->where('order_status_id', '<', 6)
+        return $this->hasOne(BookingWinch::class, 'booking_service_id')->where('order_status_id', 6)
             ->where('cancel', false)
             ->where('payment_stataus', 'unpaid');
     }

@@ -17,6 +17,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\WalletController;
 use App\Models\Address;
 use Illuminate\Http\Request;
@@ -73,7 +74,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::delete('favourite/delete/{service_id}', [FavouriteController::class, 'delete']);
 
 
-        Route::get('user/bookings', [BookingController::class, 'getBookingsInUser']);
+        Route::get('user/bookings/{filter_key}', [BookingController::class, 'getBookingsInUser']);
         // Route::get('user/booking/show/{booking_id}', [BookingController::class, 'showBookingInUser']);
         Route::post('booking/service', [BookingController::class, 'bookingService']);
         Route::post('pay/booking/service/{id}', [BookingController::class, 'payBookingSerivice']);
@@ -81,6 +82,11 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
+
+        Route::get('winch/bookings', [BookingController::class, 'getBookingForWinch']);
+
+
+
     });
 
 
@@ -94,7 +100,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('options/store', [ServiceController::class, 'storeOPtion'])->name('options.store');
         Route::put('options/update/{id}', [ServiceController::class, 'updateOption'])->name('options.update');
 
-        Route::get('coupons', [ServiceController::class, 'indexCoupon'])->name('coupons');
+        Route::get('coupons', [ServiceController::class, 'indexCoupon']);
         Route::get('coupon/show/{id}', [ServiceController::class, 'showCoupon'])->name('coupon.show');
         Route::post('coupon/store', [ServiceController::class, 'storeCoupon'])->name('coupon.store');
         Route::put('coupon/update/{id}', [ServiceController::class, 'updateCoupon'])->name('coupon.update');
@@ -105,12 +111,16 @@ Route::group(['middleware' => 'apiAuth'], function () {
         // 
         Route::get('taxes', [TaxeController::class, 'index']);
 
-        Route::get('garage/bookings', [BookingController::class, 'getBookingsInGarage']);
+        Route::get('garage/bookings/{filter_key}', [BookingController::class, 'getBookingsInGarage']);
         Route::post('garage/updateBooking/{id}', [BookingController::class, 'updateBookingServiceFromGarage']);
 
 
 
         Route::post('winch/updateBooking/{id}', [BookingController::class, 'updateBookingStatusFromWinch']);
+
+        Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
+
+        
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
@@ -130,6 +140,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
 
     Route::post('charge/wallet', [WalletController::class, 'chargeWallet']);
+    Route::get('wallet', [WalletController::class, 'wallet']);
 
     Route::post('WithdrawWallet/store', [WalletController::class, 'WithdrawWallet']);
 

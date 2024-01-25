@@ -68,7 +68,7 @@ class ServiceRepository implements ServiceInterface
                 ->with('provider.user')
                 ->with('media', 'items', 'review')
                 ->withSum('review', 'review_value')
-                ->withCount('review')
+                ->withCount('review' ,'popular')
                 ->get()
                 ->map(function ($service) {
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
