@@ -3,6 +3,7 @@
 namespace App\Http\Repositories\Admin;
 
 use App\Http\Interfaces\Admin\ServiceInterface;
+use App\Models\Address;
 use App\Models\Admin\Service;
 use App\Services\ImageService;
 use App\Services\ProviderService;
@@ -19,22 +20,22 @@ class ServiceRepository implements ServiceInterface
 
         // if ($userAddress = auth()->user()->address) {
         // function ($q) use ($userAddress) {
-        //     $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
-        // sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
-        //         ->having('distance_in_km', '<=', 'availability_range');
-        // })
+
+
+        // }
 
         $services = Service::getRelashinIndex()->get()
             ->map(function ($service) {
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                 $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                 unset($service->favourite);
+
                 return  $service;
             });
 
         return ['data' => $services];
     }
-    
+
     public function servicesProvider($provider_id)
     {
         $userAddress = auth()->user()->address;

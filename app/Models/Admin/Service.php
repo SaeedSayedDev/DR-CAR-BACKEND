@@ -74,6 +74,7 @@ class Service extends Model
     }
     public function scopeGetRelashinIndex($query)
     {
+        $userAddress = auth()->user()->address;
         return  $this->whereHas('provider')
             ->with('provider.user.userRole','provider.user.address', 'provider.user.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
