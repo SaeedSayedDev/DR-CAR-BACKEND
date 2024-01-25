@@ -30,14 +30,16 @@ class BookingServiceRepository implements BookingServiceInterface
 
     /////////////////// booking in user /////////////////////
 
-    public function getBookingsInUser()
+    public function getBookingsInUser($filter_key)
     {
         $bookingsGarage = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')
             ->with('address')
+            ->where('order_status_id', $filter_key)
             ->get();
 
         $bookingsWinch = BookingWinch::where('user_id', auth()->user()->id)->with('user.user_information', 'winch.winch_information')
             ->with('address')
+            ->where('order_status_id', $filter_key)
             ->get();
         $bookings = collect($bookingsGarage->toArray())->merge($bookingsWinch->toArray());
         $sortedBookings = $bookings->sortBy('created_at');
@@ -143,12 +145,13 @@ class BookingServiceRepository implements BookingServiceInterface
 
     /////////////////// booking in garage /////////////////////
 
-    public function getBookingsInGarage()
+    public function getBookingsInGarage($filter_key)
     {
         $bookings = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
         })
             ->with('serviceProvider.media', 'serviceProvider.provider')
+            ->where('order_status_id', $filter_key)
             ->get();
         return response()->json([
             'success' => true,

@@ -27,9 +27,9 @@ class BookingController extends Controller
         return $this->bookingServiceInterface->payBookingSerivice($request, $service_id);
     }
 
-    public function getBookingsInUser()
+    public function getBookingsInUser($filter_key)
     {
-        return $this->bookingServiceInterface->getBookingsInUser();
+        return $this->bookingServiceInterface->getBookingsInUser($filter_key);
     }
     public function cancelBooking($booking_id)
     {
@@ -38,9 +38,9 @@ class BookingController extends Controller
 
     
 
-    public function getBookingsInGarage()
+    public function getBookingsInGarage($filter_key)
     {
-        return $this->bookingServiceInterface->getBookingsInGarage();
+        return $this->bookingServiceInterface->getBookingsInGarage($filter_key);
     }
 
     public function showBooking($booking_id)
