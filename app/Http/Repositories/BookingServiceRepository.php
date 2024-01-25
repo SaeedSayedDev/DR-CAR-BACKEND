@@ -81,7 +81,6 @@ class BookingServiceRepository implements BookingServiceInterface
             ->where('cancel', false)
             ->find($booking_service_id);
 
-
         if ($bookingService->delivery_car == 1 and !isset($bookingService->booking_winch))
             return response()->json(['message' => 'you should booking winch'], 404);
         $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
@@ -91,14 +90,15 @@ class BookingServiceRepository implements BookingServiceInterface
         if ($payment_method->name == 'Stripe') {
 
             $retrieve = $this->payWithStripe($request, $total_amount);
+            $netDivision = $this->bookingService->netDivision($bookingService->delivery_car, $bookingService->payment_amount, $bookingService->booking_winch->payment_amount, $retrieve->balance_transaction->net / 100);
+
             if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
                 $this->bookingService->updateBooking($bookingService->booking_winch, 2, $retrieve->id);
-                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $retrieve->balance_transaction->net / 100);
+                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $netDivision['winch_net']);
             }
 
-
             $this->bookingService->updateBooking($bookingService, 2, $retrieve->id);
-            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $retrieve->balance_transaction->net / 100);
+            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $netDivision['garage_net']);
 
 
             return response()->json(['message' => 'success']);

@@ -57,4 +57,18 @@ class BookingServices
             Address::updateOrCreate(['user_id' => auth()->id()], $data);
         }
     }
+
+    public function netDivision($delivery_car, $bookingServiceAmount, $bookingWinchAmount, $net)
+    {
+        $subtraction = ($bookingServiceAmount + $bookingWinchAmount) - $net;
+        $percentage = $subtraction / ($bookingServiceAmount + $bookingWinchAmount) * 100;
+
+        if ($delivery_car == 1)
+            $winch_net = $bookingWinchAmount - $percentage / 100 * $bookingWinchAmount;
+        else
+            $winch_net = 0;
+
+        $garage_net = $bookingServiceAmount - $percentage / 100 * $bookingServiceAmount;
+        return ['garage_net' => $garage_net, 'winch_net' => $winch_net];
+    }
 }
