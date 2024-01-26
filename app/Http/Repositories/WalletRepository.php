@@ -22,14 +22,14 @@ class WalletRepository implements WalletInterface
     }
     public function wallet()
     {
-        $wallet = Wallet::where('user_id', auth()->user()->id)->first();
+        $wallet = Wallet::where('user_id', auth()->user()->id)->with('total_transaction.user.media')->first();
         return response()->json([
             'success' => true,
             'data' => $wallet,
             "message" => "Wallet retrieved successfully"
         ]);
     }
-    
+
     public function chargeWallet($request)
     {
         $user_id = auth()->user()->id;
@@ -39,7 +39,7 @@ class WalletRepository implements WalletInterface
 
             $retrieve = $this->payWithStripe($request, $request->amount);
 
-            $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100);
+            $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100, 'charge wallet', auth()->user()->id);
 
             return response()->json(['message' => 'success']);
         } elseif ($payment_method->name == 'Paypal') {
@@ -108,9 +108,9 @@ class WalletRepository implements WalletInterface
         // $withdraw = Withdraw::where('status', 'pending')->where('id', $withdraw_id)
         //     ->orWhere('status', 'processing')->where('id', $withdraw_id)
         //     ->firstOrFail();
-        $withdraw = Withdraw::where('status', 'pending')
-            ->orWhere('status', 'processing')
-            ->find($withdraw_id);
+        $withdraw = Withdraw::where('status', 'pending')->where('id', $withdraw_id)
+            ->orWhere('status', 'processing')->where('id', $withdraw_id)
+            ->first();
 
         $wallet = Wallet::where('user_id', $withdraw->user_id)->firstOrFail();
 

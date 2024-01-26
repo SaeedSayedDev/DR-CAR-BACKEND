@@ -82,7 +82,6 @@ class BookingServiceRepository implements BookingServiceInterface
             ->where('order_status_id', 6)
             ->where('cancel', false)
             ->find($booking_service_id);
-
         if ($bookingService->delivery_car == 1 and !isset($bookingService->booking_winch))
             return response()->json(['message' => 'you should booking winch'], 404);
         $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
@@ -96,11 +95,11 @@ class BookingServiceRepository implements BookingServiceInterface
 
             if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
                 $this->bookingService->updateBooking($bookingService->booking_winch, 2, $retrieve->id);
-                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $netDivision['winch_net']);
+                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $netDivision['winch_net'], 'booking', $bookingService->user_id);
             }
 
             $this->bookingService->updateBooking($bookingService, 2, $retrieve->id);
-            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $netDivision['garage_net']);
+            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $netDivision['garage_net'], 'booking', $bookingService->user_id);
 
 
             return response()->json(['message' => 'success']);
@@ -169,9 +168,10 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
         })
-            ->orWhereHas('user')->where('user_id', auth()->user()->id)
-            ->with(['service.media', 'service.options', 'address', 'status_order'])
+            // ->orWhereHas('user')->where('user_id', auth()->user()->id)
+            // ->with(['service.media', 'service.options', 'address', 'status_order'])
             ->findOrFail($booking_id);
+            return
         $bookingService->user_information->where('user_id', $bookingService->user_id);
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
