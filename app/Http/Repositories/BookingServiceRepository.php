@@ -47,7 +47,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         return response()->json([
             'success' => true,
-            'bookings' => $sortedBookings,
+            'data' => $sortedBookings,
             "message" => "Bookings retrieved successfully"
 
         ]);
@@ -165,13 +165,18 @@ class BookingServiceRepository implements BookingServiceInterface
     public function showBooking($booking_id)
     {
         // dd(auth()->user()->user_information);
-        $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
-            $query->where('provider_id', auth()->user()->garage_data->id);
-        })
-            // ->orWhereHas('user')->where('user_id', auth()->user()->id)
-            // ->with(['service.media', 'service.options', 'address', 'status_order'])
-            ->findOrFail($booking_id);
-            return
+        if (isset(auth()->user()->garage_data)) {
+            $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
+                $query->where('provider_id', auth()->user()->garage_data->id);
+            })
+                // ->orWhereHas('user')->where('user_id', auth()->user()->id)
+                ->with(['service.media', 'service.options', 'address', 'status_order'])
+                ->findOrFail($booking_id);
+        } else {
+            $bookingService = BookingService::WhereHas('user')->where('user_id', auth()->user()->id)
+                ->with(['service.media', 'service.options', 'address', 'status_order'])
+                ->findOrFail($booking_id);
+        }
         $bookingService->user_information->where('user_id', $bookingService->user_id);
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
