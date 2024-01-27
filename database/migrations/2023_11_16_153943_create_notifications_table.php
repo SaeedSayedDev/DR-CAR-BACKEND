@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('notification_type_en');
             $table->string('notification_type_ar');
             $table->string('api');
+            $table->boolean('read')->default(0);
+            
 
             $table->unsignedBigInteger('provider_id');
             $table->foreign('provider_id')->references('id')->on('users');

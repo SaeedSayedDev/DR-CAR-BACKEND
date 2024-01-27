@@ -124,6 +124,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
+    Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
+    Route::get('notification/read/{notification_id}', [NotificationController::class, 'update']);
+
     Route::get('booking/show/{booking_id}', [BookingController::class, 'showBooking']);
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
