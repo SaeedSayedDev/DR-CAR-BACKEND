@@ -58,7 +58,8 @@ class BookingServiceRepository implements BookingServiceInterface
     {
         $service =  Service::where('enable_booking', true)->findOrFail($request->service_id);
         $service_price = $this->bookingService->priceBooking($request, $service);
-        $bookingData = $this->bookingService->bookingData($request, $service_price);
+        $service_price_plus_commission = $this->bookingService->commissionForPayment($service_price);
+        $bookingData = $this->bookingService->bookingData($request, $service_price_plus_commission);
 
         $this->bookingService->addressBooking($request);
         $this->notification($bookingData->id, auth()->user()->id, auth()->user()->full_name);
@@ -95,11 +96,14 @@ class BookingServiceRepository implements BookingServiceInterface
 
             if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
                 $this->bookingService->updateBooking($bookingService->booking_winch, 2, $retrieve->id);
-                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $netDivision['winch_net'], 'booking', $bookingService->user_id);
+                $winchNetAfterCommission = $this->bookingService->commissionNet($bookingService->booking_winch->payment_amount, $netDivision['winch_net']);
+
+                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $bookingService->user_id);
             }
+            $garageNetAfterCommission = $this->bookingService->commissionNet($bookingService->booking_winch->payment_amount, $netDivision['winch_net']);
 
             $this->bookingService->updateBooking($bookingService, 2, $retrieve->id);
-            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $netDivision['garage_net'], 'booking', $bookingService->user_id);
+            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $bookingService->user_id);
 
 
             return response()->json(['message' => 'success']);

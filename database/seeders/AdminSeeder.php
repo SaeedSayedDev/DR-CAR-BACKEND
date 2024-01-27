@@ -10,6 +10,7 @@ use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\Admin\ServiceTranslation;
 use App\Models\Admin\StatusOrder;
+use App\Models\Commission;
 use App\Models\OptionsGroup;
 use App\Traits\AdminTrailt;
 use App\Models\Role;
@@ -79,5 +80,11 @@ class AdminSeeder extends Seeder
         foreach ($statusOrders as $statusOrder) {
             StatusOrder::create($statusOrder);
         }
+
+        Commission::create([
+            'commission' => 10,
+            'type' => 0,
+            'commission_from' => 0
+        ]);
     }
 }
