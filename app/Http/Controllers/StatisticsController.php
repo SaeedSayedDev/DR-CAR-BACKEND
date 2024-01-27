@@ -25,9 +25,11 @@ class StatisticsController extends Controller
                 $total_services = Service::where('provider_id', auth()->user()->garage_data->id)->get()->count();
                 return response()->json([
                     'success' => true,
-                    'toltal_bookings' =>  $toltal_bookings,
-                    'total_earning' =>  $total_earning->total_earning,
-                    'total_services' =>  $total_services,
+                    'data' => [
+                        'toltal_bookings' =>  $toltal_bookings,
+                        'total_earning' =>  $total_earning->total_earning,
+                        'total_services' =>  $total_services,
+                    ],
                     "message" => "statistics retrieved successfully"
                 ]);
             }
@@ -38,8 +40,10 @@ class StatisticsController extends Controller
             $toltal_bookings = BookingWinch::where('winch_id', $user->id)->get()->count();
             return response()->json([
                 'success' => true,
-                'toltal_bookings' =>  $toltal_bookings,
-                'total_earning' =>  $total_earning,
+                'data' => [
+                    'toltal_bookings' =>  $toltal_bookings,
+                    'total_earning' =>  $total_earning,
+                ],
                 "message" => "statistics retrieved successfully"
             ]);
         }

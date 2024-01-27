@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Models\Address;
 use App\Models\BookingService;
+use App\Models\Commission;
 use App\Models\Coupon;
+use App\Models\Taxe;
 
 class BookingServices
 {
@@ -21,6 +23,9 @@ class BookingServices
     function priceBooking($request, $service)
     {
         $price = $service->discount_price >= 1 ? $service->discount_price : $service->price;
+
+        $tax_price =  $this->servicePricePlusTax($price, $service->provider->tax_id);
+
         if (isset($request->quantity) > 0 and $service->price_unit == 1)
             $service_price = $price * $request->quantity;
         else
@@ -34,8 +39,47 @@ class BookingServices
             elseif ($coupon->coupon_unit == 1)
                 $service_price = $service_price - $coupon->coupon_price / 100 * $service_price;
         }
+        return $service_price + $tax_price;
+    }
+
+    public function servicePricePlustax($price, $tax_id)
+    {
+        $tax = Taxe::find($tax_id);
+        if ($tax->type == 1) {
+            return ($tax->value / 100 * $price);
+        } else {
+            return   $tax->value;
+        }
+    }
+
+
+    public function commissionForPayment($service_price)
+    {
+        $commission = Commission::first();
+        if ($commission->commission_from == 0) {
+            if ($commission->type == 1)
+                $service_price += ($commission->commission / 100 * $service_price);
+            elseif ($commission->type == 0)
+                $service_price += $commission->commission;
+        }
         return $service_price;
     }
+
+    public function commissionNet($payment_amount, $net)
+    {
+        $commission = Commission::first();
+        if ($commission->commission_from == 0 and $commission->type == 1) {
+            $netAftercommission = $net - ($commission->commission / (100 + $commission->commission) * $payment_amount);
+        } elseif ($commission->commission_from == 1 and $commission->type == 1) {
+            $netAftercommission = $net - ($commission->commission / 100 * $payment_amount);
+        } else {
+            $netAftercommission = $net - $commission->commission;
+        }
+        // return $service_price;
+        // 100 -> 120 ->132
+    }
+
+
     function bookingData($request, $service_price)
     {
         $requestData = $request->all();
