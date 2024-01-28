@@ -15,10 +15,10 @@ class CreateBookingWinchesTable extends Migration
     {
         Schema::create('booking_winches', function (Blueprint $table) {
             $table->id();
-            
+
             $table->integer('order_status_id')->default(1);
 
-            
+
             $table->boolean('cancel')->default(0);
             $table->string('payment_stataus')->default('unpaid');
             $table->string('payment_amount');
@@ -30,7 +30,7 @@ class CreateBookingWinchesTable extends Migration
             // $table->dateTime('ends_at')->nullable();
             // 'payment_id',
 
-            
+
             $table->unsignedBigInteger('booking_service_id');
             $table->foreign('booking_service_id')->references('id')->on('booking_services');
 
@@ -43,6 +43,9 @@ class CreateBookingWinchesTable extends Migration
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->string('booking_type')->default('winch');
+
             $table->timestamps();
         });
     }
