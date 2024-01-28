@@ -44,6 +44,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
+            $table->string('booking_type')->default('garage');
+
             $table->timestamps();
         });
     }
