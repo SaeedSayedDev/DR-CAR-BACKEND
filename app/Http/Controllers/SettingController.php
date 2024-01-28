@@ -15,6 +15,7 @@ class SettingController extends Controller
         $status = Artisan::call($request->order);
         return response()->json([$request['order'] => 'success', 'status' => $status]);
     }
+
     public function testNotification()
     {
         //user booked employee ,we should send notification to employeeُ s company 

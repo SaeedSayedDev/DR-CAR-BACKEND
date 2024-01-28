@@ -47,7 +47,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         return response()->json([
             'success' => true,
-            'bookings' => $sortedBookings,
+            'data' => $sortedBookings,
             "message" => "Bookings retrieved successfully"
 
         ]);
@@ -58,7 +58,8 @@ class BookingServiceRepository implements BookingServiceInterface
     {
         $service =  Service::where('enable_booking', true)->findOrFail($request->service_id);
         $service_price = $this->bookingService->priceBooking($request, $service);
-        $bookingData = $this->bookingService->bookingData($request, $service_price);
+        $service_price_plus_commission = $this->bookingService->commissionForPayment($service_price);
+        $bookingData = $this->bookingService->bookingData($request, $service_price_plus_commission);
 
         $this->bookingService->addressBooking($request);
         $this->notification($bookingData->id, auth()->user()->id, auth()->user()->full_name);
@@ -82,7 +83,6 @@ class BookingServiceRepository implements BookingServiceInterface
             ->where('order_status_id', 6)
             ->where('cancel', false)
             ->find($booking_service_id);
-
         if ($bookingService->delivery_car == 1 and !isset($bookingService->booking_winch))
             return response()->json(['message' => 'you should booking winch'], 404);
         $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
@@ -96,11 +96,14 @@ class BookingServiceRepository implements BookingServiceInterface
 
             if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
                 $this->bookingService->updateBooking($bookingService->booking_winch, 2, $retrieve->id);
-                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $netDivision['winch_net']);
+                $winchNetAfterCommission = $this->bookingService->commissionNet($bookingService->booking_winch->payment_amount, $netDivision['winch_net']);
+
+                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $bookingService->user_id);
             }
+            $garageNetAfterCommission = $this->bookingService->commissionNet($bookingService->payment_amount, $netDivision['garage_net']);
 
             $this->bookingService->updateBooking($bookingService, 2, $retrieve->id);
-            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $netDivision['garage_net']);
+            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $bookingService->user_id);
 
 
             return response()->json(['message' => 'success']);
@@ -166,13 +169,19 @@ class BookingServiceRepository implements BookingServiceInterface
     public function showBooking($booking_id)
     {
         // dd(auth()->user()->user_information);
-        $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
-            $query->where('provider_id', auth()->user()->garage_data->id);
-        })
-            ->orWhereHas('user')->where('user_id', auth()->user()->id)
-            ->with(['service.media', 'service.options', 'address', 'status_order'])
-            ->findOrFail($booking_id);
-        $bookingService->user_information->where('user_id', $bookingService->user_id);
+        if (isset(auth()->user()->garage_data)) {
+            $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
+                $query->where('provider_id', auth()->user()->garage_data->id);
+            })
+                // ->orWhereHas('user')->where('user_id', auth()->user()->id)
+                ->with(['service.media', 'service.options', 'address', 'status_order'])
+                ->findOrFail($booking_id);
+        } else {
+            $bookingService = BookingService::WhereHas('user')->where('user_id', auth()->user()->id)
+                ->with(['service.media', 'service.options', 'address', 'status_order'])
+                ->findOrFail($booking_id);
+                $bookingService->user_information->where('user_id', $bookingService->user_id);
+        }
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
