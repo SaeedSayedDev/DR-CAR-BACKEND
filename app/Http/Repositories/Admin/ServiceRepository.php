@@ -18,14 +18,39 @@ class ServiceRepository implements ServiceInterface
     public function index()
     {
 
-        // if ($userAddress = auth()->user()->address) {
-        // function ($q) use ($userAddress) {
 
+        // $this->calDistance()
 
-        // }
+        // $earthRadius = 6371; // Radius of the Earth in kilometers
 
+        // // Convert latitude and longitude from degrees to radians
+        // $lat1 = deg2rad($lat1);
+        // $lon1 = deg2rad($lon1);
+        // $lat2 = deg2rad($lat2);
+        // $lon2 = deg2rad($lon2);
+
+        // // Haversine formula
+        // $dlat = $lat2 - $lat1;
+        // $dlon = $lon2 - $lon1;
+        // $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+        // $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        // // Calculate distance
+        // $distance = $earthRadius * $c;
+
+        // return $distance;
+
+        $address = auth()->user()->address;
         $services = Service::getRelashinIndex()->get()
-            ->map(function ($service) {
+            ->map(function ($service, $address) {
+                $distance = $this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+                // dd($distance);
+
+                if ($distance > $service->provider->availability_range)
+                {
+                    unset($service);
+                    return ;
+                }
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                 $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                 unset($service->favourite);
@@ -33,9 +58,35 @@ class ServiceRepository implements ServiceInterface
                 return  $service;
             });
 
+
         return ['data' => $services];
     }
 
+    public function calDistance($lat1, $lon1, $lat2, $lon2)
+    {
+
+        // dump($lat1);
+        // dump($lon1);
+        // dump($lat2);
+        // dd($lon2);
+        $earthRadius = 6371; // Radius of the Earth in kilometers
+
+        // Convert latitude and longitude from degrees to radians
+        $lat1 = deg2rad($lat1);
+        $lon1 = deg2rad($lon1);
+        $lat2 = deg2rad($lat2);
+        $lon2 = deg2rad($lon2);
+        // Haversine formula
+        $dlat = $lat2 - $lat1;
+        $dlon = $lon2 - $lon1;
+        $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        // Calculate distance
+        $distance = $earthRadius * $c;
+
+        return $distance;
+    }
     public function servicesProvider($provider_id)
     {
         $userAddress = auth()->user()->address;
@@ -68,7 +119,7 @@ class ServiceRepository implements ServiceInterface
                 ->with('provider.user')
                 ->with('media', 'items', 'review')
                 ->withSum('review', 'review_value')
-                ->withCount('review' ,'popular')
+                ->withCount('review', 'popular')
                 ->get()
                 ->map(function ($service) {
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
