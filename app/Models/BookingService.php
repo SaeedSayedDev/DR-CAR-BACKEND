@@ -68,4 +68,9 @@ class BookingService extends Model
     {
         return $this->belongsTo(StatusOrder::class, 'order_status_id');
     }
+
+    public function media()
+    {
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'garage_receive');
+    }
 }

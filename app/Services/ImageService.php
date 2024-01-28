@@ -40,7 +40,7 @@ class ImageService
 
     public function storeMedia($request, $type_id, $type, $path, $api_image)
     {
-        if ($request->hasFile('images')) {
+        if ($request->hasFile('images') or isset($request->images)) {
             $this->deleteMedia($type_id, $type, $path, $api_image);
             
             foreach ($request->images as $index => $image) {

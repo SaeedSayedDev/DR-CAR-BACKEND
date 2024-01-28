@@ -40,6 +40,8 @@ Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
 Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 
 Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
+Route::get('images/Receive/{name}', [ImageController::class, 'imageReceive']);
+
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
 Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
 Route::get('images/Options/{name}', [ImageController::class, 'imageOptions']);
@@ -83,7 +85,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
 
-        Route::get('winch/bookings', [BookingController::class, 'getBookingForWinch']);
 
 
 
@@ -115,7 +116,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('garage/updateBooking/{id}', [BookingController::class, 'updateBookingServiceFromGarage']);
 
 
-
+        Route::get('winch/bookings/{filter_key}', [BookingController::class, 'getBookingForWinch']);
         Route::post('winch/updateBooking/{id}', [BookingController::class, 'updateBookingStatusFromWinch']);
 
         Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
@@ -128,6 +129,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::get('notification/read/{notification_id}', [NotificationController::class, 'update']);
 
     Route::get('booking/show/{booking_id}', [BookingController::class, 'showBooking']);
+    Route::get('booking/winch/show/{booking_id}', [BookingController::class, 'showBookingWinch']);
 
     Route::get('me', [AuthController::class, 'me'])->name('me');
 

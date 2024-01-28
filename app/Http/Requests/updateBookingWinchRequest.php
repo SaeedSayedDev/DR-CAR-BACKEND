@@ -24,7 +24,11 @@ class updateBookingWinchRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_status_id'=> 'required|exists:status_orders,id'
+            'order_status_id' => 'required|exists:status_orders,id',
+            'image_front' => 'image|required_if:order_status_id,==,4',
+            'image_back' => 'image|required_if:order_status_id,==,4',
+            'image_right_side' => 'image|required_if:order_status_id,==,4',
+            'image_left_side' => 'image|required_if:order_status_id,==,4',
         ];
     }
 }
