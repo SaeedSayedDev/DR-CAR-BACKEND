@@ -27,7 +27,7 @@ class NotificationController extends Controller
 
         return response()->json([
             'success' => true,
-            'notification_count' => Notification::where('user_id', $user->id)->where('read', 0)->get()->count(),
+            'data ' => ['notification_count' => Notification::where('user_id', $user->id)->where('read', 0)->get()->count()],
             "message" => "Notifications count retrieved successfully"
 
         ]);

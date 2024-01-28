@@ -100,7 +100,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
                 $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $bookingService->user_id);
             }
-            $garageNetAfterCommission = $this->bookingService->commissionNet($bookingService->booking_winch->payment_amount, $netDivision['winch_net']);
+            $garageNetAfterCommission = $this->bookingService->commissionNet($bookingService->payment_amount, $netDivision['garage_net']);
 
             $this->bookingService->updateBooking($bookingService, 2, $retrieve->id);
             $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $bookingService->user_id);
