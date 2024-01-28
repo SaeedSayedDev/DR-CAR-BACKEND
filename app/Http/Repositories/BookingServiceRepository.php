@@ -176,7 +176,8 @@ class BookingServiceRepository implements BookingServiceInterface
                 // ->orWhereHas('user')->where('user_id', auth()->user()->id)
                 ->with(['service.media', 'service.options', 'address', 'status_order'])
                 ->findOrFail($booking_id);
-        } else {
+        } elseif(isset(auth()->user()->user_information)) {
+            
             $bookingService = BookingService::WhereHas('user')->where('user_id', auth()->user()->id)
                 ->with(['service.media', 'service.options', 'address', 'status_order'])
                 ->findOrFail($booking_id);
