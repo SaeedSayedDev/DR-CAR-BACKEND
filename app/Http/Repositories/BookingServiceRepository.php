@@ -180,8 +180,8 @@ class BookingServiceRepository implements BookingServiceInterface
             $bookingService = BookingService::WhereHas('user')->where('user_id', auth()->user()->id)
                 ->with(['service.media', 'service.options', 'address', 'status_order'])
                 ->findOrFail($booking_id);
+                $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
-        $bookingService->user_information->where('user_id', $bookingService->user_id);
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,

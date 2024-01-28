@@ -40,9 +40,8 @@ class ServiceRepository implements ServiceInterface
 
         // return $distance;
 
-        $address = auth()->user()->address;
         $services = Service::getRelashinIndex()->get()
-            ->map(function ($service, $address) {
+            ->map(function ($service) {
                 $distance = $this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
                 // dd($distance);
 
