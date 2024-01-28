@@ -29,7 +29,9 @@ Route::get('error', [ServiceController::class, 'error']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
 
 Route::group(['middleware' => 'guest:web'], function () {
-    Route::get('login', function () {return view('auth.login');})->name('login.page');
+    Route::get('login', function () {
+        return view('auth.login');
+    })->name('login.page');
     Route::post('login', [AuthController::class, 'webLogin'])->name('login.store');
 });
 

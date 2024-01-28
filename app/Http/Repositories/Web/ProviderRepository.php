@@ -22,7 +22,7 @@ class ProviderRepository implements ProviderInterface
 
     public function index()
     {
-        $eProviders = GarageData::paginate(10);
+        $eProviders = GarageData::with('user.garage_information')->paginate(10);
         return view('e_providers.index', ['dataTable' => $eProviders]);
     }
 
