@@ -170,14 +170,13 @@ class BookingServiceRepository implements BookingServiceInterface
     {
         // dd(auth()->user()->user_information);
         if (isset(auth()->user()->garage_data)) {
-            dd('garage');
             $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
                 $query->where('provider_id', auth()->user()->garage_data->id);
             })
                 // ->orWhereHas('user')->where('user_id', auth()->user()->id)
                 ->with(['service.media', 'service.options', 'address', 'status_order'])
                 ->findOrFail($booking_id);
-        } else {
+        } elseif(isset(auth()->user()->user_information)) {
             
             $bookingService = BookingService::WhereHas('user')->where('user_id', auth()->user()->id)
                 ->with(['service.media', 'service.options', 'address', 'status_order'])
