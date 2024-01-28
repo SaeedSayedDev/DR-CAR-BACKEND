@@ -43,10 +43,14 @@ class ServiceRepository implements ServiceInterface
         $address = auth()->user()->address;
         $services = Service::getRelashinIndex()->get()
             ->map(function ($service, $address) {
-                dd($this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, $address->latitude, $address->longitude));
-                if ($this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, $address->latitude, $address->longitude) > $service->provider->availability_range)
-                   dd('s');// unset($service);
+                $distance = $this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+                // dd($distance);
 
+                if ($distance > $service->provider->availability_range)
+                {
+                    unset($service);
+                    return ;
+                }
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                 $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                 unset($service->favourite);
@@ -61,6 +65,10 @@ class ServiceRepository implements ServiceInterface
     public function calDistance($lat1, $lon1, $lat2, $lon2)
     {
 
+        // dump($lat1);
+        // dump($lon1);
+        // dump($lat2);
+        // dd($lon2);
         $earthRadius = 6371; // Radius of the Earth in kilometers
 
         // Convert latitude and longitude from degrees to radians
@@ -68,7 +76,6 @@ class ServiceRepository implements ServiceInterface
         $lon1 = deg2rad($lon1);
         $lat2 = deg2rad($lat2);
         $lon2 = deg2rad($lon2);
-
         // Haversine formula
         $dlat = $lat2 - $lat1;
         $dlon = $lon2 - $lon1;
