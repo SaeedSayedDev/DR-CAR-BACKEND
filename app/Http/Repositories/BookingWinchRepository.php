@@ -10,6 +10,7 @@ use App\Models\Admin\Service;
 use App\Models\BookingService;
 use App\Models\BookingWinch;
 use App\Models\Coupon;
+use App\Models\User;
 use App\Models\WinchInformation;
 use App\Services\AddressService;
 use App\Services\BookingServices;
@@ -25,14 +26,35 @@ use Stripe\Charge;
 class BookingWinchRepository implements BookingWinchInterface
 {
 
-    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService, private AddressService $addressService , private ImageService $imageService)
+    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService, private AddressService $addressService, private ImageService $imageService)
     {
     }
+
+    public function getWinchsInUser()
+    {
+        // return auth()->user();
+        $winchs = User::where('role_id', 3)->with('address')->get();
+            // ->map(function ($winch) {
+            //     if (isset(auth()->user()->address[0]) and isset($winch->address)) {
+            //         $distance = $this->addressService->calDistance($winch->address[0]->latitude, $winch->address[0]->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+
+            //         if ($distance > $winch->availability_range) {
+            //             unset($winch);
+            //             return;
+            //         }
+
+            //         return  $winch;
+            //     }
+            //     return;
+            // });
+        return ['data' => $winchs];
+    }
+
 
     public function getBookingForWinch($filter_key)
     {
         $bookings = BookingWinch::where('winch_id', auth()->user()->id)->with('user.winch_information')
-            ->with('address' ,'media')
+            ->with('address', 'media')
             ->where('order_status_id', $filter_key)
             ->get();
         return response()->json([
@@ -46,7 +68,7 @@ class BookingWinchRepository implements BookingWinchInterface
     {
         $user = auth()->user();
 
-        $bookingWinch = BookingWinch::with('user.user_information' ,'media')
+        $bookingWinch = BookingWinch::with('user.user_information', 'media')
             ->with('user.address')
             ->with('user.media')
             ->with('winch.winch_information')
@@ -81,10 +103,11 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('delivery_car', 1)
             ->findOrFail($data['booking_service_id']);
 
-        $range = $this->addressService->calculate_range_beetwen_user_and_garage($bookingService->service->provider_id);
+        $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+
 
         $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
-        $data['payment_amount'] = $range * $WinchInformation->KM_price;
+        $data['payment_amount'] = $distance * $WinchInformation->KM_price;
         $data['user_id'] = $user->id;
 
         $bookingWinch = BookingWinch::create($data);
