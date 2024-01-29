@@ -62,7 +62,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $service_price_plus_commission = $this->bookingService->commissionForPayment($service_price);
         $bookingData = $this->bookingService->bookingData($request, $service_price_plus_commission);
 
-        return $this->bookingService->addressBooking($request);
+         $this->bookingService->addressBooking($request);
         $this->notification($bookingData->id, auth()->user()->id, auth()->user()->full_name);
 
         return response()->json([
