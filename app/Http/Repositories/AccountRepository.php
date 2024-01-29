@@ -6,6 +6,7 @@ use App\Http\Interfaces\AccountInterface;
 use App\Models\availabilityTime;
 use App\Models\GarageData;
 use App\Models\User;
+use App\Models\WinchInformation;
 use App\Services\ImageService;
 
 class AccountRepository implements AccountInterface
@@ -102,5 +103,18 @@ class AccountRepository implements AccountInterface
             $request->all()
         );
         return response()->json(['message' => 'success']);
+    }
+
+    public function updateWinchAvailableNow()
+    {
+        $user = auth()->user();
+        if (isset($user->winch_information)) {
+            $winchInformation = WinchInformation::where('winch_id', $user->id)->first();
+            if ($winchInformation->available_now == 0)
+                $winchInformation->update(['available_now' => 1]);
+            elseif ($winchInformation->available_now == 1)
+                $winchInformation->update(['available_now' => 0]);
+            return response()->json(["success" => true, 'data' => $user->winch_information, "message" => "Address Updated successfully"]);
+        }
     }
 }

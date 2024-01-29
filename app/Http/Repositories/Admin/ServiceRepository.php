@@ -5,6 +5,7 @@ namespace App\Http\Repositories\Admin;
 use App\Http\Interfaces\Admin\ServiceInterface;
 use App\Models\Address;
 use App\Models\Admin\Service;
+use App\Services\AddressService;
 use App\Services\ImageService;
 use App\Services\ProviderService;
 use Illuminate\Support\Facades\DB;
@@ -12,44 +13,30 @@ use Illuminate\Support\Facades\File;
 
 class ServiceRepository implements ServiceInterface
 {
-    function __construct(private ImageService $imageService, private ProviderService $providerService)
+    function __construct(private ImageService $imageService, private ProviderService $providerService, private AddressService $addressService)
     {
     }
     public function index()
     {
 
-
-        // $this->calDistance()
-
-        // $earthRadius = 6371; // Radius of the Earth in kilometers
-
-        // // Convert latitude and longitude from degrees to radians
-        // $lat1 = deg2rad($lat1);
-        // $lon1 = deg2rad($lon1);
-        // $lat2 = deg2rad($lat2);
-        // $lon2 = deg2rad($lon2);
-
-        // // Haversine formula
-        // $dlat = $lat2 - $lat1;
-        // $dlon = $lon2 - $lon1;
-        // $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
-        // $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-        // // Calculate distance
-        // $distance = $earthRadius * $c;
-
-        // return $distance;
-
         $services = Service::getRelashinIndex()->get()
             ->map(function ($service) {
                 // if (isset(auth()->user()->address[0])) {
-                //     $distance = $this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+                //     $distance = $this->addressService->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
 
                 //     if ($distance > $service->provider->availability_range) {
                 //         unset($service);
                 //         return;
                 //     }
+                //     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                //     $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                //     unset($service->favourite);
+
+                //     return  $service;
                 // }
+                // return ;
+
+
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                 $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                 unset($service->favourite);
@@ -61,31 +48,7 @@ class ServiceRepository implements ServiceInterface
         return ['data' => $services];
     }
 
-    public function calDistance($lat1, $lon1, $lat2, $lon2)
-    {
 
-        // dump($lat1);
-        // dump($lon1);
-        // dump($lat2);
-        // dd($lon2);
-        $earthRadius = 6371; // Radius of the Earth in kilometers
-
-        // Convert latitude and longitude from degrees to radians
-        $lat1 = deg2rad($lat1);
-        $lon1 = deg2rad($lon1);
-        $lat2 = deg2rad($lat2);
-        $lon2 = deg2rad($lon2);
-        // Haversine formula
-        $dlat = $lat2 - $lat1;
-        $dlon = $lon2 - $lon1;
-        $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
-        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-        // Calculate distance
-        $distance = $earthRadius * $c;
-
-        return $distance;
-    }
     public function servicesProvider($provider_id)
     {
         $userAddress = auth()->user()->address;

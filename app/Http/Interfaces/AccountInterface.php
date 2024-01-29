@@ -10,6 +10,9 @@ interface AccountInterface
 
     public function delete();
 
+    public function updateWinchAvailableNow();
+
+    
 
     // garage data
     public function storeGarageData($request);

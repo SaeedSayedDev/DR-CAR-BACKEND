@@ -90,6 +90,11 @@ class AuthController extends Controller
     {
         return $this->accountInterface->delete();
     }
+    public function updateWinchAvailableNow()
+    {
+        return $this->accountInterface->updateWinchAvailableNow();
+    }
+    
 
 
     public function webLogin(LoginRequest $request)

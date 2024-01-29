@@ -90,6 +90,10 @@ class BookingController extends Controller
         return $this->bookingWinchInterface->showBookingWinch($booking_id);
     }
     
+    public function getWinchsInUser()
+    {
+        return $this->bookingWinchInterface->getWinchsInUser();
+    }
     
     
 }

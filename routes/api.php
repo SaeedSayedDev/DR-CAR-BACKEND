@@ -82,6 +82,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('pay/booking/service/{id}', [BookingController::class, 'payBookingSerivice']);
         Route::put('cancel/booking/{booking_id}', [BookingController::class, 'cancelBooking']);
 
+        Route::get('user/winchs', [BookingController::class, 'getWinchsInUser']);
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
 
@@ -118,6 +119,10 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::get('winch/bookings/{filter_key}', [BookingController::class, 'getBookingForWinch']);
         Route::post('winch/updateBooking/{id}', [BookingController::class, 'updateBookingStatusFromWinch']);
+
+        Route::get('winch/availableNow/update', [AuthController::class, 'updateWinchAvailableNow']);
+
+
 
         Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
 

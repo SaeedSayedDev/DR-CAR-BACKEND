@@ -9,6 +9,7 @@ interface BookingWinchInterface
     public function updateBookingStatusFromWinch($request, $booking_id);
     public function cancelBookingWinchFromUser($booking_id);
     public function showBookingWinch($booking_id);
+    public function getWinchsInUser();
 
     
     // public function getBookingsInUser();
