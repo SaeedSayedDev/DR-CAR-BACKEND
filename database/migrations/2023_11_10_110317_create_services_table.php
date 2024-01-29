@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('discount_price')->default(0);
             $table->boolean('price_unit')->comment("0 -> hourly, 1 -> fixed");
             $table->integer('quantity_unit')->default(1);
-            $table->time('duration')->nullable();
+            $table->string('duration')->nullable();
             $table->boolean('featured')->default(false);
             $table->boolean('enable_booking')->default(false);
             $table->boolean('available')->default(true);
