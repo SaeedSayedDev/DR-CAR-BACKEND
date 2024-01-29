@@ -87,6 +87,7 @@ class AccountRepository implements AccountInterface
     public function storeGarageData($request)
     {
         $data = $request->all();
+        $data['check_servic_id'] = 0;
         DB::beginTransaction();
 
         $GarageData = GarageData::updateOrCreate(
