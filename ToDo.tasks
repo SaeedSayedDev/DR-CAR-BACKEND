@@ -34,7 +34,12 @@ To Do Tasks Extension:
         ✔ me data user @done (1/4/2024, 3:41:09 PM)
         ✔ insert data category and item and service @done (1/24/2024, 6:33:00 PM)
         ✔ get address in https://drcar.website/api/services @done (1/26/2024, 1:25:19 AM)
-        
+        ✔ api get notification count not read @done (1/27/2024, 2:01:07 PM)
+        ✔ api get notification change not read to read @done (1/27/2024, 1:53:33 PM)
+        ✔ get review in show service @done (1/27/2024, 2:00:47 PM)
+        ✔ wallet transaction @done (1/27/2024, 2:00:57 PM)
+        ✔ get all my garage @done (1/27/2024, 2:01:25 PM)
+
         ☐ avilabilaty range
 
         ☐ test awords{title,desc}
@@ -44,19 +49,23 @@ To Do Tasks Extension:
         ☐ avilable fro winch winch
         
         ☐ image wansh
+        
+        ☐ image wansh status ready
+        ☐ image grage status done
 
         ☐ send status winsh in booking service
-        ☐ get winsh avilabilaty range and avilabele and filter for services
-       
 
-        ☐ add tax in booking service
-        ☐ create commsion admin dr.car
+
+        ☐ get winsh avilabilaty range and avilabele and filter for services
+
 
         ☐ get all my garage
         ☐ get all winchs in user app
+        ✔ add tax in booking service @done (1/28/2024, 3:29:03 PM)
+        ✔ create commsion admin dr.car @done (1/28/2024, 3:29:09 PM)
 
         ☐ get reviews comments in https://drcar.website/api/service/show/1
-        ☐ api get notification count not read
+        ☐ https://drcar.website/api/provider/show/1
     Ask:
 
 
