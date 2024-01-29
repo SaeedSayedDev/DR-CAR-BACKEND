@@ -69,7 +69,8 @@ class ProviderRepository implements ProviderInterface
             '0' => trans('lang.private'),
             '1' => trans('lang.company'),
         ];
-        $eProviderUser = User::where('role_id', 4)->pluck('full_name', 'id')->toArray();
+        $eProviderUser = User::where('role_id', 4)->whereDoesntHave('garage_data')->get();
+        $eProviderUser = collect([$eProvider->user])->concat($eProviderUser)->pluck('full_name', 'id')->toArray();
         $eProviderAddress = Address::pluck('address', 'id')->toArray();
         $eProviderTax = Taxe::pluck('value', 'id')->toArray();
         return view('e_providers.edit', compact('eProvider', 'eProviderType', 'eProviderUser', 'eProviderAddress', 'eProviderTax'));

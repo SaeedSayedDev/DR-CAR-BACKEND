@@ -39,21 +39,14 @@
                     </li>
                 @endif
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('favorites*') ? 'active' : '' }}"
-                        href="{{ route('favorites.index') }}"><i class="fas fa-heart"></i></a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link {{ Request::is('notifications*') ? 'active' : '' }}"
                         href="{!! route('notifications.index') !!}"><i class="fas fa-bell"></i></a>
                 </li>
-                <li class="nav-item
-    dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#"> <i class="fa fas fa-angle-down"></i>
                         {!! Str::upper('en') !!}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-
-
                         <a href="#" class="dropdown-item active" onclick="changeLanguage('en')">
                             <i class="fas fa-circle mr-2"></i> en
                         </a>

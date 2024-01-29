@@ -7,6 +7,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Web\BookingServiceController;
 use App\Http\Controllers\Web\BookingWinchController;
 use App\Http\Controllers\Web\CategoryController;
+use App\Http\Controllers\Web\CommissionController;
 use App\Http\Controllers\Web\CouponController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\ProviderController;
@@ -47,11 +48,11 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('eProviders', ProviderController::class);
     Route::resource('users', UserController::class);
-
     Route::get('booking/service', BookingServiceController::class)->name('booking.service');
     Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
     Route::get('coupons', CouponController::class)->name('coupons');
     Route::get('taxes', TaxController::class)->name('taxes');
+    Route::resource('commissions', CommissionController::class)->only('index', 'edit', 'update');
 });
 
 Route::get('bookings', function () {
