@@ -1,8 +1,8 @@
 @extends('layouts.settings.default')
 @section('settings_title',trans('lang.tax'))
 @section('settings_content')
-    @include('flash::message')
-    @include('adminlte-templates::common.errors')
+    {{-- @include('flash::message')
+    @include('adminlte-templates::common.errors') --}}
     <div class="clearfix"></div>
     <div class="card shadow-sm">
         <div class="card-header">

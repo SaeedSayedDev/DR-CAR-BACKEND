@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\CouponController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\ProviderController;
+use App\Http\Controllers\Web\TaxController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::get('booking/service', BookingServiceController::class)->name('booking.service');
     Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
     Route::get('coupons', CouponController::class)->name('coupons');
+    Route::get('taxes', TaxController::class)->name('taxes');
 });
 
 Route::get('bookings', function () {
