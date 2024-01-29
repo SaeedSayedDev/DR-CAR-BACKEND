@@ -154,7 +154,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookings = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
         })
-            ->with('serviceProvider.media', 'serviceProvider.provider', 'media')
+            ->with('serviceProvider.media', 'serviceProvider.provider','user.address', 'media')
             ->where('order_status_id', $filter_key)
             ->get();
         return response()->json([
