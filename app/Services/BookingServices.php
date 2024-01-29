@@ -95,11 +95,10 @@ class BookingServices
     {
 
         if (isset($request['address'])) {
-            dd('dd');
             $data = $request['address'];
-            $data['user_id'] =  auth()->id();
+            $data['user_id'] =  auth()->user()->id;
 
-            Address::updateOrCreate(['user_id' => auth()->id()], $data);
+           return  Address::updateOrCreate(['user_id' => auth()->id()], $data);
         }
     }
 
