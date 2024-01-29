@@ -29,6 +29,7 @@ class GarageDataRequest extends FormRequest
             'garage_type' => 'required|integer|in:0,1',
             'tax_id' => 'required|exists:taxes,id',
             'address_id' => 'required|exists:addresses,id,user_id,' . auth()->id(),
+            'checkServicePrice'=>'required'
         ];
     }
 }

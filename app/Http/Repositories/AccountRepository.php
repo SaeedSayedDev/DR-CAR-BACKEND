@@ -3,11 +3,13 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\AccountInterface;
+use App\Models\Admin\Service;
 use App\Models\availabilityTime;
 use App\Models\GarageData;
 use App\Models\User;
 use App\Models\WinchInformation;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\DB;
 
 class AccountRepository implements AccountInterface
 {
@@ -85,12 +87,27 @@ class AccountRepository implements AccountInterface
     public function storeGarageData($request)
     {
         $data = $request->all();
+        DB::beginTransaction();
+
         $GarageData = GarageData::updateOrCreate(
             [
                 'garage_id' => auth()->user()->id,
             ],
             $data
         );
+
+        Service::create([
+            'name' => 'check service',
+            'price' => $request->checkServicePrice,
+            'price_unit' => 1,
+            'featured' => true,
+            'enable_booking' => true,
+            'available' => true,
+            'provider_id' => $GarageData->id
+
+        ]);
+        DB::commit();
+
         return response()->json(['message' => 'success', 'data' => $GarageData]);
     }
 
