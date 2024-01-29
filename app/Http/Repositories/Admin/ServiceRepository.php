@@ -42,13 +42,13 @@ class ServiceRepository implements ServiceInterface
 
         $services = Service::getRelashinIndex()->get()
             ->map(function ($service) {
-                // $distance = $this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
-                // // dd($distance);
+                // if (isset(auth()->user()->address[0])) {
+                //     $distance = $this->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
 
-                // if ($distance > $service->provider->availability_range)
-                // {
-                //     unset($service);
-                //     return ;
+                //     if ($distance > $service->provider->availability_range) {
+                //         unset($service);
+                //         return;
+                //     }
                 // }
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                 $service->is_favorite = $service->favourite->count() > 0 ? true : false;

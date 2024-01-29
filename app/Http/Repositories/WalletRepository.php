@@ -60,11 +60,10 @@ class WalletRepository implements WalletInterface
         }
 
         DB::beginTransaction();
+        $data = request()->all();
+        $data['user_id'] = $user->id;
 
-        Withdraw::create([
-            'amount' => $request->amount,
-            'user_id' => $user->id,
-        ]);
+        Withdraw::create($data);
 
         $wallet->update([
             'awating_transfer' => $wallet->awating_transfer + $request->amount,
