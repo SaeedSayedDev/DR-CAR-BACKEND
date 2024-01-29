@@ -34,12 +34,11 @@ class BookingServiceRepository implements BookingServiceInterface
     public function getBookingsInUser($filter_key)
     {
         $bookingsGarage = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')
-            ->with('user.address')
+            ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
             ->get();
-
         $bookingsWinch = BookingWinch::where('user_id', auth()->user()->id)->with('user.user_information', 'winch.winch_information')
-            ->with('address')
+            ->with('addressUser')
             ->where('order_status_id', $filter_key)
             ->get();
         $bookings = collect($bookingsGarage->toArray())->merge($bookingsWinch->toArray());
@@ -154,7 +153,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookings = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
         })
-            ->with('serviceProvider.media', 'serviceProvider.provider','user.address', 'media')
+            ->with('serviceProvider.media', 'serviceProvider.provider', 'user.address', 'media')
             ->where('order_status_id', $filter_key)
             ->get();
         return response()->json([
@@ -178,7 +177,7 @@ class BookingServiceRepository implements BookingServiceInterface
         } else {
 
             $bookingService = BookingService::WhereHas('user')->with('user.user_information')->where('user_id', auth()->user()->id)
-                ->with(['service.media', 'service.options', 'user.address','status_order', 'media'])
+                ->with(['service.media', 'service.options', 'user.address', 'status_order', 'media'])
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }

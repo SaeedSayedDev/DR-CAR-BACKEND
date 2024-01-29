@@ -87,6 +87,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Address::class, 'user_id',  'id');
     }
 
+    public function addressUser()
+    {
+        return $this->hasOne(Address::class, 'user_id',  'id');
+    }
+
     public function userRole()
     {
         return $this->belongsTo(Role::class, 'role_id',  'id');
@@ -101,7 +106,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Service::class, 'provider_id');
     }
-    
+
     public function info()
     {
         return match ($this->role_id) {

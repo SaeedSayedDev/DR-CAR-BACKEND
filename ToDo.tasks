@@ -39,14 +39,13 @@ To Do Tasks Extension:
         ✔ get review in show service @done (1/27/2024, 2:00:47 PM)
         ✔ wallet transaction @done (1/27/2024, 2:00:57 PM)
         ✔ get all my garage @done (1/27/2024, 2:01:25 PM)
-
-        ☐ avilabilaty range
+        ✔ avilabilaty range @done (1/29/2024, 8:24:38 PM)
 
         ☐ test awords{title,desc}
         ☐ test experince{title,desc}
 
         ☐ remove review
-        ☐ avilable fro winch winch
+        ✔ avilable fro winch winch @done (1/29/2024, 8:25:22 PM)
         
         ☐ image wansh
         
@@ -54,7 +53,6 @@ To Do Tasks Extension:
         ☐ image grage status done
 
         ☐ send status winsh in booking service
-
 
         ☐ get winsh avilabilaty range and avilabele and filter for services
 
@@ -64,8 +62,8 @@ To Do Tasks Extension:
         ✔ add tax in booking service @done (1/28/2024, 3:29:03 PM)
         ✔ create commsion admin dr.car @done (1/28/2024, 3:29:09 PM)
         فحص 
-        ☐ wallet in admin
-        ☐ get reviews comments in https://drcar.website/api/service/show/1
+        ☐ wallet in admin -> ziad
+        ✔ get reviews comments in https://drcar.website/api/service/show/1 @done (1/29/2024, 8:29:48 PM)
         ☐ https://drcar.website/api/provider/show/1
     Ask:
 
