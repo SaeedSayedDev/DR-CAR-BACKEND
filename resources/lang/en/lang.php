@@ -1379,8 +1379,11 @@ return [
     'garage' => 'Garage',
     'private' => 'Private',
     'company' => 'Company',
-
     'booking_service' => 'Booking Service',
     'booking_winch' => 'Booking Winch',
-
+    'commission' => 'Commission',
+    'commission_plural' => 'Commissions',
+    'commission_desc' => 'Commissions Management',
+    'commission_edit' => 'Edit Commission',
+    'commission_table' => 'Commissions List',
 ];
