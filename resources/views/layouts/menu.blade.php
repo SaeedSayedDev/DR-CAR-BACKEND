@@ -491,7 +491,15 @@
             <p>{{ trans('lang.user_plural') }}</p>
         </a>
     </li>
-
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('taxes*') ? 'active' : '' }}"
+            href="{!! route('taxes') !!}">
+            @if ($icons)
+                <i class="nav-icon fas fa-coins"></i>
+            @endif
+            <p>{{ trans('lang.tax_plural') }}</p>
+        </a>
+    </li>
     {{-- <li
         class="nav-item has-treeview {{ (Request::is('settings*') || Request::is('users*')) && !Request::is('settings/mobile*') ? 'menu-open' : '' }}">
         <a href="#"
@@ -608,15 +616,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('settings/taxes*') ? 'active' : '' }}"
-                    href="{!! route('taxes.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-coins"></i>
-                    @endif
-                    <p>{{ trans('lang.tax_plural') }}</p>
-                </a>
-            </li>
+            
 
             <li class="nav-item">
                 <a href="{!! url('settings/payment/payment') !!}"
