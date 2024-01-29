@@ -23,6 +23,10 @@ class CreateGarageDataTable extends Migration
 
             $table->unsignedBigInteger('garage_id');
             $table->foreign('garage_id')->references('id')->on('users');
+            
+            $table->unsignedBigInteger('check_servic_id');
+
+            
 
 
             $table->timestamps();

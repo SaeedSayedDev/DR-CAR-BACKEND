@@ -30,7 +30,7 @@ class UserTrait
         ['address' => 'السياحى كوبري المثلث مدخل هرم, المريوطيه طريق, السياحي, الهرم، محافظة الجيزة 12919', 'latitude' => 29.817446293635328, 'longitude' => 31.23809960860361, 'user_id' => 2]
     ];
     public static  $garage_data = [
-        ['name' => 'drCar Garage', 'availability_range' => '5', 'garage_id' => 2, 'garage_type' => 0, 'tax_id' => 1, 'address_id' => 1]
+        ['name' => 'drCar Garage', 'availability_range' => '5', 'garage_id' => 2, 'garage_type' => 0, 'tax_id' => 1, 'address_id' => 1 ,'check_servic_id'=>1]
     ];
     public static $services = [
         [
@@ -39,7 +39,7 @@ class UserTrait
             'provider_id' => 1,
             'price' => 100,
             'price_unit' => 1,
-            'enable_booking' => true
+            'enable_booking' => true,
         ],
         [
             'name' => 'Body Car',
