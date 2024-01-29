@@ -87,6 +87,7 @@ class AccountRepository implements AccountInterface
     public function storeGarageData($request)
     {
         $data = $request->all();
+        $data['check_servic_id'] = 0;
         DB::beginTransaction();
 
         $GarageData = GarageData::updateOrCreate(
@@ -96,7 +97,7 @@ class AccountRepository implements AccountInterface
             $data
         );
 
-        Service::create([
+        $service = Service::create([
             'name' => 'check service',
             'price' => $request->checkServicePrice,
             'price_unit' => 1,
@@ -106,6 +107,7 @@ class AccountRepository implements AccountInterface
             'provider_id' => $GarageData->id
 
         ]);
+        $GarageData->update(['check_servic_id' => $service->id]);
         DB::commit();
 
         return response()->json(['message' => 'success', 'data' => $GarageData]);
