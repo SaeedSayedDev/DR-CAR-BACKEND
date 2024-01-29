@@ -34,7 +34,7 @@ class BookingServiceRepository implements BookingServiceInterface
     public function getBookingsInUser($filter_key)
     {
         $bookingsGarage = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')
-            ->with('address')
+            ->with('user.address')
             ->where('order_status_id', $filter_key)
             ->get();
 
@@ -62,7 +62,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $service_price_plus_commission = $this->bookingService->commissionForPayment($service_price);
         $bookingData = $this->bookingService->bookingData($request, $service_price_plus_commission);
 
-         $this->bookingService->addressBooking($request);
+        $this->bookingService->addressBooking($request);
         $this->notification($bookingData->id, auth()->user()->id, auth()->user()->full_name);
 
         return response()->json([
@@ -154,7 +154,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookings = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
         })
-            ->with('serviceProvider.media', 'serviceProvider.provider' ,'media')
+            ->with('serviceProvider.media', 'serviceProvider.provider', 'media')
             ->where('order_status_id', $filter_key)
             ->get();
         return response()->json([
@@ -173,12 +173,12 @@ class BookingServiceRepository implements BookingServiceInterface
             $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
                 $query->where('provider_id', auth()->user()->garage_data->id);
             })
-                ->with(['service.media', 'service.options', 'address', 'status_order','media'])
+                ->with(['service.media', 'service.options', 'address', 'status_order', 'media'])
                 ->findOrFail($booking_id);
         } else {
 
             $bookingService = BookingService::WhereHas('user')->with('user.user_information')->where('user_id', auth()->user()->id)
-                ->with(['service.media', 'service.options', 'address', 'status_order' ,'media'])
+                ->with(['service.media', 'service.options', 'address', 'status_order', 'media'])
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
@@ -198,7 +198,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         ]);
     }
-  
+
 
 
     public function updateBookingServiceFromGarage($request, $booking_id)
