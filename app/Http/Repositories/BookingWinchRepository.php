@@ -33,7 +33,7 @@ class BookingWinchRepository implements BookingWinchInterface
     public function getWinchsInUser()
     {
         // return auth()->user();
-        $winchs = User::where('role_id', 3)->with('address')->get();
+        $winchs = User::where('role_id', 3)->with('winch_information,media')->with('address')->get();
             // ->map(function ($winch) {
             //     if (isset(auth()->user()->address[0]) and isset($winch->address)) {
             //         $distance = $this->addressService->calDistance($winch->address[0]->latitude, $winch->address[0]->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
