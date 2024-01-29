@@ -44,4 +44,8 @@ class BookingWinch extends Model
     {
         return $this->belongsTo(User::class, 'winch_id');
     }
+    public function media()
+    {
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'winch_receive');
+    }
 }

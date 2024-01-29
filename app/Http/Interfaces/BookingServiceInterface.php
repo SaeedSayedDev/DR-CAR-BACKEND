@@ -13,7 +13,7 @@ interface BookingServiceInterface
 
     public function showBooking($booking_id);
 
-
+    
     public function getBookingsInGarage($filter_key);
     public function updateBookingServiceFromGarage($request, $booking_id);
 

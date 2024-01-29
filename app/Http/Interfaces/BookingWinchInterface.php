@@ -4,10 +4,11 @@ namespace App\Http\Interfaces;
 
 interface BookingWinchInterface
 {
-    public function getBookingForWinch();
+    public function getBookingForWinch($filter_key);
     public function bookingWinch($request);
     public function updateBookingStatusFromWinch($request, $booking_id);
     public function cancelBookingWinchFromUser($booking_id);
+    public function showBookingWinch($booking_id);
 
     
     // public function getBookingsInUser();

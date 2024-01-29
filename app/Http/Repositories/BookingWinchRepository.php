@@ -14,6 +14,7 @@ use App\Models\WinchInformation;
 use App\Services\AddressService;
 use App\Services\BookingServices;
 use App\Services\ConvertCurrencyService;
+use App\Services\ImageService;
 use App\Services\NotificationService;
 use App\Services\PaypalService;
 use App\Services\StripeService;
@@ -24,18 +25,46 @@ use Stripe\Charge;
 class BookingWinchRepository implements BookingWinchInterface
 {
 
-    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService, private AddressService $addressService)
+    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService, private AddressService $addressService , private ImageService $imageService)
     {
     }
 
-    public function getBookingForWinch()
+    public function getBookingForWinch($filter_key)
     {
-        $bookings = BookingWinch::where('garage_id', auth()->user()->id)->with('user.winch_information')
-            ->with('address')
+        $bookings = BookingWinch::where('winch_id', auth()->user()->id)->with('user.winch_information')
+            ->with('address' ,'media')
+            ->where('order_status_id', $filter_key)
             ->get();
         return response()->json([
             'success' => true,
             'data' => $bookings,
+            "message" => "Bookings retrieved successfully"
+        ]);
+    }
+
+    public function showBookingWinch($booking_id)
+    {
+        $user = auth()->user();
+
+        $bookingWinch = BookingWinch::with('user.user_information' ,'media')
+            ->with('user.address')
+            ->with('user.media')
+            ->with('winch.winch_information')
+            ->with('winch.media')
+            ->where('user_id', $user->id)
+            ->orWhere('winch_id', $user->id)
+            ->findOrFail($booking_id);
+
+        $bookingWinch->payment = [
+            'payment_status' => $bookingWinch->payment_stataus,
+            'payment_amount' =>  $bookingWinch->payment_amount,
+            'payment_type' =>  $bookingWinch->payment_type,
+            'payment_id' => $bookingWinch->payment_id,
+        ];
+        unset($bookingWinch->payment_stataus, $bookingWinch->payment_amount, $bookingWinch->payment_type, $bookingWinch->payment_id);
+        return response()->json([
+            'success' => true,
+            'data' => $bookingWinch,
             "message" => "Bookings retrieved successfully"
 
         ]);
@@ -81,6 +110,17 @@ class BookingWinchRepository implements BookingWinchInterface
             return response()->json(['message' => 'you can not decline this booking now'], 404);
 
         $bookingWinch->update(['order_status_id' => $request->order_status_id]);
+
+        if ($request->order_status_id == 4) {
+            $request['images'] = [
+                0 => $request->image_front,
+                1 => $request->image_back,
+                2 => $request->image_right_side,
+                3 => $request->image_left_side,
+            ];
+            // return $request->images;
+            $this->imageService->storeMedia($request, $bookingWinch->id, 'winch_receive', 'public/images/admin/receives', url("api/images/Receive/"));
+        }
         $this->notification($bookingWinch->id, auth()->user()->id, auth()->user()->full_name);
 
         DB::commit();

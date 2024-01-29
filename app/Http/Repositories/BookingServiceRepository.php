@@ -13,6 +13,7 @@ use App\Models\Coupon;
 use App\Services\BookingServices;
 use App\Services\BookingWinchService;
 use App\Services\ConvertCurrencyService;
+use App\Services\ImageService;
 use App\Services\NotificationService;
 use App\Services\PaypalService;
 use App\Services\StripeService;
@@ -23,7 +24,7 @@ use Stripe\Charge;
 class BookingServiceRepository implements BookingServiceInterface
 {
 
-    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService)
+    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService, private ImageService $imageService)
     {
     }
 
@@ -153,7 +154,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookings = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
         })
-            ->with('serviceProvider.media', 'serviceProvider.provider')
+            ->with('serviceProvider.media', 'serviceProvider.provider' ,'media')
             ->where('order_status_id', $filter_key)
             ->get();
         return response()->json([
@@ -168,20 +169,18 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function showBooking($booking_id)
     {
-        // dd(auth()->user()->user_information);
         if (isset(auth()->user()->garage_data)) {
             $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
                 $query->where('provider_id', auth()->user()->garage_data->id);
             })
-                // ->orWhereHas('user')->where('user_id', auth()->user()->id)
-                ->with(['service.media', 'service.options', 'address', 'status_order'])
+                ->with(['service.media', 'service.options', 'address', 'status_order','media'])
                 ->findOrFail($booking_id);
         } else {
-            
+
             $bookingService = BookingService::WhereHas('user')->with('user.user_information')->where('user_id', auth()->user()->id)
-                ->with(['service.media', 'service.options', 'address', 'status_order'])
+                ->with(['service.media', 'service.options', 'address', 'status_order' ,'media'])
                 ->findOrFail($booking_id);
-                // $bookingService->user_information->where('user_id', $bookingService->user_id);
+            // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
@@ -199,6 +198,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         ]);
     }
+  
 
 
     public function updateBookingServiceFromGarage($request, $booking_id)
@@ -213,6 +213,16 @@ class BookingServiceRepository implements BookingServiceInterface
             return response()->json(['message' => 'you can not decline this booking now'], 404);
 
         $bookingService->update(['order_status_id' => $request->order_status_id]);
+        if ($request->order_status_id == 4) {
+            $request['images'] = [
+                0 => $request->image_front,
+                1 => $request->image_back,
+                2 => $request->image_right_side,
+                3 => $request->image_left_side,
+            ];
+            // return $request->images;
+            $this->imageService->storeMedia($request, $bookingService->id, 'garage_receive', 'public/images/admin/receives', url("api/images/Receive/"));
+        }
 
         $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
         DB::commit();
