@@ -98,7 +98,7 @@ class BookingServices
             $data = $request['address'];
             $data['user_id'] =  auth()->user()->id;
 
-           return  Address::updateOrCreate(['user_id' => auth()->id()], $data);
+            Address::updateOrCreate(['user_id' => auth()->id()], $data);
         }
     }
 
