@@ -19,6 +19,9 @@ class CreateWithdrawsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('amount');
             $table->string('status')->default('pending');
+            $table->string('type'); //1->credit , 2->paypal
+            $table->string('paypal_email');
+            $table->string('card_number');
 
             $table->timestamps();
         });

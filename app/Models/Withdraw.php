@@ -9,7 +9,7 @@ class Withdraw extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'amount', 'status'
+        'user_id', 'amount', 'status' ,'type','paypal_email','card_number' //1->credit , 2->paypal
     ];
 
 

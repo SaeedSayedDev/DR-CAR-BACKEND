@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use function PHPSTORM_META\type;
+
 class WithdrawWalletRequest extends FormRequest
 {
     /**
@@ -24,7 +26,10 @@ class WithdrawWalletRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required'
+            'amount' => 'required',
+            'type'=>"required|integer|in:1,2" ,//1->credit , 2->paypal
+            'paypal_email'=>'required|email',
+            'card_number'=>'required|min:16|max:16'
         ];
     }
 }
