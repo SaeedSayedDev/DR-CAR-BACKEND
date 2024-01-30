@@ -19,7 +19,7 @@
     </li> --}}
     {{-- @if (!Module::isActivated('Subscription')) --}}
     <li class="nav-item">
-        <a class="nav-link" href="{!! url('dashboard') !!}">
+        <a class="nav-link" href="{!! route('dashboard') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-bell"></i>
             @endif
@@ -89,7 +89,7 @@
                     </li>
                 @endif
             @endcan --}}
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link active" href="{!! route('galleries.index') !!}">
                     @if ($icons)
                         <i class="nav-icon fas fa-image"></i>
@@ -106,7 +106,7 @@
                     <p>
                         {{ trans('lang.award_plural') }}</p>
                 </a>
-            </li>
+            </li> --}}
 
             {{-- <li class="nav-item">
                 <a class="nav-link" href="{!! route('experiences.index') !!}">

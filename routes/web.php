@@ -14,6 +14,7 @@ use App\Http\Controllers\Web\ProviderController;
 use App\Http\Controllers\Web\TaxController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,29 +31,32 @@ Route::get('success', [ServiceController::class, 'success']);
 Route::get('error', [ServiceController::class, 'error']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
 
-Route::group(['middleware' => 'guest:web'], function () {
-    Route::get('login', function () {
-        return view('auth.login');
-    })->name('login.page');
-    Route::post('login', [AuthController::class, 'webLogin'])->name('login.store');
-});
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+], function () {
+    Route::group(['middleware' => 'guest:web'], function () {
+        Route::view('login', 'auth.login')->name('login.page');
+        Route::post('login', [AuthController::class, 'webLogin'])->name('login.store');
+    });
 
-Route::group(['middleware' => 'auth:web'], function () {
-    Route::post('logout', [AuthController::class, 'webLogout']);
+    Route::group(['middleware' => 'auth:web'], function () {
+        Route::post('logout', [AuthController::class, 'webLogout']);
 
-    Route::get('/', DashboardController::class);
-    Route::get('/dashboard', DashboardController::class);
+        Route::get('/', DashboardController::class);
+        Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-    # Menue
-    Route::resource('items', ItemController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('eProviders', ProviderController::class);
-    Route::resource('users', UserController::class);
-    Route::get('booking/service', BookingServiceController::class)->name('booking.service');
-    Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
-    Route::get('coupons', CouponController::class)->name('coupons');
-    Route::get('taxes', TaxController::class)->name('taxes');
-    Route::resource('commissions', CommissionController::class)->only('index', 'edit', 'update');
+        # Menue
+        Route::resource('items', ItemController::class);
+        Route::resource('categories', CategoryController::class);
+        Route::resource('eProviders', ProviderController::class);
+        Route::resource('users', UserController::class);
+        Route::get('booking/service', BookingServiceController::class)->name('booking.service');
+        Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
+        Route::get('coupons', CouponController::class)->name('coupons');
+        Route::get('taxes', TaxController::class)->name('taxes');
+        Route::resource('commissions', CommissionController::class)->only('index', 'edit', 'update');
+    });
 });
 
 Route::get('bookings', function () {

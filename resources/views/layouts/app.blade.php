@@ -18,7 +18,8 @@
     @yield('css_custom')
 </head>
 
-<body class="ltr layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-mini primary light-mode"
+<body
+    class="{{ LaravelLocalization::getCurrentLocaleDirection() }} layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-mini primary light-mode"
     data-scrollbar-auto-hide="l" data-scrollbar-theme="os-theme-dark">
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand navbar-dark navbar-navy border-bottom-0">
@@ -40,23 +41,28 @@
                 @endif
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('notifications*') ? 'active' : '' }}"
-                        href="{!! route('notifications.index') !!}"><i class="fas fa-bell"></i></a>
+                        href="{!! route('dashboard') !!}"><i class="fas fa-bell"></i></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#"> <i class="fa fas fa-angle-down"></i>
-                        {!! Str::upper('en') !!}
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fa fas fa-angle-down"></i>
+                        {!! Str::upper(LaravelLocalization::getCurrentLocale()) !!}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item active" onclick="changeLanguage('en')">
-                            <i class="fas fa-circle mr-2"></i> en
-                        </a>
+                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+                                class="dropdown-item {{ LaravelLocalization::getCurrentLocale() == $localeCode ? 'active' : '' }}"
+                                rel="alternate" hreflang="{{ $localeCode }}">
+                                <i class="fas fa-circle mr-2"></i> {{ $properties['native'] }}
+                            </a>
+                        @endforeach
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <img src="https://abdelrahman-salah.online/storage/app/public/15/ic_launcher-%281%29.png"
                             class="brand-image mx-2 img-circle elevation-2" alt="User Image">
-                        <i class="fa fas fa-angle-down"></i> abdo
+                        <i class="fa fas fa-angle-down"></i> {{ auth()->user()->full_name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="{{ route('users.profile') }}" class="dropdown-item"> <i class="fas fa-user mr-2"></i>
