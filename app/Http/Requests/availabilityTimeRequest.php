@@ -28,7 +28,6 @@ class availabilityTimeRequest extends FormRequest
             'start_date' => 'required|date_format:H:i',
             'end_date' => 'required|date_format:H:i|after:start_date',
             'day' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-            'provider_id' => 'required|exists:garage_data,id',
 
         ];
     }

@@ -165,7 +165,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
 
-Route::get('services', [ServiceController::class, 'index'])->name('services');
+Route::get('services/{filter_key}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
 // Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
 
