@@ -1,13 +1,13 @@
-{{-- @push('css_lib')
+@push('css_lib')
 @include('layouts.datatables_css')
 @endpush
 
-{!! $dataTable->table(['width' => '100%']) !!}
+{{-- {!! $dataTable->table(['width' => '100%']) !!} --}}
 
 @push('scripts_lib')
 @include('layouts.datatables_js')
-{!! $dataTable->scripts() !!}
-@endpush --}}
+{{-- {!! $dataTable->scripts() !!} --}}
+@endpush
 
 <table class="table">
     <thead>
@@ -34,7 +34,7 @@
                 <td>{{ $eProvider->name }}</td>
                 <td>{{ $eProvider->garage_type == 0 ? trans('lang.private') : trans('lang.company') }}</td>
                 <td>{{ $eProvider->user->full_name }}</td>
-                <td>{{ $eProvider->user->garage_information->phone_number }}</td>
+                <td>{{ $eProvider->user->garage_information?->phone_number }}</td>
                 <td>{{ $eProvider->address->address }}</td>
                 <td>{{ $eProvider->availability_range }}</td>
                 <td>{{ $eProvider->taxe->value }}</td>

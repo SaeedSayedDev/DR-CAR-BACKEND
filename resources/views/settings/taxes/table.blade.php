@@ -24,7 +24,9 @@
                 <td>{{ $tax->name }}</td>
                 <td>{{ $tax->value }}</td>
                 <td>
-                    <span class="badge bg-primary">{{ $tax->type }}</span>
+                    <span class="badge bg-primary">
+                        {{ $tax->type ? trans('lang.tax_percent') : trans('lang.tax_fixed') }}
+                    </span>
                 </td>
                 <td>{{ $tax->updated_at->diffForHumans() }}</td>
             </tr>
