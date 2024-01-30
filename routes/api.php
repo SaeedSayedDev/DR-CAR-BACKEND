@@ -126,6 +126,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
 
+        Route::get('taxes', [ServiceController::class, 'taxes']);
+
+
         
     });
 
