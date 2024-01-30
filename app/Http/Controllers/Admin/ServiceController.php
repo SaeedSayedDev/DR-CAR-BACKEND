@@ -22,9 +22,9 @@ class ServiceController extends Controller
     {
     }
 
-    public function index()
+    public function index($filter_key)
     {
-        return $this->serviceInterface->index();
+        return $this->serviceInterface->index($filter_key);
     }
 
     public function servicesProvider($provider_id)

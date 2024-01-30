@@ -135,7 +135,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         $bookingService = BookingService::where('user_id', auth()->user()->id)->where('order_status_id', '<', 3)->findOrFail($booking_id);
 
-        $bookingService->update(['cancel' => true]);
+        $bookingService->update(['cancel' => true, 'order_status_id' => 7]);
         $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
 
         DB::commit();
@@ -210,6 +210,10 @@ class BookingServiceRepository implements BookingServiceInterface
 
         if ($bookingService->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);
+
+        if ($bookingService->delivery_car == 1 and $bookingService->booking_winch->order_status < 3) {
+            return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted'], 404);
+        }
 
         $bookingService->update(['order_status_id' => $request->order_status_id]);
         if ($request->order_status_id == 4) {
