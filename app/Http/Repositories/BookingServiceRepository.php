@@ -211,7 +211,10 @@ class BookingServiceRepository implements BookingServiceInterface
         if ($bookingService->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);
 
-        if ($bookingService->delivery_car == 1 and $bookingService->booking_winch->order_status < 3) {
+        if (
+            $bookingService->delivery_car == 1 and $request->order_status_id != 2 and
+            ($bookingService->booking_winch and $bookingService->booking_winch->order_status_id < 3 or !$bookingService->booking_winch)
+        ) {
             return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted'], 404);
         }
 
