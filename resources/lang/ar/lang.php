@@ -1307,4 +1307,12 @@ return [
     'garage' => 'ورشة',
     'private' => 'خاص',
     'company' => 'شركة',
+    'booking_service' => 'حجز خدمة',
+    'booking_winch' => 'حجز ونش',
+    'commission' => 'العمولة',
+    'commission_plural' => 'العمولات',
+    'commission_desc' => 'إدارة العمولات',
+    'commission_edit' => 'تحرير العمولة',
+    'commission_table' => 'قائمة العمولات',
+
 ];

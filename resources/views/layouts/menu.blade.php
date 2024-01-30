@@ -19,7 +19,7 @@
     </li> --}}
     {{-- @if (!Module::isActivated('Subscription')) --}}
     <li class="nav-item">
-        <a class="nav-link" href="{!! route('notifications.index') !!}">
+        <a class="nav-link" href="{!! route('dashboard') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-bell"></i>
             @endif
@@ -89,7 +89,7 @@
                     </li>
                 @endif
             @endcan --}}
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link active" href="{!! route('galleries.index') !!}">
                     @if ($icons)
                         <i class="nav-icon fas fa-image"></i>
@@ -106,7 +106,7 @@
                     <p>
                         {{ trans('lang.award_plural') }}</p>
                 </a>
-            </li>
+            </li> --}}
 
             {{-- <li class="nav-item">
                 <a class="nav-link" href="{!! route('experiences.index') !!}">
@@ -498,6 +498,15 @@
                 <i class="nav-icon fas fa-coins"></i>
             @endif
             <p>{{ trans('lang.tax_plural') }}</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('commissions*') ? 'active' : '' }}"
+            href="{!! route('commissions.index') !!}">
+            @if ($icons)
+                <i class="nav-icon fas fa-coins"></i>
+            @endif
+            <p>{{ trans('lang.commission_plural') }}</p>
         </a>
     </li>
     {{-- <li

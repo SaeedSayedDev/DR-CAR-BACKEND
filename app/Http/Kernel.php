@@ -73,5 +73,10 @@ class Kernel extends HttpKernel
         'apiAuth' => \App\Http\Middleware\ApiAuthenticate::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
+
+        'localize' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+		'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+		'localeSessionRedirect' => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        'localeViewPath' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
     ];
 }

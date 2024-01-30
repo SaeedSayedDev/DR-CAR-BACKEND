@@ -143,6 +143,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\Web\TaxInterface',
             'App\Http\Repositories\Web\TaxRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\CommissionInterface',
+            'App\Http\Repositories\Web\CommissionRepository'
+        );
     }
 
     /**
