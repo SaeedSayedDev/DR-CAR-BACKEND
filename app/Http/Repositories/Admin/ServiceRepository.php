@@ -51,10 +51,12 @@ class ServiceRepository implements ServiceInterface
                 return  $service;
             });
 
-        // if ($filter_key == 3)
-        //     $services =  $services->sortByDesc('rate')->values();
-        // else if ($filter_key == 5)
-        //     $services = $services->sortByDesc('popular_count')->values();
+        if ($filter_key == 3)
+            $services =  $services->sortByDesc('rate')->values();
+        else if ($filter_key == 4)
+            $services =  $services->where('featured', true)->get();
+        else if ($filter_key == 5)
+            $services = $services->sortByDesc('popular_count')->values();
 
 
         return ['data' => $services];
