@@ -110,7 +110,7 @@ class AccountRepository implements AccountInterface
         $GarageData->update(['check_servic_id' => $service->id]);
         DB::commit();
 
-        return response()->json(['message' => 'success', 'data' => $GarageData]);
+        return response()->json(['success' => true, 'data' => $GarageData]);
     }
 
     public function availabilityTime($request)

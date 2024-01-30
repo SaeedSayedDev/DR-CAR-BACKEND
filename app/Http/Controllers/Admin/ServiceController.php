@@ -13,6 +13,7 @@ use App\Http\Requests\CouponRequest;
 use App\Http\Requests\OptionRequest;
 use App\Http\Requests\payBookingSeriviceRequest;
 use App\Http\Requests\UpdateBookingServiceRequest;
+use App\Models\Taxe;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -101,5 +102,17 @@ class ServiceController extends Controller
     public function error()
     {
         return 'User declined the payment!';
+    }
+
+
+
+    // Taxes 
+    public function taxes()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Taxe::get(),
+            "message" => "Bookings retrieved successfully"
+        ]);
     }
 }
