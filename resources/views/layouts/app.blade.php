@@ -65,9 +65,6 @@
                         <i class="fa fas fa-angle-down"></i> {{ auth()->user()->full_name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="{{ route('users.profile') }}" class="dropdown-item"> <i class="fas fa-user mr-2"></i>
-                            {{ trans('lang.user_profile') }} </a>
-                        <div class="dropdown-divider"></div>
                         <a href="{!! url('logout') !!}" class="dropdown-item"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-envelope mr-2"></i> {{ __('auth.logout') }}

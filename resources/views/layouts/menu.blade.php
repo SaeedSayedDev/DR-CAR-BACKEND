@@ -6,18 +6,6 @@
             <p>{{ trans('lang.dashboard') }}</p>
         </a>
     </li>
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{!! route('modules.index') !!}">
-            @if ($icons)
-                <i class="nav-icon fas fa-th-large"></i>
-            @endif
-            <p>{{ trans('lang.module_plural') }} @if (config('installer.demo_app'))
-                    <span class="right badge badge-danger">New</span>
-                @endif
-            </p>
-        </a>
-    </li> --}}
-    {{-- @if (!Module::isActivated('Subscription')) --}}
     <li class="nav-item">
         <a class="nav-link" href="{!! route('dashboard') !!}">
             @if ($icons)
@@ -27,116 +15,17 @@
                 {{ trans('lang.notification_plural') }}</p>
         </a>
     </li>
-    {{-- <li class="nav-item">
-        <a class="nav-link">
-            @if ($icons)
-                <i class="nav-icon fas fa-heart"></i>
-            @endif
-            <p>
-                {{ trans('lang.favorite_plural') }}</p>
-        </a>
-    </li> --}}
-    {{-- @endif --}}
+
     <li class="nav-header">{{ trans('lang.app_management') }}</li>
 
-
-    <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
+    <li class="nav-item">
+        <a class="nav-link" href="{!! route('eProviders.index') !!}">
             @if ($icons)
-                <i class="nav-icon fas fa-users-cog"></i>
+                <i class="nav-icon fas fa-list-alt"></i>
             @endif
-            <p>{{ trans('lang.e_provider_plural') }} <i class="right fas fa-angle-left"></i>
-            </p>
+            <p>
+                {{ trans('lang.e_provider_plural') }}</p>
         </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a class="nav-link" href="{!! route('eProviderTypes.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-list-alt"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.e_provider_type_plural') }}</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{!! route('eProviders.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-list-alt"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.e_provider_plural') }}</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{!! route('requestedEProviders.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-list-alt"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.requested_e_providers_plural') }}</p>
-                </a>
-            </li>
-            {{-- @can('EProviderDocuments')
-                @if (Module::isActivated('EProviderDocuments'))
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('documents*') ? 'active' : '' }}" href="{!! route('documents.index') !!}">
-                            @if ($icons)
-                                <i class="nav-icon fa fa-file"></i>
-                            @endif
-                            <p>
-                                {{ trans('eproviderdocuments::lang.documents_plural') }}</p>
-                        </a>
-                    </li>
-                @endif
-            @endcan --}}
-            {{-- <li class="nav-item">
-                <a class="nav-link active" href="{!! route('galleries.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-image"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.gallery_plural') }}</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{!! route('awards.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-trophy"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.award_plural') }}</p>
-                </a>
-            </li> --}}
-
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="{!! route('experiences.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-briefcase"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.experience_plural') }}</p>
-                </a>
-            </li> --}}
-
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="{!! route('availabilityHours.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-business-time"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.availability_hour_plural') }}</p>
-                </a>
-            </li> --}}
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="{!! route('addresses.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-map-marked-alt"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.address_plural') }}</p>
-                </a>
-            </li> --}}
-        </ul>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{!! route('items.index') !!}">
@@ -207,34 +96,45 @@
         </ul>
     </li> --}}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{!! route('booking.service') !!}">
+    <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
             @if ($icons)
                 <i class="nav-icon fas fa-calendar-check"></i>
             @endif
             <p>
-                {{ trans('lang.booking_service') }}</p>
+                {{ trans('lang.booking_plural') }}
+                <i class="right fas fa-angle-left"></i>
+            </p>
         </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a class="nav-link" href="{!! route('booking.service') !!}">
+                    @if ($icons)
+                        <i class="nav-icon fas fa-calendar-check"></i>
+                    @endif
+                    <p>{{ trans('lang.booking_service') }}</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{!! route('booking.winch') !!}">
+                    @if ($icons)
+                        <i class="nav-icon fas fa-calendar-check"></i>
+                    @endif
+                    <p>{{ trans('lang.booking_winch') }}</p>
+                </a>
+            </li>
+        </ul>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{!! route('booking.winch') !!}">
-            @if ($icons)
-                <i class="nav-icon fas fa-calendar-check"></i>
-            @endif
-            <p>
-                {{ trans('lang.booking_winch') }}</p>
-        </a>
-    </li>
+
     <li class="nav-item">
         <a class="nav-link" href="{!! route('coupons') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-ticket-alt"></i>
             @endif
-            <p>
-                {{ trans('lang.coupon_plural') }} </p>
+            <p>{{ trans('lang.coupon_plural') }}</p>
         </a>
     </li>
-        
+
 
 
     {{--            @can('deliveryAddresses.index') --}}
@@ -306,8 +206,10 @@
         </a>
     </li> --}}
     {{-- @endif --}}
-    {{-- <li class="nav-header">{{ trans('lang.payment_plural') }}</li>
-    <li
+
+    <li class="nav-header">{{ trans('lang.payment_plural') }}</li>
+    
+    {{-- <li
         class="nav-item has-treeview {{ Request::is('payments*') || Request::is('paymentMethods*') || Request::is('paymentStatuses*') || Request::is('eProviderPayouts*') ? 'menu-open' : '' }}">
         <a href="#"
             class="nav-link {{ Request::is('payments*') || Request::is('paymentMethods*') || Request::is('paymentStatuses*') || Request::is('eProviderPayouts*') ? 'active' : '' }}">
@@ -363,7 +265,8 @@
 
         </ul>
     </li> --}}
-    {{-- <li class="nav-item has-treeview {{ Request::is('wallet*') ? 'menu-open' : '' }}">
+
+    <li class="nav-item has-treeview {{ Request::is('wallet*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link {{ Request::is('wallet*') ? 'active' : '' }}">
             @if ($icons)
                 <i class="nav-icon fas fa-wallet"></i>
@@ -373,28 +276,26 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('wallets*') ? 'active' : '' }}" href="{!! route('wallets.index') !!}">
+                <a class="nav-link {{ Request::is('wallets*') ? 'active' : '' }}" href="{!! route('wallets') !!}">
                     @if ($icons)
                         <i class="nav-icon fa fa-wallet"></i>
                     @endif
-                    <p>
-                        {{ trans('lang.wallet_table') }}</p>
+                    <p> {{ trans('lang.wallet_table') }}</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('walletTransactions*') ? 'active' : '' }}"
-                    href="{!! route('walletTransactions.index') !!}">
+                    href="{!! route('walletTransactions') !!}">
                     @if ($icons)
                         <i class="nav-icon fa fa-list-alt"></i>
                     @endif
-                    <p>
-                        {{ trans('lang.wallet_transaction_plural') }}</p>
+                    <p> {{ trans('lang.wallet_transaction_plural') }}</p>
                 </a>
             </li>
-
         </ul>
     </li>
-    <li class="nav-item">
+
+    {{-- <li class="nav-item">
         <a class="nav-link {{ Request::is('earnings*') ? 'active' : '' }}" href="{!! route('earnings.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-money-bill"></i>
@@ -403,7 +304,19 @@
                 {{ trans('lang.earning_plural') }} </p>
         </a>
     </li> --}}
+    
     <li class="nav-header">{{ trans('lang.app_setting') }}</li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('slides*') ? 'active' : '' }}" href="{!! route('slides') !!}">
+            @if ($icons)
+                <i class="nav-icon fas fa-images"></i>
+            @endif
+            <p>
+                {{ trans('lang.slide_plural') }} </p>
+        </a>
+    </li>
+
     {{-- <li class="nav-item">
         <a class="nav-link {{ Request::is('medias*') ? 'active' : '' }}" href="{!! url('medias') !!}">
             @if ($icons)
@@ -469,16 +382,6 @@
                         {{ trans('lang.custom_page_plural') }}</p>
                 </a>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('slides*') ? 'active' : '' }}" href="{!! route('slides.index') !!}">
-                    @if ($icons)
-                        <i class="nav-icon fas fa-images"></i>
-                    @endif
-                    <p>
-                        {{ trans('lang.slide_plural') }} </p>
-                </a>
-            </li>
         </ul>
 
     </li>
@@ -492,8 +395,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('taxes*') ? 'active' : '' }}"
-            href="{!! route('taxes') !!}">
+        <a class="nav-link {{ Request::is('taxes*') ? 'active' : '' }}" href="{!! route('taxes') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-coins"></i>
             @endif
@@ -501,8 +403,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('commissions*') ? 'active' : '' }}"
-            href="{!! route('commissions.index') !!}">
+        <a class="nav-link {{ Request::is('commissions*') ? 'active' : '' }}" href="{!! route('commissions.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-coins"></i>
             @endif
@@ -520,7 +421,7 @@
             </p>
         </a> 
         <ul class="nav nav-treeview"> --}}
-            {{-- <li class="nav-item">
+    {{-- <li class="nav-item">
                 <a href="{!! url('settings/app/globals') !!}"
                     class="nav-link {{ Request::is('settings/app/globals*') ? 'active' : '' }}">
                     @if ($icons)
@@ -530,9 +431,9 @@
                 </a>
             </li> --}}
 
-            
 
-            {{-- 
+
+    {{-- 
             <li
                 class="nav-item has-treeview {{ Request::is('settings/permissions*') || Request::is('settings/roles*') ? 'menu-open' : '' }}">
                 <a href="#"
@@ -667,5 +568,5 @@
                 </a>
             </li>
             --}}
-        </ul>
+    </ul>
     </li>

@@ -11,8 +11,11 @@ use App\Http\Controllers\Web\CommissionController;
 use App\Http\Controllers\Web\CouponController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\ProviderController;
+use App\Http\Controllers\Web\SlideController;
 use App\Http\Controllers\Web\TaxController;
 use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Web\WalletController;
+use App\Http\Controllers\Web\WalletTransactionController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -56,6 +59,9 @@ Route::group([
         Route::get('coupons', CouponController::class)->name('coupons');
         Route::get('taxes', TaxController::class)->name('taxes');
         Route::resource('commissions', CommissionController::class)->only('index', 'edit', 'update');
+        Route::get('slides', SlideController::class)->name('slides');
+        Route::get('wallets', WalletController::class)->name('wallets');
+        Route::get('walletTransactions', WalletTransactionController::class)->name('walletTransactions');
     });
 });
 
