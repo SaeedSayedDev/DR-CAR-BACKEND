@@ -1386,4 +1386,5 @@ return [
     'commission_desc' => 'Commissions Management',
     'commission_edit' => 'Edit Commission',
     'commission_table' => 'Commissions List',
+    'awating_transfer' => 'Awating Transfer'
 ];

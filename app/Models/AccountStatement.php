@@ -19,4 +19,9 @@ class AccountStatement extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    
+    public function wallet()
+    {
+        return $this->belongsTo(Wallet::class, 'wallet_id');
+    }
 }

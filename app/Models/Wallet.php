@@ -15,4 +15,9 @@ class Wallet extends Model
     {
         return $this->hasMany(AccountStatement::class, 'wallet_id', 'id');
     }
+  
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

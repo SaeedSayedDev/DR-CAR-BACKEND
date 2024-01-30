@@ -147,6 +147,18 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\Web\CommissionInterface',
             'App\Http\Repositories\Web\CommissionRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\SlideInterface',
+            'App\Http\Repositories\Web\SlideRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\WalletInterface',
+            'App\Http\Repositories\Web\WalletRepository'
+        );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\WalletTransactionInterface',
+            'App\Http\Repositories\Web\WalletTransactionRepository'
+        );
     }
 
     /**
