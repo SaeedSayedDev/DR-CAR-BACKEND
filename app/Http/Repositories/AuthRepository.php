@@ -79,6 +79,8 @@ class AuthRepository implements AuthInterface
         });
 
         $user->media;
+        if (isset($user->garage_information))
+            $user->garage_data;
 
 
         return response()->json([

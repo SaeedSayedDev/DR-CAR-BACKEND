@@ -115,13 +115,20 @@ class AccountRepository implements AccountInterface
 
     public function availabilityTime($request)
     {
-        availabilityTime::updateOrCreate(
-            [
-                'provider_id' => $request->provider_id
-            ],
-            $request->all()
-        );
-        return response()->json(['message' => 'success']);
+        if (auth()->user()->garage_data) {
+            availabilityTime::updateOrCreate(
+                [
+                    'provider_id' => auth()->user()->garage_data->id,
+                    'day'=>$request->day
+                ],
+                $request->all()
+            );
+            return response()->json(['message' => 'success']);
+        }
+        else {
+            return response()->json(['message' => 'please create garage data first'] , 404);
+
+        }
     }
 
     public function updateWinchAvailableNow()
