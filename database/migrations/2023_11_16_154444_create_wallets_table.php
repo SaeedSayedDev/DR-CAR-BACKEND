@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->double('total_balance');
             $table->double('awating_transfer');
-            $table->float('total_balance_doller')->default(0);
-            $table->float('awating_transfer_doller')->default(0);
+            // $table->float('total_balance_doller')->default(0);
+            // $table->float('awating_transfer_doller')->default(0);
             $table->string('total_earning')->default(0);
 
             

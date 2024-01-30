@@ -9,11 +9,10 @@ class Wallet extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'total_balance', 'awating_transfer', 'total_balance_doller', 'awating_transfer_doller', 'name', 'total_earning'
+        'user_id', 'total_balance', 'awating_transfer', 'name', 'total_earning'
     ];
     public function total_transaction()
     {
         return $this->hasMany(AccountStatement::class, 'wallet_id', 'id');
     }
-  
 }
