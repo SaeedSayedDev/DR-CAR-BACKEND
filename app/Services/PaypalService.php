@@ -88,12 +88,15 @@ class PaypalService
                     $netDivision = $this->bookingService->netDivision($booking_service->delivery_car, $booking_service->payment_amount, $booking_service->booking_winch->payment_amount, $net_aed);
 
                     if (isset($booking_service->booking_winch) and $booking_service->delivery_car == true) {
+                        $winchNetAfterCommission = $this->bookingService->commissionNet($booking_service->booking_winch->payment_amount, $netDivision['winch_net']);
+
                         $this->bookingService->updateBooking($booking_service->booking_winch, 1, $request['token']);
-                        $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $netDivision['winch_net'], 'booking', $booking_service->user_id);
+                        $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $booking_service->user_id);
                     }
+                    $garageNetAfterCommission = $this->bookingService->commissionNet($booking_service->payment_amount, $netDivision['garage_net']);
 
                     $this->bookingService->updateBooking($booking_service, 1, $request['token']);
-                    $this->walletService->updateWallet($booking_service->serviceProvider->provider->garage_id, $netDivision['garage_net'], 'booking', $booking_service->user_id);
+                    $this->walletService->updateWallet($booking_service->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $booking_service->user_id);
                 } else if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'user')/* wallet == user  */ {
                     $this->walletService->updateWallet($retrieveOrder['purchase_units'][0]['custom_id'], $net_aed, 'charge wallet', $retrieveOrder['purchase_units'][0]['custom_id']);
                 }
