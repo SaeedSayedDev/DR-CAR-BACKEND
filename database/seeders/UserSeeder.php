@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Address;
 use App\Models\Admin\Service;
+use App\Models\BookingService;
+use App\Models\BookingWinch;
 use App\Models\GarageData;
 use App\Models\GarageInformation;
 use App\Models\Slide;
@@ -46,19 +48,29 @@ class UserSeeder extends Seeder
             Address::create($address);
         }
 
-        $all_garage_data = UserTrait::$garage_data;
-        foreach ($all_garage_data as $garage_data) {
-            GarageData::create($garage_data);
+        $providers = UserTrait::$providers;
+        foreach ($providers as $provider) {
+            GarageData::create($provider);
         }
-
 
         $services = UserTrait::$services;
         foreach ($services as $service) {
             Service::create($service);
         }
+
         $slides = UserTrait::$slides;
         foreach ($slides as $slide) {
             Slide::create($slide);
+        }
+
+        $booking_services = UserTrait::$booking_services;
+        foreach ($booking_services as $booking_service) {
+            BookingService::create($booking_service);
+        }
+
+        $booking_winches = UserTrait::$booking_winches;
+        foreach ($booking_winches as $booking_winch) {
+            BookingWinch::create($booking_winch);
         }
     }
 }

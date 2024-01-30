@@ -11,7 +11,7 @@ class AdminTrailt
         ['name' => 'garage']
     ];
 
-
+    // 5 records
     public static $categories = [
         [
             'name' => [
@@ -43,9 +43,29 @@ class AdminTrailt
                 'ar' => 'خدمات تتعلق بتغيير الإطارات وضبط العجلات والتوازن.',
             ],
         ],
+        [
+            'name' => [
+                'en' => 'Oil Change and Fluids',
+                'ar' => 'تغيير الزيت والسوائل',
+            ],
+            'desc' => [
+                'en' => 'Professional oil change and fluids maintenance services for vehicles.',
+                'ar' => 'خدمات تغيير الزيت وصيانة السوائل الاحترافية للمركبات.',
+            ],
+        ],
+        [
+            'name' => [
+                'en' => 'Brake System Repairs',
+                'ar' => 'إصلاح نظام الفرامل',
+            ],
+            'desc' => [
+                'en' => 'Expert repairs and maintenance for vehicle brake systems.',
+                'ar' => 'إصلاح وصيانة متخصصة لأنظمة الفرامل في المركبات.',
+            ],
+        ],
     ];
 
-
+    // 9 records
     public static $items = [
         [
             'name' => [
@@ -56,7 +76,7 @@ class AdminTrailt
                 'en' => 'Professional engine oil change service using high-quality oil.',
                 'ar' => 'خدمة تغيير زيت المحرك بشكل احترافي باستخدام زيت عالي الجودة.',
             ],
-            'category_id' => 1, // Category ID for Maintenance and Repairs
+            'category_id' => 5, // Category ID for Maintenance and Repairs
         ],
         [
             'name' => [
@@ -148,11 +168,6 @@ class AdminTrailt
         ],
     ];
 
-
-
-
-
-
     public static $paymentMethods = [
         [
             'payment_type' => 1,
@@ -167,9 +182,6 @@ class AdminTrailt
         ],
     ];
 
-
-
-
     public static $optionGroups = [
 
         ['name' => 'Size'],
@@ -177,8 +189,6 @@ class AdminTrailt
         ['name' => 'Surface'],
 
     ];
-
-
 
     public static $taxes = [
         [
