@@ -10,7 +10,7 @@ use App\Http\Interfaces\OptionInterface;
 use App\Http\Requests\Admin\ServiceRequest;
 use App\Http\Requests\BookingServiceRequest;
 use App\Http\Requests\CouponRequest;
-use App\Http\Requests\OPtionRequest;
+use App\Http\Requests\OptionRequest;
 use App\Http\Requests\payBookingSeriviceRequest;
 use App\Http\Requests\UpdateBookingServiceRequest;
 use Illuminate\Http\Request;
