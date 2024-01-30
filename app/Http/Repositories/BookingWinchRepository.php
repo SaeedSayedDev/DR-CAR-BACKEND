@@ -99,7 +99,7 @@ class BookingWinchRepository implements BookingWinchInterface
         $user = auth()->user();
         $data = $request->all();
         $bookingService = BookingService::where('user_id', $user->id)
-            ->where('order_status_id', '>', 1)->where('order_status_id', '<', 7)
+            ->where('order_status_id', 2)
             ->where('cancel', false)
             ->with('service')
             ->where('delivery_car', 1)
