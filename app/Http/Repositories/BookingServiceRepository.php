@@ -82,7 +82,7 @@ class BookingServiceRepository implements BookingServiceInterface
             ->where('payment_stataus', 'unpaid')
             ->where('order_status_id', 6)
             ->where('cancel', false)
-            ->find($booking_service_id);
+            ->findOrFail($booking_service_id);
         if ($bookingService->delivery_car == 1 and !isset($bookingService->booking_winch))
             return response()->json(['message' => 'you should booking winch'], 404);
         $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
@@ -111,6 +111,23 @@ class BookingServiceRepository implements BookingServiceInterface
             $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
 
             return  $this->paypalService->createOrder($amount_usd, $bookingService->id, 'booking');
+        } else if ($payment_method->name == 'Wallet') {
+
+            $netDivision = $this->bookingService->netDivision($bookingService->delivery_car, $bookingService->payment_amount, $bookingService->booking_winch->payment_amount, $total_amount);
+
+            if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
+                $this->bookingService->updateBooking($bookingService->booking_winch, 2, 'wallet');
+                $winchNetAfterCommission = $this->bookingService->commissionNet($bookingService->booking_winch->payment_amount, $netDivision['winch_net']);
+
+                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $bookingService->user_id);
+            }
+            $garageNetAfterCommission = $this->bookingService->commissionNet($bookingService->payment_amount, $netDivision['garage_net']);
+
+            $this->bookingService->updateBooking($bookingService, 2, 'wallet');
+            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $bookingService->user_id);
+
+
+            return response()->json(['message' => 'success']);
         }
     }
 

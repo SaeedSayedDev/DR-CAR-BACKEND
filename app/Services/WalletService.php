@@ -15,9 +15,9 @@ class WalletService
         $wallet =  Wallet::where('user_id', $user_id_who_he_recieve_money)->first();
         $wallet->update(
             [
-                'total_balance' => DB::raw("total_balance + $net"),
-                'awating_transfer' => DB::raw("awating_transfer"),
-                'total_earning' => DB::raw("total_earning + $net")
+                'total_balance' => $wallet->total_balance + $net,
+                'awating_transfer' => $wallet->awating_transfer,
+                'total_earning' => $wallet->total_earning  + $net
             ],
         );
         AccountStatement::create([
@@ -43,7 +43,7 @@ class WalletService
 
             AccountStatement::create([
                 'amount' => $withdraw->amount,
-                'description' =>'withdraw',
+                'description' => 'withdraw',
                 'action' => 'debit',
                 'wallet_id' => $wallet->id,
                 'user_id' => $wallet->user_id,
