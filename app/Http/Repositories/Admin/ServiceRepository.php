@@ -178,7 +178,7 @@ class ServiceRepository implements ServiceInterface
 
     public function delete($id)
     {
-        $service = Service::where('provider_id', auth()->user()->garage_data->garage_id)->findOrFail($id);
+        $service = Service::where('provider_id', auth()->user()->garage_data->id)->findOrFail($id);
         if (auth()->user()->garage_data->check_servic_id == $service->id)
             return response()->json(['message' => 'you can not delete this service'], 404);
         $service->delete();
