@@ -80,7 +80,7 @@ class BookingServiceRepository implements BookingServiceInterface
             ->with('booking_winch')
             ->with('serviceProvider.provider')
             ->where('payment_stataus', 'unpaid')
-            ->where('order_status_id', 6)
+            ->where('order_status_id', 4)
             ->where('cancel', false)
             ->findOrFail($booking_service_id);
         if ($bookingService->delivery_car == 1 and !isset($bookingService->booking_winch))
