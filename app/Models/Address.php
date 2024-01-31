@@ -10,4 +10,9 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = ['address', 'latitude', 'longitude', 'description', 'user_id'];
+
+    function garage_data()
+    {
+        return $this->hasOne(GarageData::class, 'id');
+    }
 }

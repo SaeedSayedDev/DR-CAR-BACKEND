@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FirbaseToken;
+use App\Models\TestPaypal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,12 @@ class SettingController extends Controller
         $status = Artisan::call($request->order);
         return response()->json([$request['order'] => 'success', 'status' => $status]);
     }
-
+    public function testPaypal(Request $request)
+    {
+        TestPaypal::create([
+            'metadata' => json_encode($request)
+        ]);
+    }
     public function testNotification()
     {
         //user booked employee ,we should send notification to employeeُ s company 
