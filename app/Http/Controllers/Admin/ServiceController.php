@@ -52,6 +52,10 @@ class ServiceController extends Controller
         return $this->serviceInterface->delete($id);
     }
 
+    public function recommended()
+    {
+        return $this->serviceInterface->recommended();
+    }
 
 
 

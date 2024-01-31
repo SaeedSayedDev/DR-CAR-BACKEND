@@ -86,9 +86,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
 
-
-
-
+        Route::get('recommended/services', [ServiceController::class, 'recommended']);
+        
     });
 
 
@@ -129,7 +128,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('taxes', [ServiceController::class, 'taxes']);
 
 
-        
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
