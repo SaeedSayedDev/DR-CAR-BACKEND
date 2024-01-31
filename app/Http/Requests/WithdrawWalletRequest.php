@@ -28,8 +28,8 @@ class WithdrawWalletRequest extends FormRequest
         return [
             'amount' => 'required',
             'type'=>"required|integer|in:1,2" ,//1->credit , 2->paypal
-            'paypal_email'=>'required|email',
-            'card_number'=>'required|min:16|max:16'
+            'paypal_email'=>'required_if:type,==,2|email',
+            'card_number'=>'required_if:type,==,1|min:16|max:16'
         ];
     }
 }
