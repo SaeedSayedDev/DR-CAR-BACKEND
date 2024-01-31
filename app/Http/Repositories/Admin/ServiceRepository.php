@@ -187,4 +187,17 @@ class ServiceRepository implements ServiceInterface
             'message' => 'deleted successfully'
         ]);
     }
+
+    public function recommended()
+    {
+        $services = Service::with('media', 'review')
+            ->withSum('review', 'review_value')
+            ->withCount('review', 'popular')
+            ->get()->sortByDesc('popular_count')->values()->take(6);
+        return [
+            'success' => true,
+            'data' => $services,
+            "message" => "Services retrieved successfully"
+        ];
+    }
 }

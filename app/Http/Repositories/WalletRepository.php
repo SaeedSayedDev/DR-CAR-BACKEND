@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\WalletInterface;
+use App\Models\AccountStatement;
 use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\Slide;
@@ -67,6 +68,14 @@ class WalletRepository implements WalletInterface
 
         $wallet->update([
             'awating_transfer' => $wallet->awating_transfer + $request->amount,
+        ]);
+
+        AccountStatement::create([
+            'amount' => $request->amount,
+            'description' => 'withdraw',
+            'action' => 'debit',
+            'wallet_id' => $wallet->id,
+            'user_id' => $user->id,
         ]);
         DB::commit();
         return response()->json(['message' => 'success']);

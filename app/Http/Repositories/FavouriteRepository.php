@@ -14,7 +14,7 @@ class FavouriteRepository implements FavouriteInterface
         $user =  auth()->user();
         $favourites = Favourite::where('user_id', $user->id)
             ->with('service', function ($query) {
-                $query->with('media', 'items')
+                $query->with('media', 'items' ,'provider.user.garage_information')
                     ->withSum('review', 'review_value')
                     ->withCount('review');
             })->get()

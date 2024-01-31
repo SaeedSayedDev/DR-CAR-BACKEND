@@ -86,6 +86,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('user/winchs', [BookingController::class, 'getWinchsInUser']);
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
+
+
+
     });
 
 
@@ -124,6 +127,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
 
         Route::get('taxes', [ServiceController::class, 'taxes']);
+
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
@@ -158,6 +162,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
 });
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
+Route::get('recommended/services', [ServiceController::class, 'recommended']);
+
 
 Route::get('services/{filter_key}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');

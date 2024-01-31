@@ -10,6 +10,7 @@ use App\Models\Admin\Service;
 use App\Models\BookingService;
 use App\Models\BookingWinch;
 use App\Models\Coupon;
+use App\Models\Wallet;
 use App\Services\BookingServices;
 use App\Services\BookingWinchService;
 use App\Services\ConvertCurrencyService;
@@ -80,37 +81,29 @@ class BookingServiceRepository implements BookingServiceInterface
             ->with('booking_winch')
             ->with('serviceProvider.provider')
             ->where('payment_stataus', 'unpaid')
-            ->where('order_status_id', 6)
+            ->where('order_status_id', 4)
             ->where('cancel', false)
-            ->find($booking_service_id);
+            ->findOrFail($booking_service_id);
+
         if ($bookingService->delivery_car == 1 and !isset($bookingService->booking_winch))
             return response()->json(['message' => 'you should booking winch'], 404);
         $total_amount = $bookingService->booking_winch ? $bookingService->booking_winch->payment_amount + $bookingService->payment_amount : $bookingService->payment_amount;
 
 
         $payment_method =  PaymentMethod::where('enabled', 1)->where('payment_type', $request->payment_type)->firstOrFail();
+
+        DB::beginTransaction();
         if ($payment_method->name == 'Stripe') {
-
             $retrieve = $this->payWithStripe($request, $total_amount);
-            $netDivision = $this->bookingService->netDivision($bookingService->delivery_car, $bookingService->payment_amount, $bookingService->booking_winch->payment_amount, $retrieve->balance_transaction->net / 100);
+            return  $this->stripeService->payWithStripe($request, $bookingService, $total_amount, $retrieve);
 
-            if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
-                $this->bookingService->updateBooking($bookingService->booking_winch, 2, $retrieve->id);
-                $winchNetAfterCommission = $this->bookingService->commissionNet($bookingService->booking_winch->payment_amount, $netDivision['winch_net']);
-
-                $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $bookingService->user_id);
-            }
-            $garageNetAfterCommission = $this->bookingService->commissionNet($bookingService->payment_amount, $netDivision['garage_net']);
-
-            $this->bookingService->updateBooking($bookingService, 2, $retrieve->id);
-            $this->walletService->updateWallet($bookingService->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $bookingService->user_id);
-
-
-            return response()->json(['message' => 'success']);
         } elseif ($payment_method->name == 'Paypal') {
             $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
 
             return  $this->paypalService->createOrder($amount_usd, $bookingService->id, 'booking');
+        } else if ($payment_method->name == 'Wallet') {
+
+            return  $this->walletService->payWithWallet($request, $bookingService, $total_amount);
         }
     }
 
