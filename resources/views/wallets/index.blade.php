@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt mx-1"></i> {{trans('lang.dashboard')}}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{!! route('wallets.index') !!}">{{trans('lang.wallet_plural')}}</a>
+                            <a href="{!! route('wallets') !!}">{{trans('lang.wallet_plural')}}</a>
                         </li>
                         <li class="breadcrumb-item active">{{trans('lang.wallet_table')}}</li>
                     </ol>
@@ -25,7 +25,7 @@
 
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
+        {{-- @include('flash::message') --}}
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-md-row flex-column-reverse align-items-start card-header-tabs">
