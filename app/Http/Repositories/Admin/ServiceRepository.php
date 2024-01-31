@@ -51,10 +51,12 @@ class ServiceRepository implements ServiceInterface
                 return  $service;
             });
 
-        // if ($filter_key == 3)
-        //     $services =  $services->sortByDesc('rate')->values();
-        // else if ($filter_key == 5)
-        //     $services = $services->sortByDesc('popular_count')->values();
+        if ($filter_key == 3)
+            $services =  $services->sortByDesc('rate')->values();
+        else if ($filter_key == 4)
+            $services =  $services->where('featured', true)->values();
+        else if ($filter_key == 5)
+            $services = $services->sortByDesc('popular_count')->values();
 
 
         return ['data' => $services];
@@ -176,7 +178,7 @@ class ServiceRepository implements ServiceInterface
 
     public function delete($id)
     {
-        $service = Service::where('provider_id', auth()->user()->garage_data->garage_id)->findOrFail($id);
+        $service = Service::where('provider_id', auth()->user()->garage_data->id)->findOrFail($id);
         if (auth()->user()->garage_data->check_servic_id == $service->id)
             return response()->json(['message' => 'you can not delete this service'], 404);
         $service->delete();
