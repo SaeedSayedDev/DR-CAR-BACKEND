@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('paypal/success', [SettingController::class, 'testPaypal']);
+Route::post('paypal/success', [SettingController::class, 'testPaypal']);
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
 Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 
