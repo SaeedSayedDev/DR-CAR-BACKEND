@@ -32,7 +32,7 @@ class CreateBookingWinchesTable extends Migration
 
 
             $table->unsignedBigInteger('booking_service_id');
-            $table->foreign('booking_service_id')->references('id')->on('booking_services');
+            $table->foreign('booking_service_id')->references('id')->on('booking_services')->onDelete('cascade');
 
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('addresses');
