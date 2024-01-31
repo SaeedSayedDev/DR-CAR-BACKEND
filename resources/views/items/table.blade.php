@@ -1,13 +1,13 @@
-{{-- @push('css_lib')
+@push('css_lib')
     @include('layouts.datatables_css')
 @endpush
 
-{!! $dataTable->table(['width' => '100%']) !!}
+{{-- {!! $dataTable->table(['width' => '100%']) !!} --}}
 
 @push('scripts_lib')
     @include('layouts.datatables_js')
-    {!! $dataTable->scripts() !!}
-@endpush --}}
+    {{-- {!! $dataTable->scripts() !!} --}}
+@endpush
 
 <table class="table">
     <thead>
@@ -33,7 +33,7 @@
                 <td>{{ $item->updated_at->diffForHumans() }}</td>
                 <td>
                     <div class='btn-group btn-group-sm'>
-                        <a data-toggle="tooltip" data-placement="left" title="{{ trans('lang.address_edit') }}"
+                        <a data-toggle="tooltip" data-placement="left" 
                             href="{{ route('items.edit', $item->id) }}" class='btn btn-link'>
                             <i class="fas fa-edit"></i> </a>
                         {!! Form::open(['route' => ['items.destroy', $item->id], 'method' => 'delete']) !!}

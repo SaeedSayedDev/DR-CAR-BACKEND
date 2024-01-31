@@ -878,6 +878,7 @@ return [
     'coupon_expires_at_help' => 'Insert Expires At',
     'coupon_expires_at_placeholder' => 'Insert Expires At',
     'coupon_enabled' => 'Enabled',
+    'coupon_disabled' => 'Disabled',
     'coupon_updated_at' => 'Updated At',
     'coupon_e_provider_id' => 'Providers',
     'coupon_e_provider_id_help' => 'The coupon will applied on selected providers',
@@ -1365,9 +1366,6 @@ return [
     'module_installed_successfully' => 'Module Installed Successfully',
     'module_already_installed' => 'Module Already Installed',
     'module_buy' => 'Buy Now',
-
-    ####################################
-
     'item' => 'Item',
     'item_plural' => 'Items',
     'item_desc' => 'Items Management',
@@ -1386,5 +1384,5 @@ return [
     'commission_desc' => 'Commissions Management',
     'commission_edit' => 'Edit Commission',
     'commission_table' => 'Commissions List',
-    'awating_transfer' => 'Awating Transfer'
+    'awating_transfer' => 'Awating Transfer',
 ];

@@ -29,7 +29,7 @@
                     @if (now()->between($coupon->start_date, $coupon->end_date))
                         <span class="badge bg-success">{{ trans('lang.coupon_enabled') }}</span>
                     @else
-                        <span class="badge bg-danger">{{ trans('lang.custom_field_disabled') }}</span>
+                        <span class="badge bg-danger">{{ trans('lang.coupon_disabled') }}</span>
                     @endif
                 </td>
                 <td>{{ $coupon->updated_at->diffForHumans() }}</td>

@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\AccountStatement;
 use App\Models\Address;
 use App\Models\Admin\Service;
 use App\Models\BookingService;
 use App\Models\BookingWinch;
+use App\Models\Coupon;
 use App\Models\GarageData;
 use App\Models\GarageInformation;
 use App\Models\Slide;
@@ -74,5 +76,20 @@ class UserSeeder extends Seeder
             BookingWinch::create($booking_winch);
         }
         Wallet::insert(UserTrait::$wallets);
+
+        $coupons = UserTrait::$coupons;
+        foreach ($coupons as $coupon) {
+            Coupon::create($coupon);
+        }
+
+        $wallets = UserTrait::$wallets;
+        foreach ($wallets as $wallet) {
+            Wallet::create($wallet);
+        }
+
+        $walletTransactions = UserTrait::$walletTransactions;
+        foreach ($walletTransactions as $walletTransaction) {
+            AccountStatement::create($walletTransaction);
+        }
     }
 }
