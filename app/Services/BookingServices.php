@@ -75,6 +75,7 @@ class BookingServices
         } else {
             $netAftercommission = $net - $commission->commission;
         }
+        return $netAftercommission;
         // return $service_price;
         // 100 -> 120 ->132
     }
