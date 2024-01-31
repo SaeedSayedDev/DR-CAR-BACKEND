@@ -85,20 +85,21 @@ class PaypalService
                     //     $this->booking_service->updateBooking($booking_service->booking_winch, 2, $retrieve->id);
                     //     $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $netDivision['winch_net']);
                     // }
-                    $netDivision = $this->bookingService->netDivision($booking_service->delivery_car, $booking_service->payment_amount, $booking_service->booking_winch->payment_amount, $net_aed);
+                    $payment_amount_winch = isset($booking_service->booking_winch) ? $booking_service->booking_winch->payment_amount : 0;
+                    $netDivision = $this->bookingService->netDivision($booking_service->delivery_car, $booking_service->payment_amount, $payment_amount_winch, $net_aed);
 
                     if (isset($booking_service->booking_winch) and $booking_service->delivery_car == true) {
-                        $winchNetAfterCommission = $this->bookingService->commissionNet($booking_service->booking_winch->payment_amount, $netDivision['winch_net']);
+                        $winchNetAfterCommission = $this->bookingService->commissionNet($payment_amount_winch, $netDivision['winch_net']);
 
                         $this->bookingService->updateBooking($booking_service->booking_winch, 1, $request['token']);
-                        $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $booking_service->user_id);
+                        $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $booking_service->user_id, $request->payment_type, $payment_amount_winch);
                     }
                     $garageNetAfterCommission = $this->bookingService->commissionNet($booking_service->payment_amount, $netDivision['garage_net']);
-
                     $this->bookingService->updateBooking($booking_service, 1, $request['token']);
-                    $this->walletService->updateWallet($booking_service->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $booking_service->user_id);
+
+                    $this->walletService->updateWallet($booking_service->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $booking_service->user_id, $request->payment_type, $booking_service->payment_amount);
                 } else if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'user')/* wallet == user  */ {
-                    $this->walletService->updateWallet($retrieveOrder['purchase_units'][0]['custom_id'], $net_aed, 'charge wallet', $retrieveOrder['purchase_units'][0]['custom_id']);
+                    $this->walletService->updateWallet($retrieveOrder['purchase_units'][0]['custom_id'], $net_aed, 'charge wallet', $retrieveOrder['purchase_units'][0]['custom_id'], $request->payment_type, $net_aed);
                 }
                 DB::commit();
 
