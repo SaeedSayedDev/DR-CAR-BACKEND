@@ -19,7 +19,7 @@ class SettingController extends Controller
     public function testPaypal(Request $request)
     {
         TestPaypal::create([
-            'metadata' => json_encode($request)
+            'metadata' => json_encode($request->all())
         ]);
     }
     public function testNotification()
