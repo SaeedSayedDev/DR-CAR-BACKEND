@@ -180,6 +180,11 @@ class AdminTrailt
             'name' => 'Stripe',
             'logo' => 'stripe.jpg',
         ],
+        [
+            'payment_type' => 3,
+            'name' => 'Wallet',
+            'logo' => 'wallet.jpg',
+        ],
     ];
 
     public static $optionGroups = [
