@@ -1314,5 +1314,5 @@ return [
     'commission_desc' => 'إدارة العمولات',
     'commission_edit' => 'تحرير العمولة',
     'commission_table' => 'قائمة العمولات',
-
+    'awating_transfer' => 'في انتظار التحويل'
 ];
