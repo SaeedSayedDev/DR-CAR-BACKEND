@@ -41,7 +41,7 @@
                 <td>{{ $eProvider->updated_at->diffForHumans() }}</td>
                 <td>
                     <div class='btn-group btn-group-sm'>
-                        <a data-toggle="tooltip" data-placement="left" title="{{ trans('lang.address_edit') }}"
+                        <a data-toggle="tooltip" data-placement="left" 
                             href="{{ route('eProviders.edit', $eProvider->id) }}" class='btn btn-link'>
                             <i class="fas fa-edit"></i> </a>
                         {!! Form::open(['route' => ['eProviders.destroy', $eProvider->id], 'method' => 'delete']) !!}

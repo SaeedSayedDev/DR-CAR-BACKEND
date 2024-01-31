@@ -40,7 +40,7 @@
                 <td>{{ $user->updated_at->diffForHumans() }}</td>
                 <td>
                     <div class='btn-group btn-group-sm'>
-                        <a data-toggle="tooltip" data-placement="left" title="{{ trans('lang.address_edit') }}"
+                        <a data-toggle="tooltip" data-placement="left" 
                             href="{{ route('users.edit', $user->id) }}" class='btn btn-link'>
                             <i class="fas fa-edit"></i> </a>
                         {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}

@@ -11,7 +11,7 @@
 
 <table class="table">
     <thead>
-        <tr class="text-center">
+        <tr>
             <th>{{ trans('lang.commission') }}</th>
             <th>{{ trans('lang.tax_type') }}</th>
             <th>{{ trans('lang.by') }}</th>
@@ -21,7 +21,7 @@
     </thead>
     <tbody>
         @foreach ($dataTable as $commission)
-            <tr class="text-center">
+            <tr>
                 <td>{{ number_format($commission->commission, 2) }}</td>
                 <td>
                     <span class="badge bg-primary">{{ $commission->type ? trans('lang.tax_percent') : trans('lang.tax_fixed') }}</span>

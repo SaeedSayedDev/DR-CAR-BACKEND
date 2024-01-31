@@ -16,7 +16,7 @@
             <th>{{ trans('lang.wallet_balance') }}</th>
             <th>{{ trans('lang.earning') }}</th>
             <th>{{ trans('lang.awating_transfer') }}</th>
-            <th>{{ trans('lang.wallet_user_id') }}</th>
+            <th>{{ trans('lang.user') }}</th>
             <th>{{ trans('lang.wallet_updated_at') }}</th>
         </tr>
     </thead>

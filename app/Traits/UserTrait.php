@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Carbon\Carbon;
+
 class UserTrait
 {
     public static  $users = [
@@ -180,16 +182,57 @@ class UserTrait
         [
             'booking_service_id' => 1,
             'address_id' => 1,
-            'winch_id' => 1,
+            'winch_id' => 3,
             'user_id' => 1,
             'payment_amount' => 150,
         ],
         [
             'booking_service_id' => 2,
             'address_id' => 1,
-            'winch_id' => 1,
+            'winch_id' => 3,
             'user_id' => 1,
             'payment_amount' => 250,
         ],
+    ];
+
+    // 2 records
+    public static $coupons = [
+        [
+            'start_date' => '2024-01-1 10:10:10',
+            'end_date' => '2024-01-15 10:10:10',
+            'coupon' => 'c123',
+            'provider_id' => 1,
+            'coupon_unit' => 0, // fixed
+            'coupon_price' => 110,
+        ],
+        [
+            'start_date' => '2024-01-15 10:10:10',
+            'end_date' => '2024-02-15 10:10:10',
+            'coupon' => 'c456',
+            'provider_id' => 2,
+            'coupon_unit' => 1, // percentage
+            'coupon_price' => 120,
+        ],
+    ];
+
+    // 1 record
+    public static $wallets = [
+        [
+            'name' => 'customer_name Wallet',
+            'user_id' => 1,
+            'total_balance' => 0,
+            'awating_transfer' => 0,
+        ]
+    ];
+
+    // 1 record
+    public static $walletTransactions = [
+        [
+            'amount' => 100,
+            'description' => 'description for transaction',
+            'action' => 'credit',
+            'wallet_id' => 1,
+            'user_id' => 1,
+        ]
     ];
 }

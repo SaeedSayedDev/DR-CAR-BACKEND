@@ -8,7 +8,7 @@
 
 <!-- Name Field -->
 <div class="form-group row col-6">
-    {!! Form::label('full_name', 'Name:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+    {!! Form::label('full_name', trans('lang.user_name'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->full_name !!}</p>
     </div>
@@ -16,7 +16,7 @@
 
 <!-- Email Field -->
 <div class="form-group row col-6">
-    {!! Form::label('email', 'Email:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+    {!! Form::label('email', trans('lang.user_email'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->email !!}</p>
     </div>
@@ -24,7 +24,7 @@
 
 <!-- Image Field -->
 <div class="form-group row col-6">
-    {!! Form::label('image', 'Image:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+    {!! Form::label('image', trans('lang.user_avatar'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <img class="col-md-3 control-label text-md-right mx-1" style="height:50px" alt="{{ trans('lang.category_image') }}"
                 src="{{ asset('storage/images/users/' . $user->media()?->first()?->image) }}">
@@ -57,7 +57,7 @@
 
 <!-- Role Id Field -->
 <div class="form-group row col-6">
-    {!! Form::label('role_id', 'Role Id:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+    {!! Form::label('role_id', trans('lang.user_role_id'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->role_id !!}</p>
     </div>
@@ -71,17 +71,9 @@
     </div>
 </div> --}}
 
-<!-- Created At Field -->
-<div class="form-group row col-6">
-    {!! Form::label('created_at', 'Created At:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->created_at !!}</p>
-    </div>
-</div>
-
 <!-- Updated At Field -->
 <div class="form-group row col-6">
-    {!! Form::label('updated_at', 'Updated At:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+    {!! Form::label('updated_at', trans('lang.user_updated_at'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <p>{!! $user->updated_at !!}</p>
     </div>
