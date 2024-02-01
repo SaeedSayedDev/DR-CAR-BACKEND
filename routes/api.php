@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('paypal/success', [SettingController::class, 'testPaypal']);
+Route::get('paypal/success', [SettingController::class, 'testPaypal']);
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
 Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 
@@ -88,7 +88,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
 
       Route::post('paypal/success', [BookingController::class, 'success']);
-
     });
 
 
@@ -127,7 +126,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
 
         Route::get('taxes', [ServiceController::class, 'taxes']);
-
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
@@ -162,8 +160,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
 });
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
-Route::get('recommended/services', [ServiceController::class, 'recommended']);
-
 
 Route::get('services/{filter_key}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');

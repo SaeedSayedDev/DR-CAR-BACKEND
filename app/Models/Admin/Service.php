@@ -72,7 +72,7 @@ class Service extends Model
 
     public function favourite_user()
     {
-        return $this->hasOne(Favourite::class)->where('user_id', auth()->user()->id)->count();
+        return $this->hasOne(Favourite::class)->where('user_id', auth()->user()->id);
 
         // return $this->name = $this->hasOne(Favourite::class)->where('user_id', auth()->user() ? auth()->user()->id : 0)->first();
     }
@@ -87,10 +87,8 @@ class Service extends Model
     }
     public function scopeGetRelashinIndex($query)
     {
-
-        // $userAddress = auth()->user()->address;
         return  $this->whereHas('avilabilty_range')
-            ->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite_user')
+            ->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');
     }

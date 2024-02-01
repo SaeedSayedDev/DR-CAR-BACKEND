@@ -35,7 +35,7 @@ class BookingWinchRepository implements BookingWinchInterface
         // return auth()->user();
         $winchs = User::where('role_id', 3)->whereHas('winch_information', function ($q) {
             $q->where('available_now', 1);
-        })->with('address', 'media' ,'winch_information')->get();
+        })->with('address', 'media', 'winch_information')->get();
         // ->map(function ($winch) {
         //     if (isset(auth()->user()->address[0]) and isset($winch->address)) {
         //         $distance = $this->addressService->calDistance($winch->address[0]->latitude, $winch->address[0]->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
@@ -113,6 +113,7 @@ class BookingWinchRepository implements BookingWinchInterface
         $data['user_id'] = $user->id;
 
         $bookingWinch = BookingWinch::create($data);
+        $this->notification($bookingWinch->id, $bookingWinch->winch_id, auth()->user()->full_name);
 
         return response()->json([
             'success' => true,
@@ -146,7 +147,7 @@ class BookingWinchRepository implements BookingWinchInterface
             // return $request->images;
             $this->imageService->storeMedia($request, $bookingWinch->id, 'winch_receive', 'public/images/admin/receives', url("api/images/Receive/"));
         }
-        $this->notification($bookingWinch->id, auth()->user()->id, auth()->user()->full_name);
+        $this->notification($bookingWinch->id,  $bookingWinch->user_id, auth()->user()->full_name);
 
         DB::commit();
         return response()->json(['message' => 'success']);
@@ -161,8 +162,8 @@ class BookingWinchRepository implements BookingWinchInterface
 
         DB::beginTransaction();
         $bookingWinch = BookingWinch::where('user_id', $user->id)->where('order_status_id', 1)->where('id', $booking_id)->orWhere('order_status_id', 2)->where('id', $booking_id)->firstOrFail();
-        $bookingWinch->update(['cancel' => true]);
-        $this->notification($bookingWinch->id, auth()->user()->id, auth()->user()->full_name);
+        $bookingWinch->update(['cancel' => true, 'order_status_id' => 7]);
+        $this->notification($bookingWinch->id, $bookingWinch->winch_id, auth()->user()->full_name);
 
         DB::commit();
         return response()->json(['message' => 'success']);

@@ -41,7 +41,6 @@ class ServiceRepository implements ServiceInterface
                 // dd($service->featured);
 
 
-
                 $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                 $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                 unset($service->favourite);

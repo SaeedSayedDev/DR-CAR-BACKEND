@@ -7,6 +7,11 @@ use App\Models\TestPaypal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentList;
+
 
 class SettingController extends Controller
 {
@@ -16,11 +21,44 @@ class SettingController extends Controller
         $status = Artisan::call($request->order);
         return response()->json([$request['order'] => 'success', 'status' => $status]);
     }
-    public function testPaypal(Request $request)
+    public function testPaypal()
     {
-        TestPaypal::create([
-            'metadata' => json_encode($request->all())
+        $apiContext = new ApiContext(
+            new OAuthTokenCredential(
+                'ATvM3mEtUPKHBfv8ySMMKVyq09KCKrc0l-5e3S3_KIgbgV17RMKc4L8D30sPHGsImt2FBDYgOmkhzfZ5', #clientId
+                'EI3TdIu9pd165ljeVOQlZjRHgV9PLRUSs9wGjf3GJpJuQMbt4aRdkiLFJiIhngf-P_I1oPw4SS573Uc1' #secretKey
+            )
+        );
+        $transactionId = 'PAYID-MW5KTLA8WU55766UR388811Y';
+
+        // Set the PayPal API context
+        $apiContext->setConfig([
+            'mode' => 'sandbox', // Change to 'live' for production
         ]);
+
+        try {
+            // Retrieve the payment details using the transaction ID
+            $payment = Payment::get($transactionId, $apiContext);
+
+            // Access details from the $payment object
+            $transactionDetails = [
+                'id' => $payment->getId(),
+                'amount' => $payment->getTransactions()[0]->getAmount()->getTotal(),
+                'fees' => $payment->getTransactions()[0]->getRelatedResources()[0]->getSale()->getTransactionFee()->getValue(),
+                'customId' => $payment->getTransactions()[0]->getCustom(),
+                'softDescriptor' => $payment->getTransactions()[0]->getSoftDescriptor(),
+                'status' => $payment->getState(), // or $payment->getIntent() for the payment intent
+                'payerId' => $payment->getPayer()->getPayerInfo()->getPayerId(),
+                'netAmount' => $payment->getTransactions()[0]->getAmount()->getDetails()->getNetAmححount()
+
+
+            ];
+            $details = $payment->getTransactions()[0]->getAmount()->getDetails();
+            $transactionDetails['netAmount'] = $details->getSubtotal();
+            return response()->json($transactionDetails);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
     public function testNotification()
     {
