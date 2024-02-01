@@ -21,7 +21,10 @@ class CreateWithdrawsTable extends Migration
             $table->string('status')->default('pending');
             $table->string('type'); //1->credit , 2->paypal
             $table->string('paypal_email')->nullable();
-            $table->string('card_number')->nullable();
+            $table->string('full_name')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('iban')->nullable();
+            $table->string('bank_name')->nullable();
 
             $table->timestamps();
         });

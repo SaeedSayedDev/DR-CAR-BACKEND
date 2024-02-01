@@ -7,6 +7,7 @@ use App\Http\Interfaces\BookingWinchInterface;
 use App\Http\Requests\BookingServiceRequest;
 use App\Http\Requests\BookingWinchRequest;
 use App\Http\Requests\payBookingSeriviceRequest;
+use App\Http\Requests\PaypalSeuccessRequest;
 use App\Http\Requests\UpdateBookingServiceRequest;
 use App\Http\Requests\updateBookingWinchRequest;
 use Illuminate\Http\Request;
@@ -56,7 +57,7 @@ class BookingController extends Controller
     
     
     
-    public function success(Request $request)
+    public function success(PaypalSeuccessRequest $request)
     {
         return $this->bookingServiceInterface->success($request);
     }
