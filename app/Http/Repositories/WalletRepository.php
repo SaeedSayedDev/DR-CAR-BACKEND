@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\WalletInterface;
+use App\Models\AccountStatement;
 use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\Slide;
@@ -39,7 +40,7 @@ class WalletRepository implements WalletInterface
 
             $retrieve = $this->payWithStripe($request, $request->amount);
 
-            $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100, 'charge wallet', auth()->user()->id);
+            $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100, 'charge wallet', auth()->user()->id, $request->payment_type, $request->amount);
 
             return response()->json(['message' => 'success']);
         } elseif ($payment_method->name == 'Paypal') {
@@ -67,6 +68,14 @@ class WalletRepository implements WalletInterface
 
         $wallet->update([
             'awating_transfer' => $wallet->awating_transfer + $request->amount,
+        ]);
+
+        AccountStatement::create([
+            'amount' => $request->amount,
+            'description' => 'withdraw',
+            'action' => 'debit',
+            'wallet_id' => $wallet->id,
+            'user_id' => $user->id,
         ]);
         DB::commit();
         return response()->json(['message' => 'success']);

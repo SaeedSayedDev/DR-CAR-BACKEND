@@ -5,6 +5,7 @@ namespace App\Http\Repositories\Admin;
 use App\Http\Interfaces\Admin\ServiceInterface;
 use App\Models\Address;
 use App\Models\Admin\Service;
+use App\Models\GarageData;
 use App\Services\AddressService;
 use App\Services\ImageService;
 use App\Services\ProviderService;
@@ -18,7 +19,7 @@ class ServiceRepository implements ServiceInterface
     }
     public function index($filter_key)
     {
-        $services = Service::getRelashinIndex()->get()
+        $services = Service::whereHas('avilabilty_range')->getRelashinIndex()->get()
             ->map(function ($service) use ($filter_key) {
                 // if (isset(auth()->user()->address[0])) {
                 //     $distance = $this->addressService->calDistance($service->provider->address->latitude, $service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
@@ -185,5 +186,18 @@ class ServiceRepository implements ServiceInterface
         return response()->json([
             'message' => 'deleted successfully'
         ]);
+    }
+
+    public function recommended()
+    {
+        $services = Service::with('media', 'review')
+            ->withSum('review', 'review_value')
+            ->withCount('review', 'popular')
+            ->get()->sortByDesc('popular_count')->values()->take(6);
+        return [
+            'success' => true,
+            'data' => $services,
+            "message" => "Services retrieved successfully"
+        ];
     }
 }

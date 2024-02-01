@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Address;
 use App\Models\BookingService;
 use App\Models\Favourite;
 use App\Models\GarageData;
@@ -33,15 +34,25 @@ class Service extends Model
     ];
 
 
-
     public function items()
     {
         return $this->belongsToMany(Item::class);
     }
-
     public function provider()
     {
         return $this->belongsTo(GarageData::class, 'provider_id');
+    }
+    public function avilabilty_range()
+    {
+        $userLatitude = auth()->user()->address[0]['latitude'];
+        $userLongitude = auth()->user()->address[0]['longitude'];
+
+        $availability_range = $this->belongsTo(GarageData::class, 'provider_id')->first()->availability_range;
+        return $this->belongsTo(GarageData::class, 'provider_id')->whereHas('address', function ($qr) use ($userLatitude, $userLongitude, $availability_range) {
+            $qr->whereBetween('latitude', [$userLatitude - $availability_range, $userLatitude + $availability_range])
+                ->whereBetween('longitude', [$userLongitude - $availability_range, $userLongitude + $availability_range])
+                ->with('garage_data.services');
+        });
     }
     public function media()
     {
@@ -61,7 +72,9 @@ class Service extends Model
 
     public function favourite_user()
     {
-        return $this->hasOne(Favourite::class)->where('user_id', auth()->user() ? auth()->user()->id : 0);
+        return $this->hasOne(Favourite::class)->where('user_id', auth()->user()->id)->count();
+
+        // return $this->name = $this->hasOne(Favourite::class)->where('user_id', auth()->user() ? auth()->user()->id : 0)->first();
     }
 
     public function options()
@@ -76,8 +89,8 @@ class Service extends Model
     {
 
         // $userAddress = auth()->user()->address;
-        return  $this->whereHas('provider')
-            ->with('provider.user.userRole','provider.address', 'provider.user.media', 'media', 'items', 'favourite')
+        return  $this->whereHas('avilabilty_range')
+            ->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite_user')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');
     }

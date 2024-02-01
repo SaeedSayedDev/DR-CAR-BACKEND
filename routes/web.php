@@ -30,6 +30,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 // Route::get('success', [BookingController::class, 'success']);
+
 Route::get('success', [ServiceController::class, 'success']);
 Route::get('error', [ServiceController::class, 'error']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
