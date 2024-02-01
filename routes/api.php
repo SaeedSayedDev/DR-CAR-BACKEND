@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::post('paypal/success', [SettingController::class, 'testPaypal']);
 Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
 Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 
@@ -86,9 +87,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
 
-        Route::post('paypal/success', [BookingController::class, 'success']);
+      Route::post('paypal/success', [BookingController::class, 'success']);
 
-        
     });
 
 
@@ -127,7 +127,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('garage/statistics', [StatisticsController::class, 'statistics']);
 
         Route::get('taxes', [ServiceController::class, 'taxes']);
-
 
     });
 
