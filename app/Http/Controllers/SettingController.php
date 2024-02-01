@@ -49,7 +49,7 @@ class SettingController extends Controller
                 'softDescriptor' => $payment->getTransactions()[0]->getSoftDescriptor(),
                 'status' => $payment->getState(), // or $payment->getIntent() for the payment intent
                 'payerId' => $payment->getPayer()->getPayerInfo()->getPayerId(),
-                'netAmount' => $payment->getTransactions()[0]->getAmount()->getDetails()->getNetAmححount()
+                // 'netAmount' => $payment->getTransactions()[0]->getAmount()->getDetails()->getNetAmححount()
 
 
             ];
