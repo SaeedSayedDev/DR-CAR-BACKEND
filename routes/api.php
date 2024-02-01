@@ -86,6 +86,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
 
+        Route::post('paypal/success', [BookingController::class, 'success']);
+
         
     });
 

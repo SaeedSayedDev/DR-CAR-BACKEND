@@ -40,7 +40,7 @@ class WalletRepository implements WalletInterface
 
             $retrieve = $this->payWithStripe($request, $request->amount);
 
-            $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100, 'charge wallet', auth()->user()->id);
+            $this->walletService->updateWallet(auth()->user()->id, $retrieve->balance_transaction->net / 100, 'charge wallet', auth()->user()->id, $request->payment_type, $request->amount);
 
             return response()->json(['message' => 'success']);
         } elseif ($payment_method->name == 'Paypal') {
