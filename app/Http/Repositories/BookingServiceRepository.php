@@ -61,9 +61,8 @@ class BookingServiceRepository implements BookingServiceInterface
         $service_price = $this->bookingService->priceBooking($request, $service);
         $service_price_plus_commission = $this->bookingService->commissionForPayment($service_price);
         $bookingData = $this->bookingService->bookingData($request, $service_price_plus_commission);
-
         $this->bookingService->addressBooking($request);
-        $this->notification($bookingData->id, auth()->user()->id, auth()->user()->full_name);
+        $this->notification($bookingData->id, $bookingData->service->provider->garage_id, auth()->user()->full_name);
 
         return response()->json([
             'success' => true,
@@ -96,7 +95,6 @@ class BookingServiceRepository implements BookingServiceInterface
         if ($payment_method->name == 'Stripe') {
             $retrieve = $this->payWithStripe($request, $total_amount);
             return  $this->stripeService->payWithStripe($request, $bookingService, $total_amount, $retrieve);
-
         } elseif ($payment_method->name == 'Paypal') {
             $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
 
@@ -128,9 +126,8 @@ class BookingServiceRepository implements BookingServiceInterface
         DB::beginTransaction();
 
         $bookingService = BookingService::where('user_id', auth()->user()->id)->where('order_status_id', '<', 3)->findOrFail($booking_id);
-
         $bookingService->update(['cancel' => true, 'order_status_id' => 7]);
-        $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
+        $this->notification($bookingService->id,  $bookingService->service->provider->garage_id, auth()->user()->full_name);
 
         DB::commit();
 
@@ -224,7 +221,7 @@ class BookingServiceRepository implements BookingServiceInterface
             $this->imageService->storeMedia($request, $bookingService->id, 'garage_receive', 'public/images/admin/receives', url("api/images/Receive/"));
         }
 
-        $this->notification($bookingService->id, auth()->user()->id, auth()->user()->full_name);
+        $this->notification($bookingService->id, $bookingService->user_id, auth()->user()->full_name);
         DB::commit();
         return response()->json(['message' => 'success']);
     }
