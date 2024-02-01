@@ -46,7 +46,7 @@ class BookingService extends Model
 
     public function address()
     {
-        return $this->belongsTo(Address::class, 'user_id');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     public function user()

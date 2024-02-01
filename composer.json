@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.5",
         "laravelcollective/html": "^6.4",
         "mcamara/laravel-localization": "^1.8",
+        "paypal/rest-api-sdk-php": "^1.6",
         "stripe/stripe-php": "^13.6",
         "tymon/jwt-auth": "^1.0@dev",
         "yajra/laravel-datatables-oracle": "^9.21"
