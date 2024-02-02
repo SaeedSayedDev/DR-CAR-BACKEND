@@ -140,7 +140,7 @@ class AccountRepository implements AccountInterface
                 $winchInformation->update(['available_now' => 1]);
             elseif ($winchInformation->available_now == 1)
                 $winchInformation->update(['available_now' => 0]);
-            return response()->json(["success" => true, 'data' => $user->winch_information, "message" => "Address Updated successfully"]);
+            return response()->json(["success" => true, "message" => "available Updated successfully"]);
         }
     }
 }
