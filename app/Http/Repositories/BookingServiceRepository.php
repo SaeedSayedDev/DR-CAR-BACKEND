@@ -61,7 +61,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $service_price = $this->bookingService->priceBooking($request, $service);
         $service_price_plus_commission = $this->bookingService->commissionForPayment($service_price);
         $bookingData = $this->bookingService->bookingData($request, $service_price_plus_commission);
-        $this->bookingService->addressBooking($request);
+        // $this->bookingService->addressBooking($request);
         $this->notification($bookingData->id, $bookingData->service->provider->garage_id, auth()->user()->full_name);
 
         return response()->json([
@@ -103,6 +103,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
             return  $this->walletService->payWithWallet($request, $bookingService, $total_amount);
         }
+        
     }
 
 

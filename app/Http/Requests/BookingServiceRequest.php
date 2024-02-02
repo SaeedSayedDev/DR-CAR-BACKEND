@@ -35,10 +35,13 @@ class BookingServiceRequest extends FormRequest
             'booking_at' => 'nullable|date|after:' . now(),
             'quantity' => 'nullable|integer',
             'delivery_car' => 'required|boolean',
-            'address' => 'nullable|array',
-            'address.address' =>  "$checkRerequiredData|min:5",
-            'address.latitude' => "$checkRerequiredData|numeric",
-            'address.longitude' => "$checkRerequiredData|numeric",
-            'address.description' => 'nullable|string|min:5',        ];
+            'address_id' => 'required|exists:addresses,id,user_id,' . auth()->id(),
+
+            // 'address' => 'nullable|array',
+            // 'address.address' =>  "$checkRerequiredData|min:5",
+            // 'address.latitude' => "$checkRerequiredData|numeric",
+            // 'address.longitude' => "$checkRerequiredData|numeric",
+            // 'address.description' => 'nullable|string|min:5',
+        ];
     }
 }

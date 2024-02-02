@@ -24,10 +24,10 @@ class AddressController extends Controller
 
     public function update(AddressRequset $request, $id)
     {
-        return $this->addressInterface->store($request, $id);
+        return $this->addressInterface->update($request, $id);
     }
     public function delete($id)
     {
-        return $this->addressInterface->store($id);
+        return $this->addressInterface->delete($id);
     }
 }

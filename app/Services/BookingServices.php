@@ -88,7 +88,6 @@ class BookingServices
 
         $requestData['payment_amount'] = $service_price;
         $requestData['user_id'] = auth()->user()->id;
-        // dd($requestData);
         return BookingService::create($requestData);
     }
 
