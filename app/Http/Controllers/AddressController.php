@@ -21,4 +21,13 @@ class AddressController extends Controller
     {
         return $this->addressInterface->store($request);
     }
+
+    public function update(AddressRequset $request, $id)
+    {
+        return $this->addressInterface->store($request, $id);
+    }
+    public function delete($id)
+    {
+        return $this->addressInterface->store($id);
+    }
 }

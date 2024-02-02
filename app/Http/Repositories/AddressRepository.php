@@ -20,9 +20,28 @@ class AddressRepository implements AddressInterface
         $user = auth()->user();
         $data = $request->all();
         $data['user_id'] = $user->id;
-        $data = $user->role_id == 4 ? Address::create($data) :
-            Address::updateOrCreate(['user_id' => $user->id], $data);
+        $data = Address::create($data);
+        // Address::updateOrCreate(['user_id' => $user->id], $data);
+        return response()->json(["success" => true, 'data' => $data, "message" => "Address Created successfully"]);
+    }
+
+    public function update($request, $id)
+    {
+        $user = auth()->user();
+        $address = Address::where('user_id', $user->id)->find($id);
+        $data = $request->all();
+        $data['user_id'] = $user->id;
+        $address->update($data);
+        // Address::updateOrCreate(['user_id' => $user->id], $data);
         return response()->json(["success" => true, 'data' => $data, "message" => "Address Updated successfully"]);
+    }
+
+    public function delete($id)
+    {
+        $user = auth()->user();
+        $address = Address::where('user_id', $user->id)->find($id);
+        $address->delete();
+        return response()->json(["success" => true, "message" => "Address Deleted successfully"]);
     }
 
     public function checkRole($user, $data = null)
