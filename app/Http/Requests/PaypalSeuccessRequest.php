@@ -24,8 +24,10 @@ class PaypalSeuccessRequest extends FormRequest
     public function rules()
     {
         return [
-          'paypal_id'=>'required|string'
-            
+            'paypal_id' => 'required|string',
+            'type' => 'required|string|in:booking,user',
+            'booking_id' => 'required_if:type,==,booking|integer|exists:booking_services,id,user_id,' . auth()->id()
+
         ];
     }
 }

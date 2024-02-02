@@ -16,8 +16,10 @@ class ApiAuthenticate
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()) {
+            if (auth()->user()->ban == 1)
+                return response()->json(['message' => 'your are rejected'], 404);
             return $next($request);
-        } 
+        }
         // else if (auth()->guard('admin')->user()) {
         //     return  $next($request);
         // }
