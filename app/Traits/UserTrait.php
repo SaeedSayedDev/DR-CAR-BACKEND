@@ -167,11 +167,14 @@ class UserTrait
             'user_id' => 1,
             'service_id' => 1,
             'payment_amount' => 100,
+            'address_id' => 1
         ],
         [
             'user_id' => 1,
             'service_id' => 2,
             'payment_amount' => 200,
+            'address_id' => 1
+
         ],
     ];
 
