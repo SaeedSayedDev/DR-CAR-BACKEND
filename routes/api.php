@@ -165,6 +165,9 @@ Route::get('providers', [ProviderController::class, 'index'])->name('providers')
 
 Route::get('services/{filter_key}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
+Route::get('recommended/services', [ServiceController::class, 'recommended']);
+
+
 // Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
 
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
