@@ -118,7 +118,6 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function success($request)
     {
-        return $request->paypal_id;
         return $this->paypalService->success($request);
     }
 

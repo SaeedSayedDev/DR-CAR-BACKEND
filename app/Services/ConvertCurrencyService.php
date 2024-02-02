@@ -26,6 +26,7 @@ class ConvertCurrencyService
     }
     function convertAmountFromUSDToAED($amount)
     {
+
         $apiUrl = "https://api.fixer.io/latest?access_key=" . env('FIXER_API_KEY');
 
         $response = Http::withHeaders([
