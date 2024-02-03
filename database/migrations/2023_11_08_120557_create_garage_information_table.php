@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('garage_type');
 
             $table->unsignedBigInteger('garage_id');
-            $table->foreign('garage_id')->references('id')->on('users');
+            $table->foreign('garage_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
