@@ -100,7 +100,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'type_id')->where('type', 'user');
+        return $this->hasOne(Media::class, 'type_id')->where('type', 'user');
     }
 
     public function services()
