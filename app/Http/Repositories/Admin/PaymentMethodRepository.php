@@ -27,8 +27,15 @@ class PaymentMethodRepository implements PaymentMethodInterface
     public function store($request)
     {
         $requestData = $request->all();
-        $requestData['logo'] = $this->imageService->store($request, 'admin/payment_methods', 'logo');
+
         $paymentMethod = PaymentMethod::create($requestData);
+        if ($request->hasFile('image')) {
+            $paymentMethod->media()->create([
+                'type' => 'payment_method',
+                'image' => $this->imageService->store($request->logo, 'admin/payment_methods', 'Logo')
+            ]);
+        }
+
         return response()->json([
             'message' => 'stored successfully',
             'data' => $paymentMethod,
@@ -46,9 +53,17 @@ class PaymentMethodRepository implements PaymentMethodInterface
     public function update($request, $id)
     {
         $paymentMethod = PaymentMethod::findOrFail($id);
-        $requestData = $request->all();
-        $requestData['logo'] = $this->imageService->update($request, $paymentMethod, 'admin/payment_methods', 'logo');
+        $requestData = $request->validated();
+
         $paymentMethod->update($requestData);
+        if ($request->hasFile('image')) {
+            $paymentMethod->media()->updateOrCreate([
+                'type' => 'payment_method'
+            ], [
+                'image' => $this->imageService->update($paymentMethod->media()->first()?->imageName(), $request->logo, 'admin/payment_methods', 'Logo')
+            ]);
+        }
+
         return response()->json([
             'message' => 'updated successfully',
             'data' => $paymentMethod,
@@ -58,8 +73,10 @@ class PaymentMethodRepository implements PaymentMethodInterface
     public function delete($id)
     {
         $paymentMethod = PaymentMethod::findOrFail($id);
-        $this->imageService->delete($paymentMethod, 'admin/payment_methods', 'logo');
+        
+        $this->imageService->delete($paymentMethod->media()->first()?->imageName(), 'admin/payment_methods');
         $paymentMethod->delete();
+        
         return response()->json([
             'message' => 'deleted successfully'
         ]);

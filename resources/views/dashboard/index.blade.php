@@ -153,7 +153,7 @@
                                         <td>
                                             <img class="rounded" style="height:50px"
                                                 alt="{{ trans('lang.e_provider_image') }}"
-                                                src="{{ asset('storage/images/providers/' . $eProvider->media()?->first()?->image) }}">
+                                                src="{{ asset('storage/images/providers/' . $eProvider->media()->first()?->imageName()) }}">
                                         </td>
                                         <td>{{ $eProvider->name }}</td>
                                         <td>{{ $eProvider->address->address }}</td>
