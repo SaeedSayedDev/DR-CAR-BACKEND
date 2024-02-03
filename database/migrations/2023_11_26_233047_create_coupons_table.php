@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('coupon_price');
 
             $table->unsignedBigInteger('provider_id');
-            $table->foreign('provider_id')->references('id')->on('users');
+            $table->foreign('provider_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });
