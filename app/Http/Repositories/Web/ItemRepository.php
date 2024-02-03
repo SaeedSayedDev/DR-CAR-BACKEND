@@ -37,7 +37,7 @@ class ItemRepository implements ItemInterface
         if ($request->hasFile('image')) {
             $item->media()->create([
                 'type' => 'item',
-                'image' => $this->imageService->store($request, 'admin/items')
+                'image' => $this->imageService->store($request->image, 'admin/items', 'Item')
             ]);
         }
 
@@ -73,7 +73,7 @@ class ItemRepository implements ItemInterface
             $item->media()->updateOrCreate([
                 'type' => 'item'
             ], [
-                'image' => $this->imageService->update($request, $item->media()?->first()?->image, 'admin/items')
+                'image' => $this->imageService->update($item->media()->first()?->imageName(),  $request->image, 'admin/items', 'Item')
             ]);
         }
 
@@ -86,7 +86,7 @@ class ItemRepository implements ItemInterface
     {
         $item = Item::findOrFail($id);
 
-        $this->imageService->delete($item->media()?->first()?->image, 'admin/items');
+        $this->imageService->delete($item->media()->first()?->imageName(), 'admin/items');
         $item->media()->delete();
         $item->delete();
         

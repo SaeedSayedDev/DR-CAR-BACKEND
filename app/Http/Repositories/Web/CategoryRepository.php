@@ -32,7 +32,7 @@ class CategoryRepository implements CategoryInterface
         if ($request->hasFile('image')) {
             $category->media()->create([
                 'type' => 'category',
-                'image' => $this->imageService->store($request, 'admin/categories')
+                'image' => $this->imageService->store($request->image, 'admin/categories', 'Category')
             ]);
         }
 
@@ -64,7 +64,7 @@ class CategoryRepository implements CategoryInterface
             $category->media()->updateOrCreate([
                 'type' => 'category'
             ], [
-                'image' => $this->imageService->update($request, $category->media()?->first()?->image, 'admin/categories')
+                'image' => $this->imageService->update($category->media()->first()?->imageName(), $request->image, 'admin/categories', 'Category')
             ]);
         }
 
@@ -77,7 +77,7 @@ class CategoryRepository implements CategoryInterface
     {
         $category = Category::findOrFail($id);
        
-        $this->imageService->delete($category->media()?->first()?->image, 'admin/categories');
+        $this->imageService->delete($category->media()->first()?->imageName(), 'admin/categories');
         $category->media()->delete();
         $category->delete();
 

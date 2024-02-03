@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(AdminSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(MediaSeeder::class);
 
         // \App\Models\User::factory(10)->create();
 
