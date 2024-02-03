@@ -159,6 +159,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\Web\WalletTransactionInterface',
             'App\Http\Repositories\Web\WalletTransactionRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\Web\WithdrawInterface',
+            'App\Http\Repositories\Web\WithdrawRepository'
+        );
     }
 
     /**

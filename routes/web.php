@@ -16,6 +16,7 @@ use App\Http\Controllers\Web\TaxController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\WalletController;
 use App\Http\Controllers\Web\WalletTransactionController;
+use App\Http\Controllers\Web\WithdrawController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -54,6 +55,8 @@ Route::group([
         Route::resource('items', ItemController::class);
         Route::resource('categories', CategoryController::class);
         Route::resource('eProviders', ProviderController::class);
+        Route::put('users/{id}/ban', [UserController::class, 'ban'])->name('users.ban');
+        Route::put('users/{id}/unban', [UserController::class, 'unban'])->name('users.unban');
         Route::resource('users', UserController::class);
         Route::get('booking/service', BookingServiceController::class)->name('booking.service');
         Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
@@ -63,6 +66,11 @@ Route::group([
         Route::get('slides', SlideController::class)->name('slides');
         Route::get('wallets', WalletController::class)->name('wallets');
         Route::get('walletTransactions', WalletTransactionController::class)->name('walletTransactions');
+        
+        Route::get('withdraws', [WithdrawController::class, 'index'])->name('withdraws.index');
+        Route::post('withdraws/filter', [WithdrawController::class, 'filterStatus'])->name('withdraws.filter');
+        Route::get('withdraws/{id}', [WithdrawController::class, 'show'])->name('withdraws.show');
+        Route::put('withdraws/status/{id}', [WithdrawController::class, 'updateStatus'])->name('withdraws.status.update');
     });
 });
 

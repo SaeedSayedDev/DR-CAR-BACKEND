@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\UserInformation;
 use App\Models\Wallet;
 use App\Models\WinchInformation;
+use App\Models\Withdraw;
 use App\Traits\UserTrait;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -91,5 +92,46 @@ class UserSeeder extends Seeder
         foreach ($walletTransactions as $walletTransaction) {
             AccountStatement::create($walletTransaction);
         }
+
+        //temp:
+        Withdraw::create([
+            'user_id' => 1,
+            'amount' => 100,
+            'status' => 'pending', // pending, processing, paid, unpaid
+            'type' => 'paypal', // paypal, bank account
+            'paypal_email' => 'paypal@gmail.com',
+            'full_name' => 'Paypal user',
+        ]);
+        Withdraw::create([
+            'user_id' => 1,
+            'amount' => 100,
+            'status' => 'processing', // pending, processing, paid, unpaid
+            'type' => 'bank account', // paypal, bank account
+            'account_number' => 'account11',
+            'iban' => 'iban11',
+            'bank_name' => 'bank Al Ahly',
+        ]);
+        Withdraw::create([
+            'user_id' => 1,
+            'amount' => 100,
+            'status' => 'paid', // pending, processing, paid, unpaid
+            'type' => 'paypal', // paypal, bank account
+            'paypal_email' => 'paypal@gmail.com',
+            'full_name' => 'Paypal user',
+            'account_number' => 'account11',
+            'iban' => 'iban11',
+            'bank_name' => 'bank Al Ahly',
+        ]);
+        Withdraw::create([
+            'user_id' => 1,
+            'amount' => 100,
+            'status' => 'unpaid', // pending, processing, paid, unpaid
+            'type' => 'paypal', // paypal, bank account
+            'paypal_email' => 'paypal@gmail.com',
+            'full_name' => 'Paypal user',
+            'account_number' => 'account11',
+            'iban' => 'iban11',
+            'bank_name' => 'bank Al Ahly',
+        ]);
     }
 }
