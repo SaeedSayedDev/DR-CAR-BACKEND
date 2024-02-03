@@ -17,4 +17,8 @@ interface UserInterface
     public function update($request, $id);
 
     public function destroy($id);
+
+    public function ban($id);
+
+    public function unban($id);
 }

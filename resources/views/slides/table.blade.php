@@ -11,7 +11,7 @@
 
 <table class="table">
     <thead>
-        <tr class="text-center">
+        <tr>
             <th>{{ trans('lang.slide_order') }}</th>
             <th>{{ trans('lang.slide_text') }}</th>
             <th>{{ trans('lang.category_updated_at') }}</th>
@@ -19,7 +19,7 @@
     </thead>
     <tbody>
         @foreach ($dataTable as $slide)
-            <tr class="text-center">
+            <tr>
                 <td>{{ $slide->order }}</td>
                 <td>{{ $slide->text }}</td>
                 <td>{{ $slide->updated_at->diffForHumans() }}</td>

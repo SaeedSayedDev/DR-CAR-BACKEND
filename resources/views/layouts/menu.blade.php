@@ -292,6 +292,14 @@
                     <p> {{ trans('lang.wallet_transaction_plural') }}</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('withdraws*') ? 'active' : '' }}" href="{!! route('withdraws.index') !!}">
+                    @if ($icons)
+                        <i class="nav-icon fa fa-wallet"></i>
+                    @endif
+                    <p> {{ trans('lang.withdraw') }}</p>
+                </a>
+            </li>
         </ul>
     </li>
 

@@ -46,4 +46,14 @@ class UserController extends Controller
     {
         return $this->userInterface->destroy($id);
     }
+
+    public function ban($id)
+    {
+        return $this->userInterface->ban($id);
+    }
+
+    public function unban($id)
+    {
+        return $this->userInterface->unban($id);
+    }
 }
