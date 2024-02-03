@@ -13,14 +13,22 @@ class UserTrait
         ['full_name' => 'garage3', 'email' => 'garage3@gmail.com',  'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 4, 'ban' => 0],
         ['full_name' => 'garage4', 'email' => 'garage4@gmail.com',  'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 4, 'ban' => 0],
         ['full_name' => 'garage5', 'email' => 'garage5@gmail.com',  'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 4, 'ban' => 0],
-        
+
         ['full_name' => 'admin', 'email' => 'admin@drcar.website', 'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 1, 'ban' => 0],
     ];
 
     public static  $user_information = [
         ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'user_id' => 1]
     ];
-
+    public static $wallets = [
+        ['user_id' => 1, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'customer_name'],
+        ['user_id' => 2, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage_name'],
+        ['user_id' => 3, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'winch_name'],
+        ['user_id' => 4, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage2'],
+        ['user_id' => 5, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage3'],
+        ['user_id' => 6, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage4'],
+        ['user_id' => 7, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage5'],
+    ];
     public static  $garage_information = [
         ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2],
         ['phone_number' => '01096505008', 'address' => 'address_2', 'short_biography' => 'short_biography_2', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 4],

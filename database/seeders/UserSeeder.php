@@ -11,6 +11,7 @@ use App\Models\GarageInformation;
 use App\Models\Slide;
 use App\Models\User;
 use App\Models\UserInformation;
+use App\Models\Wallet;
 use App\Models\WinchInformation;
 use App\Traits\UserTrait;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -72,5 +73,6 @@ class UserSeeder extends Seeder
         foreach ($booking_winches as $booking_winch) {
             BookingWinch::create($booking_winch);
         }
+        Wallet::insert(UserTrait::$wallets);
     }
 }
