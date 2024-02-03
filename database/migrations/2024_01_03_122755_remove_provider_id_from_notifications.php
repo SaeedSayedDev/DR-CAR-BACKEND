@@ -30,7 +30,7 @@ class RemoveProviderIdFromNotifications extends Migration
         Schema::table('notifications', function (Blueprint $table) {
             //
             $table->unsignedBigInteger('provider_id');
-            $table->foreign('provider_id')->references('id')->on('users');
+            $table->foreign('provider_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 }
