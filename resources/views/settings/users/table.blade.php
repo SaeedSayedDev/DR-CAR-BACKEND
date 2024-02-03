@@ -54,6 +54,25 @@
                             class='btn btn-link'>
                             <i class="fas fa-eye"></i>
                         </a>
+                        @if ($user->ban)
+                            {!! Form::open(['route' => ['users.unban', $user->id], 'method' => 'put']) !!}
+                            {!! Form::button('<i class="fas fa-check-circle"></i>', [
+                                'type' => 'submit',
+                                'class' => 'btn btn-link text-success',
+                                'onclick' => "return confirm('Are you sure?')",
+                                'title' => 'ban',
+                            ]) !!}
+                            {!! Form::close() !!}
+                        @else
+                            {!! Form::open(['route' => ['users.ban', $user->id], 'method' => 'put']) !!}
+                            {!! Form::button('<i class="fas fa-times-circle"></i>', [
+                                'type' => 'submit',
+                                'class' => 'btn btn-link text-danger',
+                                'onclick' => "return confirm('Are you sure?')",
+                                'title' => 'unban',
+                            ]) !!}
+                            {!! Form::close() !!}
+                        @endif
                     </div>
                 </td>
             </tr>

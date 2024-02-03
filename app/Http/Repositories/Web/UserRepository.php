@@ -117,4 +117,22 @@ class UserRepository implements UserInterface
             'success' => 'Deleted successfully'
         ]);
     }
+
+    public function ban($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['ban' => true]);
+        return redirect()->route('users.index')->with([
+            'success' => 'banned successfully'
+        ]);
+    }
+
+    public function unban($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['ban' => false]);
+        return redirect()->route('users.index')->with([
+            'success' => 'unbanned successfully'
+        ]);
+    }
 }
