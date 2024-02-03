@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\BookingService;
 use App\Models\GarageInformation;
 use App\Models\OrderStatus;
+use App\Models\Wallet;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 
@@ -18,13 +19,15 @@ class HandelDataSeeder extends Seeder
     public function run()
     {
         //
-        $garage_informations = [
-            ['phone_number' => '01096505007', 'address' => 'address_3', 'short_biography' => 'short_biography_3', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 5],
-            ['phone_number' => '01096505006', 'address' => 'address_4', 'short_biography' => 'short_biography_4', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 6],
-            ['phone_number' => '01096505005', 'address' => 'address_5', 'short_biography' => 'short_biography_5', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 7]
+        $wallets = [
+            ['user_id' => 1, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'customer_name Wallet'],
+            ['user_id' => 2, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage_name Wallet'],
+            ['user_id' => 3, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'winch_name Wallet'],
+            ['user_id' => 4, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage2 Wallet'],
+            ['user_id' => 5, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage3 Wallet'],
+            ['user_id' => 6, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage4 Wallet'],
+            ['user_id' => 7, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage5 Wallet'],
         ];
-        foreach ($garage_informations as $garage_information) {
-            GarageInformation::create($garage_information);
-        }
+        Wallet::insert($wallets);
     }
 }
