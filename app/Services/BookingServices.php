@@ -84,11 +84,10 @@ class BookingServices
     function bookingData($request, $service_price)
     {
         $requestData = $request->all();
-        unset($requestData['address']);
+        // unset($requestData['address']);
 
         $requestData['payment_amount'] = $service_price;
         $requestData['user_id'] = auth()->user()->id;
-        // dd($requestData);
         return BookingService::create($requestData);
     }
 

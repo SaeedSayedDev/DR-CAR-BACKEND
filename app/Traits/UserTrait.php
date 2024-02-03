@@ -22,9 +22,21 @@ class UserTrait
     public static  $user_information = [
         ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'user_id' => 1]
     ];
-
+    public static $wallets = [
+        ['user_id' => 1, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'customer_name'],
+        ['user_id' => 2, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage_name'],
+        ['user_id' => 3, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'winch_name'],
+        ['user_id' => 4, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage2'],
+        ['user_id' => 5, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage3'],
+        ['user_id' => 6, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage4'],
+        ['user_id' => 7, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'garage5'],
+    ];
     public static  $garage_information = [
-        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2]
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2],
+        ['phone_number' => '01096505008', 'address' => 'address_2', 'short_biography' => 'short_biography_2', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 4],
+        ['phone_number' => '01096505007', 'address' => 'address_3', 'short_biography' => 'short_biography_3', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 5],
+        ['phone_number' => '01096505006', 'address' => 'address_4', 'short_biography' => 'short_biography_4', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 6],
+        ['phone_number' => '01096505005', 'address' => 'address_5', 'short_biography' => 'short_biography_5', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 7]
     ];
 
     public static  $winch_information = [
@@ -169,11 +181,14 @@ class UserTrait
             'user_id' => 1,
             'service_id' => 1,
             'payment_amount' => 100,
+            'address_id' => 1
         ],
         [
             'user_id' => 1,
             'service_id' => 2,
             'payment_amount' => 200,
+            'address_id' => 1
+
         ],
     ];
 

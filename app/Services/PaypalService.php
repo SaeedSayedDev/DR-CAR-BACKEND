@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Omnipay\Omnipay;
+use PayPal\Api\Payment;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+
+
 
 class PaypalService
 {
@@ -63,49 +68,37 @@ class PaypalService
     }
 
 
-    public function success(Request $request)
+    public function success($request)
     {
         try {
             DB::beginTransaction();
 
-            $retrieveOrder = $this->capture_and_retrieve_order($request['token']);
+            $paypalDetails = $this->getPaypalDetails($request->paypal_id);
+            $net_usd = $paypalDetails['amount'] - $paypalDetails['fees'];
+            $net_aed = $this->convertCurrencyService->convertAmountFromUSDToAED($net_usd);
+            if ($request->type == 'booking') {
 
-            if (isset($retrieveOrder['status']) and $retrieveOrder['status'] == 'COMPLETED' and $retrieveOrder['payer']['payer_id'] == $request['PayerID']) {
+                $booking_service = BookingService::with('booking_winch')->find($request->booking_id);
 
-                // $bookingId_or_userId =  $retrieveOrder['purchase_units'][0]['custom_id'] ;    
-                // $type =  $retrieveOrder['purchase_units'][0]['soft_descriptor']
-                // $net = $retrieveOrder['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value']
-                $net_aed = $this->convertCurrencyService->convertAmountFromUSDToAED($retrieveOrder['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value']);
-                if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'booking') {
+                $payment_amount_winch = isset($booking_service->booking_winch) ? $booking_service->booking_winch->payment_amount : 0;
+                $netDivision = $this->bookingService->netDivision($booking_service->delivery_car, $booking_service->payment_amount, $payment_amount_winch, $net_aed);
 
-                    $booking_service = BookingService::with('booking_winch')->find($retrieveOrder['purchase_units'][0]['custom_id']);
-
-
-                    // if ($booking_service->delivery_car == true and isset($booking_service->booking_winch)) {
-                    //     $this->booking_service->updateBooking($booking_service->booking_winch, 2, $retrieve->id);
-                    //     $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $netDivision['winch_net']);
-                    // }
-                    $payment_amount_winch = isset($booking_service->booking_winch) ? $booking_service->booking_winch->payment_amount : 0;
-                    $netDivision = $this->bookingService->netDivision($booking_service->delivery_car, $booking_service->payment_amount, $payment_amount_winch, $net_aed);
-
-                    if (isset($booking_service->booking_winch) and $booking_service->delivery_car == true) {
-                        $winchNetAfterCommission = $this->bookingService->commissionNet($payment_amount_winch, $netDivision['winch_net']);
-
-                        $this->bookingService->updateBooking($booking_service->booking_winch, 1, $request['token']);
-                        $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $booking_service->user_id, $request->payment_type, $payment_amount_winch);
-                    }
-                    $garageNetAfterCommission = $this->bookingService->commissionNet($booking_service->payment_amount, $netDivision['garage_net']);
-                    $this->bookingService->updateBooking($booking_service, 1, $request['token']);
-
-                    $this->walletService->updateWallet($booking_service->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $booking_service->user_id, $request->payment_type, $booking_service->payment_amount);
-                } else if ($retrieveOrder['purchase_units'][0]['soft_descriptor'] == 'user')/* wallet == user  */ {
-                    $this->walletService->updateWallet($retrieveOrder['purchase_units'][0]['custom_id'], $net_aed, 'charge wallet', $retrieveOrder['purchase_units'][0]['custom_id'], $request->payment_type, $net_aed);
+                if (isset($booking_service->booking_winch) and $booking_service->delivery_car == true) {
+                    $winchNetAfterCommission = $this->bookingService->commissionNet($payment_amount_winch, $netDivision['winch_net']);
+                    $this->bookingService->updateBooking($booking_service->booking_winch, 1, $request['token']);
+                    $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $booking_service->user_id, $request->payment_type, $payment_amount_winch);
                 }
-                DB::commit();
 
-                return response()->json(['message' => 'success']);
+                $garageNetAfterCommission = $this->bookingService->commissionNet($booking_service->payment_amount, $netDivision['garage_net']);
+                
+                $this->bookingService->updateBooking($booking_service, 1, $request['token']);
+                $this->walletService->updateWallet($booking_service->serviceProvider->provider->garage_id, $garageNetAfterCommission, 'booking', $booking_service->user_id, $request->payment_type, $booking_service->payment_amount);
+            } else if ($request->type  == 'user')/* wallet == user  */ {
+                $this->walletService->updateWallet(auth()->user()->id, $net_aed, 'charge wallet', auth()->user()->id, $request->payment_type, $net_aed);
             }
-            return response()->json(['message' => 'issue in paypal'], 404);
+            DB::commit();
+
+            return response()->json(['success' => true]);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }
@@ -126,5 +119,46 @@ class PaypalService
                 "https://api-m.sandbox.paypal.com/v2/checkout/orders/$order_id"
             );
         return $retrieveOrder;
+    }
+
+    public function getPaypalDetails($transactionId)
+    {
+
+        $apiContext = new ApiContext(
+            new OAuthTokenCredential(
+                'ATvM3mEtUPKHBfv8ySMMKVyq09KCKrc0l-5e3S3_KIgbgV17RMKc4L8D30sPHGsImt2FBDYgOmkhzfZ5', #clientId
+                'EI3TdIu9pd165ljeVOQlZjRHgV9PLRUSs9wGjf3GJpJuQMbt4aRdkiLFJiIhngf-P_I1oPw4SS573Uc1' #secretKey
+            )
+        );
+        $transactionId = 'PAYID-MW5KTLA8WU55766UR388811Y';
+
+        // Set the PayPal API context
+        $apiContext->setConfig([
+            'mode' => 'sandbox', // Change to 'live' for production
+        ]);
+
+        try {
+            // Retrieve the payment details using the transaction ID
+            $payment = Payment::get($transactionId, $apiContext);
+
+            // Access details from the $payment object
+            $transactionDetails = [
+                'id' => $payment->getId(),
+                'amount' => $payment->getTransactions()[0]->getAmount()->getTotal(),
+                'fees' => $payment->getTransactions()[0]->getRelatedResources()[0]->getSale()->getTransactionFee()->getValue(),
+                'customId' => $payment->getTransactions()[0]->getCustom(),
+                'softDescriptor' => $payment->getTransactions()[0]->getSoftDescriptor(),
+                'status' => $payment->getState(), // or $payment->getIntent() for the payment intent
+                'payerId' => $payment->getPayer()->getPayerInfo()->getPayerId(),
+                // 'netAmount' => $payment->getTransactions()[0]->getAmount()->getDetails()->getNetAmححount()
+
+            ];
+            return $transactionDetails;
+            // $details = $payment->getTransactions()[0]->getAmount()->getDetails();
+            // $transactionDetails['netAmount'] = $details->getSubtotal();
+            // return response()->json($transactionDetails);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

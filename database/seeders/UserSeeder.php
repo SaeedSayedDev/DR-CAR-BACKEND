@@ -91,5 +91,8 @@ class UserSeeder extends Seeder
         foreach ($walletTransactions as $walletTransaction) {
             AccountStatement::create($walletTransaction);
         }
+
+        Wallet::insert(UserTrait::$wallets);
+
     }
 }

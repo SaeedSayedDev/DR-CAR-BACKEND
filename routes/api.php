@@ -87,7 +87,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('booking/winch', [BookingController::class, 'bookingWinch']);
         Route::put('cancel/bookingWinch/{booking_id}', [BookingController::class, 'cancelBookingWinchFromUser']);
 
-      Route::post('paypal/success', [BookingController::class, 'success']);
+        Route::post('paypal/success', [BookingController::class, 'success']);
     });
 
 
@@ -131,6 +131,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::get('notifications', [NotificationController::class, 'index']);
     Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
     Route::get('notification/read/{notification_id}', [NotificationController::class, 'update']);
+    Route::post('notification/message', [NotificationController::class, 'messageNotification']);
+    Route::delete('notification/delete/{notification_id}', [NotificationController::class, 'delete']);
 
     Route::get('booking/show/{booking_id}', [BookingController::class, 'showBooking']);
     Route::get('booking/winch/show/{booking_id}', [BookingController::class, 'showBookingWinch']);
@@ -157,12 +159,25 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::get('addresses', [AddressController::class, 'index']);
     Route::post('address/store', [AddressController::class, 'store']);
+    Route::put('address/update/{id}', [AddressController::class, 'update']);
+    Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
+
+    Route::get('message/notification', [NotificationController::class, 'messageNotification']);
+
 });
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
 
 Route::get('services/{filter_key}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
+Route::get('recommended/services', [ServiceController::class, 'recommended']);
+
+Route::get('service/search/{search_key}', [ServiceController::class, 'searche']);
+
+
+
+
+
 // Route::get('services/availability', [ServiceController::class, 'servicesAvailability'])->name('services.availability');
 
 Route::get('categories', [CategoryController::class, 'index'])->name('categories');
@@ -206,42 +221,6 @@ Route::get('env/data', function () {
     dd(Dotenv\Dotenv::createArrayBacked(base_path())->load());
 });
 
-
-Route::get('fixer', function () {
-    $delimiter = ',';
-    $array = explode($delimiter, '1,2,3'); // Split the string into an array
-    return $array;
-});
-Route::post('/findAddressesNearby', function (Request $request) {
-    // $yourLatitude = request()->input('your_latitude');
-    // $yourLongitude = request()->input('your_longitude');
-    // $distance = 5; // Distance in kilometers
-
-    // $addresses = Address::selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
-    // sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$yourLatitude, $yourLongitude, $yourLatitude])
-    //     ->having('distance_in_km', '<=', $distance)
-    //     ->get();
-
-    // return $addresses;
-    $earthRadius = 6371; // Radius of the Earth in kilometers
-
-    // Convert latitude and longitude from degrees to radians
-    // $lat1 = deg2rad($lat1);
-    // $lon1 = deg2rad($lon1);
-    // $lat2 = deg2rad($lat2);
-    // $lon2 = deg2rad($lon2);
-
-    // // Haversine formula
-    // $dlat = $lat2 - $lat1;
-    // $dlon = $lon2 - $lon1;
-    // $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
-    // $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-    // // Calculate distance
-    // $distance = $earthRadius * $c;
-
-    // return $distance;
-});
 
 
 Route::get('testNotification', [SettingController::class, 'testNotification']);

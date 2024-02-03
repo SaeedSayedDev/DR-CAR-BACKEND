@@ -23,7 +23,7 @@ class PasswordRepository implements PasswordInterface
     {
         $user = $this->passwordService->checkEmail($request->email);
         if (!$user) {
-            return response()->json(['message' => 'This email is not found or confirm it first'], 404);
+            return response()->json(['message' => 'This email is not found'], 404);
         }
 
         try {
