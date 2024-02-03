@@ -13,6 +13,7 @@ use App\Http\Requests\CouponRequest;
 use App\Http\Requests\OptionRequest;
 use App\Http\Requests\payBookingSeriviceRequest;
 use App\Http\Requests\UpdateBookingServiceRequest;
+use App\Models\Admin\Service;
 use App\Models\Taxe;
 use Illuminate\Http\Request;
 
@@ -116,6 +117,17 @@ class ServiceController extends Controller
         return response()->json([
             'success' => true,
             'data' => Taxe::get(),
+            "message" => "Bookings retrieved successfully"
+        ]);
+    }
+
+
+    //searche
+    public function searche($search)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Service::where('name', 'like', '%' . $search . '%')->get(),
             "message" => "Bookings retrieved successfully"
         ]);
     }
