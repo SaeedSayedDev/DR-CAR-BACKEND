@@ -13,7 +13,7 @@ class UserTrait
         ['full_name' => 'garage3', 'email' => 'garage3@gmail.com',  'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 4, 'ban' => 0],
         ['full_name' => 'garage4', 'email' => 'garage4@gmail.com',  'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 4, 'ban' => 0],
         ['full_name' => 'garage5', 'email' => 'garage5@gmail.com',  'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 4, 'ban' => 0],
-
+        
         ['full_name' => 'admin', 'email' => 'admin@drcar.website', 'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 1, 'ban' => 0],
     ];
 
@@ -22,7 +22,11 @@ class UserTrait
     ];
 
     public static  $garage_information = [
-        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2]
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2],
+        ['phone_number' => '01096505008', 'address' => 'address_2', 'short_biography' => 'short_biography_2', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 4],
+        ['phone_number' => '01096505007', 'address' => 'address_3', 'short_biography' => 'short_biography_3', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 5],
+        ['phone_number' => '01096505006', 'address' => 'address_4', 'short_biography' => 'short_biography_4', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 6],
+        ['phone_number' => '01096505005', 'address' => 'address_5', 'short_biography' => 'short_biography_5', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 7]
     ];
 
     public static  $winch_information = [
