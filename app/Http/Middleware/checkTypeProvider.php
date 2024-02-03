@@ -23,7 +23,8 @@ class checkTypeProvider
                 $credentials = request(['email', 'password']);
 
                 if ($request['token'] = auth()->attempt($credentials)) {
-
+                    if (auth()->user()->ban == 1)
+                        return response()->json(['message' => 'your are rejected'], 404);
                     $user = auth()->user();
                     if ($user->userRole->id == 3 or $user->userRole->id == 4 or $user->userRole->id == 1)
                         return $next($request);
