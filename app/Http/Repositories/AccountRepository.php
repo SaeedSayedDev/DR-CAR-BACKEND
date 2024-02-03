@@ -61,7 +61,6 @@ class AccountRepository implements AccountInterface
     {
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
-        $user->delete();
 
         switch ($user->role_id) {
             case 2:
@@ -79,6 +78,7 @@ class AccountRepository implements AccountInterface
         }
         $user->delete();
         return response()->json([
+            "success" => true,
             'message' => 'deleted successfully'
         ]);
     }
@@ -119,15 +119,13 @@ class AccountRepository implements AccountInterface
             availabilityTime::updateOrCreate(
                 [
                     'provider_id' => auth()->user()->garage_data->id,
-                    'day'=>$request->day
+                    'day' => $request->day
                 ],
                 $request->all()
             );
             return response()->json(['message' => 'success']);
-        }
-        else {
-            return response()->json(['message' => 'please create garage data first'] , 404);
-
+        } else {
+            return response()->json(['message' => 'please create garage data first'], 404);
         }
     }
 
