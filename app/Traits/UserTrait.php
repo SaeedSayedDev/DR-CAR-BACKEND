@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 class UserTrait
 {
+    // 8 users [1 customer + 1 winch + 5 garage + 1 admin]
     public static  $users = [
         ['full_name' => 'customer_name', 'email' => 'customer@gmail.com', 'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 2, 'ban' => 0],
         ['full_name' => 'garage_name', 'email' => 'garage@gmail.com',  'email_verified_at' => '2023-09-15 15:43:17', 'password' => '$2y$10$1tNORTVDW7Kjk5UWgfOReu68x7VrB4fnvETle0DpII1vvNXE13.uO', 'role_id' => 4, 'ban' => 0],
@@ -24,11 +25,15 @@ class UserTrait
     ];
 
     public static  $garage_information = [
-        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2]
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 2],
+        ['phone_number' => '01096505002', 'address' => 'address2', 'short_biography' => 'short_biography2', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 4],
+        ['phone_number' => '01096505003', 'address' => 'address3', 'short_biography' => 'short_biography3', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 5],
+        ['phone_number' => '01096505004', 'address' => 'address4', 'short_biography' => 'short_biography4', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 6],
+        ['phone_number' => '01096505005', 'address' => 'address5', 'short_biography' => 'short_biography5', 'phone_verified_at' => '2023-11-17 14:30:43', 'garage_id' => 7],
     ];
 
     public static  $winch_information = [
-        ['phone_number' => '010965050093', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'winch_id' => 3]
+        ['phone_number' => '010965050093', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'winch_id' => 3],
     ];
 
     public static  $addresses = [
@@ -82,7 +87,7 @@ class UserTrait
             'desc' => 'Regular oil change services for vehicles.',
             'provider_id' => 1,
             'price' => 100,
-            'price_unit' => 1,
+            'price_unit' => 0, // hourly
             'enable_booking' => true,
         ],
         [
@@ -90,7 +95,7 @@ class UserTrait
             'desc' => 'Fix your body car.',
             'provider_id' => 1,
             'price' => 20,
-            'price_unit' => 2,
+            'price_unit' => 1, // fixed
             'enable_booking' => true,
         ],
         [
@@ -98,7 +103,7 @@ class UserTrait
             'desc' => 'Professional tire replacement services.',
             'provider_id' => 2,
             'price' => 50,
-            'price_unit' => 1,
+            'price_unit' => 0, // hourly
             'enable_booking' => true,
         ],
         [
@@ -106,7 +111,7 @@ class UserTrait
             'desc' => 'Thorough check and maintenance of vehicle brake systems.',
             'provider_id' => 2,
             'price' => 30,
-            'price_unit' => 2,
+            'price_unit' => 1, // fixed
             'enable_booking' => true,
         ],
         [
@@ -114,12 +119,12 @@ class UserTrait
             'desc' => 'Precise wheel alignment services for improved vehicle performance.',
             'provider_id' => 3,
             'price' => 75,
-            'price_unit' => 1,
+            'price_unit' => 0, // hourly
             'enable_booking' => true,
         ],
     ];
 
-    // 8 records
+    // 5 records
     public static $slides = [
         [
             'text' => 'slide 1',
@@ -129,38 +134,23 @@ class UserTrait
         [
             'text' => 'slide 2',
             'order' => '2',
-            'service_id' => 1,
+            'service_id' => 2,
         ],
         [
             'text' => 'slide 3',
             'order' => '3',
-            'service_id' => 2,
+            'service_id' => 3,
         ],
         [
             'text' => 'slide 4',
             'order' => '4',
-            'service_id' => 2,
+            'service_id' => 4,
         ],
         [
             'text' => 'slide 5',
             'order' => '5',
-            'service_id' => 3,
-        ],
-        [
-            'text' => 'slide 6',
-            'order' => '6',
-            'service_id' => 3,
-        ],
-        [
-            'text' => 'slide 7',
-            'order' => '7',
-            'service_id' => 4,
-        ],
-        [
-            'text' => 'slide 8',
-            'order' => '8',
             'service_id' => 5,
-        ],
+        ]
     ];
 
     // 2 records

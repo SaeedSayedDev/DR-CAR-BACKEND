@@ -29,7 +29,7 @@
             <tr>
                 <td>
                     <img class="rounded" style="height:50px" alt="{{ trans('lang.e_provider_image') }}"
-                        src="{{ asset('storage/images/accounts/' . $eProvider->media()->first()?->imageName()) }}">
+                        src="{{ asset('storage/images/providers/' . $eProvider->media()->first()?->imageName()) }}">
                 </td>
                 <td>{{ $eProvider->name }}</td>
                 <td>{{ $eProvider->garage_type == 0 ? trans('lang.private') : trans('lang.company') }}</td>
