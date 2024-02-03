@@ -19,14 +19,24 @@ class ServiceRepository implements ServiceInterface
     }
     public function index($filter_key)
     {
-        $services = Service::whereHas('avilabilty_range')->getRelashinIndex()->get()
-            ->map(function ($service) use ($filter_key) {
-              
-                $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
-                $service->is_favorite = $service->favourite->count() > 0 ? true : false;
-                unset($service->favourite);
-                return  $service;
-            });
+        if (isset(auth()->user()->address[0])) {
+            $services = Service::whereHas('avilabilty_range')->getRelashinIndex()->get()
+                ->map(function ($service) {
+                    $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                    $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                    unset($service->favourite);
+                    return  $service;
+                });
+        } else {
+            $services = Service::get()
+                ->map(function ($service) {
+
+                    $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                    $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                    unset($service->favourite);
+                    return  $service;
+                });
+        }
 
         if ($filter_key == 3)
             $services =  $services->sortByDesc('rate')->values();
