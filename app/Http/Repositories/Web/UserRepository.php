@@ -51,7 +51,7 @@ class UserRepository implements UserInterface
         if ($request->hasFile('image')) {
             $user->media()->create([
                 'type' => 'user',
-                'image' => $this->imageService->store($request, 'users')
+                'image' => $this->imageService->store($request->image, 'accounts', 'Provider')
             ]);
         }
 
@@ -95,7 +95,7 @@ class UserRepository implements UserInterface
             $user->media()->updateOrCreate([
                 'type' => 'user'
             ], [
-                'image' => $this->imageService->update($request, $user->media()?->first()?->image, 'users')
+                'image' => $this->imageService->update($user->media()->first()?->imageName(), $request->image, 'accounts', 'Provider')
             ]);
         }
 
@@ -108,7 +108,7 @@ class UserRepository implements UserInterface
     {
         $user = User::findOrFail($id);
 
-        $this->imageService->delete($user->media()?->first()?->image, 'users');
+        $this->imageService->delete($user->media()->first()?->imageName(), 'accounts');
         $user->media()->delete();
         $user->info()->delete();
         $user->delete();

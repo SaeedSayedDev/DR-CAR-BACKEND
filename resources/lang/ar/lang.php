@@ -1328,4 +1328,7 @@ return [
     'processing' => 'قيد المعالجة',
     'paid' => 'تم الدفع',
     'unpaid' => 'غير مدفوع',
+
+    'check_service_price' => 'تحقق من سعر الخدمة',
+
 ];

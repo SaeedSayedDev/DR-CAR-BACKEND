@@ -103,6 +103,22 @@
             </div>
         </div>
     </div>
+
+        <!-- Check Service Price Field -->
+        <div class="form-group align-items-baseline d-flex flex-column flex-md-row ">
+        {!! Form::label('checkServicePrice', trans('lang.check_service_price'), [
+            'class' => 'col-md-3 control-label text-md-right mx-1',
+        ]) !!}
+        <div class="col-md-9">
+            <div class="input-group">
+                {!! Form::number('checkServicePrice', null, [
+                    'class' => 'form-control',
+                    'step' => 'any',
+                    'min' => '0',
+                ]) !!}
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Submit Field -->
 <div

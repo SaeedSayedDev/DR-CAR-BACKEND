@@ -76,8 +76,22 @@ class UserSeeder extends Seeder
         foreach ($booking_winches as $booking_winch) {
             BookingWinch::create($booking_winch);
         }
-        Wallet::insert(UserTrait::$wallets);
-
+        
+        $coupons = UserTrait::$coupons;
+        foreach ($coupons as $coupon) {
+            Coupon::create($coupon);
+        }
+        
+        $wallets = UserTrait::$wallets;
+        foreach ($wallets as $wallet) {
+            Wallet::create($wallet);
+        }
+        
+        $walletTransactions = UserTrait::$walletTransactions;
+        foreach ($walletTransactions as $walletTransaction) {
+            AccountStatement::create($walletTransaction);
+        }
+      
         $coupons = UserTrait::$coupons;
         foreach ($coupons as $coupon) {
             Coupon::create($coupon);
@@ -92,5 +106,6 @@ class UserSeeder extends Seeder
         foreach ($walletTransactions as $walletTransaction) {
             AccountStatement::create($walletTransaction);
         }
+
     }
 }
