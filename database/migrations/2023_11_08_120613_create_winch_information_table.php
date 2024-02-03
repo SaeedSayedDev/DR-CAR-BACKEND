@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('available_now')->default(0);
 
             $table->unsignedBigInteger('winch_id');
-            $table->foreign('winch_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('winch_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
