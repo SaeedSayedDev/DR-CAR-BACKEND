@@ -216,17 +216,6 @@ class UserTrait
         ],
     ];
 
-    // 1 record
-    public static $wallets = [
-        [
-            'name' => 'customer_name Wallet',
-            'user_id' => 1,
-            'total_balance' => 0,
-            'awating_transfer' => 0,
-        ]
-    ];
-
-    // 1 record
     public static $walletTransactions = [
         [
             'amount' => 100,
@@ -236,4 +225,6 @@ class UserTrait
             'user_id' => 1,
         ]
     ];
+
 }
+

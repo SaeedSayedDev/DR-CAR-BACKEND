@@ -91,8 +91,21 @@ class UserSeeder extends Seeder
         foreach ($walletTransactions as $walletTransaction) {
             AccountStatement::create($walletTransaction);
         }
+      
+        $coupons = UserTrait::$coupons;
+        foreach ($coupons as $coupon) {
+            Coupon::create($coupon);
+        }
 
-        Wallet::insert(UserTrait::$wallets);
+        $wallets = UserTrait::$wallets;
+        foreach ($wallets as $wallet) {
+            Wallet::create($wallet);
+        }
+
+        $walletTransactions = UserTrait::$walletTransactions;
+        foreach ($walletTransactions as $walletTransaction) {
+            AccountStatement::create($walletTransaction);
+        }
 
     }
 }
