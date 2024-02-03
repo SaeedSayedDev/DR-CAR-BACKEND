@@ -32,7 +32,7 @@
                 <td>{{ $booking_service->service->name }}</td>
                 <td>{{ $booking_service->service->provider->name }}</td>
                 <td>{{ $booking_service->user->full_name }}</td>
-                <td>{{ $booking_service->address->address }}</td>
+                <td>{{ $booking_service->address?->address }}</td>
                 <td>{{ $booking_service->status_order->name }}</td>
                 <td>{{ $booking_service->payment_stataus }}</td>
                 <td>{{ $booking_service->taxes }}</td>

@@ -23,6 +23,7 @@ class ProviderRequest extends FormRequest
             'phone_number' => 'nullable|string|max:20',
             'address' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'checkServicePrice' => 'required|numeric',
         ];
     }
 }

@@ -11,7 +11,7 @@
     {!! Form::label('image', trans('lang.e_provider_image'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
         <img class="col-md-3 control-label text-md-right mx-1" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                src="{{ asset('storage/images/providers/' . $eProvider->media()?->first()?->image) }}">
+                src="{{ asset('storage/images/accounts/' . $eProvider->media()->first()?->imageName()) }}">
     </div>
 </div>
 
@@ -43,7 +43,7 @@
 <div class="form-group row col-6">
     {!! Form::label('phone_number', trans('lang.e_provider_phone_number'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
-        <p>{!! $eProvider->user->garage_information->phone_number !!}</p>
+        <p>{!! $eProvider->user->garage_information?->phone_number !!}</p>
     </div>
 </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Repositories\Web;
 
 use App\Http\Interfaces\Web\ProviderInterface;
 use App\Models\Address;
+use App\Models\Admin\Service;
 use App\Models\GarageData;
 use App\Models\Taxe;
 use App\Models\User;
@@ -45,13 +46,25 @@ class ProviderRepository implements ProviderInterface
         $requestData = $request->validated();
         if (User::find($request->garage_id)->role_id != 4) return;
 
+        $requestData['check_servic_id'] = 0;
         $eProvider = GarageData::create($requestData);
         if ($request->hasFile('image')) {
             $eProvider->media()->create([
                 'type' => 'garage_data',
-                'image' => $this->imageService->store($request, 'providers')
+                'image' => $this->imageService->store($request->image, 'accounts', 'Provider')
             ]);
         }
+
+        $service = Service::create([
+            'name' => 'check service',
+            'price' => $request->checkServicePrice,
+            'price_unit' => 1,
+            'featured' => true,
+            'enable_booking' => true,
+            'available' => true,
+            'provider_id' => $eProvider->id
+        ]);
+        $eProvider->update(['check_servic_id' => $service->id]);
 
         return redirect()->route('eProviders.index')->with([
             'success' => 'Created successfully'
@@ -88,7 +101,7 @@ class ProviderRepository implements ProviderInterface
             $eProvider->media()->updateOrCreate([
                 'type' => 'garage_data'
             ], [
-                'image' => $this->imageService->update($request, $eProvider->media()?->first()?->image, 'providers')
+                'image' => $this->imageService->update($eProvider->media()->first()?->imageName(), $request->image, 'accounts', 'Provider')
             ]);
         }
 
@@ -101,7 +114,7 @@ class ProviderRepository implements ProviderInterface
     {
         $eProvider = GarageData::findOrFail($id);
 
-        $this->imageService->delete($eProvider->media()?->first()?->image, 'providers');
+        $this->imageService->delete($eProvider->media()->first()?->imageName(), 'accounts');
         $eProvider->media()->delete();
         $eProvider->delete();
 

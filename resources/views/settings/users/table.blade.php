@@ -25,7 +25,7 @@
             <tr>
                 <td>
                     <img class="rounded" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                        src="{{ asset('storage/images/users/' . $user->media()?->first()?->image) }}">
+                        src="{{ asset('storage/images/accounts/' . $user->media()->first()?->imageName()) }}">
                 </td>
                 <td>{{ $user->full_name }}</td>
                 <td>
@@ -60,7 +60,7 @@
                                 'type' => 'submit',
                                 'class' => 'btn btn-link text-success',
                                 'onclick' => "return confirm('Are you sure?')",
-                                'title' => 'ban',
+                                'title' => 'unban',
                             ]) !!}
                             {!! Form::close() !!}
                         @else
@@ -69,7 +69,7 @@
                                 'type' => 'submit',
                                 'class' => 'btn btn-link text-danger',
                                 'onclick' => "return confirm('Are you sure?')",
-                                'title' => 'unban',
+                                'title' => 'ban',
                             ]) !!}
                             {!! Form::close() !!}
                         @endif
