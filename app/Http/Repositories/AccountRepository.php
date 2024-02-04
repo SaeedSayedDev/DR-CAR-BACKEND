@@ -41,6 +41,7 @@ class AccountRepository implements AccountInterface
         switch ($user->role_id) {
             case 2:
                 // $requestData['image'] = $this->imageService->update($request, $user->user_information, 'accounts');
+                dd($user->user_information);
                 $user->user_information->update($requestData);
                 break;
             case 3:
