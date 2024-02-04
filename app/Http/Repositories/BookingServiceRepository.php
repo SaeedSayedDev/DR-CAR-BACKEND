@@ -103,7 +103,6 @@ class BookingServiceRepository implements BookingServiceInterface
 
             return  $this->walletService->payWithWallet($request, $bookingService, $total_amount);
         }
-        
     }
 
 
