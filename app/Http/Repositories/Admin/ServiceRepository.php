@@ -28,7 +28,7 @@ class ServiceRepository implements ServiceInterface
                     return  $service;
                 });
         } else {
-            $services = Service::get()
+            $services = Service::WithoutGetRelashinIndex()->get()
                 ->map(function ($service) {
 
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
