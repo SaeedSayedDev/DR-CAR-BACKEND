@@ -97,17 +97,19 @@ class AccountRepository implements AccountInterface
             $data
         );
 
-        $service = Service::create([
-            'name' => 'check service',
-            'price' => $request->checkServicePrice,
-            'price_unit' => 1,
-            'featured' => true,
-            'enable_booking' => true,
-            'available' => true,
-            'provider_id' => $GarageData->id
+        if ($GarageData->check_servic_id == 0) {
+            $service = Service::create([
+                'name' => 'check service',
+                'price' => $request->checkServicePrice,
+                'price_unit' => 1,
+                'featured' => true,
+                'enable_booking' => true,
+                'available' => true,
+                'provider_id' => $GarageData->id
 
-        ]);
-        $GarageData->update(['check_servic_id' => $service->id]);
+            ]);
+            $GarageData->update(['check_servic_id' => $service->id]);
+        }
         DB::commit();
 
         return response()->json(['success' => true, 'data' => $GarageData]);
