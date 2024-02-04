@@ -42,14 +42,14 @@ class AuthRepository implements AuthInterface
         else
             return response()->json(['message' => 'this role not avalible'], 404);
 
-        if ($request->phone_number) {
-            if ($request->role_id == 2)
-                $this->authServcie->createUserInfo($request->phone_number,  $user->id);
-            else if ($request->role_id == 3)
-                $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
-            else if ($request->role_id == 4)
-                $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
-        }
+        // if ($request->phone_number) {
+        if ($request->role_id == 2)
+            $this->authServcie->createUserInfo($request->phone_number,  $user->id);
+        else if ($request->role_id == 3)
+            $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
+        else if ($request->role_id == 4)
+            $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
+        // }
 
         // $this->otpService->createEmail($user->email, $user->id, 'user');
         DB::commit();
