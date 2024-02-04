@@ -92,4 +92,11 @@ class Service extends Model
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');
     }
+
+    public function scopeWithoutGetRelashinIndex()
+    {
+        return  $this->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review', 'popular');
+    }
 }
