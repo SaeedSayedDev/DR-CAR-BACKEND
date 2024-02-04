@@ -140,18 +140,24 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInGarage($filter_key)
     {
-        $bookings = BookingService::whereHas('serviceProvider', function ($query) {
-            $query->where('provider_id', auth()->user()->garage_data->id);
-        })
-            ->with('serviceProvider.media', 'serviceProvider.provider', 'user.address', 'media')
-            ->where('order_status_id', $filter_key)
-            ->get();
-        return response()->json([
-            'success' => true,
-            'data' => $bookings,
-            "message" => "Bookings retrieved successfully"
+        if (isset(auth()->user()->garage_data)) {
+            $bookings = BookingService::whereHas('serviceProvider', function ($query) {
+                $query->where('provider_id', auth()->user()->garage_data->id);
+            })
+                ->with('serviceProvider.media', 'serviceProvider.provider', 'user.address', 'media')
+                ->where('order_status_id', $filter_key)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'data' => $bookings,
+                "message" => "Bookings retrieved successfully"
 
-        ]);
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            "message" => "please create garage data"
+        ], 404);
     }
 
 
