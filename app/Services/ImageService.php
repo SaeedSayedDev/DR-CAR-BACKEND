@@ -11,9 +11,9 @@ class ImageService
 {
     public function store($image, $folder, $urlSegment)
     {
-        $filename = time() . '.' . $image->getClientOriginalExtension();
-        $image->storeAs("public/images/{$folder}", $filename);
-        return url("api/images/{$urlSegment}/{$filename}");
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->storeAs("public/images/{$folder}", $imageName);
+        return url("api/images/{$urlSegment}/{$imageName}");
     }
 
     public function update($imageName, $image, $folder, $urlSegment)
