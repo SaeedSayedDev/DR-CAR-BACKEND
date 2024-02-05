@@ -31,7 +31,7 @@ class GarageData extends Model
     }
     function availabilityTime()
     {
-        return $this->hasOne(availabilityTime::class, 'provider_id', 'id');
+        return $this->hasMany(availabilityTime::class, 'provider_id', 'id');
     }
 
     function taxe()
