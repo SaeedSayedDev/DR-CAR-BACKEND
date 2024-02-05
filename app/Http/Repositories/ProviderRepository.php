@@ -32,12 +32,12 @@ class ProviderRepository implements ProviderInterface
     }
     public function show($id)
     {
-        $garage = GarageData::where('garage_id', $id)
-            ->with(['user:id,email', 'user.media', 'user.garage_information', 'availabilityTime', 'taxe', 'address'])
+        $garage = GarageData::with(['user:id,email', 'user.media', 'user.garage_information'])
+            ->with(['availabilityTime', 'taxe', 'address'])
             ->with('services', function ($q) {
                 $q->with('media')->with('review')->withSum('review', 'review_value')->withCount('review');
             })
-            ->firstOrFail();
+            ->findOrFail($id);
 
         $garage->user->phone = $garage->user->garage_information->phone_number;
         $garage->user->short_biography = $garage->user->garage_information->short_biography;
