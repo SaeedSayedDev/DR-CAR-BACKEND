@@ -31,7 +31,6 @@ class ServiceRepository implements ServiceInterface
         } else {
             $services = Service::WithoutGetRelashinIndex()->with('provider_avilabilty_time')->get()
                 ->map(function ($service) use ($filter_key) {
-
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                     $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                     unset($service->favourite);
