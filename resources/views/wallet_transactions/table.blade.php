@@ -15,8 +15,8 @@
             <th>{{ trans('lang.wallet_transaction_amount') }}</th>
             <th>{{ trans('lang.wallet_transaction_description') }}</th>
             <th>{{ trans('lang.wallet_transaction_action') }}</th>
-            <th>{{ trans('lang.wallet_transaction_wallet_id') }}</th>
-            <th>{{ trans('lang.wallet_transaction_user_id') }}</th>
+            <th>{{ trans('lang.wallet') }}</th>
+            <th>{{ trans('lang.user') }}</th>
             <th>{{ trans('lang.wallet_transaction_updated_at') }}</th>
         </tr>
     </thead>
@@ -27,7 +27,7 @@
                 <td>{{ $walletTransaction->description }}</td>
                 <td>{{ $walletTransaction->action }}</td>
                 <td>{{ $walletTransaction->wallet->name }}</td>
-                <td>{{ $walletTransaction->user->name }}</td>
+                <td>{{ $walletTransaction->user->full_name }}</td>
                 <td>{{ $walletTransaction->updated_at->diffForHumans() }}</td>
             </tr>
         @endforeach

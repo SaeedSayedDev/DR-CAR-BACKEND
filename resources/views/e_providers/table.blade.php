@@ -29,7 +29,7 @@
             <tr>
                 <td>
                     <img class="rounded" style="height:50px" alt="{{ trans('lang.e_provider_image') }}"
-                        src="{{ asset('storage/images/providers/' . $eProvider->media()?->first()?->image) }}">
+                        src="{{ asset('storage/images/providers/' . $eProvider->media()->first()?->imageName()) }}">
                 </td>
                 <td>{{ $eProvider->name }}</td>
                 <td>{{ $eProvider->garage_type == 0 ? trans('lang.private') : trans('lang.company') }}</td>
@@ -41,7 +41,7 @@
                 <td>{{ $eProvider->updated_at->diffForHumans() }}</td>
                 <td>
                     <div class='btn-group btn-group-sm'>
-                        <a data-toggle="tooltip" data-placement="left" title="{{ trans('lang.address_edit') }}"
+                        <a data-toggle="tooltip" data-placement="left" 
                             href="{{ route('eProviders.edit', $eProvider->id) }}" class='btn btn-link'>
                             <i class="fas fa-edit"></i> </a>
                         {!! Form::open(['route' => ['eProviders.destroy', $eProvider->id], 'method' => 'delete']) !!}

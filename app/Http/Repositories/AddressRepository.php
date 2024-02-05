@@ -31,9 +31,8 @@ class AddressRepository implements AddressInterface
     public function update($request, $id)
     {
         $user = auth()->user();
-        $address = Address::where('user_id', $user->id)->find($id);
+        $address = Address::where('user_id', $user->id)->findOrFail($id);
         $data = $request->all();
-        $data['user_id'] = $user->id;
         $address->update($data);
         // Address::updateOrCreate(['user_id' => $user->id], $data);
         return response()->json(["success" => true, 'data' => $data, "message" => "Address Updated successfully"]);
@@ -42,7 +41,7 @@ class AddressRepository implements AddressInterface
     public function delete($id)
     {
         $user = auth()->user();
-        $address = Address::where('user_id', $user->id)->find($id);
+        $address = Address::where('user_id', $user->id)->findOrFail($id);
         $address->delete();
         return response()->json(["success" => true, "message" => "Address Deleted successfully"]);
     }

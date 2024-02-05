@@ -9,29 +9,23 @@ use Illuminate\Support\Facades\File;
 
 class ImageService
 {
-    const PATH = "public/images/";
-
-    public function store($request, $folder = "temp", $file = 'image')
+    public function store($image, $folder, $urlSegment)
     {
-        if ($request->has($file)) {
-            $name = time() . '.' . $request->$file->extension();
-            $request->file($file)->storeAs(self::PATH . $folder, $name);
-            return $name;
-        }
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->storeAs("public/images/{$folder}", $imageName);
+        return url("api/images/{$urlSegment}/{$imageName}");
     }
 
-    public function update($request, $imageName, $folder = "temp", $file = 'image')
+    public function update($imageName, $image, $folder, $urlSegment)
     {
-        if ($request->has($file)) {
-            $this->delete($imageName, $folder);
-            return $this->store($request, $folder, $file);
-        }
+        $this->delete($imageName, $folder);
+        return $this->store($image, $folder, $urlSegment);
     }
 
-    public function delete($imageName, $folder = "temp")
+    public function delete($imageName, $folder)
     {
         if ($imageName) {
-            $pathOldImage  = storage_path('app/' . self::PATH . $folder . '/' . $imageName);
+            $pathOldImage  = storage_path("app/public/images/$folder/$imageName");
             if (File::exists($pathOldImage)) {
                 unlink($pathOldImage);
             }

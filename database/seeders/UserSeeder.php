@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\AccountStatement;
 use App\Models\Address;
 use App\Models\Admin\Service;
 use App\Models\BookingService;
 use App\Models\BookingWinch;
+use App\Models\Coupon;
 use App\Models\GarageData;
 use App\Models\GarageInformation;
 use App\Models\Slide;
 use App\Models\User;
 use App\Models\UserInformation;
+use App\Models\Wallet;
 use App\Models\WinchInformation;
+use App\Models\Withdraw;
 use App\Traits\UserTrait;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -72,5 +76,36 @@ class UserSeeder extends Seeder
         foreach ($booking_winches as $booking_winch) {
             BookingWinch::create($booking_winch);
         }
+        
+        $coupons = UserTrait::$coupons;
+        foreach ($coupons as $coupon) {
+            Coupon::create($coupon);
+        }
+        
+        $wallets = UserTrait::$wallets;
+        foreach ($wallets as $wallet) {
+            Wallet::create($wallet);
+        }
+        
+        $walletTransactions = UserTrait::$walletTransactions;
+        foreach ($walletTransactions as $walletTransaction) {
+            AccountStatement::create($walletTransaction);
+        }
+      
+        $coupons = UserTrait::$coupons;
+        foreach ($coupons as $coupon) {
+            Coupon::create($coupon);
+        }
+
+        $wallets = UserTrait::$wallets;
+        foreach ($wallets as $wallet) {
+            Wallet::create($wallet);
+        }
+
+        $walletTransactions = UserTrait::$walletTransactions;
+        foreach ($walletTransactions as $walletTransaction) {
+            AccountStatement::create($walletTransaction);
+        }
+
     }
 }

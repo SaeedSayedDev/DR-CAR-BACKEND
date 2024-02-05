@@ -27,7 +27,6 @@ class SlideRepository implements SlideInterface
     public function store($request)
     {
         $requestData = $request->all();
-        // $requestData['image'] = $this->imageService->store($request, 'slides');
         $slide = Slide::create($requestData);
 
         $this->imageService->storeMedia($request, $slide->id, 'slide', 'public/images/admin/slides', url("api/images/Slide/"));

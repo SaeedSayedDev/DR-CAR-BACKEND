@@ -11,7 +11,7 @@
 
 <table class="table">
     <thead>
-        <tr class="text-center">
+        <tr>
             <th>{{ trans('lang.tax_name') }}</th>
             <th>{{ trans('lang.tax_value') }}</th>
             <th>{{ trans('lang.tax_type') }}</th>
@@ -20,7 +20,7 @@
     </thead>
     <tbody>
         @foreach ($dataTable as $tax)
-            <tr class="text-center">
+            <tr>
                 <td>{{ $tax->name }}</td>
                 <td>{{ $tax->value }}</td>
                 <td>

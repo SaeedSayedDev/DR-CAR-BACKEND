@@ -15,4 +15,8 @@ class Media extends Model
         'created_at', 'updated_at',
     ];
 
+    public function imageName()
+    {
+        return basename(parse_url($this->image, PHP_URL_PATH));
+    }
 }
