@@ -9,6 +9,7 @@ use App\Models\GarageData;
 use App\Services\AddressService;
 use App\Services\ImageService;
 use App\Services\ProviderService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
@@ -20,7 +21,7 @@ class ServiceRepository implements ServiceInterface
     public function index($filter_key)
     {
         if (isset(auth()->user()->address[0])) {
-            $services = Service::whereHas('avilabilty_range')->getRelashinIndex()->get()
+            $services = Service::whereHas('avilabilty_range')->with('provider_avilabilty_time')->getRelashinIndex()->get()
                 ->map(function ($service) {
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                     $service->is_favorite = $service->favourite->count() > 0 ? true : false;
@@ -28,16 +29,18 @@ class ServiceRepository implements ServiceInterface
                     return  $service;
                 });
         } else {
-            $services = Service::WithoutGetRelashinIndex()->get()
-                ->map(function ($service) {
-
+            $services = Service::WithoutGetRelashinIndex()->with('provider_avilabilty_time')->get()
+                ->map(function ($service) use ($filter_key) {
+                   
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                     $service->is_favorite = $service->favourite->count() > 0 ? true : false;
                     unset($service->favourite);
+                    if ($filter_key == 2) {
+                        return   $this->avilabilty_time_filter($service);
+                    }
                     return  $service;
                 });
         }
-
         if ($filter_key == 3)
             $services =  $services->sortByDesc('rate')->values();
         else if ($filter_key == 4)
@@ -185,5 +188,26 @@ class ServiceRepository implements ServiceInterface
             'data' => $services,
             "message" => "Services retrieved successfully"
         ];
+    }
+
+
+    function avilabilty_time_filter($service)
+    {
+        $now = Carbon::now();
+        $dayOfWeek = $now->format('l'); // 'l' format gives the full day name
+        $hourAndMinute = $now->format('H:i');
+        $timeNow = Carbon::createFromFormat('H:i', $hourAndMinute);
+
+        if (!isset($service->provider_avilabilty_time)) {
+            unset($service);
+            return;
+        } else if ($service->provider_avilabilty_time->day != $dayOfWeek) {
+            unset($service);
+            return;
+        } elseif (!$timeNow->between($service->provider_avilabilty_time->start_date, $service->provider_avilabilty_time->end_date)) {
+            unset($service);
+            return;
+        }
+        return $service;
     }
 }
