@@ -39,6 +39,6 @@ class checkTypeUser
 
             return $next($request);
         }
-        return response()->json(['message' => 'please login'], 404);
+        return response()->json(['message' => 'please login User'], 404);
     }
 }

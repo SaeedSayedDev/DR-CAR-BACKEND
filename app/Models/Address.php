@@ -15,4 +15,8 @@ class Address extends Model
     {
         return $this->hasOne(GarageData::class, 'id');
     }
+    function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

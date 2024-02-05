@@ -134,13 +134,14 @@ class AccountRepository implements AccountInterface
     public function updateWinchAvailableNow()
     {
         $user = auth()->user();
-        if (isset($user->winch_information)) {
-            $winchInformation = WinchInformation::where('winch_id', $user->id)->first();
-            if ($winchInformation->available_now == 0)
-                $winchInformation->update(['available_now' => 1]);
-            elseif ($winchInformation->available_now == 1)
-                $winchInformation->update(['available_now' => 0]);
+        if (isset($user->winch_information) and isset($user->addressUser)) {
+            // $winchInformation = WinchInformation::where('winch_id', $user->id)->first();
+            if ($user->winch_information->available_now == 0)
+                $user->winch_information->update(['available_now' => 1]);
+            elseif ($user->winch_information->available_now == 1)
+                $user->winch_information->update(['available_now' => 0]);
             return response()->json(["success" => true, "message" => "available Updated successfully"]);
         }
+        return response()->json(["success" => false, "message" => "Please Create Your Address"], 404);
     }
 }
