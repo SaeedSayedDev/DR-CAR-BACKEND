@@ -44,6 +44,7 @@ Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
 Route::get('images/Receive/{name}', [ImageController::class, 'imageReceive']);
 
 Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
+Route::get('images/garage/{name}', [ImageController::class, 'imageGarage']);
 Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
 Route::get('images/Options/{name}', [ImageController::class, 'imageOptions']);
 
@@ -163,7 +164,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
-
 });
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');

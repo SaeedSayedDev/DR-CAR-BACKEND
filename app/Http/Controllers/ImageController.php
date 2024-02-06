@@ -15,8 +15,8 @@ class ImageController extends Controller
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
     }
-    
-  
+
+
 
 
     function imageItem($name)
@@ -44,12 +44,20 @@ class ImageController extends Controller
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
     }
-    
+
 
     function imageProvider($name)
     {
         try {
             return response()->file("../storage/app/public/images/accounts/$name");
+        } catch (Exception $e) {
+            return response()->json(['message' => "This File $name Is Not Found"], 404);
+        }
+    }
+    function imageGarage($name)
+    {
+        try {
+            return response()->file("../storage/app/public/images/providers/$name");
         } catch (Exception $e) {
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
@@ -72,6 +80,4 @@ class ImageController extends Controller
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
     }
-
-    
 }

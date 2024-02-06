@@ -6,6 +6,7 @@ use App\Http\Interfaces\AccountInterface;
 use App\Models\Admin\Service;
 use App\Models\availabilityTime;
 use App\Models\GarageData;
+use App\Models\Media;
 use App\Models\User;
 use App\Models\WinchInformation;
 use App\Services\ImageService;
@@ -96,6 +97,12 @@ class AccountRepository implements AccountInterface
             ],
             $data
         );
+        if ($request->hasFile('image')) {
+            $GarageData->media()->create([
+                'type' => 'garage_data',
+                'image' => $this->imageService->store($request->image, 'providers', 'garage')
+            ]);
+        }
 
         if ($GarageData->check_servic_id == 0) {
             $service = Service::create([
