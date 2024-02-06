@@ -35,7 +35,7 @@ class StatisticsController extends Controller
             }
             return response()->json([
                 "message" => "please create garage data"
-            ], 404);
+            ]);
         } elseif ($user->role_id == 3) {
             $toltal_bookings = BookingWinch::where('winch_id', $user->id)->get()->count();
             return response()->json([

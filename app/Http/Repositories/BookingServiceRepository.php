@@ -158,7 +158,7 @@ class BookingServiceRepository implements BookingServiceInterface
         return response()->json([
             'success' => false,
             "message" => "please create garage data"
-        ], 404);
+        ]);
     }
 
 
