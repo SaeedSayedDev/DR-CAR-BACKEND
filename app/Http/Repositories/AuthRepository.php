@@ -72,17 +72,13 @@ class AuthRepository implements AuthInterface
     public function me()
     {
         $user = auth()->user();
+        $user->media;
+
         $user->load(match ($user->role_id) {
             2 => 'user_information',
             3 => 'winch_information',
-            4 => 'garage_information',
+            4 => ['garage_information', 'garage_data.media'],
         });
-
-        $user->media;
-        if (isset($user->garage_information))
-            $user->garage_data;
-
-
         return response()->json([
             'data' => $user,
         ]);
