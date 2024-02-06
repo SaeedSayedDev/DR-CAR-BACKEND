@@ -29,7 +29,7 @@ class MediaSeeder extends Seeder
             Media::create([
                 'type' => 'slide',
                 'type_id' => $i,
-                'image' => url("api/images/Slide/$i.jpg")
+                'image' => url("api/images/Slide/0$i.jpg")
             ]);
         }
 
