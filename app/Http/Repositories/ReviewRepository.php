@@ -19,7 +19,7 @@ class ReviewRepository implements ReviewInterface
         return response()->json([
             "success" => true,
             'data' => $reviews,
-            'message' => 'deleted successfully'
+            'message' => 'Review retrive successfully'
         ]);
     }
 
