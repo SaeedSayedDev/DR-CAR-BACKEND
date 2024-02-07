@@ -149,6 +149,6 @@ class AccountRepository implements AccountInterface
                 $user->winch_information->update(['available_now' => 0]);
             return response()->json(["success" => true, "message" => "available Updated successfully"]);
         }
-        return response()->json(["success" => false, "message" => "Please Create Your Address"], 404);
+        return response()->json(["success" => true, "message" => "Please Create Your Address"]);
     }
 }
