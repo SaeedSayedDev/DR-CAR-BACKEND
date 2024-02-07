@@ -14,7 +14,11 @@ class ReviewController extends Controller
     {
         $this->reviewInterface = $reviewInterface;
     }
-
+    
+    public function index()
+    {
+        return $this->reviewInterface->index();
+    }
     
     public function store(ReviewRequest $request)
     {
