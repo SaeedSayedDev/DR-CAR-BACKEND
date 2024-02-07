@@ -13,13 +13,19 @@ class ReviewRepository implements ReviewInterface
 
     function index()
     {
-        $reviews =  Review::whereHas('service', function ($query) {
-            $query->where('provider_id', auth()->user()->garage_data->id);
-        })->with('service')->get();
+        if (isset(auth()->user()->garage_data)) {
+            $reviews =  Review::whereHas('service', function ($query) {
+                $query->where('provider_id', auth()->user()->garage_data->id);
+            })->with('service')->get();
+            return response()->json([
+                "success" => true,
+                'data' => $reviews,
+                'message' => 'Review retrive successfully'
+            ]);
+        }
         return response()->json([
             "success" => true,
-            'data' => $reviews,
-            'message' => 'Review retrive successfully'
+            'message' => 'please create garageData'
         ]);
     }
 
