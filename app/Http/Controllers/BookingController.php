@@ -55,6 +55,11 @@ class BookingController extends Controller
         return $this->bookingServiceInterface->updateBookingServiceFromGarage($request, $booking_id);
     }
     
+       
+    public function onTheWayFromUser( $booking_id)
+    {
+        return $this->bookingServiceInterface->onTheWayFromUser($booking_id);
+    }
     
     
     public function success(PaypalSeuccessRequest $request)
