@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt mx-1"></i> {{trans('lang.dashboard')}}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{!! route('slides') !!}">{{trans('lang.slide_plural')}}</a>
+                            <a href="{!! route('slides.index') !!}">{{trans('lang.slide_plural')}}</a>
                         </li>
                         <li class="breadcrumb-item active">{{trans('lang.slide_table')}}</li>
                     </ol>
@@ -33,11 +33,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.slide_table')}}</a>
                         </li>
-                        @can('slides.create')
                             <li class="nav-item">
                                 <a class="nav-link" href="{!! route('slides.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.slide_create')}}</a>
                             </li>
-                        @endcan
                     </div>
                     @include('layouts.right_toolbar', compact('dataTable'))
                 </ul>
