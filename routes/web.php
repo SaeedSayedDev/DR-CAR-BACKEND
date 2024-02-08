@@ -63,7 +63,7 @@ Route::group([
         Route::get('coupons', CouponController::class)->name('coupons');
         Route::get('taxes', TaxController::class)->name('taxes');
         Route::resource('commissions', CommissionController::class)->only('index', 'edit', 'update');
-        Route::get('slides', SlideController::class)->name('slides');
+        Route::resource('slides', SlideController::class)->except('show');
         Route::get('wallets', WalletController::class)->name('wallets');
         Route::get('walletTransactions', WalletTransactionController::class)->name('walletTransactions');
         
