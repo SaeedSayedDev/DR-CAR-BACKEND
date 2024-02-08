@@ -60,7 +60,8 @@ class BookingService extends Model
 
     public function booking_winch()
     {
-        return $this->hasOne(BookingWinch::class, 'booking_service_id')->where('order_status_id', 6)
+        return $this->hasOne(BookingWinch::class, 'booking_service_id')
+            // ->where('order_status_id', 4)
             ->where('cancel', false)
             ->where('payment_stataus', 'unpaid');
     }
