@@ -33,9 +33,13 @@ class BookingWinchRepository implements BookingWinchInterface
     public function getWinchsInUser()
     {
         // return auth()->user();
-        $winchs = User::where('role_id', 3)->whereHas('winch_information', function ($q) {
-            $q->where('available_now', 1);
-        })->with('address', 'media', 'winch_information')->get();
+        $userLatitude = auth()->user()->address[0]['latitude'];
+        $userLongitude = auth()->user()->address[0]['longitude'];
+        $winchs = User::where('role_id', 3)->whereHas('avilabilty_range')
+            ->whereHas('winch_information', function ($q) {
+                $q->where('available_now', 1);
+            })
+            ->with('address', 'media', 'winch_information')->get();
         // ->map(function ($winch) {
         //     if (isset(auth()->user()->address[0]) and isset($winch->address)) {
         //         $distance = $this->addressService->calDistance($winch->address[0]->latitude, $winch->address[0]->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
@@ -79,9 +83,12 @@ class BookingWinchRepository implements BookingWinchInterface
             ->orWhere('winch_id', $user->id)
             ->findOrFail($booking_id);
 
+        $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingWinch->payment_amount);
+
         $bookingWinch->payment = [
             'payment_status' => $bookingWinch->payment_stataus,
             'payment_amount' =>  $bookingWinch->payment_amount,
+            'payment_amount_usd' =>  $payment_amount_usd,
             'payment_type' =>  $bookingWinch->payment_type,
             'payment_id' => $bookingWinch->payment_id,
         ];

@@ -117,4 +117,18 @@ class User extends Authenticatable implements JWTSubject
             default => null
         };
     }
+
+    public function avilabilty_range()
+    {
+        $userLatitude = auth()->user()->address[0]['latitude'];
+        $userLongitude = auth()->user()->address[0]['longitude'];
+        $availability_range = $this->belongsTo(WinchInformation::class, 'winch_id')->first()->availability_range;
+
+        return $this->hasOne(Address::class, 'user_id')
+            ->whereHas('user', function ($q) {
+                $q->where('role_id', 3);
+            })
+            ->whereBetween('latitude', [$userLatitude - $availability_range, $userLatitude + $availability_range])
+            ->whereBetween('longitude', [$userLongitude - $availability_range, $userLongitude + $availability_range]);
+    }
 }

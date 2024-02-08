@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,4 +16,11 @@ class Review extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'id');
+    }
+   
+
+
 }

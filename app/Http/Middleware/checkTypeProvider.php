@@ -37,6 +37,6 @@ class checkTypeProvider
         } else if ($user = auth()->user() and ($user->userRole->id == 3 or $user->userRole->id == 4 or $user->userRole->id == 1)) {
             return $next($request);
         }
-        return response()->json(['message' => 'please login'], 404);
+        return response()->json(['message' => 'please login provider'], 404);
     }
 }

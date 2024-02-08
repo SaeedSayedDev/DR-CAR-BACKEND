@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Address;
+use App\Models\availabilityTime;
 use App\Models\BookingService;
 use App\Models\Favourite;
 use App\Models\GarageData;
@@ -41,6 +42,10 @@ class Service extends Model
     public function provider()
     {
         return $this->belongsTo(GarageData::class, 'provider_id');
+    }
+    public function provider_avilabilty_time()
+    {
+        return $this->belongsTo(availabilityTime::class, 'provider_id', 'provider_id');
     }
     public function avilabilty_range()
     {
@@ -89,6 +94,13 @@ class Service extends Model
     {
         return  $this->whereHas('avilabilty_range')
             ->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite')
+            ->withSum('review', 'review_value')
+            ->withCount('review', 'popular');
+    }
+
+    public function scopeWithoutGetRelashinIndex()
+    {
+        return  $this->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');
     }

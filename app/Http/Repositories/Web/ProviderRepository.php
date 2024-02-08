@@ -51,7 +51,7 @@ class ProviderRepository implements ProviderInterface
         if ($request->hasFile('image')) {
             $eProvider->media()->create([
                 'type' => 'garage_data',
-                'image' => $this->imageService->store($request->image, 'providers', 'Provider')
+                'image' => $this->imageService->store($request->image, 'providers', 'garage')
             ]);
         }
 
@@ -101,7 +101,7 @@ class ProviderRepository implements ProviderInterface
             $eProvider->media()->updateOrCreate([
                 'type' => 'garage_data'
             ], [
-                'image' => $this->imageService->update($eProvider->media()->first()?->imageName(), $request->image, 'providers', 'Provider')
+                'image' => $this->imageService->update($eProvider->media()->first()?->imageName(), $request->image, 'providers', 'garage')
             ]);
         }
 

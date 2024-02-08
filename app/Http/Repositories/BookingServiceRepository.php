@@ -103,7 +103,6 @@ class BookingServiceRepository implements BookingServiceInterface
 
             return  $this->walletService->payWithWallet($request, $bookingService, $total_amount);
         }
-        
     }
 
 
@@ -141,17 +140,23 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInGarage($filter_key)
     {
-        $bookings = BookingService::whereHas('serviceProvider', function ($query) {
-            $query->where('provider_id', auth()->user()->garage_data->id);
-        })
-            ->with('serviceProvider.media', 'serviceProvider.provider', 'user.address', 'media')
-            ->where('order_status_id', $filter_key)
-            ->get();
-        return response()->json([
-            'success' => true,
-            'data' => $bookings,
-            "message" => "Bookings retrieved successfully"
+        if (isset(auth()->user()->garage_data)) {
+            $bookings = BookingService::whereHas('serviceProvider', function ($query) {
+                $query->where('provider_id', auth()->user()->garage_data->id);
+            })
+                ->with('serviceProvider.media', 'serviceProvider.provider', 'user.address', 'media')
+                ->where('order_status_id', $filter_key)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'data' => $bookings,
+                "message" => "Bookings retrieved successfully"
 
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            "message" => "please create garage data"
         ]);
     }
 
@@ -172,9 +177,12 @@ class BookingServiceRepository implements BookingServiceInterface
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
+        $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
+
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
+            'payment_amount_usd' => $payment_amount_usd,
             'payment_type' =>  $bookingService->payment_type,
             'payment_id' => $bookingService->payment_id,
             // 'payment_method' => $bookingService->payment_id
@@ -206,7 +214,7 @@ class BookingServiceRepository implements BookingServiceInterface
             $bookingService->delivery_car == 1 and $request->order_status_id != 2 and
             ($bookingService->booking_winch and $bookingService->booking_winch->order_status_id < 3 or !$bookingService->booking_winch)
         ) {
-            return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted'], 404);
+            return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted']);
         }
 
         $bookingService->update(['order_status_id' => $request->order_status_id]);

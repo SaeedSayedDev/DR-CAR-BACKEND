@@ -6,6 +6,7 @@ use App\Http\Interfaces\AccountInterface;
 use App\Models\Admin\Service;
 use App\Models\availabilityTime;
 use App\Models\GarageData;
+use App\Models\Media;
 use App\Models\User;
 use App\Models\WinchInformation;
 use App\Services\ImageService;
@@ -61,7 +62,6 @@ class AccountRepository implements AccountInterface
     {
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
-        $user->delete();
 
         switch ($user->role_id) {
             case 2:
@@ -79,6 +79,7 @@ class AccountRepository implements AccountInterface
         }
         $user->delete();
         return response()->json([
+            "success" => true,
             'message' => 'deleted successfully'
         ]);
     }
@@ -96,18 +97,26 @@ class AccountRepository implements AccountInterface
             ],
             $data
         );
+        if ($request->hasFile('image')) {
+            $GarageData->media()->create([
+                'type' => 'garage_data',
+                'image' => $this->imageService->store($request->image, 'providers', 'garage')
+            ]);
+        }
 
-        $service = Service::create([
-            'name' => 'check service',
-            'price' => $request->checkServicePrice,
-            'price_unit' => 1,
-            'featured' => true,
-            'enable_booking' => true,
-            'available' => true,
-            'provider_id' => $GarageData->id
+        if ($GarageData->check_servic_id == 0) {
+            $service = Service::create([
+                'name' => 'check service',
+                'price' => $request->checkServicePrice,
+                'price_unit' => 1,
+                'featured' => true,
+                'enable_booking' => true,
+                'available' => true,
+                'provider_id' => $GarageData->id
 
-        ]);
-        $GarageData->update(['check_servic_id' => $service->id]);
+            ]);
+            $GarageData->update(['check_servic_id' => $service->id]);
+        }
         DB::commit();
 
         return response()->json(['success' => true, 'data' => $GarageData]);
@@ -119,28 +128,27 @@ class AccountRepository implements AccountInterface
             availabilityTime::updateOrCreate(
                 [
                     'provider_id' => auth()->user()->garage_data->id,
-                    'day'=>$request->day
+                    'day' => $request->day
                 ],
                 $request->all()
             );
             return response()->json(['message' => 'success']);
-        }
-        else {
-            return response()->json(['message' => 'please create garage data first'] , 404);
-
+        } else {
+            return response()->json(['message' => 'please create garage data first'], 404);
         }
     }
 
     public function updateWinchAvailableNow()
     {
         $user = auth()->user();
-        if (isset($user->winch_information)) {
-            $winchInformation = WinchInformation::where('winch_id', $user->id)->first();
-            if ($winchInformation->available_now == 0)
-                $winchInformation->update(['available_now' => 1]);
-            elseif ($winchInformation->available_now == 1)
-                $winchInformation->update(['available_now' => 0]);
+        if (isset($user->winch_information) and isset($user->addressUser)) {
+            // $winchInformation = WinchInformation::where('winch_id', $user->id)->first();
+            if ($user->winch_information->available_now == 0)
+                $user->winch_information->update(['available_now' => 1]);
+            elseif ($user->winch_information->available_now == 1)
+                $user->winch_information->update(['available_now' => 0]);
             return response()->json(["success" => true, "message" => "available Updated successfully"]);
         }
+        return response()->json(["success" => true, "message" => "Please Create Your Address"]);
     }
 }

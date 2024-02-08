@@ -42,14 +42,14 @@ class AuthRepository implements AuthInterface
         else
             return response()->json(['message' => 'this role not avalible'], 404);
 
-        if ($request->phone_number) {
-            if ($request->role_id == 2)
-                $this->authServcie->createUserInfo($request->phone_number,  $user->id);
-            else if ($request->role_id == 3)
-                $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
-            else if ($request->role_id == 4)
-                $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
-        }
+        // if ($request->phone_number) {
+        if ($request->role_id == 2)
+            $this->authServcie->createUserInfo($request->phone_number,  $user->id);
+        else if ($request->role_id == 3)
+            $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
+        else if ($request->role_id == 4)
+            $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
+        // }
 
         // $this->otpService->createEmail($user->email, $user->id, 'user');
         DB::commit();
@@ -72,17 +72,13 @@ class AuthRepository implements AuthInterface
     public function me()
     {
         $user = auth()->user();
+        $user->media;
+
         $user->load(match ($user->role_id) {
             2 => 'user_information',
             3 => 'winch_information',
-            4 => 'garage_information',
+            4 => ['garage_information', 'garage_data.media'],
         });
-
-        $user->media;
-        if (isset($user->garage_information))
-            $user->garage_data;
-
-
         return response()->json([
             'data' => $user,
         ]);
