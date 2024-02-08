@@ -190,6 +190,7 @@ class BookingServiceRepository implements BookingServiceInterface
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
         // $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
+
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
