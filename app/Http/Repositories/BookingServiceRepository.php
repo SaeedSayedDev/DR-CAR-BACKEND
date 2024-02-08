@@ -39,7 +39,7 @@ class BookingServiceRepository implements BookingServiceInterface
             ->where('order_status_id', $filter_key)
             ->get();
         $bookingsWinch = BookingWinch::where('user_id', auth()->user()->id)->with('user.user_information', 'winch.winch_information')
-            ->with('addressUser')
+            ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
             ->get();
         $bookings = collect($bookingsGarage->toArray())->merge($bookingsWinch->toArray());
@@ -133,7 +133,19 @@ class BookingServiceRepository implements BookingServiceInterface
         return response()->json(['message' => 'success']);
     }
 
+    public function onTheWayFromUser($booking_id)
+    {
+        DB::beginTransaction();
 
+        $bookingService = BookingService::where('user_id', auth()->user()->id)->where('order_status_id', 2)->where('delivery_car', 0)->findOrFail($booking_id);
+
+        $bookingService->update(['order_status_id' => 3]);
+        $this->notification($bookingService->id,  $bookingService->service->provider->garage_id, auth()->user()->full_name);
+
+        DB::commit();
+
+        return response()->json(['message' => 'success']);
+    }
 
 
     /////////////////// booking in garage /////////////////////
@@ -177,12 +189,12 @@ class BookingServiceRepository implements BookingServiceInterface
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
-        $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
+        // $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
 
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
-            'payment_amount_usd' => $payment_amount_usd,
+            // 'payment_amount_usd' => $payment_amount_usd,
             'payment_type' =>  $bookingService->payment_type,
             'payment_id' => $bookingService->payment_id,
             // 'payment_method' => $bookingService->payment_id
@@ -202,6 +214,9 @@ class BookingServiceRepository implements BookingServiceInterface
     public function updateBookingServiceFromGarage($request, $booking_id)
     {
         DB::beginTransaction();
+        if ($request->order_status_id == 3)
+            return response()->json(['message' => 'this status updated from user'], 404);
+
         $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
         })
@@ -209,6 +224,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
         if ($bookingService->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);
+
 
         if (
             $bookingService->delivery_car == 1 and $request->order_status_id != 2 and

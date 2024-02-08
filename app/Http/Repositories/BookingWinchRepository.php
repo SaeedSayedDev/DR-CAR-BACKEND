@@ -145,6 +145,9 @@ class BookingWinchRepository implements BookingWinchInterface
         $bookingWinch->update(['order_status_id' => $request->order_status_id]);
 
         if ($request->order_status_id == 4) {
+            BookingService::findOrFail($bookingWinch->booking_service_id)->update(['order_status_id' => 3]);
+
+
             $request['images'] = [
                 0 => $request->image_front,
                 1 => $request->image_back,
