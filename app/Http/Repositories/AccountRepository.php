@@ -116,6 +116,11 @@ class AccountRepository implements AccountInterface
 
             ]);
             $GarageData->update(['check_servic_id' => $service->id]);
+            Media::create([
+                'image' => url("api/images/Service/check.jpeg"),
+                'type_id' => $service->id,
+                'type' => 'service'
+            ]);
         }
         DB::commit();
 
