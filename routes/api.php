@@ -134,7 +134,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
     });
 
     Route::get('notifications', [NotificationController::class, 'index']);
-    Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
     Route::get('notification/read/{notification_id}', [NotificationController::class, 'update']);
     Route::post('notification/message', [NotificationController::class, 'messageNotification']);
     Route::delete('notification/delete/{notification_id}', [NotificationController::class, 'delete']);
@@ -169,6 +168,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
 });
+Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
+
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
 
