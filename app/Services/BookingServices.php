@@ -17,6 +17,7 @@ class BookingServices
                 'payment_type' => $payment_type,
                 'payment_stataus' => 'paid',
                 'payment_id' => $payment_id,
+                'order_status_id' => 5
             ]
         );
     }
