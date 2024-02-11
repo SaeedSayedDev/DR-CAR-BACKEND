@@ -191,12 +191,12 @@ class BookingServiceRepository implements BookingServiceInterface
         }
         $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
 
-        
-        if ($bookingService->booking_winch_in_show_bookingService === null)
-            $bookingService->booking_winch_in_show_bookingService = 0;
-        else
-            $bookingService->booking_winch_in_show_bookingService = 1;
 
+        if ($bookingService->booking_winch_in_show_bookingService === null)
+            $bookingService->isset_bookingWinch_in_bookingService = 0;
+        else
+            $bookingService->isset_bookingWinch_in_bookingService = 1;
+        unset($bookingService->booking_winch_in_show_bookingService);
 
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
