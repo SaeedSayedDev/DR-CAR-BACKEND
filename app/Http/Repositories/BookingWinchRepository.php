@@ -59,9 +59,10 @@ class BookingWinchRepository implements BookingWinchInterface
 
     public function getBookingForWinch($filter_key)
     {
-        $bookings = BookingWinch::where('winch_id', auth()->user()->id)->with('user.winch_information')
+        $bookings = BookingWinch::where('winch_id', auth()->user()->id)
             ->with('address', 'media')
             ->where('order_status_id', $filter_key)
+            ->with("user.user_information")
             ->get();
         return response()->json([
             'success' => true,
