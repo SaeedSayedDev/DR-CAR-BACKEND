@@ -177,19 +177,26 @@ class BookingServiceRepository implements BookingServiceInterface
     public function showBooking($booking_id)
     {
         if (isset(auth()->user()->garage_data)) {
-            $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
+            $bookingService = BookingService::with('booking_winch_in_show_bookingService')->whereHas('serviceProvider', function ($query) {
                 $query->where('provider_id', auth()->user()->garage_data->id);
             })
                 ->with(['service.media', 'service.options', 'user.addressUser', 'status_order', 'media'])
                 ->findOrFail($booking_id);
         } else {
 
-            $bookingService = BookingService::WhereHas('user')->with('user.user_information')->where('user_id', auth()->user()->id)
+            $bookingService = BookingService::with('booking_winch_in_show_bookingService')->WhereHas('user')->with('user.user_information')->where('user_id', auth()->user()->id)
                 ->with(['service.media', 'service.options', 'user.addressUser', 'status_order', 'media'])
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
         $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
+
+        
+        if ($bookingService->booking_winch_in_show_bookingService === null)
+            $bookingService->booking_winch_in_show_bookingService = 0;
+        else
+            $bookingService->booking_winch_in_show_bookingService = 1;
+
 
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,

@@ -47,6 +47,10 @@ Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
 Route::get('images/garage/{name}', [ImageController::class, 'imageGarage']);
 Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
 Route::get('images/Options/{name}', [ImageController::class, 'imageOptions']);
+Route::get('images/image_default', [ImageController::class, 'imageDefault']);
+Route::get('image_default', [ImageController::class, 'getImageDefault']);
+
+
 
 
 
@@ -178,6 +182,7 @@ Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('servi
 Route::get('recommended/services', [ServiceController::class, 'recommended']);
 
 Route::get('service/search/{search_key}', [ServiceController::class, 'searche']);
+
 
 
 

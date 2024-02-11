@@ -80,4 +80,23 @@ class ImageController extends Controller
             return response()->json(['message' => "This File $name Is Not Found"], 404);
         }
     }
+
+    function imageDefault()
+    {
+        try {
+            return response()->file("../storage/app/public/images/image_default.jpeg");
+        } catch (Exception $e) {
+            return response()->json(['message' => "image default Is Not Found"], 404);
+        }
+    }
+
+    function getImageDefault()
+    {
+        try {
+            $imageUrl = url("api/images/image_default/");
+            return response()->json(['success' => true, 'data' => $imageUrl]);
+        } catch (Exception $e) {
+            return response()->json(['message' => "image default Is Not Found"], 404);
+        }
+    }
 }

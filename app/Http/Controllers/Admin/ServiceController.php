@@ -127,7 +127,7 @@ class ServiceController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => Service::where('name', 'like', '%' . $search . '%')->get(),
+            'data' => Service::where('name', 'like', '%' . $search . '%')->with('media')->get(),
             "message" => "Bookings retrieved successfully"
         ]);
     }

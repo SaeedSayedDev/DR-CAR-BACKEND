@@ -19,7 +19,7 @@ class AddressRepository implements AddressInterface
     {
         $user = auth()->user();
         if (isset($user->winch_information) and isset($user->address[0])) {
-            return response()->json(["success" => false, "message" => "you can not store more one address"], 404);
+            return response()->json(["success" => false, "message" => "you can not store more one address"]);
         }
         $data = $request->all();
         $data['user_id'] = $user->id;
