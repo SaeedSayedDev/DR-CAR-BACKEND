@@ -316,7 +316,7 @@
     <li class="nav-header">{{ trans('lang.app_setting') }}</li>
 
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('slides*') ? 'active' : '' }}" href="{!! route('slides') !!}">
+        <a class="nav-link {{ Request::is('slides*') ? 'active' : '' }}" href="{!! route('slides.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-images"></i>
             @endif
