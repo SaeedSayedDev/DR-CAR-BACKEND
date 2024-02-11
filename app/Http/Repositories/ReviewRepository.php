@@ -14,7 +14,7 @@ class ReviewRepository implements ReviewInterface
     function index()
     {
         if (isset(auth()->user()->garage_data)) {
-            $reviews =  Review::whereHas('service', function ($query) {
+            $reviews =  Review::with('user.media')->whereHas('service', function ($query) {
                 $query->where('provider_id', auth()->user()->garage_data->id);
             })->with('service')->get();
             return response()->json([
