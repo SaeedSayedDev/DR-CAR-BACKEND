@@ -41,7 +41,7 @@ class StatisticsController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => [
-                    'toltal_bookings' =>  $toltal_bookings,
+                    'toltal_bookings' =>  $toltal_bookings->total_earning,
                     'total_earning' =>  $total_earning,
                 ],
                 "message" => "statistics retrieved successfully"
