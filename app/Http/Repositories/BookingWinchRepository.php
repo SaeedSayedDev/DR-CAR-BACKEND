@@ -81,8 +81,10 @@ class BookingWinchRepository implements BookingWinchInterface
             ->with('winch.winch_information')
             ->with('winch.media')
             ->where('user_id', $user->id)
+            ->where('id', $booking_id)
             ->orWhere('winch_id', $user->id)
-            ->findOrFail($booking_id);
+            ->where('id', $booking_id)
+            ->firstOrFail();
 
         $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingWinch->payment_amount);
 
