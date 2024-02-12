@@ -19,7 +19,11 @@ class NotificationController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => Notification::where('user_id', $user->id)->get(),
+            'data' => Notification::where('user_id', $user->id)
+                ->whereHas('booking_service')
+                ->orWhereHas('booking_winch')
+                ->orWhere('notification_type_en', '!=', 'booking')
+                ->get(),
             "message" => "Notifications retrieved successfully"
 
         ]);
