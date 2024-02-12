@@ -153,7 +153,7 @@ class ServiceRepository implements ServiceInterface
 
     public function update($request, $id)
     {
-        $service = Service::findOrFail($id);
+        $service = Service::where('provider_id', auth()->user()->garage_data->id)->findOrFail($id);
         $requestData = request()->all();
 
         $service->update($requestData);
