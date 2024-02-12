@@ -34,13 +34,7 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInUser($filter_key)
     {
-        $bookingsGarage = BookingService::where('user_id', auth()->user()->id)->get();
-        return response()->json([
-            'success' => true,
-            'data' => $bookingsGarage,
-            "message" => "Bookings retrieved successfully"
-
-        ]);
+       
         $bookingsGarage = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')
             ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
