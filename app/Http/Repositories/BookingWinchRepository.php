@@ -192,7 +192,7 @@ class BookingWinchRepository implements BookingWinchInterface
         $text_ar = "#$booking_id تم تغيير حالة حجز الخدمة ";
         $notification_type_en = "booking";
         $notification_type_ar = "حجز";
-        $api =  url("api/booking/show/" . $booking_id);
+        $api =  url("api/booking/winch/show/" . $booking_id);
         $this->notificationService->notification($booking_id, $creator_name,  $text_en, $text_ar, $notification_type_en, $notification_type_ar, $api, $reciver_id);
     }
 }
