@@ -43,12 +43,12 @@ class BookingServiceRepository implements BookingServiceInterface
             ->where('order_status_id', $filter_key)
             ->get();
         $bookings = collect($bookingsGarage->toArray())->merge($bookingsWinch->toArray());
-        $sortedBookings = $bookings->sortBy('created_at');
+        // $sortedBookings = $bookings->sortBy('created_at');
 
 
         return response()->json([
             'success' => true,
-            'data' => $sortedBookings,
+            'data' => $bookings,
             "message" => "Bookings retrieved successfully"
 
         ]);
