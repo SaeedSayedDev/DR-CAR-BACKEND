@@ -168,7 +168,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::get('addresses', [AddressController::class, 'index']);
     Route::post('address/store', [AddressController::class, 'store']);
     Route::put('address/update/{id}', [AddressController::class, 'update']);
-    Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
+    // Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
 });
