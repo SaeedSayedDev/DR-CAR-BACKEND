@@ -81,6 +81,7 @@ class WalletService
         if (isset($bookingService->booking_winch)) {
             if ($wallet->total_balance < $bookingService->booking_winch->payment_amount + $bookingService->payment_amount)
                 return response()->json(['message' => 'please charge your wallet first']);
+            
             $payment_amount_winch = $bookingService->booking_winch->payment_amount;
         } else {
             if ($wallet->total_balance < $bookingService->payment_amount)
