@@ -39,6 +39,7 @@ class BookingServiceRepository implements BookingServiceInterface
             ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
             ->get();
+            
         $bookingsWinch = BookingWinch::where('user_id', auth()->user()->id)->with('user.user_information', 'winch.winch_information')
             ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
