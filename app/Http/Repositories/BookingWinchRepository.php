@@ -115,6 +115,7 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('delivery_car', 1)
             ->findOrFail($data['booking_service_id']);
 
+            dd($bookingService->service->provider->address->latitude);
         $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
 
 
