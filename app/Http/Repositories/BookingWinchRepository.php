@@ -113,7 +113,6 @@ class BookingWinchRepository implements BookingWinchInterface
             ->with('service')
             ->where('delivery_car', 1)
             ->findOrFail($data['booking_service_id']);
-            dd($bookingService->service->provider);
         if (!isset($bookingService->service->provider->address))
             return response()->json([ "message" => "please create address first or update it"]);
 
