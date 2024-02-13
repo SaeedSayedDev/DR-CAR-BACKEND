@@ -233,15 +233,14 @@ class BookingServiceRepository implements BookingServiceInterface
 
         $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
-        })
-            ->with('serviceProvider.media', 'serviceProvider:id,name')->findOrFail($booking_id);
+        })->with('serviceProvider.media', 'serviceProvider:id,name')->findOrFail($booking_id);
 
         if ($bookingService->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);
 
         if (
             $bookingService->delivery_car == 1 and $request->order_status_id != 2 and
-            ($bookingService->booking_winch and $bookingService->booking_winch->order_status_id < 3 or !$bookingService->booking_winch)
+            (isset($bookingService->booking_winch) and $bookingService->booking_winch->order_status_id < 3 or !isset($bookingService->booking_winch))
         ) {
             return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted']);
         }
