@@ -71,6 +71,7 @@ class BookingWinchRepository implements BookingWinchInterface
             ->with('winch.winch_information')
             ->with('winch.media')
             ->with('status_order')
+            ->with('address')
             ->where('user_id', $user->id)
             ->where('id', $booking_id)
             ->orWhere('winch_id', $user->id)
