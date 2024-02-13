@@ -42,6 +42,9 @@ class BookingWinchRepository implements BookingWinchInterface
             ->whereRaw("latitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLatitude, $userLatitude])
             ->whereRaw("longitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLongitude, $userLongitude])
             ->with('winch_information', 'address', 'media')
+            ->whereHas('winch_information', function ($q) {
+                $q->where('available_now', 1);
+            })
             ->get();
         return ['data' => $winchs];
     }
