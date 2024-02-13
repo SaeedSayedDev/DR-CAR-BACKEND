@@ -21,7 +21,17 @@ class ServiceRepository implements ServiceInterface
     public function index($filter_key)
     {
         if (isset(auth()->user()->address[0])) {
-            $services = Service::whereHas('avilabilty_range')->with('provider_avilabilty_time')->getRelashinIndex()->get()
+            // whereHas('avilabilty_range')
+            // return Service::get();
+            $userLatitude = auth()->user()->address[0]->latitude;
+            $userLongitude = auth()->user()->address[0]->longitude;
+            $services = Service::with('provider_avilabilty_time')
+                ->join('garage_data', 'garage_data.id', '=', 'services.provider_id')
+                ->join('addresses', 'garage_data.address_id', '=', 'addresses.id')
+                ->whereRaw("latitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLatitude, $userLatitude])
+                ->whereRaw("longitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLongitude, $userLongitude])
+                ->getRelashinIndex()
+                ->get()
                 ->map(function ($service) {
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                     $service->is_favorite = $service->favourite->count() > 0 ? true : false;
