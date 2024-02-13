@@ -37,7 +37,8 @@ class BookingWinchRepository implements BookingWinchInterface
         $winchs = User::where('role_id', 3)
             ->where('ban', 0)
             ->join('winch_information', 'winch_information.winch_id', '=', 'users.id')
-            ->join('addresses', 'users.id', '=', 'addresses.user_id')
+            ->join('addresses', 'addresses.user_id', '=', 'users.id')
+            // ->select('users.id', 'winch_information.phone_number', 'addresses.latitude')
             ->whereRaw("latitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLatitude, $userLatitude])
             ->whereRaw("longitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLongitude, $userLongitude])
             ->with('winch_information', 'address', 'media')
@@ -106,7 +107,7 @@ class BookingWinchRepository implements BookingWinchInterface
             ->with('booking_winch_in_show_bookingService')
             ->findOrFail($data['booking_service_id']);
         if (!isset($bookingService->service->provider->address))
-          
+
             return response()->json(["message" => "please create address first or update it"]);
 
 
