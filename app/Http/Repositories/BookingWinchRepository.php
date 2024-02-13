@@ -103,8 +103,9 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('delivery_car', 1)
             ->with('booking_winch_in_show_bookingService')
             ->findOrFail($data['booking_service_id']);
-        dd($bookingService->booking_winch_in_show_bookingService);
+
         if (!$bookingService->booking_winch_in_show_bookingService) {
+
             $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
 
 
@@ -121,6 +122,10 @@ class BookingWinchRepository implements BookingWinchInterface
                 "message" => "Booking Winch retrieved successfully"
             ]);
         }
+        return response()->json([
+            'success' => false,
+            "message" => "You have already one booking winch"
+        ]);
     }
 
 
