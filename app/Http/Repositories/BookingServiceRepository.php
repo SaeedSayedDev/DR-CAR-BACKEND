@@ -254,6 +254,7 @@ class BookingServiceRepository implements BookingServiceInterface
                 3 => $request->image_left_side,
             ];
             // return $request->images;
+            isset($bookingService->booking_winch) ? $bookingService->booking_winch->update(['order_status_id' => 6]) : null;
             $this->imageService->storeMedia($request, $bookingService->id, 'garage_receive', 'public/images/admin/receives', url("api/images/Receive/"));
         }
 
