@@ -10,7 +10,7 @@ class Review extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'service_id', 'review_value', 'review'
+        'user_id', 'type_id', 'review_value', 'review', 'type'
     ];
     function user()
     {
@@ -18,9 +18,10 @@ class Review extends Model
     }
     function service()
     {
-        return $this->belongsTo(Service::class, 'service_id', 'id');
+        return $this->belongsTo(Service::class, 'type_id', 'id');
     }
-   
-
-
+    function winch()
+    {
+        return $this->belongsTo(User::class, 'type_id', 'id');
+    }
 }
