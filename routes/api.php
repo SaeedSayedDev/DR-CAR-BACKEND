@@ -238,9 +238,9 @@ Route::get('testAddress', function () {
     $R = 6371.0;
 
     // Convert latitude and longitude from degrees to radians
-    $lat1 = deg2rad(23.8920019);
-    $lon1 = deg2rad(54.8640828);
-    $lat2 = deg2rad(23.8860017);
+    $lat1 = deg2rad(29.817446293635);
+    $lon1 = deg2rad(31.238099608604);
+    $lat2 = deg2rad(23.8920019);
     $lon2 = deg2rad(54.8594067);
 
     // Calculate the change in coordinates
