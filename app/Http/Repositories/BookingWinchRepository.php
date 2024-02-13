@@ -32,27 +32,15 @@ class BookingWinchRepository implements BookingWinchInterface
 
     public function getWinchsInUser()
     {
-        // return auth()->user();
         $userLatitude = auth()->user()->address[0]['latitude'];
         $userLongitude = auth()->user()->address[0]['longitude'];
-        $winchs = User::where('role_id', 3)->whereHas('avilabilty_range')
-            ->whereHas('winch_information', function ($q) {
-                $q->where('available_now', 1);
-            })
-            ->with('address', 'media', 'winch_information')->get();
-        // ->map(function ($winch) {
-        //     if (isset(auth()->user()->address[0]) and isset($winch->address)) {
-        //         $distance = $this->addressService->calDistance($winch->address[0]->latitude, $winch->address[0]->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
-
-        //         if ($distance > $winch->availability_range) {
-        //             unset($winch);
-        //             return;
-        //         }
-
-        //         return  $winch;
-        //     }
-        //     return;
-        // });
+        $winchs = User::where('role_id', 3)
+            ->where('ban', 0)
+            ->join('winch_information', 'winch_information.winch_id', '=', 'users.id')
+            ->join('addresses', 'users.id', '=', 'addresses.user_id')
+            ->whereRaw("latitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLatitude, $userLatitude])
+            ->whereRaw("longitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLongitude, $userLongitude])
+            ->get();
         return ['data' => $winchs];
     }
 
@@ -114,25 +102,33 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('cancel', false)
             ->with('service')
             ->where('delivery_car', 1)
+            ->with('booking_winch_in_show_bookingService')
             ->findOrFail($data['booking_service_id']);
         if (!isset($bookingService->service->provider->address))
             return response()->json([ "message" => "please create address first or update it"]);
 
 
-        $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+        if (!$bookingService->booking_winch_in_show_bookingService) {
+
+            $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
 
 
-        $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
-        $data['payment_amount'] = $distance * $WinchInformation->KM_price;
-        $data['user_id'] = $user->id;
+            $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
+            $data['payment_amount'] = $distance * $WinchInformation->KM_price;
+            $data['user_id'] = $user->id;
 
-        $bookingWinch = BookingWinch::create($data);
-        $this->notification($bookingWinch->id, $bookingWinch->winch_id, auth()->user()->full_name);
+            $bookingWinch = BookingWinch::create($data);
+            $this->notification($bookingWinch->id, $bookingWinch->winch_id, auth()->user()->full_name);
 
+            return response()->json([
+                'success' => true,
+                'data' => $bookingWinch,
+                "message" => "Booking Winch retrieved successfully"
+            ]);
+        }
         return response()->json([
-            'success' => true,
-            'data' => $bookingWinch,
-            "message" => "Booking Winch retrieved successfully"
+            'success' => false,
+            "message" => "You have already one booking winch"
         ]);
     }
 
