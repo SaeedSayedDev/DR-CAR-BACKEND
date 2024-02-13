@@ -191,11 +191,11 @@ class BookingServiceRepository implements BookingServiceInterface
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
-        $bookingService->payment_amount = isset($bookingService->booking_winch_in_show_bookingService)  ?
+        $bookingService->payment_amount_total = isset($bookingService->booking_winch_in_show_bookingService)  ?
             $bookingService->payment_amount + $bookingService->booking_winch_in_show_bookingService->payment_amount :
             $bookingService->payment_amount;
 
-        $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
+        $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount_total);
 
 
         if ($bookingService->booking_winch_in_show_bookingService === null)
@@ -207,6 +207,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
+            'payment_amount_total' =>  $bookingService->payment_amount_total,
             'payment_amount_usd' => $payment_amount_usd,
             'payment_type' =>  $bookingService->payment_type,
             'payment_id' => $bookingService->payment_id,
