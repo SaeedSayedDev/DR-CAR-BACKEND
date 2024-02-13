@@ -84,7 +84,7 @@ class ImageController extends Controller
     function imageDefault()
     {
         try {
-            return response()->file("../storage/app/public/images/image_default.jpeg");
+            return response()->file("../storage/app/public/images/default.jpg");
         } catch (Exception $e) {
             return response()->json(['message' => "image default Is Not Found"], 404);
         }
