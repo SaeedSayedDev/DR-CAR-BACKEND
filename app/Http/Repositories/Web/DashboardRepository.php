@@ -25,9 +25,13 @@ class DashboardRepository implements DashboardInterface
 
     private function totalBookings()
     {
-        return BookingService::all()->sum(function ($booking_service) {
-            return $booking_service->payment_amount * $booking_service->quantity;
-        }) + BookingWinch::sum('payment_amount');
+        return number_format(
+            BookingService::where('payment_stataus', 'paid')->get()->sum('payment_amount')
+                + BookingWinch::where('payment_stataus', 'paid')->get()->sum('payment_amount'),
+            2,
+            '.',
+            ''
+        );
     }
 
     private function totalEarnings()

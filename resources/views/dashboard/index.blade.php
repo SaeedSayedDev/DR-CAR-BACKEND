@@ -22,7 +22,7 @@
     <div class="content">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            {{-- <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
@@ -55,9 +55,9 @@
                         class="small-box-footer">{{ trans('lang.dashboard_more_info') }}
                         <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-            </div>
+            </div> --}}
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
@@ -73,7 +73,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-white shadow-sm">
                     <div class="inner">
