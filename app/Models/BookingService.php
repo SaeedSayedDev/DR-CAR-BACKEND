@@ -80,6 +80,7 @@ class BookingService extends Model
     {
         return $this->hasOne(BookingWinch::class, 'booking_service_id')
             ->where('cancel', false)
-            ->where('order_status_id', '!=', 7)->select('order_status_id');
+            ->where('order_status_id', '!=', 7)
+            ->select('booking_service_id', 'order_status_id');
     }
 }
