@@ -13,16 +13,19 @@ class AccountRequest extends FormRequest
 
     public function rules(): array
     {
-        $id = auth()->user()->id;
+        $user_id =  auth()->user()->id;
         if (auth()->user()->userRole->id == 2) {
+            $id = auth()->user()->user_information->id;
             $phoneValidation = 'nullable|string|unique:winch_information,phone_number|unique:garage_information,phone_number|
             unique:user_information,phone_number,' . $id;
         }
         if (auth()->user()->userRole->id == 3) {
+            $id = auth()->user()->winch_information->id;
             $phoneValidation = 'nullable|string|unique:user_information,phone_number|unique:garage_information,phone_number|
             unique:winch_information,phone_number,' . $id;
         }
         if (auth()->user()->userRole->id == 4) {
+            $id = auth()->user()->garage_information->id;
             $phoneValidation = 'nullable|string|unique:winch_information,phone_number|unique:user_information,phone_number|
             unique:garage_information,phone_number,' . $id;
         }
@@ -30,7 +33,7 @@ class AccountRequest extends FormRequest
         if (auth()->user()->userRole->id == 3) {
             return [
                 'full_name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email,' . $id,
+                'email' => 'required|email|unique:users,email,' . $user_id,
 
                 'phone_number' => $phoneValidation,
                 'address' => 'required|string|min:3',
@@ -46,7 +49,7 @@ class AccountRequest extends FormRequest
 
         return [
             'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $user_id,
             'phone_number' => $phoneValidation,
             'address' => 'required|string|min:3',
             'short_biography' => 'nullable|string',

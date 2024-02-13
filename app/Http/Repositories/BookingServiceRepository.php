@@ -34,12 +34,12 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInUser($filter_key)
     {
-       
+
         $bookingsGarage = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')
             ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
             ->get();
-            
+
         $bookingsWinch = BookingWinch::where('user_id', auth()->user()->id)->with('user.user_information', 'winch.winch_information')
             ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
@@ -191,6 +191,10 @@ class BookingServiceRepository implements BookingServiceInterface
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
+        $bookingService->payment_amount = isset($bookingService->booking_winch_in_show_bookingService)  ?
+            $bookingService->payment_amount + $bookingService->booking_winch_in_show_bookingService->payment_amount :
+            $bookingService->payment_amount;
+
         $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
 
 
@@ -198,7 +202,7 @@ class BookingServiceRepository implements BookingServiceInterface
             $bookingService->isset_bookingWinch_in_bookingService = 0;
         else
             $bookingService->isset_bookingWinch_in_bookingService = 1;
-        unset($bookingService->booking_winch_in_show_bookingService);
+        // unset($bookingService->booking_winch_in_show_bookingService);
 
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
