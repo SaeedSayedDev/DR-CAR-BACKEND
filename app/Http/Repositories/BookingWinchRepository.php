@@ -106,6 +106,7 @@ class BookingWinchRepository implements BookingWinchInterface
             ->with('booking_winch_in_show_bookingService')
             ->findOrFail($data['booking_service_id']);
         if (!isset($bookingService->service->provider->address))
+          
             return response()->json(["message" => "please create address first or update it"]);
 
 
