@@ -207,6 +207,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
+            'payment_amount_total' =>  $bookingService->payment_amount_total,
             'payment_amount_usd' => $payment_amount_usd,
             'payment_type' =>  $bookingService->payment_type,
             'payment_id' => $bookingService->payment_id,
