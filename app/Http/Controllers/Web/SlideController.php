@@ -21,7 +21,6 @@ class SlideController extends Controller
     {
         return $this->slideInterface->create();
     }
-    
 
     public function store(SlideRequest $request)
     {
@@ -42,5 +41,4 @@ class SlideController extends Controller
     {
         return $this->slideInterface->destroy($id);
     }
-
 }

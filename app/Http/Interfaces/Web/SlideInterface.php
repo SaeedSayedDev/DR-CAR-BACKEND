@@ -15,5 +15,4 @@ interface SlideInterface
     public function update($request, $id);
 
     public function destroy($id);
-
 }

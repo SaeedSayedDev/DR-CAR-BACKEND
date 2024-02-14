@@ -29,17 +29,17 @@
     <!-- /.content-header -->
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
-        @include('adminlte-templates::common.errors')
+        {{-- @include('flash::message')
+        @include('adminlte-templates::common.errors') --}}
         <div class="clearfix"></div>
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-row align-items-start card-header-tabs">
-                    @can('coupons.index')
+                    {{-- @can('coupons.index') --}}
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('coupons.index') !!}"><i class="fas fa-list mr-2"></i>{{trans('lang.coupon_table')}}</a>
                         </li>
-                    @endcan
+                    {{-- @endcan --}}
                     <li class="nav-item">
                         <a class="nav-link active" href="{!! url()->current() !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.coupon_create')}}</a>
                     </li>

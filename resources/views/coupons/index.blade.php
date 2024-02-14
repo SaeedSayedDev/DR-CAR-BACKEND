@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb bg-white float-sm-right rounded-pill px-4 py-2 d-none d-md-flex">
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt"></i> {{trans('lang.dashboard')}}</a></li>
-                        <li class="breadcrumb-item"><a href="{!! route('coupons') !!}">{{trans('lang.coupon_plural')}}</a>
+                        <li class="breadcrumb-item"><a href="{!! route('coupons.index') !!}">{{trans('lang.coupon_plural')}}</a>
                         </li>
                         <li class="breadcrumb-item active">{{trans('lang.coupon_table')}}</li>
                     </ol>
@@ -31,11 +31,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="{!! url()->current() !!}"><i class="fas fa-list mr-2"></i>{{trans('lang.coupon_table')}}</a>
                         </li>
-                        @can('coupons.create')
+                        {{-- @can('coupons.create') --}}
                             <li class="nav-item">
                                 <a class="nav-link" href="{!! route('coupons.create') !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.coupon_create')}}</a>
                             </li>
-                        @endcan
+                        {{-- @endcan --}}
                     </div>
                     @include('layouts.right_toolbar', compact('dataTable'))
                 </ul>
