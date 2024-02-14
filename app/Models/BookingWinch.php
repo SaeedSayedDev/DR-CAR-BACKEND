@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\StatusOrder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +22,7 @@ class BookingWinch extends Model
         'payment_amount',
         'payment_type',
         'payment_id',
-    
+
     ];
 
     public function bookingService()
@@ -32,7 +33,7 @@ class BookingWinch extends Model
 
     public function address()
     {
-        return $this->belongsTo(Address::class, 'user_id');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     public function user()
@@ -47,5 +48,9 @@ class BookingWinch extends Model
     public function media()
     {
         return $this->hasMany(Media::class, 'type_id')->where('type', 'winch_receive');
+    }
+    public function status_order()
+    {
+        return $this->belongsTo(StatusOrder::class, 'order_status_id');
     }
 }

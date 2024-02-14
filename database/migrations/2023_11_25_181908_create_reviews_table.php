@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('review_value');
             $table->text('review');
 
-            $table->unsignedBigInteger('service_id');
-            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
+            $table->unsignedBigInteger('type_id');
+            $table->integer('type')->comment("0 -> service, 1 -> winch");
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

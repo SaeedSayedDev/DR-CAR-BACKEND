@@ -168,7 +168,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
     Route::get('addresses', [AddressController::class, 'index']);
     Route::post('address/store', [AddressController::class, 'store']);
     Route::put('address/update/{id}', [AddressController::class, 'update']);
-    Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
+    // Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
 });
@@ -234,3 +234,25 @@ Route::get('env/data', function () {
 
 
 Route::get('testNotification', [SettingController::class, 'testNotification']);
+Route::get('testAddress', function () {
+    $R = 6371.0;
+
+    // Convert latitude and longitude from degrees to radians
+    $lat1 = deg2rad(29.817446293635);
+    $lon1 = deg2rad(31.238099608604);
+    $lat2 = deg2rad(23.8920019);
+    $lon2 = deg2rad(54.8594067);
+
+    // Calculate the change in coordinates
+    $dLon = $lon2 - $lon1;
+    $dLat = $lat2 - $lat1;
+
+    // Haversine formula
+    $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1) * cos($lat2) * sin($dLon / 2) * sin($dLon / 2);
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+    // Calculate the distance
+    $distance = $R * $c;
+
+    return $distance;
+});

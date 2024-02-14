@@ -123,7 +123,7 @@ class User extends Authenticatable implements JWTSubject
         $userLatitude = auth()->user()->address[0]['latitude'];
         $userLongitude = auth()->user()->address[0]['longitude'];
         $availability_range = $this->belongsTo(WinchInformation::class, 'winch_id')->first()->availability_range;
-
+        $availability_range = 500;
         return $this->hasOne(Address::class, 'user_id')
             ->whereHas('user', function ($q) {
                 $q->where('role_id', 3);

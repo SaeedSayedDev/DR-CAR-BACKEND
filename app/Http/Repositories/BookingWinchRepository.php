@@ -32,27 +32,20 @@ class BookingWinchRepository implements BookingWinchInterface
 
     public function getWinchsInUser()
     {
-        // return auth()->user();
         $userLatitude = auth()->user()->address[0]['latitude'];
         $userLongitude = auth()->user()->address[0]['longitude'];
-        $winchs = User::where('role_id', 3)->whereHas('avilabilty_range')
+        $winchs = User::where('role_id', 3)
+            ->where('ban', 0)
+            ->join('winch_information', 'winch_information.winch_id', '=', 'users.id')
+            ->join('addresses', 'addresses.user_id', '=', 'users.id')
+            // ->select('users.id', 'winch_information.phone_number', 'addresses.latitude')
+            ->whereRaw("latitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLatitude, $userLatitude])
+            ->whereRaw("longitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLongitude, $userLongitude])
+            ->with('winch_information', 'address', 'media')
             ->whereHas('winch_information', function ($q) {
                 $q->where('available_now', 1);
             })
-            ->with('address', 'media', 'winch_information')->get();
-        // ->map(function ($winch) {
-        //     if (isset(auth()->user()->address[0]) and isset($winch->address)) {
-        //         $distance = $this->addressService->calDistance($winch->address[0]->latitude, $winch->address[0]->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
-
-        //         if ($distance > $winch->availability_range) {
-        //             unset($winch);
-        //             return;
-        //         }
-
-        //         return  $winch;
-        //     }
-        //     return;
-        // });
+            ->get();
         return ['data' => $winchs];
     }
 
@@ -76,13 +69,17 @@ class BookingWinchRepository implements BookingWinchInterface
         $user = auth()->user();
 
         $bookingWinch = BookingWinch::with('user.user_information', 'media')
-            ->with('user.address')
+            ->with('address')
             ->with('user.media')
             ->with('winch.winch_information')
             ->with('winch.media')
+            ->with('status_order')
+            ->with('winch.addressUser')
             ->where('user_id', $user->id)
+            ->where('id', $booking_id)
             ->orWhere('winch_id', $user->id)
-            ->findOrFail($booking_id);
+            ->where('id', $booking_id)
+            ->firstOrFail();
 
         $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingWinch->payment_amount);
 
@@ -111,22 +108,34 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('cancel', false)
             ->with('service')
             ->where('delivery_car', 1)
+            ->with('booking_winch_in_show_bookingService')
             ->findOrFail($data['booking_service_id']);
+        if (!isset($bookingService->service->provider->address))
 
-        $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+            return response()->json(["message" => "please create address first or update it"]);
 
 
-        $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
-        $data['payment_amount'] = $distance * $WinchInformation->KM_price;
-        $data['user_id'] = $user->id;
+        if (!$bookingService->booking_winch_in_show_bookingService) {
 
-        $bookingWinch = BookingWinch::create($data);
-        $this->notification($bookingWinch->id, $bookingWinch->winch_id, auth()->user()->full_name);
+            $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
 
+            $data['address_id'] = $bookingService->address_id;
+            $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
+            $data['payment_amount'] = number_format($distance * $WinchInformation->KM_price, 2, '.', '');
+            $data['user_id'] = $user->id;
+
+            $bookingWinch = BookingWinch::create($data);
+            $this->notification($bookingWinch->id, $bookingWinch->winch_id, auth()->user()->full_name);
+
+            return response()->json([
+                'success' => true,
+                'data' => $bookingWinch,
+                "message" => "Booking Winch retrieved successfully"
+            ]);
+        }
         return response()->json([
-            'success' => true,
-            'data' => $bookingWinch,
-            "message" => "Booking Winch retrieved successfully"
+            'success' => false,
+            "message" => "You have already one booking winch"
         ]);
     }
 
@@ -191,7 +200,7 @@ class BookingWinchRepository implements BookingWinchInterface
         $text_ar = "#$booking_id تم تغيير حالة حجز الخدمة ";
         $notification_type_en = "booking";
         $notification_type_ar = "حجز";
-        $api =  url("api/booking/show/" . $booking_id);
+        $api =  url("api/booking/winch/show/" . $booking_id);
         $this->notificationService->notification($booking_id, $creator_name,  $text_en, $text_ar, $notification_type_en, $notification_type_ar, $api, $reciver_id);
     }
 }

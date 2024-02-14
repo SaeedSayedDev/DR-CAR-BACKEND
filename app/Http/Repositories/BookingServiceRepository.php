@@ -34,21 +34,23 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function getBookingsInUser($filter_key)
     {
+
         $bookingsGarage = BookingService::where('user_id', auth()->user()->id)->with('service.media', 'service.provider:id,name')
             ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
             ->get();
+
         $bookingsWinch = BookingWinch::where('user_id', auth()->user()->id)->with('user.user_information', 'winch.winch_information')
             ->with('user.addressUser')
             ->where('order_status_id', $filter_key)
             ->get();
         $bookings = collect($bookingsGarage->toArray())->merge($bookingsWinch->toArray());
-        $sortedBookings = $bookings->sortBy('created_at');
+        // $sortedBookings = $bookings->sortBy('created_at');
 
 
         return response()->json([
             'success' => true,
-            'data' => $sortedBookings,
+            'data' => $bookings,
             "message" => "Bookings retrieved successfully"
 
         ]);
@@ -92,6 +94,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $payment_method =  PaymentMethod::where('enabled', 1)->where('payment_type', $request->payment_type)->firstOrFail();
 
         DB::beginTransaction();
+        $total_amount = number_format($total_amount,2,'.','');
         if ($payment_method->name == 'Stripe') {
             $retrieve = $this->payWithStripe($request, $total_amount);
             return  $this->stripeService->payWithStripe($request, $bookingService, $total_amount, $retrieve);
@@ -180,27 +183,32 @@ class BookingServiceRepository implements BookingServiceInterface
             $bookingService = BookingService::with('booking_winch_in_show_bookingService')->whereHas('serviceProvider', function ($query) {
                 $query->where('provider_id', auth()->user()->garage_data->id);
             })
-                ->with(['service.media', 'service.options', 'user.addressUser', 'status_order', 'media'])
+                ->with(['service.media', 'service.provider.address', 'service.options', 'address', 'status_order', 'media'])
                 ->findOrFail($booking_id);
         } else {
 
             $bookingService = BookingService::with('booking_winch_in_show_bookingService')->WhereHas('user')->with('user.user_information')->where('user_id', auth()->user()->id)
-                ->with(['service.media', 'service.options', 'user.addressUser', 'status_order', 'media'])
+                ->with(['service.media', 'service.options', 'address', 'service.provider.address', 'status_order', 'media'])
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
-        $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount);
+        $bookingService->payment_amount_total = isset($bookingService->booking_winch_in_show_bookingService)  ?
+            $bookingService->payment_amount + $bookingService->booking_winch_in_show_bookingService->payment_amount :
+            $bookingService->payment_amount;
+
+        $payment_amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($bookingService->payment_amount_total);
 
 
         if ($bookingService->booking_winch_in_show_bookingService === null)
             $bookingService->isset_bookingWinch_in_bookingService = 0;
         else
             $bookingService->isset_bookingWinch_in_bookingService = 1;
-        unset($bookingService->booking_winch_in_show_bookingService);
+        // unset($bookingService->booking_winch_in_show_bookingService);
 
         $bookingService->payment = [
             'payment_status' => $bookingService->payment_stataus,
             'payment_amount' =>  $bookingService->payment_amount,
+            'payment_amount_total' =>  $bookingService->payment_amount_total,
             'payment_amount_usd' => $payment_amount_usd,
             'payment_type' =>  $bookingService->payment_type,
             'payment_id' => $bookingService->payment_id,
@@ -226,15 +234,14 @@ class BookingServiceRepository implements BookingServiceInterface
 
         $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
-        })
-            ->with('serviceProvider.media', 'serviceProvider:id,name')->findOrFail($booking_id);
+        })->with('serviceProvider.media', 'serviceProvider:id,name')->findOrFail($booking_id);
 
         if ($bookingService->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);
 
         if (
             $bookingService->delivery_car == 1 and $request->order_status_id != 2 and
-            ($bookingService->booking_winch and $bookingService->booking_winch->order_status_id < 3 or !$bookingService->booking_winch)
+            (isset($bookingService->booking_winch) and $bookingService->booking_winch->order_status_id < 3 or !isset($bookingService->booking_winch))
         ) {
             return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted']);
         }
@@ -248,6 +255,7 @@ class BookingServiceRepository implements BookingServiceInterface
                 3 => $request->image_left_side,
             ];
             // return $request->images;
+            isset($bookingService->booking_winch) ? $bookingService->booking_winch->update(['order_status_id' => 6]) : null;
             $this->imageService->storeMedia($request, $bookingService->id, 'garage_receive', 'public/images/admin/receives', url("api/images/Receive/"));
         }
 

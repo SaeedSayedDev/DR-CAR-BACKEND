@@ -66,7 +66,7 @@ class Service extends Model
 
     public function review()
     {
-        return $this->hasMany(Review::class, 'service_id');
+        return $this->hasMany(Review::class, 'type_id')->where('type',0);
     }
 
 
@@ -92,7 +92,8 @@ class Service extends Model
     }
     public function scopeGetRelashinIndex($query)
     {
-        return  $this->whereHas('avilabilty_range')
+        return  $this
+            // ->whereHas('avilabilty_range')
             ->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');

@@ -14,9 +14,23 @@ class ReviewRepository implements ReviewInterface
     function index()
     {
         if (isset(auth()->user()->garage_data)) {
-            $reviews =  Review::with('user.media')->whereHas('service', function ($query) {
-                $query->where('provider_id', auth()->user()->garage_data->id);
-            })->with('service')->get();
+            $reviews =  Review::with('user.media')
+                ->whereHas('service', function ($query) {
+                    $query->where('provider_id', auth()->user()->garage_data->id);
+                })
+                ->with('service')->get();
+            return response()->json([
+                "success" => true,
+                'data' => $reviews,
+                'message' => 'Review retrive successfully'
+            ]);
+        } else if (auth()->user()->winch_information) {
+            $reviews =  Review::with('user.media')
+
+                ->orWhereHas('winch', function ($query) {
+                    $query->where('id', auth()->user()->id);
+                })
+                ->with('winch')->get();
             return response()->json([
                 "success" => true,
                 'data' => $reviews,
@@ -40,11 +54,12 @@ class ReviewRepository implements ReviewInterface
             Review::updateOrCreate(
                 [
                     'user_id' => $user->id,
-                    'service_id' => $request->service_id,
+                    'type_id' => $request->type_id,
                 ],
                 [
                     'review_value' => $request->review_value,
                     'review' => $request->review,
+                    'type' => $request->type
                 ]
             );
             return response()->json(['message' => 'success']);
@@ -61,9 +76,11 @@ class ReviewRepository implements ReviewInterface
 
         $review->update([
             'user_id' => $user_id,
-            'service_id' => $review->service_id,
+            'type_id' => $review->type_id,
             'review_value' => $request->review_value,
             'review' => $request->review,
+            'type' => $request->type
+
         ]);
         return response()->json(['message' => 'sucsess']);
     }

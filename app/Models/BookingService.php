@@ -62,8 +62,7 @@ class BookingService extends Model
     {
         return $this->hasOne(BookingWinch::class, 'booking_service_id')
             // ->where('order_status_id', 4)
-            ->where('cancel', false)
-            ->where('payment_stataus', 'unpaid');
+            ->where('cancel', false);
     }
     public function status_order()
     {
@@ -80,6 +79,6 @@ class BookingService extends Model
     {
         return $this->hasOne(BookingWinch::class, 'booking_service_id')
             ->where('cancel', false)
-            ->where('order_status_id', '!=', 7)->select('order_status_id');
+            ->where('order_status_id', '!=', 7);
     }
 }

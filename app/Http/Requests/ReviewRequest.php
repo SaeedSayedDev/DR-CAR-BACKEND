@@ -21,9 +21,15 @@ class ReviewRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (request()->type == 0)
+            $type_id = 'required|integer|exists:services,id';
+        else if (request()->type == 1)
+            $type_id = 'required|integer|exists:users,id,role_id,3';
+
         if (request()->isMethod('post')) {
             return [
-                'service_id' => 'required|integer|exists:services,id',
+                'type_id' => $type_id,
+                'type' => 'required|integer|in:1,0',
                 'review_value' => 'required|integer|in:1,2,3,4,5',
                 'review' => 'required|string',
             ];

@@ -26,9 +26,6 @@ class CreateGarageDataTable extends Migration
             
             $table->unsignedBigInteger('check_servic_id');
 
-            
-
-
             $table->timestamps();
         });
     }
