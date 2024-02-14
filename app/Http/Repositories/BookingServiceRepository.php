@@ -182,12 +182,12 @@ class BookingServiceRepository implements BookingServiceInterface
             $bookingService = BookingService::with('booking_winch_in_show_bookingService')->whereHas('serviceProvider', function ($query) {
                 $query->where('provider_id', auth()->user()->garage_data->id);
             })
-                ->with(['service.media', 'address', 'service.options', 'user.addressUser', 'status_order', 'media'])
+                ->with(['service.media', 'service.provider.address', 'service.options', 'user.addressUser', 'status_order', 'media'])
                 ->findOrFail($booking_id);
         } else {
 
             $bookingService = BookingService::with('booking_winch_in_show_bookingService')->WhereHas('user')->with('user.user_information')->where('user_id', auth()->user()->id)
-                ->with(['service.media', 'service.options', 'user.addressUser', 'address', 'status_order', 'media'])
+                ->with(['service.media', 'service.options', 'user.addressUser', 'service.provider.address', 'status_order', 'media'])
                 ->findOrFail($booking_id);
             // $bookingService->user_information->where('user_id', $bookingService->user_id);
         }
