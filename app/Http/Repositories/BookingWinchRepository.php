@@ -66,7 +66,7 @@ class BookingWinchRepository implements BookingWinchInterface
         $user = auth()->user();
 
         $bookingWinch = BookingWinch::with('user.user_information', 'media')
-            ->with('user.address')
+            ->with('address')
             ->with('user.media')
             ->with('winch.winch_information')
             ->with('winch.media')
