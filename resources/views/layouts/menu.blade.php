@@ -127,7 +127,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{!! route('coupons') !!}">
+        <a class="nav-link" href="{!! route('coupons.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-ticket-alt"></i>
             @endif
@@ -403,7 +403,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('taxes*') ? 'active' : '' }}" href="{!! route('taxes') !!}">
+        <a class="nav-link {{ Request::is('taxes*') ? 'active' : '' }}" href="{!! route('taxes.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-coins"></i>
             @endif

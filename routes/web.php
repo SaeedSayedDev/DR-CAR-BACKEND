@@ -49,33 +49,33 @@ Route::group([
 
     Route::group(['middleware' => 'auth:web'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
-
         Route::post('password/update', [AuthController::class, 'updatePassword'])->name('password.update');
-        Route::view('users/profile', 'settings.users.profile')->name('users.profile');
 
         Route::get('/', DashboardController::class);
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-        # Menue
+        # App Management
+        Route::resource('eProviders', ProviderController::class);
         Route::resource('items', ItemController::class);
         Route::resource('categories', CategoryController::class);
-        Route::resource('eProviders', ProviderController::class);
-        Route::put('users/{id}/ban', [UserController::class, 'ban'])->name('users.ban');
-        Route::put('users/{id}/unban', [UserController::class, 'unban'])->name('users.unban');
-        Route::resource('users', UserController::class);
         Route::get('booking/service', BookingServiceController::class)->name('booking.service');
         Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
-        Route::get('coupons', CouponController::class)->name('coupons');
-        Route::get('taxes', TaxController::class)->name('taxes');
-        Route::resource('commissions', CommissionController::class)->only('index', 'edit', 'update');
-        Route::resource('slides', SlideController::class)->except('show');
+        Route::resource('coupons', CouponController::class);
+        # Payments
         Route::get('wallets', WalletController::class)->name('wallets');
         Route::get('walletTransactions', WalletTransactionController::class)->name('walletTransactions');
-
         Route::get('withdraws', [WithdrawController::class, 'index'])->name('withdraws.index');
         Route::post('withdraws/filter', [WithdrawController::class, 'filterStatus'])->name('withdraws.filter');
         Route::get('withdraws/{id}', [WithdrawController::class, 'show'])->name('withdraws.show');
         Route::put('withdraws/status/{id}', [WithdrawController::class, 'updateStatus'])->name('withdraws.status.update');
+        # Settings
+        Route::resource('slides', SlideController::class);
+        Route::put('users/{id}/ban', [UserController::class, 'ban'])->name('users.ban');
+        Route::put('users/{id}/unban', [UserController::class, 'unban'])->name('users.unban');
+        Route::view('users/profile', 'settings.users.profile')->name('users.profile');
+        Route::resource('users', UserController::class);
+        Route::resource('taxes', TaxController::class);
+        Route::resource('commissions', CommissionController::class);
     });
 });
 
