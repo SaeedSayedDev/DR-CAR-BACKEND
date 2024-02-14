@@ -119,7 +119,7 @@ class BookingWinchRepository implements BookingWinchInterface
 
             $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
 
-
+            $data['address_id'] = $bookingService->address_id;
             $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
             $data['payment_amount'] = $distance * $WinchInformation->KM_price;
             $data['user_id'] = $user->id;
