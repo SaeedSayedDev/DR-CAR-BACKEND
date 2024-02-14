@@ -94,6 +94,7 @@ class BookingServiceRepository implements BookingServiceInterface
         $payment_method =  PaymentMethod::where('enabled', 1)->where('payment_type', $request->payment_type)->firstOrFail();
 
         DB::beginTransaction();
+        $total_amount = number_format($total_amount,2,'.','');
         if ($payment_method->name == 'Stripe') {
             $retrieve = $this->payWithStripe($request, $total_amount);
             return  $this->stripeService->payWithStripe($request, $bookingService, $total_amount, $retrieve);
