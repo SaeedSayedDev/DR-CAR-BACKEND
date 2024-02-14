@@ -118,7 +118,7 @@ class BookingWinchRepository implements BookingWinchInterface
 
 
             $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
-            $data['payment_amount'] = $distance * $WinchInformation->KM_price;
+            $data['payment_amount'] = number_format($distance * $WinchInformation->KM_price, 2, '.', '');
             $data['user_id'] = $user->id;
 
             $bookingWinch = BookingWinch::create($data);
