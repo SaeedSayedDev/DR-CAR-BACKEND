@@ -66,7 +66,7 @@ class Service extends Model
 
     public function review()
     {
-        return $this->hasMany(Review::class, 'service_id');
+        return $this->hasMany(Review::class, 'type_id')->where('type',0);
     }
 
 
