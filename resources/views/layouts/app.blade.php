@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Dr Car | Manage Mobile Application</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <link rel="icon" type="image/png" href="{{ $app_logo ?? '' }}" />
+    <link rel="icon" type="image/png" href="{{  $app_logo ?? asset('storage/images/default-app.png')  }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
 
@@ -21,6 +21,11 @@
 <body
     class="{{ LaravelLocalization::getCurrentLocaleDirection() }} layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-mini primary light-mode"
     data-scrollbar-auto-hide="l" data-scrollbar-theme="os-theme-dark">
+
+    @php
+        $admin = auth()->user();
+    @endphp
+    
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand navbar-dark navbar-navy border-bottom-0">
             <ul class="navbar-nav">
@@ -60,11 +65,14 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <img src="https://abdelrahman-salah.online/storage/app/public/15/ic_launcher-%281%29.png"
+                        <img src="{{ asset('storage/images/' . $admin->imageOrDefaultAdmin()) }}"
                             class="brand-image mx-2 img-circle elevation-2" alt="User Image">
                         <i class="fa fas fa-angle-down"></i> {{ auth()->user()->full_name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
+                        <a href="{{ route('users.profile') }}" class="dropdown-item"> <i class="fas fa-user mr-2"></i>
+                            {{ trans('lang.user_profile') }}
+                        </a>
                         <a href="{!! url('logout') !!}" class="dropdown-item"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-envelope mr-2"></i> {{ __('auth.logout') }}

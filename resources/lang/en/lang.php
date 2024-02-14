@@ -1400,7 +1400,8 @@ return [
     'processing' => 'Processing',
     'paid' => 'Paid',
     'unpaid' => 'Unpaid',
-
     'check_service_price' => 'Check Service Price',
-
+    'update_password' => 'Update Password',
+    'admin' => 'Admin',
+    'new_password' => 'New Password',
 ];

@@ -83,6 +83,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(OtpUser::class, 'user_id',  'id')->where('type_user', 'user');
     }
 
+    public function otpAdmin()
+    {
+        return $this->hasOne(OtpUser::class, 'user_id',  'id')->where('type_user', 'admin');
+    }
+
     public function address()
     {
         return $this->hasMany(Address::class, 'user_id',  'id');
@@ -130,5 +135,11 @@ class User extends Authenticatable implements JWTSubject
             })
             ->whereBetween('latitude', [$userLatitude - $availability_range, $userLatitude + $availability_range])
             ->whereBetween('longitude', [$userLongitude - $availability_range, $userLongitude + $availability_range]);
+    }
+
+    public function imageOrDefaultAdmin()
+    {
+        $image = $this->media()->first();
+        return $image ? ('accounts/' . $image->imageName()) : 'default-app.png';
     }
 }
