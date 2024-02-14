@@ -76,9 +76,11 @@ class ReviewRepository implements ReviewInterface
 
         $review->update([
             'user_id' => $user_id,
-            'service_id' => $review->service_id,
+            'type_id' => $review->type_id,
             'review_value' => $request->review_value,
             'review' => $request->review,
+            'type' => $request->type
+
         ]);
         return response()->json(['message' => 'sucsess']);
     }
