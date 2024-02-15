@@ -44,10 +44,10 @@
                 <td>{{ $withdraw->updated_at->diffForHumans() }}</td>
                 <td>
                     <div class="btn-group" role="group">
-                        <a data-toggle="tooltip" data-placement="left" href="{{ route('withdraws.show', $withdraw->id) }}"
+                        {{-- <a data-toggle="tooltip" data-placement="left" href="{{ route('withdraws.show', $withdraw->id) }}"
                             class='btn btn-link'>
                             <i class="fas fa-eye"></i>
-                        </a>
+                        </a> --}}
                         @if ($withdraw->status == 'pending' || $withdraw->status == 'processing')
                             <div class="dropdown">
                                 <button class="btn btn-link dropdown-toggle" type="button" id="statusDropdown"
