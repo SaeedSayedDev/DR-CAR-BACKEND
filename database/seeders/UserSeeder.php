@@ -67,15 +67,7 @@ class UserSeeder extends Seeder
             Slide::create($slide);
         }
 
-        $booking_services = UserTrait::$booking_services;
-        foreach ($booking_services as $booking_service) {
-            BookingService::create($booking_service);
-        }
-
-        $booking_winches = UserTrait::$booking_winches;
-        foreach ($booking_winches as $booking_winch) {
-            BookingWinch::create($booking_winch);
-        }
+   
         
         $coupons = UserTrait::$coupons;
         foreach ($coupons as $coupon) {
