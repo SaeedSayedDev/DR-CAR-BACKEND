@@ -23,6 +23,7 @@ class NotificationController extends Controller
                 ->whereHas('booking_service')
                 ->orWhereHas('booking_winch')
                 ->orWhere('notification_type_en', '!=', 'booking')
+                ->where('user_id', $user->id)
                 ->get(),
             "message" => "Notifications retrieved successfully"
 
