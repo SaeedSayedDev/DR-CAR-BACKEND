@@ -136,10 +136,4 @@ class User extends Authenticatable implements JWTSubject
             ->whereBetween('latitude', [$userLatitude - $availability_range, $userLatitude + $availability_range])
             ->whereBetween('longitude', [$userLongitude - $availability_range, $userLongitude + $availability_range]);
     }
-
-    public function imageOrDefaultAdmin()
-    {
-        $image = $this->media()->first();
-        return $image ? ('accounts/' . $image->imageName()) : 'default-app.png';
-    }
 }

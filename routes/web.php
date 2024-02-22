@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\BookingServiceController;
 use App\Http\Controllers\Web\BookingWinchController;
+use App\Http\Controllers\Web\CarController;
 use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\CommissionController;
 use App\Http\Controllers\Web\CouponController;
@@ -50,6 +51,8 @@ Route::group([
     Route::group(['middleware' => 'auth:web'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('password/update', [AuthController::class, 'updatePassword'])->name('password.update');
+        Route::post('admin/update', [AuthController::class, 'updateAdmin'])->name('admin.update');
+        Route::post('logo/update', [AuthController::class, 'updateLogo'])->name('logo.update');
 
         Route::get('/', DashboardController::class);
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -76,6 +79,8 @@ Route::group([
         Route::resource('users', UserController::class);
         Route::resource('taxes', TaxController::class);
         Route::resource('commissions', CommissionController::class);
+        # Marketing
+        Route::resource('cars', CarController::class);
     });
 });
 

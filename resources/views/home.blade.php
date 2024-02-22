@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dr Car | Manage Mobile Application</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="{{ $app_logo ?? asset('storage/images/default-app.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ $app_logo ?? asset('storage/images/app/' . $logo) }}"/>
     <link rel="stylesheet" href="{{asset('vendor/fontawesome-free/css/all.min.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
