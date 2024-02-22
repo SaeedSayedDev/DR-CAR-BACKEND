@@ -1328,7 +1328,8 @@ return [
     'processing' => 'قيد المعالجة',
     'paid' => 'تم الدفع',
     'unpaid' => 'غير مدفوع',
-
     'check_service_price' => 'تحقق من سعر الخدمة',
-
+    'update_password' => 'تحديث كلمة المرور',
+    'admin' => 'المشرف',
+    'new_password' => 'كلمة المرور الجديدة',
 ];

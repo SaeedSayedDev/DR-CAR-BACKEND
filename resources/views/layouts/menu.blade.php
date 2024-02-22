@@ -127,7 +127,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{!! route('coupons') !!}">
+        <a class="nav-link" href="{!! route('coupons.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-ticket-alt"></i>
             @endif
@@ -208,7 +208,7 @@
     {{-- @endif --}}
 
     <li class="nav-header">{{ trans('lang.payment_plural') }}</li>
-    
+
     {{-- <li
         class="nav-item has-treeview {{ Request::is('payments*') || Request::is('paymentMethods*') || Request::is('paymentStatuses*') || Request::is('eProviderPayouts*') ? 'menu-open' : '' }}">
         <a href="#"
@@ -312,7 +312,7 @@
                 {{ trans('lang.earning_plural') }} </p>
         </a>
     </li> --}}
-    
+
     <li class="nav-header">{{ trans('lang.app_setting') }}</li>
 
     <li class="nav-item">
@@ -403,7 +403,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('taxes*') ? 'active' : '' }}" href="{!! route('taxes') !!}">
+        <a class="nav-link {{ Request::is('taxes*') ? 'active' : '' }}" href="{!! route('taxes.index') !!}">
             @if ($icons)
                 <i class="nav-icon fas fa-coins"></i>
             @endif
@@ -418,6 +418,7 @@
             <p>{{ trans('lang.commission_plural') }}</p>
         </a>
     </li>
+
     {{-- <li
         class="nav-item has-treeview {{ (Request::is('settings*') || Request::is('users*')) && !Request::is('settings/mobile*') ? 'menu-open' : '' }}">
         <a href="#"
@@ -575,6 +576,18 @@
                     <p>{{ trans('lang.app_setting_mail') }}</p>
                 </a>
             </li>
-            --}}
+    --}}
+
+    <li class="nav-header">{{ trans('lang.marketing') }}</li>
+
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('cars*') ? 'active' : '' }}" href="{!! route('cars.index') !!}">
+            @if ($icons)
+                <i class="nav-icon fas fa-images"></i>
+            @endif
+            <p>{{ trans('lang.car_plural') }}</p>
+        </a>
+    </li>
+
     </ul>
     </li>

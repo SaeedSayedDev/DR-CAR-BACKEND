@@ -51,10 +51,10 @@
                             'onclick' => "return confirm('Are you sure?')",
                         ]) !!}
                         {!! Form::close() !!}
-                        <a data-toggle="tooltip" data-placement="left" href="{{ route('eProviders.show', $eProvider->id) }}"
+                        {{-- <a data-toggle="tooltip" data-placement="left" href="{{ route('eProviders.show', $eProvider->id) }}"
                             class='btn btn-link'>
                             <i class="fas fa-eye"></i>
-                        </a>
+                        </a> --}}
                     </div>
                 </td>
             </tr>

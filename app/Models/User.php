@@ -83,6 +83,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(OtpUser::class, 'user_id',  'id')->where('type_user', 'user');
     }
 
+    public function otpAdmin()
+    {
+        return $this->hasOne(OtpUser::class, 'user_id',  'id')->where('type_user', 'admin');
+    }
+
     public function address()
     {
         return $this->hasMany(Address::class, 'user_id',  'id');

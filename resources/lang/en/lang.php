@@ -1400,7 +1400,15 @@ return [
     'processing' => 'Processing',
     'paid' => 'Paid',
     'unpaid' => 'Unpaid',
-
     'check_service_price' => 'Check Service Price',
-
+    'update_password' => 'Update Password',
+    'admin' => 'Admin',
+    'new_password' => 'New Password',
+    'marketing' => 'Marketing',
+    'car' => 'Car',
+    'car_plural' => 'Cars',
+    'car_desc' => 'Cars Management',
+    'car_edit' => 'Edit Car',
+    'car_table' => 'Cars List',
+    'car_create' => 'Create Car',
 ];

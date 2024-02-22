@@ -1,30 +1,39 @@
 <!DOCTYPE html>
-<html lang="{{app()->getLocale()}}">
+<html lang="{{ app()->getLocale() }}">
+@php
+    $logo = App\Models\Media::appLogo()->imageName();
+@endphp
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{env('app_name')}} | {{env('app_short_description')}}</title>
-    <link rel="icon" type="image/png" href="{{$app_logo ?? ''}}"/>
+    <title>Dr Car | Login</title>
+    <link rel="icon" type="image/png" href="{{ $app_logo ?? asset('storage/images/app/' . $logo) }}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,600&display=fallback">
-    <link rel="stylesheet" href="{{asset('vendor/fontawesome-free/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/styles.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.min.css') }}">
     @stack('js_lib')
 </head>
+
 <body class="hold-transition login-page">
-<div class="login-box" @if(isset($width)) style="width:{{$width}}" @endif>
-    <div class="login-logo">
-        {{-- <a href="{{ url('/') }}"><img src="{{$app_logo}}" alt="{{env('app_name')}}"></a> --}}
+    <div class="login-box" @if (isset($width)) style="width:{{ $width }}" @endif>
+        <div class="login-logo">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('storage/images/app/' . $logo) }}" alt="{{ env('app_name') }}">
+            </a>
+        </div>
+
+        <!-- /.login-logo -->
+        <div class="card shadow-sm">
+            @yield('content')
+        </div>
     </div>
-    <!-- /.login-logo -->
-    <div class="card shadow-sm">
-        @yield('content')
-    </div>
-</div>
-<!-- /.login-box -->
-<script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
-@stack('scripts')
+    <!-- /.login-box -->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+    @stack('scripts')
 </body>
+
 </html>
