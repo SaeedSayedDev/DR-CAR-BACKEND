@@ -10,6 +10,7 @@
     {{-- dropzone --}}
     <link rel="stylesheet" href="{{ asset('vendor/dropzone/min/dropzone.min.css') }}">
 @endpush
+
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -31,9 +32,23 @@
     <!-- /.content-header -->
     @php
         $admin = auth()->user();
+        $logo = App\Models\Media::appLogo()->imageName();
     @endphp
+
     <section class="content">
         <div class="container-fluid">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">{{ $errors->first() }}</div>
+            @endif
+
             <div class="row">
                 <div class="col-md-4">
                     <!-- Profile Image -->
@@ -43,7 +58,7 @@
                         </div>
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img src="{{ asset('storage/images/' . $admin->imageOrDefaultAdmin()) }}"
+                                <img src="{{ asset('storage/images/accounts/' . $admin->media()->first()?->imageName()) }}"
                                     class="profile-user-img img-fluid img-circle" alt="{{ $admin->name }}">
                             </div>
                             <h3 class="profile-username text-center">{{ $admin->full_name }}</h3>
@@ -58,20 +73,109 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-8">
-                    <div class="card-body login-card-body">
+                    <div class="card shadow-sm">
+                        <div class="card-body login-card-body">
+                            {!! Form::model($admin, ['route' => ['admin.update'], 'method' => 'post', 'files' => true]) !!}
+                            <div class="row">
+                                <div class="d-flex flex-column col-sm-12 col-md-6">
+                                    <!-- Name Field -->
+                                    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+                                        {!! Form::label('full_name', trans('lang.user_name'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+                                        <div class="col-md-9">
+                                            {!! Form::text('full_name', null, [
+                                                'class' => 'form-control',
+                                                'placeholder' => trans('lang.user_name_placeholder'),
+                                            ]) !!}
+                                            <div class="form-text text-muted">
+                                                {{ trans('lang.user_name_help') }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Email Field -->
+                                    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+                                        {!! Form::label('email', trans('lang.user_email'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+                                        <div class="col-md-9">
+                                            {!! Form::text('email', null, [
+                                                'class' => 'form-control',
+                                                'placeholder' => trans('lang.user_email_placeholder'),
+                                            ]) !!}
+                                            <div class="form-text text-muted">
+                                                {{ trans('lang.user_email_help') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-column col-sm-12 col-md-6">
+                                    <!-- $FIELD_NAME_TITLE$ Field -->
+                                    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+                                        {!! Form::label('image', trans('lang.user_avatar'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+                                        <div class="col-md-9">
+                                            {!! Form::file('image', ['class' => 'form-control-file']) !!}
+                                            <div class="form-text text-muted w-50">
+                                                {{ trans('lang.user_avatar_help') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="form-group col-12 d-flex flex-column flex-md-row justify-content-md-end justify-content-sm-center border-top pt-3 mb-0">
+                                    <button type="submit" class="btn bg-primary mx-md-3 my-lg-0 my-xl-0 my-md-0 my-2">
+                                        <i class="fas fa-save"></i> {{ trans('lang.save') }}
+                                    </button>
+                                </div>
+                            </div>
+                            {!! Form::close() !!}
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- Profile Image -->
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <h3 class="card-title"> {{ trans('lang.upload_app_logo') }}</h3>
+                        </div>
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img src="{{ asset('storage/images/app/' . $logo) }}"
+                                    class="profile-user-img img-fluid img-circle">
+                            </div>
+                            <form class="pt-3" method="POST" action="{{ route('logo.update') }}"
+                                enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="input-group mb-3">
+                                    <input type="file" name="logo">
+                                    @if ($errors->has('logo'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('logo') }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-4 ml-auto">
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            {{ __('lang.save') }}
+                                        </button>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-8">
+                    <div class="card-body shadow-sm login-card-body">
                         <p class="login-box-msg">{{ __('lang.update_password') }}</p>
-
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-
-                        @if (session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                        @endif
 
                         <form method="POST" action="{{ route('password.update') }}">
                             @csrf
@@ -134,8 +238,10 @@
                 </div>
             </div>
     </section>
+
     @include('layouts.media_modal', ['collection' => null])
 @endsection
+
 @push('scripts_lib')
     <!-- select2 -->
     <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>

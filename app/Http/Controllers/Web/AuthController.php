@@ -8,7 +8,8 @@ use App\Http\Requests\changePasswordRequest;
 use App\Http\Requests\ForgetPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResetPasswordRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Web\AdminRequest;
+use App\Http\Requests\Web\LogoRequest;
 
 class AuthController extends Controller
 {
@@ -44,5 +45,15 @@ class AuthController extends Controller
     public function updatePassword(changePasswordRequest $request)
     {
         return $this->authInterface->updatePassword($request);
+    }
+
+    public function updateAdmin(AdminRequest $request)
+    {
+        return $this->authInterface->updateAdmin($request);
+    }
+
+    public function updateLogo(LogoRequest $request)
+    {
+        return $this->authInterface->updateLogo($request);
     }
 }

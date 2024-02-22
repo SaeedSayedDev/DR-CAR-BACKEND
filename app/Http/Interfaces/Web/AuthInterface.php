@@ -15,4 +15,9 @@ interface AuthInterface
     public function pageResetPassword($otp);
 
     public function updatePassword($request);
+    
+    public function updateAdmin($request);
+    
+    public function updateLogo($request);
+    
 }
