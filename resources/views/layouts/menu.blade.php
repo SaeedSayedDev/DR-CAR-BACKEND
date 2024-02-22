@@ -583,7 +583,7 @@
     <li class="nav-item">
         <a class="nav-link {{ Request::is('cars*') ? 'active' : '' }}" href="{!! route('cars.index') !!}">
             @if ($icons)
-                <i class="nav-icon fas fa-images"></i>
+                <i class="nav-icon fas fa-car"></i>
             @endif
             <p>{{ trans('lang.car_plural') }}</p>
         </a>

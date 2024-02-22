@@ -1411,4 +1411,6 @@ return [
     'car_edit' => 'Edit Car',
     'car_table' => 'Cars List',
     'car_create' => 'Create Car',
+    'privacy' => 'Privacy',
+    'public' => 'Public',
 ];

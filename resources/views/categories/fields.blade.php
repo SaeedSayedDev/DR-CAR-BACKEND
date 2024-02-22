@@ -63,11 +63,13 @@
 <!-- Submit Field -->
 <div
     class="form-group col-12 d-flex flex-column flex-md-row justify-content-md-end justify-content-sm-center border-top pt-4">
-    {{-- <div class="d-flex flex-row justify-content-between align-items-center">
-        {!! Form::label('featured', trans('lang.category_featured_help'), ['class' => 'control-label my-0 mx-3'], false) !!} {!! Form::hidden('featured', 0, ['id' => 'hidden_featured']) !!}
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        {!! Form::label('public', trans('lang.public'), ['class' => 'control-label my-0 mx-3'], false) !!} {!! Form::hidden('featured', 0, ['id' => 'hidden_featured']) !!}
         <span class="icheck-primary">
-            {!! Form::checkbox('featured', 1, null) !!} <label for="featured"></label> </span>
-    </div> --}}
+            {!! Form::checkbox('public', 1, null) !!}
+            <label for="public"></label>
+        </span>
+    </div>
     <button type="submit" class="btn bg-primary mx-md-3 my-lg-0 my-xl-0 my-md-0 my-2">
         <i class="fa fa-save"></i> {{ trans('lang.save') }} {{ trans('lang.category') }}
     </button>
