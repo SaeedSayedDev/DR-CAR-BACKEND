@@ -1328,7 +1328,17 @@ return [
     'processing' => 'قيد المعالجة',
     'paid' => 'تم الدفع',
     'unpaid' => 'غير مدفوع',
-
     'check_service_price' => 'تحقق من سعر الخدمة',
-
+    'update_password' => 'تحديث كلمة المرور',
+    'admin' => 'المشرف',
+    'new_password' => 'كلمة المرور الجديدة',
+    'marketing' => 'التسويق',
+    'car' => 'سيارة',
+    'car_plural' => 'سيارات',
+    'car_desc' => 'إدارة السيارات',
+    'car_edit' => 'تعديل السيارة',
+    'car_table' => 'قائمة السيارات',
+    'car_create' => 'إنشاء سيارة',
+    'privacy' => 'الخصوصية',
+    'public' => 'عام',
 ];

@@ -1,41 +1,38 @@
 @push('css_lib')
-    @include('layouts.datatables_css')
+@include('layouts.datatables_css')
 @endpush
 
 {{-- {!! $dataTable->table(['width' => '100%']) !!} --}}
 
 @push('scripts_lib')
-    @include('layouts.datatables_js')
-    {{-- {!! $dataTable->scripts() !!} --}}
+@include('layouts.datatables_js')
+{{-- {!! $dataTable->scripts() !!} --}}
 @endpush
 
 <table class="table">
     <thead>
         <tr>
+            <th>{{ trans('lang.slide_image') }}</th>
             <th>{{ trans('lang.tax_name') }}</th>
-            <th>{{ trans('lang.tax_value') }}</th>
-            <th>{{ trans('lang.tax_type') }}</th>
-            <th>{{ trans('lang.tax_updated_at') }}</th>
+            <th>{{ trans('lang.category_updated_at') }}</th>
             <th>{{ trans('lang.actions') }}</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($dataTable as $tax)
+        @foreach ($dataTable as $car)
             <tr>
-                <td>{{ $tax->name }}</td>
-                <td>{{ $tax->value }}</td>
                 <td>
-                    <span class="badge bg-primary">
-                        {{ $tax->type ? trans('lang.tax_percent') : trans('lang.tax_fixed') }}
-                    </span>
+                    <img class="rounded" style="height:50px" alt="{{ trans('lang.category_image') }}"
+                        src="{{ asset('storage/images/admin/cars/' . $car->media()->first()?->imageName()) }}">
                 </td>
-                <td>{{ $tax->updated_at->diffForHumans() }}</td>
+                <td>{{ $car->name }}</td>
+                <td>{{ $car->updated_at->diffForHumans() }}</td>
                 <td>
                     <div class='btn-group btn-group-sm'>
                         <a data-toggle="tooltip" data-placement="left" 
-                            href="{{ route('taxes.edit', $tax->id) }}" class='btn btn-link'>
+                            href="{{ route('cars.edit', $car->id) }}" class='btn btn-link'>
                             <i class="fas fa-edit"></i> </a>
-                        {!! Form::open(['route' => ['taxes.destroy', $tax->id], 'method' => 'delete']) !!}
+                        {!! Form::open(['route' => ['cars.destroy', $car->id], 'method' => 'delete']) !!}
                         {!! Form::button('<i class="fas fa-trash"></i>', [
                             'type' => 'submit',
                             'class' => 'btn btn-link text-danger',

@@ -44,7 +44,7 @@ class ProviderRepository implements ProviderInterface
     public function store($request)
     {
         $requestData = $request->validated();
-        if (User::find($request->garage_id)->role_id != 4) return;
+        if (User::find($request->garage_id)->role_id != 4) return back();
 
         $requestData['check_servic_id'] = 0;
         $eProvider = GarageData::create($requestData);

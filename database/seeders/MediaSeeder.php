@@ -56,5 +56,11 @@ class MediaSeeder extends Seeder
                 'image' => url("api/images/Provider/$i.jpg")
             ]);
         }
+
+        Media::create([
+            'type' => 'logo',
+            'type_id' => '0',
+            'image' => url("api/images/App/logo.png")
+        ]);
     }
 }

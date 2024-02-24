@@ -8,7 +8,6 @@ use App\Models\FirbaseToken;
 use App\Models\User;
 use App\Models\UserInformation;
 use App\Models\Wallet;
-use App\Providers\RouteServiceProvider;
 use App\Services\AuthServcie;
 use Illuminate\Support\Facades\DB;
 use App\Services\OtpService;
@@ -105,26 +104,5 @@ class AuthRepository implements AuthInterface
         return response()->json([
             'data' => $user,
         ]);
-    }
-    ################# Dashboard #################
-
-    public function webLogin($request)
-    {
-        $credentials = request(['email', 'password']);
-        if (auth('web')->attempt($credentials)) {
-            if (auth('web')->user()->role_id == 1) { // Admin
-                return redirect()->intended(RouteServiceProvider::HOME);
-            } else {
-                auth('web')->logout();
-                return redirect()->back()->withErrors('Unauthorized');
-            }
-        }
-        return redirect()->back()->withErrors('Invalid credentials');
-    }
-
-    public function webLogout()
-    {
-        auth('web')->logout();
-        return redirect()->route('login.page');
     }
 }

@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Web\ItemController;
 use App\Http\Controllers\Admin\ServiceController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\BookingServiceController;
 use App\Http\Controllers\Web\BookingWinchController;
+use App\Http\Controllers\Web\CarController;
 use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\CommissionController;
 use App\Http\Controllers\Web\CouponController;
@@ -34,7 +34,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::get('success', [ServiceController::class, 'success']);
 Route::get('error', [ServiceController::class, 'error']);
-Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
 
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
@@ -42,35 +41,46 @@ Route::group([
 ], function () {
     Route::group(['middleware' => 'guest:web'], function () {
         Route::view('login', 'auth.login')->name('login.page');
-        Route::post('login', [AuthController::class, 'webLogin'])->name('login.store');
+        Route::post('login', [AuthController::class, 'login'])->name('login.store');
+        Route::view('password/forget', 'auth.passwords.email');
+        Route::post('password/email', [AuthController::class, 'forgetPassword']);
+        Route::post('password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+        Route::get('reset-password/{otp}', [AuthController::class, 'pageResetPassword']);
     });
 
     Route::group(['middleware' => 'auth:web'], function () {
-        Route::post('logout', [AuthController::class, 'webLogout']);
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('password/update', [AuthController::class, 'updatePassword'])->name('password.update');
+        Route::post('admin/update', [AuthController::class, 'updateAdmin'])->name('admin.update');
+        Route::post('logo/update', [AuthController::class, 'updateLogo'])->name('logo.update');
 
         Route::get('/', DashboardController::class);
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-        # Menue
+        # App Management
+        Route::resource('eProviders', ProviderController::class);
         Route::resource('items', ItemController::class);
         Route::resource('categories', CategoryController::class);
-        Route::resource('eProviders', ProviderController::class);
-        Route::put('users/{id}/ban', [UserController::class, 'ban'])->name('users.ban');
-        Route::put('users/{id}/unban', [UserController::class, 'unban'])->name('users.unban');
-        Route::resource('users', UserController::class);
         Route::get('booking/service', BookingServiceController::class)->name('booking.service');
         Route::get('booking/winch', BookingWinchController::class)->name('booking.winch');
-        Route::get('coupons', CouponController::class)->name('coupons');
-        Route::get('taxes', TaxController::class)->name('taxes');
-        Route::resource('commissions', CommissionController::class)->only('index', 'edit', 'update');
-        Route::resource('slides', SlideController::class)->except('show');
+        Route::resource('coupons', CouponController::class);
+        # Payments
         Route::get('wallets', WalletController::class)->name('wallets');
         Route::get('walletTransactions', WalletTransactionController::class)->name('walletTransactions');
-        
         Route::get('withdraws', [WithdrawController::class, 'index'])->name('withdraws.index');
         Route::post('withdraws/filter', [WithdrawController::class, 'filterStatus'])->name('withdraws.filter');
         Route::get('withdraws/{id}', [WithdrawController::class, 'show'])->name('withdraws.show');
         Route::put('withdraws/status/{id}', [WithdrawController::class, 'updateStatus'])->name('withdraws.status.update');
+        # Settings
+        Route::resource('slides', SlideController::class);
+        Route::put('users/{id}/ban', [UserController::class, 'ban'])->name('users.ban');
+        Route::put('users/{id}/unban', [UserController::class, 'unban'])->name('users.unban');
+        Route::view('users/profile', 'settings.users.profile')->name('users.profile');
+        Route::resource('users', UserController::class);
+        Route::resource('taxes', TaxController::class);
+        Route::resource('commissions', CommissionController::class);
+        # Marketing
+        Route::resource('cars', CarController::class);
     });
 });
 
@@ -105,10 +115,6 @@ Route::get('earnings', function () {
 Route::get('earnings', function () {
     dd('earnings');
 })->name('earnings.index');
-
-Route::get('user/profile', function () {
-    dd('users');
-})->name('users.profile');
 
 Route::get('payments', function () {
     dd('payments');

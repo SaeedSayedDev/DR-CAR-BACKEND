@@ -15,6 +15,7 @@
             <th>{{ trans('lang.category_image') }}</th>
             <th>{{ trans('lang.category_name') }}</th>
             <th>{{ trans('lang.category_description') }}</th>
+            <th>{{ trans('lang.privacy') }}</th>
             <th>{{ trans('lang.category_updated_at') }}</th>
             <th>{{ trans('lang.actions') }}</th>
         </tr>
@@ -28,6 +29,13 @@
                 </td>
                 <td>{{ $category->name }}</td>
                 <td>{{ $category->desc }}</td>
+                <td>
+                    @if ($category->public)
+                        <span class="badge bg-success">{{ trans('lang.public') }}</span>
+                    @else
+                        <span class="badge bg-danger">{{ trans('lang.private') }}</span>
+                    @endif
+                </td>
                 <td>{{ $category->updated_at->diffForHumans() }}</td>
                 <td>
                     <div class='btn-group btn-group-sm'>
@@ -41,10 +49,10 @@
                             'onclick' => "return confirm('Are you sure?')",
                         ]) !!}
                         {!! Form::close() !!}
-                        <a data-toggle="tooltip" data-placement="left" href="{{ route('categories.show', $category->id) }}"
+                        {{-- <a data-toggle="tooltip" data-placement="left" href="{{ route('categories.show', $category->id) }}"
                             class='btn btn-link'>
                             <i class="fas fa-eye"></i>
-                        </a>
+                        </a> --}}
                     </div>
                 </td>
             </tr>

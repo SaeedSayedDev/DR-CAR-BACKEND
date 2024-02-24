@@ -50,10 +50,10 @@
                             'onclick' => "return confirm('Are you sure?')",
                         ]) !!}
                         {!! Form::close() !!}
-                        <a data-toggle="tooltip" data-placement="left" href="{{ route('users.show', $user->id) }}"
+                        {{-- <a data-toggle="tooltip" data-placement="left" href="{{ route('users.show', $user->id) }}"
                             class='btn btn-link'>
                             <i class="fas fa-eye"></i>
-                        </a>
+                        </a> --}}
                         @if ($user->ban)
                             {!! Form::open(['route' => ['users.unban', $user->id], 'method' => 'put']) !!}
                             {!! Form::button('<i class="fas fa-check-circle"></i>', [

@@ -19,4 +19,9 @@ class Media extends Model
     {
         return basename(parse_url($this->image, PHP_URL_PATH));
     }
+
+    static function appLogo()
+    {
+        return self::where('type', 'logo')->first();
+    }
 }

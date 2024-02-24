@@ -58,6 +58,7 @@ class CategoryRepository implements CategoryInterface
         $category = Category::findOrFail($id);
         $requestData = $request->validated();
         $requestData['desc'] = strip_tags($request->input('desc'));
+        $requestData['public'] = $request->filled('public');
 
         $category->update($requestData);
         if ($request->hasFile('image')) {

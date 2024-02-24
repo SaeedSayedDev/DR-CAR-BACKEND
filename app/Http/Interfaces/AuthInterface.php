@@ -12,8 +12,4 @@ interface AuthInterface
     public function user_register($request);
     
     public function me();
-
-    public function webLogin($request);
-
-    public function webLogout();
 }

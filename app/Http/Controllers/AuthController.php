@@ -103,15 +103,6 @@ class AuthController extends Controller
 
 
 
-    public function webLogin(LoginRequest $request)
-    {
-        return $this->authInterface->webLogin($request);
-    }
-    public function webLogout()
-    {
-        return $this->authInterface->webLogout();
-    }
-
     //garage data 
     public function storeGarageData(GarageDataRequest $request)
     {
