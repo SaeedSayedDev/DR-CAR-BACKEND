@@ -55,7 +55,8 @@ Route::get('image_default', [ImageController::class, 'getImageDefault']);
 
 
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('provider/register', [AuthController::class, 'provider_register']);
+Route::post('user/register', [AuthController::class, 'user_register']);
 Route::post('/confirm-email', [AuthController::class, 'confirmCodeEmail']);
 
 Route::post('/forget-password', [AuthController::class, 'forgetPassword']);

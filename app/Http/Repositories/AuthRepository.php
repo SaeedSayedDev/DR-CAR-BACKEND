@@ -34,22 +34,20 @@ class AuthRepository implements AuthInterface
 
         return response()->json(['message' => 'Successfully logged out']);
     }
-    public function register($request)
+
+    public function provider_register($request)
     {
         DB::beginTransaction();
-        if ($request->role_id != 1)
+        if ($request->role_id == 4) {
             $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, $request->role_id);
-        else
-            return response()->json(['message' => 'this role not avalible'], 404);
-
-        // if ($request->phone_number) {
-        if ($request->role_id == 2)
-            $this->authServcie->createUserInfo($request->phone_number,  $user->id);
-        else if ($request->role_id == 3)
-            $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
-        else if ($request->role_id == 4)
+            $this->authServcie->createGarageCarSupport($request, $user->id);
+            $this->authServcie->createGarageSubCategorySupport($request, $user->id);
             $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
-        // }
+        } else if ($request->role_id == 3) {
+            $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, $request->role_id);
+            $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
+        } else
+            return response()->json(['message' => 'this role not avalible'], 404);
 
         // $this->otpService->createEmail($user->email, $user->id, 'user');
         DB::commit();
@@ -68,6 +66,31 @@ class AuthRepository implements AuthInterface
         ]);
     }
 
+    public function user_register($request)
+    {
+        DB::beginTransaction();
+        if ($request->role_id == 2) {
+            $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, $request->role_id);
+            $this->authServcie->createUserInfo($request->phone_number, $request->car_id,  $user->id);
+        } else
+            return response()->json(['message' => 'this role not avalible'], 404);
+
+        // $this->otpService->createEmail($user->email, $user->id, 'user');
+        DB::commit();
+        $user = $this->authServcie->credentialUser($request);
+        $user->user_role;
+
+        Wallet::create([
+            'name' => $user->full_name . ' Wallet',
+            'user_id' => $user->id,
+            'total_balance' => 0,
+            'awating_transfer' => 0,
+        ]);
+        return response()->json([
+            "success" => true,
+            'data' => $user
+        ]);
+    }
 
     public function me()
     {

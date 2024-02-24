@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Models\CompanyInformation;
 use App\Models\FirbaseToken;
+use App\Models\GarageCars;
 use App\Models\GarageInformation;
+use App\Models\GarageItem;
 use App\Models\MultiAuthUser;
 use App\Models\User;
 use App\Models\UserInformation;
@@ -51,11 +53,12 @@ class AuthServcie
         ]);
     }
 
-    public function createUserInfo($phone_number, $userId)
+    public function createUserInfo($phone_number, $car_id, $userId)
     {
         return UserInformation::create([
             'user_id' => $userId,
             'phone_number' => $phone_number,
+            'car_id' => $car_id,
         ]);
     }
     public function createWinchInfo($phone_number, $winchId)
@@ -74,7 +77,24 @@ class AuthServcie
             // 'garage_type' => $garage_type,
         ]);
     }
-
+    public function createGarageCarSupport($request, $garageId)
+    {
+        foreach ($request->cars as $car) {
+            GarageCars::create([
+                'garage_id' => $garageId,
+                'car_id' => $car,
+            ]);
+        }
+    }
+    public function createGarageSubCategorySupport($request, $garageId)
+    {
+        foreach ($request->subCategories as $subCategory) {
+            GarageItem::create([
+                'garage_id' => $garageId,
+                'item_id' => $subCategory,
+            ]);
+        }
+    }
 
 
     // public function editNameImage($data)
