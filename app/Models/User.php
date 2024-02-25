@@ -136,4 +136,14 @@ class User extends Authenticatable implements JWTSubject
             ->whereBetween('latitude', [$userLatitude - $availability_range, $userLatitude + $availability_range])
             ->whereBetween('longitude', [$userLongitude - $availability_range, $userLongitude + $availability_range]);
     }
+
+    public function carLicense()
+    {
+        return $this->hasOne(CarLicense::class);
+    }
+
+    public function bookingAds()
+    {
+        return $this->hasMany(BookingAd::class, 'garage_id');
+    }
 }

@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StatusOrderController;
 use App\Http\Controllers\Admin\TaxeController;
+use App\Http\Controllers\BookingAdController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CarLicenseController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ImageController;
@@ -18,6 +20,9 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\VehicleDriverController;
+use App\Http\Controllers\VehicleLicenseController;
 use App\Http\Controllers\WalletController;
 use App\Models\Address;
 use Illuminate\Http\Request;
@@ -95,6 +100,11 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('paypal/success', [BookingController::class, 'success']);
 
         Route::get('user/booking/onTheWay/{booking_id}', [BookingController::class, 'onTheWayFromUser']);
+
+        # Car License
+        Route::get('car-licenses', [CarLicenseController::class, 'show']);
+        Route::post('car-licenses', [CarLicenseController::class, 'store']);
+        Route::put('car-licenses', [CarLicenseController::class, 'update']);
     });
 
 
@@ -171,7 +181,14 @@ Route::group(['middleware' => 'apiAuth'], function () {
     // Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
+
+    # Booking Ad
+    Route::get('booking-ads', [BookingAdController::class, 'index']);
+    Route::get('booking-ads/{bookingAd}', [BookingAdController::class, 'show']);
+    Route::post('booking-ads', [BookingAdController::class, 'store']);
+    Route::put('booking-ads/{bookingAd}', [BookingAdController::class, 'update']);
 });
+
 Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
 
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');

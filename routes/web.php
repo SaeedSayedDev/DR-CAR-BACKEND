@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\ItemController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\BookingAdController;
 use App\Http\Controllers\Web\BookingServiceController;
 use App\Http\Controllers\Web\BookingWinchController;
 use App\Http\Controllers\Web\CarController;
@@ -81,6 +82,10 @@ Route::group([
         Route::resource('commissions', CommissionController::class);
         # Marketing
         Route::resource('cars', CarController::class);
+        Route::get('booking-ads', [BookingAdController::class, 'index'])->name('booking-ads.index');
+        Route::get('booking-ads/{bookingAd}', [BookingAdController::class, 'show'])->name('booking-ads.show');
+        Route::put('booking-ads/{bookingAd}/approve', [BookingAdController::class, 'approve'])->name('booking-ads.approve');
+        Route::put('booking-ads/{bookingAd}/reject', [BookingAdController::class, 'reject'])->name('booking-ads.reject');
     });
 });
 

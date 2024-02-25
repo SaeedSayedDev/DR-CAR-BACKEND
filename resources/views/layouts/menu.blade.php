@@ -589,5 +589,14 @@
         </a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('booking-ads*') ? 'active' : '' }}" href="{!! route('booking-ads.index') !!}">
+            @if ($icons)
+                <i class="nav-icon fas fa-ad"></i>
+            @endif
+            <p>{{ trans('lang.booking_ad_plural') }}</p>
+        </a>
+    </li>
+
     </ul>
     </li>
