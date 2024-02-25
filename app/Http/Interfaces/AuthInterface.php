@@ -8,7 +8,8 @@ interface AuthInterface
 
     public function logout();
 
-    public function register($request);
+    public function provider_register($request);
+    public function user_register($request);
     
     public function me();
 }

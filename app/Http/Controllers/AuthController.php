@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\availabilityTimeRequest;
 use App\Http\Requests\GarageDataRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\GarageData;
 
 class AuthController extends Controller
@@ -30,10 +31,15 @@ class AuthController extends Controller
     {
         return $this->authInterface->login($request);
     }
-    function register(RegisterRequest $request)
+    function provider_register(RegisterRequest $request)
     {
-        return $this->authInterface->register($request);
+        return $this->authInterface->provider_register($request);
     }
+    function user_register(RegisterUserRequest $request)
+    {
+        return $this->authInterface->user_register($request);
+    }
+    
     public function me()
     {
         return $this->authInterface->me();
@@ -94,7 +100,7 @@ class AuthController extends Controller
     {
         return $this->accountInterface->updateWinchAvailableNow();
     }
-    
+
 
 
     //garage data 
