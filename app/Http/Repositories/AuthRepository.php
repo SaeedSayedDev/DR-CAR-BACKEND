@@ -68,14 +68,10 @@ class AuthRepository implements AuthInterface
     public function user_register($request)
     {
         DB::beginTransaction();
-        if ($request->role_id == 2) {
-            $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, $request->role_id);
-            $this->authServcie->createUserInfo($request->phone_number, $request->car_id,  $user->id);
-        } else
-            return response()->json(['message' => 'this role not avalible'], 404);
+        $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, 2);
+        $this->authServcie->createUserInfo($request->phone_number, $request->car_id,  $user->id);
 
         // $this->otpService->createEmail($user->email, $user->id, 'user');
-        DB::commit();
         $user = $this->authServcie->credentialUser($request);
         $user->user_role;
 
@@ -85,6 +81,7 @@ class AuthRepository implements AuthInterface
             'total_balance' => 0,
             'awating_transfer' => 0,
         ]);
+        DB::commit();
         return response()->json([
             "success" => true,
             'data' => $user
@@ -99,7 +96,7 @@ class AuthRepository implements AuthInterface
         $user->load(match ($user->role_id) {
             2 => 'user_information',
             3 => 'winch_information',
-            4 => ['garage_information', 'garage_data.media'],
+            4 => ['garage_information', 'garage_data.media', 'garage_support_items'],
         });
         return response()->json([
             'data' => $user,
