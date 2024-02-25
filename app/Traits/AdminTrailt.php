@@ -241,4 +241,14 @@ class AdminTrailt
             'name' => 'Failed',
         ],
     ];
+
+    public static $cars = [
+        [
+            'name' => 'BMW',
+        ],
+        [
+            'name' => 'Ferrari',
+        ],
+      
+    ];
 }

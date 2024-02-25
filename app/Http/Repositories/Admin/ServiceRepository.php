@@ -4,6 +4,7 @@ namespace App\Http\Repositories\Admin;
 
 use App\Http\Interfaces\Admin\ServiceInterface;
 use App\Models\Address;
+use App\Models\Admin\Item;
 use App\Models\Admin\Service;
 use App\Models\GarageData;
 use App\Services\AddressService;
@@ -18,28 +19,48 @@ class ServiceRepository implements ServiceInterface
     function __construct(private ImageService $imageService, private ProviderService $providerService, private AddressService $addressService)
     {
     }
-    public function index($filter_key)
+    public function index($filter_key, $item_id)
     {
-        if (isset(auth()->user()->address[0])) {
+        $item = Item::whereHas('category', function ($query) {
+            $query->where('public', true);
+        })->find($item_id);
+
+        // if (isset($item)) {
+        //     $services = Service::whereHas('provider.user', function ($query) {
+        //         $query->whereHas('garage_support_cars', function ($q) {
+        //             $q->where('car_id', auth()->user()->user_information->car_id);
+        //         });
+        //     })->whereHas('provider.user', function ($query) use ($item_id) {
+        //         $query->whereHas('garage_support_items', function ($q) use ($item_id) {
+        //             $q->where('item_id', $item_id);
+        //         });
+        //     })->get();
+        //     // dd($services->isEmpty());
+        // }
+        $services = [];
+        if (isset(auth()->user()->address[0]) and isset($item)) {
             // whereHas('avilabilty_range')
             // return Service::get();
             $userLatitude = auth()->user()->address[0]->latitude;
             $userLongitude = auth()->user()->address[0]->longitude;
-            $services = Service::with('provider_avilabilty_time')
+
+            $services = Service::getRelashinIndex()
+                ->whereHas('provider.user', function ($query) {
+                    $query->whereHas('garage_support_cars', function ($q) {
+                        $q->where('car_id', auth()->user()->user_information->car_id);
+                    });
+                })->whereHas('provider.user', function ($query) use ($item_id) {
+                    $query->whereHas('garage_support_items', function ($q) use ($item_id) {
+                        $q->where('item_id', $item_id);
+                    });
+                })
+
+                ->with('provider_avilabilty_time')
                 ->join('garage_data', 'garage_data.id', '=', 'services.provider_id')
                 ->join('addresses', 'garage_data.address_id', '=', 'addresses.id')
                 ->whereRaw("latitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLatitude, $userLatitude])
                 ->whereRaw("longitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLongitude, $userLongitude])
-                ->getRelashinIndex()
                 ->get()
-                ->map(function ($service) {
-                    $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
-                    $service->is_favorite = $service->favourite->count() > 0 ? true : false;
-                    unset($service->favourite);
-                    return  $service;
-                });
-        } else {
-            $services = Service::WithoutGetRelashinIndex()->with('provider_avilabilty_time')->get()
                 ->map(function ($service) use ($filter_key) {
                     $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
                     $service->is_favorite = $service->favourite->count() > 0 ? true : false;
@@ -47,18 +68,65 @@ class ServiceRepository implements ServiceInterface
                     if ($filter_key == 2) {
                         return   $this->avilabilty_time_filter($service);
                     }
+
                     return  $service;
                 });
+        } else if (isset(auth()->user()->address[0]) and !isset($item)) {
+
+            $userLatitude = auth()->user()->address[0]->latitude;
+            $userLongitude = auth()->user()->address[0]->longitude;
+            $services = Service::getRelashinIndex()
+                ->whereHas('provider.user', function ($query) use ($item_id) {
+                    $query->whereHas('garage_support_items', function ($q) use ($item_id) {
+                        $q->where('item_id', $item_id);
+                    });
+                })->with('provider_avilabilty_time')
+                ->join('garage_data', 'garage_data.id', '=', 'services.provider_id')
+                ->join('addresses', 'garage_data.address_id', '=', 'addresses.id')
+                ->whereRaw("latitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLatitude, $userLatitude])
+                ->whereRaw("longitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLongitude, $userLongitude])
+
+                ->get()
+                ->map(function ($service) use ($filter_key) {
+
+                    $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                    $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                    unset($service->favourite);
+                    // if ($filter_key == 2) {
+                    //     return   $this->avilabilty_time_filter($service);
+                    // }
+                    return  $service;
+                });
+        } else {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'please create address first'
+            ]);
         }
-        if ($filter_key == 3)
+
+        // else {
+        //     $services = Service::getRelashinIndex()->with('provider_avilabilty_time')->get()
+        //         ->map(function ($service) use ($filter_key) {
+        //             $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+        //             $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+        //             unset($service->favourite);
+        //             if ($filter_key == 2) {
+        //                 return   $this->avilabilty_time_filter($service);
+        //             }
+        //             return  $service;
+        //         });
+        // }
+
+        if ($filter_key == 3) {
             $services =  $services->sortByDesc('rate')->values();
-        else if ($filter_key == 4)
+        } else if ($filter_key == 4)
             $services =  $services->where('featured', true)->values();
         else if ($filter_key == 5)
             $services = $services->sortByDesc('popular_count')->values();
-
-
-        return ['data' => $services];
+        return response()->json([
+            'data' => $services
+        ]);
     }
 
 

@@ -4,7 +4,7 @@ namespace App\Http\Interfaces\Admin;
 
 interface ServiceInterface
 {
-    public function index($filter_key);
+    public function index($filter_key, $item_id);
 
     public function indexGarage();
 
@@ -18,5 +18,4 @@ interface ServiceInterface
 
     public function delete($id);
     public function recommended();
-    
 }

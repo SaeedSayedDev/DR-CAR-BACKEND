@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Admin\Item;
 use App\Models\Admin\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -135,5 +136,16 @@ class User extends Authenticatable implements JWTSubject
             })
             ->whereBetween('latitude', [$userLatitude - $availability_range, $userLatitude + $availability_range])
             ->whereBetween('longitude', [$userLongitude - $availability_range, $userLongitude + $availability_range]);
+    }
+
+
+
+    public function garage_support_cars()
+    {
+        return $this->belongsToMany(Car::class, GarageCars::class, 'garage_id', 'car_id');
+    }
+    public function garage_support_items()
+    {
+        return $this->belongsToMany(Item::class, GarageItem::class, 'garage_id', 'item_id');
     }
 }

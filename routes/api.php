@@ -178,7 +178,7 @@ Route::get('notifications/count', [NotificationController::class, 'notificationC
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
 
-Route::get('services/{filter_key}', [ServiceController::class, 'index'])->name('services');
+Route::get('services/{filter_key}/{item_id}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
 Route::get('recommended/services', [ServiceController::class, 'recommended']);
 

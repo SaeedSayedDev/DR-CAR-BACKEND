@@ -10,6 +10,7 @@ use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\Admin\ServiceTranslation;
 use App\Models\Admin\StatusOrder;
+use App\Models\Car;
 use App\Models\Commission;
 use App\Models\OptionsGroup;
 use App\Traits\AdminTrailt;
@@ -86,5 +87,10 @@ class AdminSeeder extends Seeder
             'type' => 0,
             'commission_from' => 0
         ]);
+
+        $cars = AdminTrailt::$cars;
+        foreach ($cars as $car) {
+            Car::create($car);
+        }
     }
 }
