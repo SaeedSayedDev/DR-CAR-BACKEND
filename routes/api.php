@@ -14,6 +14,7 @@ use App\Http\Controllers\CarLicenseController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\MaintenanceReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ReviewController;
@@ -106,6 +107,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('car-licenses', [CarLicenseController::class, 'show']);
         Route::post('car-licenses', [CarLicenseController::class, 'store']);
         Route::put('car-licenses', [CarLicenseController::class, 'update']);
+        Route::delete('car-licenses', [CarLicenseController::class, 'destroy']);
+        Route::get('car-licenses/trash', [CarLicenseController::class, 'trash']);
     });
 
 
@@ -183,11 +186,21 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
 
-    # Booking Ad
-    Route::get('booking-ads', [BookingAdController::class, 'index']);
-    Route::get('booking-ads/{bookingAd}', [BookingAdController::class, 'show']);
-    Route::post('booking-ads', [BookingAdController::class, 'store']);
-    Route::put('booking-ads/{bookingAd}', [BookingAdController::class, 'update']);
+    Route::group(['middleware' => 'garage.auth'], function () {
+        # Booking Ad
+        Route::get('booking-ads', [BookingAdController::class, 'index']);
+        Route::get('booking-ads/{bookingAd}', [BookingAdController::class, 'show']);
+        Route::post('booking-ads', [BookingAdController::class, 'store']);
+        Route::put('booking-ads/{bookingAd}', [BookingAdController::class, 'update']);
+        Route::delete('booking-ads/{bookingAd}', [BookingAdController::class, 'destroyAndRefund']);
+        
+        # Maintenance Report
+        Route::get('maintenance-reports', [MaintenanceReportController::class, 'index']);
+        Route::get('maintenance-reports/{maintenanceReport}', [MaintenanceReportController::class, 'show']);
+        Route::post('maintenance-reports/{bookingService}', [MaintenanceReportController::class, 'store']);
+        Route::put('maintenance-reports/{maintenanceReport}', [MaintenanceReportController::class, 'update']);
+        Route::delete('maintenance-reports/{maintenanceReport}', [MaintenanceReportController::class, 'destroy']);
+    });
 });
 
 Route::get('notifications/count', [NotificationController::class, 'notificationCount']);

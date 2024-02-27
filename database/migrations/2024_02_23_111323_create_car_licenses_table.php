@@ -47,6 +47,7 @@ class CreateCarLicensesTable extends Migration
             $table->string('insurance_type');
             $table->string('mortgaged_by')->nullable();
             $table->string('notes')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

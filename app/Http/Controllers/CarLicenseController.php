@@ -8,13 +8,15 @@ use App\Services\ImageService;
 
 class CarLicenseController extends Controller
 {
+    private $user;
     function __construct(private ImageService $imageService)
     {
+        $this->user = auth()->user();
     }
 
     public function show()
     {
-        $carLicense = auth()->user()->carLicense;
+        $carLicense = $this->user->carLicense;
 
         if (!$carLicense) {
             return response()->json(['message' => 'User does not have a car license.'], 404);
@@ -30,13 +32,12 @@ class CarLicenseController extends Controller
     public function store(CarLicenseRequest $request)
     {
         $data = $request->validated();
-        $user = auth()->user();
 
-        if ($user->carLicense) {
+        if ($this->user->carLicense) {
             return response()->json(['message' => 'User already has a car license.'], 422);
         }
         
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $this->user->id;
         $carLicense = CarLicense::create($data);
         $this->imageService->storeMedia($request, $carLicense->id, 'car_license', 'public/images/admin/cars/licenses', url("api/images/CarLicense/"));
 
@@ -50,8 +51,7 @@ class CarLicenseController extends Controller
     public function update(CarLicenseRequest $request)
     {
         $data = $request->validated();
-        $user = auth()->user();
-        $carLicense = $user->carLicense;
+        $carLicense = $this->user->carLicense;
 
         if (!$carLicense) {
             return response()->json(['message' => 'User does not have a car license.'], 404);
@@ -65,5 +65,28 @@ class CarLicenseController extends Controller
             'message' => 'Updated successfully',
             'data' => $carLicense,
         ]);
+    }
+
+    public function destroy()
+    {
+        $carLicense = $this->user->carLicense;
+
+        if (!$carLicense) {
+            return response()->json(['message' => 'User does not have a car license.'], 404);
+        }
+
+        $carLicense->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Deleted successfully',
+        ]);
+    }
+
+    public function trash()
+    {
+        $deletedCarLicenses = CarLicense::onlyTrashed()->get();
+
+        return $deletedCarLicenses;
     }
 }

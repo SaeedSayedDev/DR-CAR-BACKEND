@@ -31,4 +31,5 @@ return [
     'reset_title' => 'Email to reset password',
     'send_password' => 'Send password reset link',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'expired_otp' => 'This OTP is expired.',
 ];

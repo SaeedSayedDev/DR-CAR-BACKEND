@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\ImagesService;
-use App\Models\ImagesUsers;
 use App\Models\Media;
 use Illuminate\Support\Facades\File;
 
@@ -52,7 +50,7 @@ class ImageService
 
     public function deleteMedia($type_id, $type, $path, $api_image)
     {
-        if (request()->isMethod('put')) {
+        if (request()->isMethod('put') || request()->isMethod('delete')) {
             $mediaDelete = Media::where('type_id', $type_id)->where('type', $type)->get();
             foreach ($mediaDelete as $media) {
                 

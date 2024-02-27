@@ -30,7 +30,7 @@ class AuthRepository implements AuthInterface
             }
         }
 
-        return back()->with('error', 'Invalid credentials');
+        return back()->with('error', trans('auth.failed'));
     }
 
     public function logout()
@@ -46,7 +46,7 @@ class AuthRepository implements AuthInterface
         if (!$user) return back();
         try {
             $this->otpService->createEmail($user->email, $user->id, 'admin');
-            return back()->with('status', 'please check your email to set your new password');
+            return back()->with('status', trans('passwords.sent'));
         } catch (Exception $e) {
             return back();
         }
@@ -67,7 +67,7 @@ class AuthRepository implements AuthInterface
             ]);
             return redirect()->route('login.page')->with('success', trans('passwords.reset'));
         }
-        return back()->with('error', 'this otp is expired');
+        return back()->with('error', trans('auth.expired_otp'));
     }
 
     public function updatePassword($request)
@@ -75,13 +75,14 @@ class AuthRepository implements AuthInterface
         $user = auth()->user();
 
         if (!Hash::check($request->oldPassword, $user->password))
-            return back()->with('error', 'Your old password is incorrect.');
+            return back()->with('error', trans('validation.password'));
+
 
         User::find($user->id)->update([
             'password' => Hash::make($request->newPassword)
         ]);
 
-        return back()->with('success', 'Your password has been updated successfully.');
+        return back()->with('success', trans('passwords.password_reset'));
     }
 
     public function updateAdmin($request)
@@ -99,9 +100,9 @@ class AuthRepository implements AuthInterface
         }
 
         return redirect()->route('users.profile')->with([
-            'success' => 'Updated successfully',
+            'success' => trans('lang.updated_successfully'),
         ]);
-    }
+            }
 
     public function updateLogo($request)
     {
@@ -117,7 +118,7 @@ class AuthRepository implements AuthInterface
         ]);
 
         return redirect()->route('users.profile')->with([
-            'success' => 'App logo updated successfully',
+            'success' => trans('lang.app_logo_updated_successfully'),
         ]);
-    }
+            }
 }
