@@ -7,17 +7,17 @@ use Illuminate\Support\Facades\File;
 
 class ImageService
 {
-    public function store($image, $folder, $urlSegment)
+    public function store($image, $folder, $type)
     {
         $imageName = time() . '.' . $image->getClientOriginalExtension();
         $image->storeAs("public/images/{$folder}", $imageName);
-        return url("api/images/{$urlSegment}/{$imageName}");
+        return url("api/images/{$type}/{$imageName}");
     }
 
-    public function update($imageName, $image, $folder, $urlSegment)
+    public function update($imageName, $image, $folder, $type)
     {
         $this->delete($imageName, $folder);
-        return $this->store($image, $folder, $urlSegment);
+        return $this->store($image, $folder, $type);
     }
 
     public function delete($imageName, $folder)

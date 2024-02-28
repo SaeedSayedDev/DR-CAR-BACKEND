@@ -47,7 +47,7 @@ class CarLicenseRequest extends FormRequest
             'mortgaged_by' => 'nullable|string',
             'notes' => 'nullable|string',
 
-            'images' => 'nullable|array|size:2',
+            'images' => 'required|array|size:2',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }

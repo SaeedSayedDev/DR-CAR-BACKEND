@@ -13,7 +13,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
         $this->app->bind(
             'App\Http\Interfaces\AuthInterface',
             'App\Http\Repositories\AuthRepository'
@@ -104,6 +103,21 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Http\Interfaces\BookingWinchInterface',
             'App\Http\Repositories\BookingWinchRepository'
+        );
+
+        $this->app->bind(
+            'App\Http\Interfaces\BookingAdInterface',
+            'App\Http\Repositories\BookingAdRepository'
+        );
+
+        $this->app->bind(
+            'App\Http\Interfaces\CarLicenseInterface',
+            'App\Http\Repositories\CarLicenseRepository'
+        );
+
+        $this->app->bind(
+            'App\Http\Interfaces\ServiceReportInterface',
+            'App\Http\Repositories\ServiceReportRepository'
         );
 
         ######################### Web #########################

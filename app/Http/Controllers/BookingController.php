@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Interfaces\BookingAdInterface;
 use App\Http\Interfaces\BookingServiceInterface;
 use App\Http\Interfaces\BookingWinchInterface;
+use App\Http\Requests\BookingAdRequest;
 use App\Http\Requests\BookingServiceRequest;
 use App\Http\Requests\BookingWinchRequest;
 use App\Http\Requests\payBookingSeriviceRequest;
 use App\Http\Requests\PaypalSeuccessRequest;
 use App\Http\Requests\UpdateBookingServiceRequest;
 use App\Http\Requests\updateBookingWinchRequest;
+use App\Models\BookingAd;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function __construct(private BookingServiceInterface $bookingServiceInterface, private BookingWinchInterface $bookingWinchInterface)
-    {
+    public function __construct(
+        private BookingServiceInterface $bookingServiceInterface,
+        private BookingWinchInterface $bookingWinchInterface,
+        private BookingAdInterface $bookingAdInterface
+    ) {
     }
 
     // Booking service
@@ -37,7 +43,7 @@ class BookingController extends Controller
         return $this->bookingServiceInterface->cancelBooking($booking_id);
     }
 
-    
+
 
     public function getBookingsInGarage($filter_key)
     {
@@ -49,19 +55,19 @@ class BookingController extends Controller
         return $this->bookingServiceInterface->showBooking($booking_id);
     }
 
-    
+
     public function updateBookingServiceFromGarage(UpdateBookingServiceRequest $request, $booking_id)
     {
         return $this->bookingServiceInterface->updateBookingServiceFromGarage($request, $booking_id);
     }
-    
-       
-    public function onTheWayFromUser( $booking_id)
+
+
+    public function onTheWayFromUser($booking_id)
     {
         return $this->bookingServiceInterface->onTheWayFromUser($booking_id);
     }
-    
-    
+
+
     public function success(PaypalSeuccessRequest $request)
     {
         return $this->bookingServiceInterface->success($request);
@@ -70,18 +76,18 @@ class BookingController extends Controller
     {
         return 'User declined the payment!';
     }
-    
+
     // Booking Winch
     public function bookingWinch(BookingWinchRequest $request)
     {
         return $this->bookingWinchInterface->bookingWinch($request);
     }
-    
+
     public function cancelBookingWinchFromUser($booking_id)
     {
         return $this->bookingWinchInterface->cancelBookingWinchFromUser($booking_id);
     }
-    
+
     public function updateBookingStatusFromWinch(updateBookingWinchRequest $request, $booking_id)
     {
         return $this->bookingWinchInterface->updateBookingStatusFromWinch($request, $booking_id);
@@ -90,16 +96,42 @@ class BookingController extends Controller
     {
         return $this->bookingWinchInterface->getBookingForWinch($filter_key);
     }
-    
+
     public function showBookingWinch($booking_id)
     {
         return $this->bookingWinchInterface->showBookingWinch($booking_id);
     }
-    
+
     public function getWinchsInUser()
     {
         return $this->bookingWinchInterface->getWinchsInUser();
     }
-    
-    
+
+
+    # Booking Ad
+
+    public function indexBookingAds()
+    {
+        return $this->bookingAdInterface->index();
+    }
+
+    public function showBookingAd(BookingAd $bookingAd)
+    {
+        return $this->bookingAdInterface->show($bookingAd);
+    }
+
+    public function storeBookingAd(BookingAdRequest $request)
+    {
+        return $this->bookingAdInterface->store($request);
+    }
+
+    public function updateBookingAd(BookingAdRequest $request, BookingAd $bookingAd)
+    {
+        return $this->bookingAdInterface->update($request, $bookingAd);
+    }
+
+    public function deleteBookingAd(BookingAd $bookingAd)
+    {
+        return $this->bookingAdInterface->deleteAndRefund($bookingAd);
+    }
 }

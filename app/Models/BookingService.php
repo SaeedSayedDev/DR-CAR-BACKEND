@@ -74,11 +74,15 @@ class BookingService extends Model
         return $this->hasMany(Media::class, 'type_id')->where('type', 'garage_receive');
     }
 
-
     public function booking_winch_in_show_bookingService()
     {
         return $this->hasOne(BookingWinch::class, 'booking_service_id')
             ->where('cancel', false)
             ->where('order_status_id', '!=', 7);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(ServiceReport::class);
     }
 }

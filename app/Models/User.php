@@ -159,7 +159,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function maintenanceReports()
     {
-        return $this->hasMany(MaintenanceReport::class, 'garage_id');
+        return $this->hasMany(ServiceReport::class, 'garage_id');
     }
 
     public function wallet()

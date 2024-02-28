@@ -53,4 +53,9 @@ class CarLicense extends Model
     {
         return $this->hasMany(Media::class, 'type_id')->where('type', 'car_license');
     }
+
+    public function reports()
+    {
+        return $this->hasMany(ServiceReport::class);
+    }
 }

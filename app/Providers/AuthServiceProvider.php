@@ -4,10 +4,6 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
-use App\Models\BookingAd;
-use App\Models\MaintenanceReport;
-use App\Policies\BookingAdPolicy;
-use App\Policies\MaintenanceReportPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -18,8 +14,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        BookingAd::class => BookingAdPolicy::class,
-        MaintenanceReport::class => MaintenanceReportPolicy::class,
     ];
 
     /**
@@ -27,6 +21,5 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
     }
 }

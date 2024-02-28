@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MaintenanceReportRequest extends FormRequest
+class ServiceReportRequest extends FormRequest
 {
     public function authorize()
     {
@@ -21,7 +21,7 @@ class MaintenanceReportRequest extends FormRequest
             'report_details' => 'nullable|string',
             
             'pdf' => 'nullable|file|mimes:pdf',
-            'images' => 'nullable|array|size:2',
+            'images' => 'nullable|array|max:5',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
