@@ -54,13 +54,6 @@ class ImageController extends Controller
         }
     }
 
-    function CarLicense($name)
-    {
-        try {
-            return response()->file("../storage/app/public/images/admin/cars/licenses/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
-        }
-    }
+ 
     
 }
