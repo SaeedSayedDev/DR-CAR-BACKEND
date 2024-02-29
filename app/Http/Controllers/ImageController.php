@@ -20,7 +20,7 @@ class ImageController extends Controller
             'Garage' => "providers",
             'Ad' => 'ads',
             'CarLicense' => 'admin/cars/licenses',
-            'Report' => 'service_reports',
+            'Report' => 'car_reports',
             default => null,
         };
 

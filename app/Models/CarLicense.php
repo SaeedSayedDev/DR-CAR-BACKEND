@@ -56,6 +56,6 @@ class CarLicense extends Model
 
     public function reports()
     {
-        return $this->hasMany(ServiceReport::class);
+        return $this->hasMany(CarReport::class);
     }
 }

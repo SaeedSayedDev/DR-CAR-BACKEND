@@ -13,6 +13,7 @@ use App\Models\Admin\StatusOrder;
 use App\Models\Car;
 use App\Models\Commission;
 use App\Models\OptionsGroup;
+use App\Models\Price;
 use App\Traits\AdminTrailt;
 use App\Models\Role;
 use App\Models\Slide;
@@ -91,6 +92,11 @@ class AdminSeeder extends Seeder
         $cars = AdminTrailt::$cars;
         foreach ($cars as $car) {
             Car::create($car);
+        }
+
+        $prices = AdminTrailt::$prices;
+        foreach ($prices as $price) {
+            Price::create($price);
         }
     }
 }

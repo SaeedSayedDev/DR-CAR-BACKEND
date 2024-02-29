@@ -249,6 +249,13 @@ class AdminTrailt
         [
             'name' => 'Ferrari',
         ],
-      
+    ];
+
+    public static $prices = [
+        [
+            'type' => 'ad',
+            'per' => 'day',
+            'amount' => 10,
+        ]
     ];
 }

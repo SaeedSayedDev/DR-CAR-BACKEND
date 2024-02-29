@@ -116,8 +116,8 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'App\Http\Interfaces\ServiceReportInterface',
-            'App\Http\Repositories\ServiceReportRepository'
+            'App\Http\Interfaces\CarReportInterface',
+            'App\Http\Repositories\CarReportRepository'
         );
 
         ######################### Web #########################

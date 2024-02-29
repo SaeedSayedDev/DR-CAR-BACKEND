@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceReport extends Model
+class CarReport extends Model
 {
     use HasFactory;
 
@@ -19,12 +19,11 @@ class ServiceReport extends Model
         'parts_changed',
         'changed_parts',
         'report_details',
-        'pdf',
     ];
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'type_id')->where('type', 'service_report');
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'car_report');
     }
     
     public function garage()

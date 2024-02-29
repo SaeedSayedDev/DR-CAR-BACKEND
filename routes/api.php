@@ -54,8 +54,6 @@ Route::post('provider/login', [AuthController::class, 'login'])->middleware('che
 
 
 Route::group(['middleware' => 'apiAuth'], function () {
-
-
     Route::group(['middleware' => 'checkTypeUser'], function () {
 
         // Route::get('services', [ServiceController::class, 'index'])->name('services');
@@ -83,17 +81,31 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::get('user/booking/onTheWay/{booking_id}', [BookingController::class, 'onTheWayFromUser']);
 
+        # Booking Ads
+        Route::get('user/booking/ads', [BookingController::class, 'userBookingAds']);
         # Car Licenses
         Route::get('car/licenses/show', [CarController::class, 'showCarLicense']);
         Route::post('car/licenses/store', [CarController::class, 'storeCarLicense']);
         Route::put('car/licenses/update', [CarController::class, 'updateCarLicense']);
         Route::delete('car/licenses/delete', [CarController::class, 'deleteCarLicense']);
         Route::get('car/licenses/trash', [CarController::class, 'trashCarLicense']);
-
-        # Service Reports
-        Route::get('service/reports/history/user', [ServiceController::class, 'historyUserReports']);
+        # Car Reports
+        Route::get('user/car/reports', [CarController::class, 'userReports']);
     });
 
+    Route::group(['middleware' => 'garage.auth'], function () {
+        # Booking Ads
+        Route::get('booking/ads', [BookingController::class, 'indexBookingAds']);
+        Route::get('booking/ads/show/{bookingAd}', [BookingController::class, 'showBookingAd']);
+        Route::post('booking/ads/store', [BookingController::class, 'storeBookingAd']);
+        Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
+        Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'deleteBookingAd']);
+        # Car Reports
+        Route::get('car/reports/show/{bookingService}', [CarController::class, 'showReports']);
+        Route::post('car/reports/store/{bookingService}', [CarController::class, 'storeReports']);
+        Route::put('car/reports/update/{bookingService}', [CarController::class, 'updateReports']);
+        Route::delete('car/reports/delete/{bookingService}', [CarController::class, 'deleteReports']);
+    });
 
     Route::group(['middleware' => 'checkTypeProvider'], function () {
         Route::get('garage/services', [ServiceController::class, 'indexGarage'])->name('services.garage');
@@ -168,21 +180,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
     // Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
-
-    Route::group(['middleware' => 'garage.auth'], function () {
-        # Booking Ads
-        Route::get('booking/ads', [BookingController::class, 'indexBookingAds']);
-        Route::get('booking/ads/show/{bookingAd}', [BookingController::class, 'showBookingAd']);
-        Route::post('booking/ads/store', [BookingController::class, 'storeBookingAd']);
-        Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
-        Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'deleteBookingAd']);
-        
-        # Service Reports
-        Route::post('service/reports/store/{bookingService}', [ServiceController::class, 'storeReports']);
-        Route::put('service/reports/update/{bookingService}', [ServiceController::class, 'updateReports']);
-        Route::delete('service/reports/delete/{bookingService}', [ServiceController::class, 'destroyReports']);
-        Route::get('service/reports/history/garage/{carLicense}', [ServiceController::class, 'historyGarageReports']);
-    });
 });
 
 Route::get('notifications/count', [NotificationController::class, 'notificationCount']);

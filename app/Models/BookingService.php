@@ -83,6 +83,6 @@ class BookingService extends Model
 
     public function reports()
     {
-        return $this->hasMany(ServiceReport::class);
+        return $this->hasMany(CarReport::class);
     }
 }
