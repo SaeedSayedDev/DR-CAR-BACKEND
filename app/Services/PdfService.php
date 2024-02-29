@@ -29,7 +29,8 @@ class PdfService
 
                 $media->delete();
 
-                $directoryName = basename(parse_url($media->pdf, PHP_URL_PATH));
+                $directoryName = basename(parse_url($media->image, PHP_URL_PATH));
+                return $directoryName;
                 $pathOldpdf = storage_path("app/$path/" . $directoryName);
                 if (File::exists($pathOldpdf)) {
                     unlink($pathOldpdf);

@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\CarReportInterface;
 use App\Models\CarReport;
+use App\Models\Media;
 use App\Services\ImageService;
 use App\Services\PdfService;
 
@@ -81,11 +82,11 @@ class CarReportRepository implements CarReportInterface
         if ($request->hasFile('pdf') && $request->hasFile('images')) {
             return response()->json(['message' => 'You can only upload one of the attachments (pdf or images)'], 422);
         } elseif ($request->hasFile('pdf')) {
+            $this->pdfService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
             $this->imageService->deleteMedia($report->id, 'car_report', 'public/images/car_reports', '');
-            $this->imageService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
         } elseif ($request->hasFile('images')) {
             $this->imageService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
-            $this->imageService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
+            $this->pdfService->deleteMedia($report->id, 'car_report', 'public/images/car_reports', '');
         }
 
         $report->update($data);
@@ -109,8 +110,8 @@ class CarReportRepository implements CarReportInterface
             return response()->json(['message' => 'Report not found'], 404);
         }
 
-        $this->pdfService->deleteMedia($report->id, 'car_reports', url("api/images/Report/"), '');
-        $this->imageService->deleteMedia($report->id, 'car_reports', url("api/images/Report/"), '');
+        $this->imageService->deleteMedia($report->id, 'car_report', 'public/images/car_reports', '');
+        $this->pdfService->deleteMedia($report->id, 'car_report', 'public/images/car_reports', '');
         $report->delete();
 
         return response()->json([
