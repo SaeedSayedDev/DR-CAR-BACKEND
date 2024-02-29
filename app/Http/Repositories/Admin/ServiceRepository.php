@@ -22,7 +22,7 @@ class ServiceRepository implements ServiceInterface
     public function index($filter_key, $item_id)
     {
         $item = Item::whereHas('category', function ($query) {
-            $query->where('public', true);
+            $query->where('public', false);
         })->find($item_id);
 
         // if (isset($item)) {
@@ -37,7 +37,6 @@ class ServiceRepository implements ServiceInterface
         //     })->get();
         //     // dd($services->isEmpty());
         // }
-        $services = [];
         if (isset(auth()->user()->address[0]) and isset($item)) {
             // whereHas('avilabilty_range')
             // return Service::get();

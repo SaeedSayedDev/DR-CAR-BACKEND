@@ -15,7 +15,8 @@ class CarLicenseRepository implements CarLicenseInterface
     public function show()
     {
         $carLicense = auth()->user()->carLicense;
-        $carLicense->media;
+        isset($carLicense) ? $carLicense->media : null;
+        // $carLicense->media;
 
         if (!$carLicense) {
             return response()->json(['message' => 'User does not have a car license.']);
@@ -35,7 +36,7 @@ class CarLicenseRepository implements CarLicenseInterface
         if (auth()->user()->carLicense) {
             return response()->json(['message' => 'User already has a car license.'], 422);
         }
-        
+
         $data['user_id'] = auth()->id();
         $carLicense = CarLicense::create($data);
         $this->imageService->storeMedia($request, $carLicense->id, 'car_license', 'public/images/admin/cars/licenses', url("api/images/CarLicense/"));

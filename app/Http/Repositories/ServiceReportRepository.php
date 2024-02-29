@@ -20,8 +20,6 @@ class ServiceReportRepository implements ServiceReportInterface
 
         if ($garage->id != $bookingService->service->provider->garage_id) {
             return response()->json(['message' => 'Unauthorized'], 401);
-        } elseif ($garage->garageReports) {
-            return response()->json(['message' => 'You can not report twice'], 404);
         } elseif ($bookingService->order_status_id < 4) {
             return response()->json(['message' => 'You can not report before your status is ready'], 404);
         } elseif (!$carLicense) {
@@ -48,7 +46,7 @@ class ServiceReportRepository implements ServiceReportInterface
             'success' => true,
             'message' => 'Created successfully',
             'data' => $report->load('media'),
-        ], 201);
+        ]);
     }
 
     public function update($bookingService, $request)

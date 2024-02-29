@@ -81,8 +81,8 @@ class BookingService extends Model
             ->where('order_status_id', '!=', 7);
     }
 
-    public function reports()
+    public function report()
     {
-        return $this->hasMany(ServiceReport::class);
+        return $this->hasOne(ServiceReport::class, 'booking_service_id');
     }
 }

@@ -244,6 +244,9 @@ class BookingServiceRepository implements BookingServiceInterface
         ) {
             return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted']);
         }
+        if ($request->order_status_id == 6 and !isset($bookingService->report))
+            return response()->json(['message' => 'you should make report befor update booking to this status']);
+
 
         $bookingService->update(['order_status_id' => $request->order_status_id]);
         if ($request->order_status_id == 4) {
@@ -263,7 +266,7 @@ class BookingServiceRepository implements BookingServiceInterface
             // isset($bookingService->booking_winch) ? $bookingService->booking_winch->update(['order_status_id' => 6]) : null;
             $this->imageService->storeMedia($request, $bookingService->id, 'garage_receive', 'public/images/admin/receives', url("api/images/Receive/"));
         }
-        if ($request->order_status_id == 6 and $bookingService->booking_winch->round_trip == 1)
+        if ($request->order_status_id == 6 and  isset($bookingService->booking_winch) and $bookingService->booking_winch->round_trip == 1)
             $this->notification($bookingService->id, $bookingService->booking_winch->winch_id, auth()->user()->full_name);
 
         $this->notification($bookingService->id, $bookingService->user_id, auth()->user()->full_name);

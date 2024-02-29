@@ -37,7 +37,6 @@ Route::get('paypal/success', [SettingController::class, 'testPaypal']);
 
 Route::get('images/image_default', [ImageController::class, 'imageDefault']);
 Route::get('image_default', [ImageController::class, 'getImageDefault']);
-Route::get('images/CarLicense/{name}', [ImageController::class, 'CarLicense']);
 
 
 
@@ -175,6 +174,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
 
+    
+
     Route::group(['middleware' => 'garage.auth'], function () {
         # Booking Ads
         Route::get('booking/ads', [BookingController::class, 'indexBookingAds']);
@@ -190,6 +191,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('service/reports/history/garage/{carLicense}', [ServiceController::class, 'historyGarageReports']);
     });
 });
+Route::get('cars', [CarController::class, 'index']);
 
 Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
 
