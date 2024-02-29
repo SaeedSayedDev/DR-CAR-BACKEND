@@ -139,4 +139,9 @@ class BookingController extends Controller
     {
         return $this->bookingAdInterface->deleteAndRefund($bookingAd);
     }
+
+    public function userBookingAds()
+    {
+        return $this->bookingAdInterface->userBookingAds();
+    }
 }

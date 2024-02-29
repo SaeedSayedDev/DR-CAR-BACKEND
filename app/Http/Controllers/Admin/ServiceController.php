@@ -7,14 +7,10 @@ use App\Http\Interfaces\Admin\ServiceInterface;
 use App\Http\Interfaces\BookingServiceInterface;
 use App\Http\Interfaces\CouponInterface;
 use App\Http\Interfaces\OptionInterface;
-use App\Http\Interfaces\ServiceReportInterface;
 use App\Http\Requests\Admin\ServiceRequest;
 use App\Http\Requests\CouponRequest;
 use App\Http\Requests\OptionRequest;
-use App\Http\Requests\ServiceReportRequest;
 use App\Models\Admin\Service;
-use App\Models\BookingService;
-use App\Models\CarLicense;
 use App\Models\Taxe;
 use Illuminate\Http\Request;
 
@@ -25,7 +21,6 @@ class ServiceController extends Controller
         private BookingServiceInterface $bookingServiceInterface,
         private CouponInterface $couponInterface,
         private OptionInterface $optionInterface,
-        private ServiceReportInterface $serviceReportInterface,
     ) {
     }
 
@@ -136,32 +131,5 @@ class ServiceController extends Controller
             'data' => Service::where('name', 'like', '%' . $search . '%')->with('media')->get(),
             "message" => "Bookings retrieved successfully"
         ]);
-    }
-
-    # Service Report
-
-    public function storeReports(BookingService $bookingService, ServiceReportRequest $request)
-    {
-        return $this->serviceReportInterface->store($bookingService, $request);
-    }
-
-    public function updateReports(BookingService $bookingService, ServiceReportRequest $request)
-    {
-        return $this->serviceReportInterface->update($bookingService, $request);
-    }
-
-    public function deleteReports(BookingService $bookingService)
-    {
-        return $this->serviceReportInterface->delete($bookingService);
-    }
-
-    public function historyGarageReports(CarLicense $carLicense)
-    {
-        return $this->serviceReportInterface->historyGarage($carLicense);
-    }
-    
-    public function historyUserReports()
-    {
-        return $this->serviceReportInterface->historyUser();
     }
 }

@@ -23,9 +23,9 @@ class ImageService
     public function delete($imageName, $folder)
     {
         if ($imageName) {
-            $pathOldImage  = storage_path("app/public/images/$folder/$imageName");
-            if (File::exists($pathOldImage)) {
-                unlink($pathOldImage);
+            $imagePath  = storage_path("app/public/images/$folder/$imageName");
+            if (File::exists($imagePath)) {
+                unlink($imagePath);
             }
         }
     }

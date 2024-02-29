@@ -28,12 +28,13 @@ class CreateBookingAdsTable extends Migration
             $table->year('car_start_date');
             $table->year('car_end_date');
 
-            $table->tinyInteger('status')->default(false);  // [0 => 'pending', 1 => 'approved', 2 => 'rejected']
+            $table->tinyInteger('status')->default(false);  // [0 => 'pending', 1 => 'approved', 2 => 'rejected', 3 => 'refunded']
             $table->boolean('display')->default(false);
             $table->date('display_start_date')->nullable();
             $table->date('display_end_date')->nullable();
             $table->text('rejection_reason')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

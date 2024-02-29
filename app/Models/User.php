@@ -157,9 +157,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Item::class, GarageItem::class, 'garage_id', 'item_id');
     }
 
-    public function maintenanceReports()
+    public function carReports()
     {
-        return $this->hasMany(ServiceReport::class, 'garage_id');
+        return $this->hasMany(CarReport::class, 'garage_id');
     }
 
     public function wallet()

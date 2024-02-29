@@ -13,6 +13,7 @@ class BookingAdRequest extends FormRequest
 
     public function rules()
     {
+        
         return [
             'display_duration' => 'required|integer|min:1',
             'format' => 'required|boolean',

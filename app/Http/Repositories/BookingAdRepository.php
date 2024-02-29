@@ -84,13 +84,13 @@ class BookingAdRepository implements BookingAdInterface
 
         $data = $request->validated();
         $data['status'] = 0;
-        $data['amount'] = $this->bookingAdService->calculateAmount($data);
+        // $data['amount'] = $this->bookingAdService->calculateAmount($data);
 
-        $this->bookingAdService->updateWalletBalance($garage, $bookingAd->amount);
-        if ($this->bookingAdService->checkSufficientBalance($garage, $data['amount'])) {
-            return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
-        }
-        $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
+        // $this->bookingAdService->updateWalletBalance($garage, $bookingAd->amount);
+        // if ($this->bookingAdService->checkSufficientBalance($garage, $data['amount'])) {
+        //     return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
+        // }
+        // $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
 
         if ($data['format'] == 1) {
             $data['text'] = null;
@@ -117,12 +117,24 @@ class BookingAdRepository implements BookingAdInterface
         }
 
         $this->bookingAdService->updateWalletBalance($garage, $bookingAd->amount);
-        $this->imageService->deleteMedia($bookingAd->id, 'booking_ad', 'public/images/ads', '');
+        // $this->imageService->deleteMedia($bookingAd->id, 'booking_ad', 'public/images/ads', '');
+        $bookingAd->update(['status' => 3]);
         $bookingAd->delete();
 
         return response()->json([
             'success' => true,
             'message' => 'Deleted and refunded successfully',
+        ]);
+    }
+
+    public function userBookingAds()
+    {
+        $bookingAds = BookingAd::where('display', true)->with('media')->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieved successfully',
+            'data' => $bookingAds,
         ]);
     }
 }

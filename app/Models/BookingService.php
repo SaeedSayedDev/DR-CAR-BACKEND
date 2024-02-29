@@ -83,6 +83,6 @@ class BookingService extends Model
 
     public function report()
     {
-        return $this->hasOne(ServiceReport::class, 'booking_service_id');
+        return $this->hasOne(CarReport::class, 'booking_service_id');
     }
 }
