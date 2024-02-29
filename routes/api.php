@@ -54,6 +54,7 @@ Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
 Route::get('images/Options/{name}', [ImageController::class, 'imageOptions']);
 Route::get('images/image_default', [ImageController::class, 'imageDefault']);
 Route::get('image_default', [ImageController::class, 'getImageDefault']);
+Route::get('images/CarLicense/{name}', [ImageController::class, 'CarLicense']);
 
 
 
@@ -106,6 +107,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('car-licenses', [CarLicenseController::class, 'show']);
         Route::post('car-licenses', [CarLicenseController::class, 'store']);
         Route::put('car-licenses', [CarLicenseController::class, 'update']);
+
+
+        Route::put('update/bookingWinch/done', [BookingController::class, 'doneStatusFromUser']);
     });
 
 

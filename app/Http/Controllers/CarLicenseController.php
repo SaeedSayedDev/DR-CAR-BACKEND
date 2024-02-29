@@ -15,9 +15,10 @@ class CarLicenseController extends Controller
     public function show()
     {
         $carLicense = auth()->user()->carLicense;
+        $carLicense->media;
 
         if (!$carLicense) {
-            return response()->json(['message' => 'User does not have a car license.'], 404);
+            return response()->json(['message' => 'User does not have a car license.']);
         }
 
         return response()->json([

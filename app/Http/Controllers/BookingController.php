@@ -37,7 +37,7 @@ class BookingController extends Controller
         return $this->bookingServiceInterface->cancelBooking($booking_id);
     }
 
-    
+
 
     public function getBookingsInGarage($filter_key)
     {
@@ -49,19 +49,19 @@ class BookingController extends Controller
         return $this->bookingServiceInterface->showBooking($booking_id);
     }
 
-    
+
     public function updateBookingServiceFromGarage(UpdateBookingServiceRequest $request, $booking_id)
     {
         return $this->bookingServiceInterface->updateBookingServiceFromGarage($request, $booking_id);
     }
-    
-       
-    public function onTheWayFromUser( $booking_id)
+
+
+    public function onTheWayFromUser($booking_id)
     {
         return $this->bookingServiceInterface->onTheWayFromUser($booking_id);
     }
-    
-    
+
+
     public function success(PaypalSeuccessRequest $request)
     {
         return $this->bookingServiceInterface->success($request);
@@ -70,36 +70,38 @@ class BookingController extends Controller
     {
         return 'User declined the payment!';
     }
-    
+
     // Booking Winch
     public function bookingWinch(BookingWinchRequest $request)
     {
         return $this->bookingWinchInterface->bookingWinch($request);
     }
-    
+
     public function cancelBookingWinchFromUser($booking_id)
     {
         return $this->bookingWinchInterface->cancelBookingWinchFromUser($booking_id);
     }
-    
+
     public function updateBookingStatusFromWinch(updateBookingWinchRequest $request, $booking_id)
     {
         return $this->bookingWinchInterface->updateBookingStatusFromWinch($request, $booking_id);
+    }
+    public function doneStatusFromUser($booking_id)
+    {
+        return $this->bookingWinchInterface->doneStatusFromUser($booking_id);
     }
     public function getBookingForWinch($filter_key)
     {
         return $this->bookingWinchInterface->getBookingForWinch($filter_key);
     }
-    
+
     public function showBookingWinch($booking_id)
     {
         return $this->bookingWinchInterface->showBookingWinch($booking_id);
     }
-    
+
     public function getWinchsInUser()
     {
         return $this->bookingWinchInterface->getWinchsInUser();
     }
-    
-    
 }

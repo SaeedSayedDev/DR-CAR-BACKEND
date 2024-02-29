@@ -21,6 +21,17 @@ class BookingServices
             ]
         );
     }
+
+    function updateBookingWinch($booking, $payment_type, $payment_id)
+    {
+        return  $booking->update(
+            [
+                'payment_type' => $payment_type,
+                'payment_stataus' => 'paid',
+                'payment_id' => $payment_id,
+            ]
+        );
+    }
     function priceBooking($request, $service)
     {
         $price = $service->discount_price >= 1 ? $service->discount_price : $service->price;

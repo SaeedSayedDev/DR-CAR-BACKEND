@@ -22,6 +22,7 @@ class BookingWinch extends Model
         'payment_amount',
         'payment_type',
         'payment_id',
+        'round_trip'
 
     ];
 

@@ -94,7 +94,7 @@ class WalletService
         $netDivision = $this->bookingService->netDivision($bookingService->delivery_car, $bookingService->payment_amount, $payment_amount_winch, $total_amount);
 
         if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
-            $this->bookingService->updateBooking($bookingService->booking_winch, 2, 'wallet');
+            $this->bookingService->updateBookingWinch($bookingService->booking_winch, 2, 'wallet');
             $winchNetAfterCommission = $this->bookingService->commissionNet($payment_amount_winch, $netDivision['winch_net']);
             $this->updateWallet($bookingService->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $bookingService->user_id, $request->payment_type, $payment_amount_winch);
         }
