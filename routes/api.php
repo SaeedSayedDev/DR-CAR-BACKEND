@@ -8,10 +8,7 @@ use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\StatusOrderController;
 use App\Http\Controllers\Admin\TaxeController;
-use App\Http\Controllers\BookingAdController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\CarLicenseController;
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NotificationController;
@@ -20,13 +17,8 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\StatisticsController;
-use App\Http\Controllers\VehicleController;
-use App\Http\Controllers\VehicleDriverController;
-use App\Http\Controllers\VehicleLicenseController;
 use App\Http\Controllers\WalletController;
-use App\Models\Address;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\CarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,22 +34,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('paypal/success', [SettingController::class, 'testPaypal']);
-Route::get('images/Category/{name}', [ImageController::class, 'imageCategory']);
-Route::get('images/Item/{name}', [ImageController::class, 'imageItem']);
 
-Route::get('images/Service/{name}', [ImageController::class, 'imageService']);
-Route::get('images/Receive/{name}', [ImageController::class, 'imageReceive']);
-
-Route::get('images/Provider/{name}', [ImageController::class, 'imageProvider']);
-Route::get('images/garage/{name}', [ImageController::class, 'imageGarage']);
-Route::get('images/Slide/{name}', [ImageController::class, 'imageSlide']);
-Route::get('images/Options/{name}', [ImageController::class, 'imageOptions']);
 Route::get('images/image_default', [ImageController::class, 'imageDefault']);
 Route::get('image_default', [ImageController::class, 'getImageDefault']);
 Route::get('images/CarLicense/{name}', [ImageController::class, 'CarLicense']);
 
 
 
+Route::get('images/{type}/{name}', [ImageController::class, 'show']);
 
 
 
@@ -103,13 +87,17 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::get('user/booking/onTheWay/{booking_id}', [BookingController::class, 'onTheWayFromUser']);
 
-        # Car License
-        Route::get('car-licenses', [CarLicenseController::class, 'show']);
-        Route::post('car-licenses', [CarLicenseController::class, 'store']);
-        Route::put('car-licenses', [CarLicenseController::class, 'update']);
-
 
         Route::put('update/bookingWinch/done', [BookingController::class, 'doneStatusFromUser']);
+        # Car Licenses
+        Route::get('car/licenses/show', [CarController::class, 'showCarLicense']);
+        Route::post('car/licenses/store', [CarController::class, 'storeCarLicense']);
+        Route::put('car/licenses/update', [CarController::class, 'updateCarLicense']);
+        Route::delete('car/licenses/delete', [CarController::class, 'deleteCarLicense']);
+        Route::get('car/licenses/trash', [CarController::class, 'trashCarLicense']);
+
+        # Service Reports
+        Route::get('service/reports/history/user', [ServiceController::class, 'historyUserReports']);
     });
 
 
@@ -187,11 +175,20 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
 
-    # Booking Ad
-    Route::get('booking-ads', [BookingAdController::class, 'index']);
-    Route::get('booking-ads/{bookingAd}', [BookingAdController::class, 'show']);
-    Route::post('booking-ads', [BookingAdController::class, 'store']);
-    Route::put('booking-ads/{bookingAd}', [BookingAdController::class, 'update']);
+    Route::group(['middleware' => 'garage.auth'], function () {
+        # Booking Ads
+        Route::get('booking/ads', [BookingController::class, 'indexBookingAds']);
+        Route::get('booking/ads/show/{bookingAd}', [BookingController::class, 'showBookingAd']);
+        Route::post('booking/ads/store', [BookingController::class, 'storeBookingAd']);
+        Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
+        Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'deleteBookingAd']);
+        
+        # Service Reports
+        Route::post('service/reports/store/{bookingService}', [ServiceController::class, 'storeReports']);
+        Route::put('service/reports/update/{bookingService}', [ServiceController::class, 'updateReports']);
+        Route::delete('service/reports/delete/{bookingService}', [ServiceController::class, 'destroyReports']);
+        Route::get('service/reports/history/garage/{carLicense}', [ServiceController::class, 'historyGarageReports']);
+    });
 });
 
 Route::get('notifications/count', [NotificationController::class, 'notificationCount']);

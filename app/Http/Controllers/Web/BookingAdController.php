@@ -40,7 +40,6 @@ class BookingAdController extends Controller
         $data['status'] = 2;
 
         $bookingAd->update($data);
-        // TODO: return money
 
         return  redirect()->route('booking-ads.index')->with('success', 'Booking ad has been rejected');
     }

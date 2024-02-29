@@ -7,77 +7,31 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
-    function imageCategory($name)
+    public function show($type, $name)
     {
-        try {
-            return response()->file("../storage/app/public/images/admin/categories/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
+        $folder = match ($type) {
+            'Category' => "admin/categories",
+            'Item' => "admin/items",
+            'Service' => "admin/services",
+            'Receive' => "admin/receives",
+            'Slide' => "admin/slides",
+            'Options' => "admin/options",
+            'Provider' => "accounts",
+            'Garage' => "providers",
+            'Ad' => 'ads',
+            'CarLicense' => 'admin/cars/licenses',
+            'Report' => 'service_reports',
+            default => null,
+        };
+
+        if (!$folder) {
+            return response()->json(['message' => "Invalid image type: $type"], 400);
         }
-    }
 
-
-
-
-    function imageItem($name)
-    {
         try {
-            return response()->file("../storage/app/public/images/admin/items/$name");
+            return response()->file("../storage/app/public/images/$folder/$name");
         } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
-        }
-    }
-
-    function imageService($name)
-    {
-        try {
-            return response()->file("../storage/app/public/images/admin/services/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
-        }
-    }
-    function imageReceive($name)
-    {
-        try {
-            return response()->file("../storage/app/public/images/admin/receives/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
-        }
-    }
-
-
-    function imageProvider($name)
-    {
-        try {
-            return response()->file("../storage/app/public/images/accounts/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
-        }
-    }
-    function imageGarage($name)
-    {
-        try {
-            return response()->file("../storage/app/public/images/providers/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
-        }
-    }
-
-    function imageSlide($name)
-    {
-        try {
-            return response()->file("../storage/app/public/images/admin/slides/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
-        }
-    }
-
-    function imageOptions($name)
-    {
-        try {
-            return response()->file("../storage/app/public/images/options/$name");
-        } catch (Exception $e) {
-            return response()->json(['message' => "This File $name Is Not Found"], 404);
+            return response()->json(['message' => "This file $name is not found"], 404);
         }
     }
 

@@ -1434,4 +1434,6 @@ return [
     'car_type' => 'Car Type',
     'car_start_date' => 'Car Start Date',
     'car_end_date' => 'Car End Date',
+    'updated_successfully' => 'Updated successfully.',
+    'app_logo_updated_successfully' => 'App logo updated successfully.',
 ];
