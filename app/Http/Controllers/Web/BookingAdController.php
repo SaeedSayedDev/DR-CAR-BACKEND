@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookingAd;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class BookingAdController extends Controller
 {
+    public function __construct(private NotificationService $notificationService)
+    {   
+    }
+
     public function index()
     {
         $bookingAds = BookingAd::with('garage:id,full_name')->paginate(10);
@@ -30,6 +35,7 @@ class BookingAdController extends Controller
         ];
 
         $bookingAd->update($data);
+        $this->notification($bookingAd->id, $bookingAd->garage_id, auth()->user()->full_name);
 
         return  redirect()->route('booking-ads.index')->with('success', 'Booking ad has been approved');
     }
@@ -40,7 +46,18 @@ class BookingAdController extends Controller
         $data['status'] = 2;
 
         $bookingAd->update($data);
+        $this->notification($bookingAd->id, $bookingAd->garage_id, auth()->user()->full_name);
 
         return  redirect()->route('booking-ads.index')->with('success', 'Booking ad has been rejected');
+    }
+
+    public function notification($booking_id, $reciver_id, $creator_name)
+    {
+        $text_en = "#$booking_id Booking Ad Status has been changed ";
+        $text_ar = "#$booking_id تم تغيير حالة حجز الاعلان ";
+        $notification_type_en = "booking";
+        $notification_type_ar = "حجز";
+        $api =  url("api/booking/show/" . $booking_id);
+        $this->notificationService->notification($booking_id, $creator_name,  $text_en, $text_ar, $notification_type_en, $notification_type_ar, $api, $reciver_id);
     }
 }

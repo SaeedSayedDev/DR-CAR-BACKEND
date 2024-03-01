@@ -8,6 +8,6 @@ interface BookingAdInterface
     public function show($bookingAd);
     public function store($request);
     public function update($request, $bookingAd);
-    public function deleteAndRefund($bookingAd);
+    public function refund($bookingAd);
     public function userBookingAds();
 }

@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BookingAd extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'garage_id',
         'display_duration',
         'amount',
-        'format',
         'text',
         'gender',
         'coupon',
@@ -35,6 +34,6 @@ class BookingAd extends Model
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'type_id')->where('type', 'booking_ad');
+        return $this->hasMany(Media::class, 'type_id')->where('type', 'ad');
     }
 }

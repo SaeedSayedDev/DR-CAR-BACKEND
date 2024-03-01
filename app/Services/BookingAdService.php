@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Models\Coupon;
+use App\Models\Price;
 
 class BookingAdService
 {
     public function calculateAmount($data)
     {
-        $dayPrice = 10;
+        $dayPrice = Price::where(['type' => 'ad', 'per' => 'day'])->first()->amount;
         $discount = isset($data['coupon']) ? Coupon::where('coupon', $data['coupon'])->first()->coupon_price : 0;
         return $data['display_duration'] * $dayPrice - $discount;
     }

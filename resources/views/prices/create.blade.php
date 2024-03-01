@@ -12,16 +12,16 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-md-6">
-                    <h1 class="m-0 text-bold">{{trans('lang.car_plural')}} <small class="mx-3">|</small><small>{{trans('lang.car_desc')}}</small></h1>
+                    <h1 class="m-0 text-bold">{{trans('lang.price_plural')}} <small class="mx-3">|</small><small>{{trans('lang.price_desc')}}</small></h1>
                 </div><!-- /.col -->
                 <div class="col-md-6">
                     <ol class="breadcrumb bg-white float-sm-right rounded-pill px-4 py-2 d-none d-md-flex">
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt mx-1"></i> {{trans('lang.dashboard')}}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{!! route('cars.index') !!}">{{trans('lang.car_plural')}}</a>
+                            <a href="{!! route('prices.index') !!}">{{trans('lang.price_plural')}}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{trans('lang.car_create')}}</li>
+                        <li class="breadcrumb-item active">{{trans('lang.price_create')}}</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -36,20 +36,20 @@
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-row align-items-start card-header-tabs">
-                    @can('cars.index')
+                    @can('prices.index')
                         <li class="nav-item">
-                            <a class="nav-link" href="{!! route('cars.index') !!}"><i class="fas fa-list mr-2"></i>{{trans('lang.car_table')}}</a>
+                            <a class="nav-link" href="{!! route('prices.index') !!}"><i class="fas fa-list mr-2"></i>{{trans('lang.price_table')}}</a>
                         </li>
                     @endcan
                     <li class="nav-item">
-                        <a class="nav-link active" href="{!! url()->current() !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.car_create')}}</a>
+                        <a class="nav-link active" href="{!! url()->current() !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.price_create')}}</a>
                     </li>
                 </ul>
             </div>
             <div class="card-body">
-                {!! Form::open(['route' => 'cars.store', 'files' => true]) !!}
+                {!! Form::open(['route' => 'prices.store', 'files' => true]) !!}
                 <div class="row">
-                    @include('cars.fields')
+                    @include('prices.fields')
                 </div>
                 {!! Form::close() !!}
                 <div class="clearfix"></div>

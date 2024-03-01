@@ -10,22 +10,22 @@ class PriceController extends Controller
 {
     public function index()
     {
-        $prices = Price::all();
+        $prices = Price::paginate(10);
 
         return view('prices.index', ['dataTable' => $prices]);
     }
 
-    public function create()
+    public function edit(Price $price)
     {
-        return view('prices.create');
+        return view('prices.edit', compact('price'));
     }
 
-    public function store(Request $request)
+    public function update(Request $request, Price $price)
     {
         $data = $request->validate(['amount' => 'required|integer|min:0']);
-        $data['type'] = 'ad';
-        $data['per'] = 'day';
 
-        Price::updateOrCreate($data);
+        $price->update($data);
+
+        return redirect()->route('prices.index');
     }
 }

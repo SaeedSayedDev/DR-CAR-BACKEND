@@ -67,23 +67,8 @@ class UserSeeder extends Seeder
             Slide::create($slide);
         }
 
-   
-        
-        $coupons = UserTrait::$coupons;
-        foreach ($coupons as $coupon) {
-            Coupon::create($coupon);
-        }
-        
-        $wallets = UserTrait::$wallets;
-        foreach ($wallets as $wallet) {
-            Wallet::create($wallet);
-        }
-        
-        $walletTransactions = UserTrait::$walletTransactions;
-        foreach ($walletTransactions as $walletTransaction) {
-            AccountStatement::create($walletTransaction);
-        }
-      
+
+
         $coupons = UserTrait::$coupons;
         foreach ($coupons as $coupon) {
             Coupon::create($coupon);
@@ -99,5 +84,33 @@ class UserSeeder extends Seeder
             AccountStatement::create($walletTransaction);
         }
 
+        $coupons = UserTrait::$coupons;
+        foreach ($coupons as $coupon) {
+            Coupon::create($coupon);
+        }
+
+        $wallets = UserTrait::$wallets;
+        foreach ($wallets as $wallet) {
+            Wallet::create($wallet);
+        }
+
+        $walletTransactions = UserTrait::$walletTransactions;
+        foreach ($walletTransactions as $walletTransaction) {
+            AccountStatement::create($walletTransaction);
+        }
+
+        # Test Mail
+        User::create([
+            'full_name' => 'Ziad Gamal',
+            'email' => 'zyadgamal450@gmail.com',
+            'password' => '123456789',
+            'role_id' => 2,
+        ]);
+        User::create([
+            'full_name' => 'Ziad Jamal',
+            'email' => 'zj1118@fayoum.edu.eg',
+            'password' => '123456789',
+            'role_id' => 3,
+        ]);
     }
 }
