@@ -11,6 +11,8 @@ use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\CommissionController;
 use App\Http\Controllers\Web\CouponController;
 use App\Http\Controllers\Web\DashboardController;
+use App\Http\Controllers\Web\MessageController;
+use App\Http\Controllers\Web\PriceController;
 use App\Http\Controllers\Web\ProviderController;
 use App\Http\Controllers\Web\SlideController;
 use App\Http\Controllers\Web\TaxController;
@@ -74,6 +76,7 @@ Route::group([
         Route::put('withdraws/status/{id}', [WithdrawController::class, 'updateStatus'])->name('withdraws.status.update');
         # Settings
         Route::resource('slides', SlideController::class);
+        Route::post('users/message', [UserController::class, 'message'])->name('users.message');
         Route::put('users/{id}/ban', [UserController::class, 'ban'])->name('users.ban');
         Route::put('users/{id}/unban', [UserController::class, 'unban'])->name('users.unban');
         Route::view('users/profile', 'settings.users.profile')->name('users.profile');
@@ -81,6 +84,7 @@ Route::group([
         Route::resource('taxes', TaxController::class);
         Route::resource('commissions', CommissionController::class);
         # Marketing
+        Route::resource('prices', PriceController::class);
         Route::resource('cars', CarController::class);
         Route::get('booking-ads', [BookingAdController::class, 'index'])->name('booking-ads.index');
         Route::get('booking-ads/{bookingAd}', [BookingAdController::class, 'show'])->name('booking-ads.show');

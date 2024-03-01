@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\Web\UserInterface;
+use App\Http\Requests\Web\MessageRequest;
 use App\Http\Requests\Web\UserRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -55,5 +57,10 @@ class UserController extends Controller
     public function unban($id)
     {
         return $this->userInterface->unban($id);
+    }
+
+    public function message(MessageRequest $request)
+    {
+        return $this->userInterface->message($request);
     }
 }

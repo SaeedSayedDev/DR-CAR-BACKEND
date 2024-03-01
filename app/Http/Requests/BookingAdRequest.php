@@ -13,19 +13,22 @@ class BookingAdRequest extends FormRequest
 
     public function rules()
     {
-        
-        return [
-            'display_duration' => 'required|integer|min:1',
-            'format' => 'required|boolean',
+        $rules = [
             'text' => 'required_if:format,0|string',
-            'images' => 'required_if:format,1|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gender' => 'nullable|boolean',
-            'coupon' => 'nullable|string|exists:coupons,coupon',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gender' => 'nullable|in:0,1,2',
 
             'car_type' => 'required|string',
             'car_start_date' => 'required|date_format:Y',
             'car_end_date' => 'required|date_format:Y',
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['display_duration'] = 'required|integer|min:1';
+            $rules['coupon'] = 'nullable|string|exists:coupons,coupon';
+            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif|max:2048';
+        }
+
+        return $rules;
     }
 }

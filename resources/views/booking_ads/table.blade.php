@@ -13,11 +13,11 @@
     <table class="table">
         <thead>
             <tr>
+                <th>{{ trans('lang.image') }}</th>
                 <th>{{ trans('lang.garage') }}</th>
                 <th>{{ trans('lang.display_duration') }}</th>
                 <th>{{ trans('lang.payment_amount') }}</th>
                 <th>{{ trans('lang.display') }}</th>
-                <th>{{ trans('lang.format') }}</th>
                 <th>{{ trans('lang.booking_status') }}</th>
                 <th>{{ trans('lang.actions') }}</th>
             </tr>
@@ -25,26 +25,23 @@
         <tbody>
             @foreach ($dataTable as $booking_ad)
                 <tr>
+                    <td>
+                        <img class="rounded" style="height:50px" alt="{{ trans('lang.category_image') }}"
+                            src="{{ asset('storage/images/ads/' . $booking_ad->media()->first()?->imageName()) }}">
+                    </td>    
                     <td>{{ $booking_ad->garage->full_name }}</td>
-                    <td>{{ $booking_ad->display_duration}} {{ trans('lang.days') }}</td>
+                    <td>{{ $booking_ad->display_duration }} {{ trans('lang.days') }}</td>
                     <td>{{ $booking_ad->amount }}</td>
                     <td>{{ $booking_ad->display ? trans('lang.yes') : trans('lang.no') }}</td>
                     <td>
-                        @if ($booking_ad->format === 0)
-                            {{ trans('lang.text') }}
-                        @elseif($booking_ad->format === 1)
-                            {{ trans('lang.image') }}
-                        @elseif($booking_ad->format === 2)
-                            {{ trans('lang.video') }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($booking_ad->status === 0)
+                        @if ($booking_ad->status == 0)
                             <span class="badge bg-warning">{{ trans('lang.pending') }}</span>
-                        @elseif($booking_ad->status === 1)
+                        @elseif($booking_ad->status == 1)
                             <span class="badge bg-success">{{ trans('lang.approved') }}</span>
-                        @elseif($booking_ad->status === 2)
+                        @elseif($booking_ad->status == 2)
                             <span class="badge bg-danger">{{ trans('lang.rejected') }}</span>
+                        @elseif($booking_ad->status == 3)
+                            <span class="badge bg-secondary">{{ trans('lang.refunded') }}</span>
                         @endif
                     </td>
                     <td>

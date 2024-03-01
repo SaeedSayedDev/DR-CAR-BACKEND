@@ -50,22 +50,20 @@ class BookingAdRepository implements BookingAdInterface
         $data = $request->validated();
         $data['garage_id'] = $garage->id;
         $data['amount'] = $this->bookingAdService->calculateAmount($data);
-
-        if ($this->bookingAdService->checkSufficientBalance($garage, $data['amount'])) {
+        
+        if (!$garage->wallet) {
+            return response()->json(['message' => 'You do not have a wallet'], 400);
+        } elseif ($this->bookingAdService->checkSufficientBalance($garage, $data['amount'])) {
             return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
         }
 
+        
         $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
-
-        if ($data['format'] == 1) {
-            unset($data['text']);
-        }
-
         $bookingAd = BookingAd::create($data);
-
-        if ($data['format'] == 1) {
-            $this->imageService->storeMedia($request, $bookingAd->id, 'booking_ad', 'public/images/ads', url("api/images/Ad/"));
-        }
+        $bookingAd->media()->create([
+            'type' => 'ad',
+            'image' => $this->imageService->store($data['image'], 'ads', 'Ad')
+        ]);
 
         return response()->json([
             'success' => true,
@@ -80,10 +78,11 @@ class BookingAdRepository implements BookingAdInterface
 
         if ($garage->id != $bookingAd->garage_id) {
             return response()->json(['message' => 'Unauthorized'], 401);
+        } elseif ($bookingAd->status != 0 && $bookingAd->status != 1) {
+            return response()->json(['message' => 'You can not update this ad'], 400);
         }
 
         $data = $request->validated();
-        $data['status'] = 0;
         // $data['amount'] = $this->bookingAdService->calculateAmount($data);
 
         // $this->bookingAdService->updateWalletBalance($garage, $bookingAd->amount);
@@ -91,15 +90,15 @@ class BookingAdRepository implements BookingAdInterface
         //     return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
         // }
         // $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
-
-        if ($data['format'] == 1) {
-            $data['text'] = null;
-            $this->imageService->storeMedia($request, $bookingAd->id, 'booking_ad', 'public/images/ads', url("api/images/Ad/"));
-        } elseif ($data['format'] == 0) {
-            $this->imageService->deleteMedia($bookingAd->id, 'booking_ad', 'public/images/ads', '');
-        }
-
+        
         $bookingAd->update($data);
+        if ($request->hasFile('image')) {
+            $bookingAd->media()->updateOrCreate([
+                'type' => 'ad'
+            ], [
+                'image' => $this->imageService->update($bookingAd->media()->first()?->imageName(), $request->image, 'ads', 'Ad')
+            ]);
+        }
 
         return response()->json([
             'success' => true,
@@ -108,22 +107,24 @@ class BookingAdRepository implements BookingAdInterface
         ]);
     }
 
-    public function deleteAndRefund($bookingAd)
+    public function refund($bookingAd)
     {
         $garage = auth()->user();
 
         if ($garage->id != $bookingAd->garage_id) {
             return response()->json(['message' => 'Unauthorized'], 401);
+        }elseif ($bookingAd->status != 2) {
+            return response()->json(['message' => 'You can not refund this ad'], 400);
         }
 
         $this->bookingAdService->updateWalletBalance($garage, $bookingAd->amount);
-        // $this->imageService->deleteMedia($bookingAd->id, 'booking_ad', 'public/images/ads', '');
         $bookingAd->update(['status' => 3]);
-        $bookingAd->delete();
+        // $this->imageService->delete($bookingAd->media()->first()?->imageName(), 'ads');
+        // $bookingAd->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Deleted and refunded successfully',
+            'message' => 'Refunded successfully',
         ]);
     }
 

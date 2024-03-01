@@ -21,4 +21,6 @@ interface UserInterface
     public function ban($id);
 
     public function unban($id);
+
+    public function message($request);
 }

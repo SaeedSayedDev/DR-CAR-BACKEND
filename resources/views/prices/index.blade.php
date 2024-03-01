@@ -6,16 +6,16 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-md-6">
-                    <h1 class="m-0 text-bold">{{trans('lang.car_plural')}} <small class="mx-3">|</small><small>{{trans('lang.car_desc')}}</small></h1>
+                    <h1 class="m-0 text-bold">{{trans('lang.price_plural')}} <small class="mx-3">|</small><small>{{trans('lang.price_desc')}}</small></h1>
                 </div><!-- /.col -->
                 <div class="col-md-6">
                     <ol class="breadcrumb bg-white float-sm-right rounded-pill px-4 py-2 d-none d-md-flex">
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt mx-1"></i> {{trans('lang.dashboard')}}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{!! route('cars.index') !!}">{{trans('lang.car_plural')}}</a>
+                            <a href="{!! route('prices.index') !!}">{{trans('lang.price_plural')}}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{trans('lang.car_table')}}</li>
+                        <li class="breadcrumb-item active">{{trans('lang.price_table')}}</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -31,17 +31,17 @@
                 <ul class="nav nav-tabs d-flex flex-md-row flex-column-reverse align-items-start card-header-tabs">
                     <div class="d-flex flex-row">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.car_table')}}</a>
+                            <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.price_table')}}</a>
                         </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{!! route('cars.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.car_create')}}</a>
-                            </li>
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" href="{!! route('prices.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.price_create')}}</a>
+                            </li> --}}
                     </div>
                     @include('layouts.right_toolbar', compact('dataTable'))
                 </ul>
             </div>
             <div class="card-body">
-                @include('cars.table')
+                @include('prices.table')
                 <div class="clearfix"></div>
             </div>
         </div>

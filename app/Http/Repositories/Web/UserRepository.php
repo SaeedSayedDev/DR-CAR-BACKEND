@@ -3,9 +3,11 @@
 namespace App\Http\Repositories\Web;
 
 use App\Http\Interfaces\Web\UserInterface;
+use App\Mail\UserEmail;
 use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserRepository implements UserInterface
 {
@@ -133,6 +135,18 @@ class UserRepository implements UserInterface
         $user->update(['ban' => false]);
         return redirect()->route('users.index')->with([
             'success' => 'unbanned successfully'
+        ]);
+    }
+
+    public function message($request)
+    {
+        $data = $request->validated();
+        return $data;
+
+        # TODO: Send email
+        
+        return redirect()->route('users.index')->with([
+            'success' => 'Message sent successfully'
         ]);
     }
 }

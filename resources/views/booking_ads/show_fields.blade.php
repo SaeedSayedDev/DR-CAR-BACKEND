@@ -25,29 +25,16 @@
                     </div>
 
                     <div class="form-group">
-                        <strong>{{ trans('lang.format') }}:</strong>
-                        <p>
-                            @if ($booking_ad->format === 0)
-                                {{ trans('lang.text') }}
-                            @elseif($booking_ad->format === 1)
-                                {{ trans('lang.image') }}
-                            @elseif($booking_ad->format === 2)
-                                {{ trans('lang.video') }}
-                            @endif
-                        </p>
+                        <strong>{{ trans('lang.text') }}:</strong>
+                        <p>{{ $booking_ad->text }}</p>
                     </div>
 
                     <div class="form-group">
-                        @if ($booking_ad->format === 0)
-                            <strong>{{ trans('lang.text') }}:</strong>
-                            <p>{{ $booking_ad->text }}</p>
-                        @elseif($booking_ad->format === 1)
-                            <strong>{{ trans('lang.image') }}:</strong>
-                            <div>
-                                <img class="rounded" style="height: 100px;" alt="{{ trans('lang.image') }}"
-                                    src="{{ asset('storage/images/ads/' . $booking_ad->media()->first()?->imageName()) }}">
-                            </div>
-                        @endif
+                        <strong>{{ trans('lang.image') }}:</strong>
+                        <div>
+                            <img class="rounded" style="height: 100px;" alt="{{ trans('lang.image') }}"
+                                src="{{ asset('storage/images/ads/' . $booking_ad->media()->first()?->imageName()) }}">
+                        </div>
                     </div>
 
                     <div class="form-group">

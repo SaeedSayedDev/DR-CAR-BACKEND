@@ -18,11 +18,11 @@ class CreateBookingAdsTable extends Migration
             $table->foreignId('garage_id')->on('users');
 
             $table->unsignedInteger('display_duration');
-            $table->float('amount')->default(0);
-            $table->boolean('format')->default(false);  // [0 => 'text', 1 => 'image']
-            $table->text('text')->nullable();           // image in media table
-            $table->boolean('gender')->nullable();      // [0 => 'female', 1 => 'male']
+            $table->tinyInteger('gender')->default(2);      // [0 => 'female', 1 => 'male', 2 => 'both']
             $table->string('coupon')->nullable();
+            $table->float('amount')->default(0);
+            $table->text('text')->nullable();
+            // image in media table
 
             $table->string('car_type');
             $table->year('car_start_date');
@@ -34,7 +34,6 @@ class CreateBookingAdsTable extends Migration
             $table->date('display_end_date')->nullable();
             $table->text('rejection_reason')->nullable();
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
