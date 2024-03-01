@@ -31,6 +31,7 @@ class OtpService
         Mail::send('sendEmailOtp',  ['otp' => $data['otp']], function ($message) use ($data, $email) {
             $message->to($email)->subject($data['title']);
         });
+
         OtpUser::updateOrCreate(
             [
                 'user_id' => $user_id,
@@ -41,5 +42,6 @@ class OtpService
                 'type_user' => $type_user
             ]
         );
+        return response()->json(['message'=>'please check your email']);
     }
 }

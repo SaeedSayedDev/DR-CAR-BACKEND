@@ -9,12 +9,13 @@ use App\Models\GarageData;
 use App\Models\Media;
 use App\Models\User;
 use App\Models\WinchInformation;
+use App\Services\AuthServcie;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\DB;
 
 class AccountRepository implements AccountInterface
 {
-    function __construct(private ImageService $imageService)
+    function __construct(private AuthServcie $authServcie, private ImageService $imageService)
     {
     }
     public function show()
@@ -87,16 +88,15 @@ class AccountRepository implements AccountInterface
 
     public function storeGarageData($request)
     {
+        $user = auth()->user();
         $data = $request->all();
         $data['check_servic_id'] = 0;
+        $data['garage_id'] = $user->id;
         DB::beginTransaction();
 
-        $GarageData = GarageData::updateOrCreate(
-            [
-                'garage_id' => auth()->user()->id,
-            ],
-            $data
-        );
+        $GarageData = GarageData::create($data);
+        $this->authServcie->createGarageCarSupport($request, $user->id);
+        $this->authServcie->createGarageCategorySupport($request, $user->id);
         if ($request->hasFile('image')) {
             $GarageData->media()->create([
                 'type' => 'garage_data',

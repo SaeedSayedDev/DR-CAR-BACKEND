@@ -28,28 +28,17 @@ class RegisterRequest extends FormRequest
         // })
         //     ->whereIn('id', request()->subCategories)->get();
 
-        if (request()->role_id == 4) {
-            return [
-                'full_name' => 'required|string|min:3|max:255',
-                'email' => 'required|email|unique:users,email|max:255',
-                'phone_number' => "nullable|unique:user_information,phone_number|unique:winch_information,phone_number|unique:garage_information,phone_number|min:8|max:15",
-                'password' => 'required|confirmed|string|min:8|max:20', // password_confirmation
-                'role_id' => 'required|integer|exists:roles,id|in:3,4',
-                'subCategories' => 'required|array|min:1',
-                'subCategories.*' => 'exists:items,id',
-                'cars' => 'required|array|min:1|max:2', // Change 5 to your desired limit
-                'cars.*' => 'exists:cars,id',
 
-                // 'garage_type' => 'string|required_if:role_id,==,4|in:private,company'
-
-            ];
-        }
         return [
             'full_name' => 'required|string|min:3|max:255',
             'email' => 'required|email|unique:users,email|max:255',
             'phone_number' => "nullable|unique:user_information,phone_number|unique:winch_information,phone_number|unique:garage_information,phone_number|min:8|max:15",
             'password' => 'required|confirmed|string|min:8|max:20', // password_confirmation
-            'role_id' => 'required|integer|exists:roles,id|in:3,4',
+            'role_id' => 'required|integer|exists:roles,id|in:2,3,4',
+            'gender' => 'required_if:role_id,2|integer|in:1,2', //1=>man,2=>women
+            'car_id' => 'required_if:role_id,2|integer|exists:cars,id',
+
+
             // 'garage_type' => 'string|required_if:role_id,==,4|in:private,company'
 
         ];

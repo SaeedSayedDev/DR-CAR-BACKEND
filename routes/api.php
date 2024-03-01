@@ -44,11 +44,12 @@ Route::get('images/{type}/{name}', [ImageController::class, 'show']);
 
 
 
-Route::post('provider/register', [AuthController::class, 'provider_register']);
+Route::post('register', [AuthController::class, 'register']);
 Route::post('user/register', [AuthController::class, 'user_register']);
-Route::post('/confirm-email', [AuthController::class, 'confirmCodeEmail']);
+Route::post('confirm/email', [AuthController::class, 'confirmCodeEmail']);
 
-Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
+Route::post('/forget/password', [AuthController::class, 'forgetPassword']);
+Route::post('/reset/password', [AuthController::class, 'resetPasswordApi']);
 
 // Route::group(['middleware' => 'IsEnable'], function () {
 Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser')->name('login.user');
@@ -186,7 +187,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
 
-    
+
 
     Route::group(['middleware' => 'garage.auth'], function () {
         # Booking Ads
@@ -195,7 +196,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::post('booking/ads/store', [BookingController::class, 'storeBookingAd']);
         Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
         Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'deleteBookingAd']);
-        
+
         # Service Reports
         Route::post('service/reports/store/{bookingService}', [ServiceController::class, 'storeReports']);
         Route::put('service/reports/update/{bookingService}', [ServiceController::class, 'updateReports']);

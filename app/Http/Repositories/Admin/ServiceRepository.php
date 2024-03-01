@@ -26,16 +26,15 @@ class ServiceRepository implements ServiceInterface
         })->find($item_id);
 
         // if (isset($item)) {
-        //     $services = Service::whereHas('provider.user', function ($query) {
-        //         $query->whereHas('garage_support_cars', function ($q) {
-        //             $q->where('car_id', auth()->user()->user_information->car_id);
-        //         });
-        //     })->whereHas('provider.user', function ($query) use ($item_id) {
-        //         $query->whereHas('garage_support_items', function ($q) use ($item_id) {
-        //             $q->where('item_id', $item_id);
-        //         });
-        //     })->get();
-        //     // dd($services->isEmpty());
+        // $services = Service::whereHas('provider.user', function ($query) {
+        //     $query->whereHas('garage_support_cars', function ($q) {
+        //         $q->where('car_id', auth()->user()->user_information->car_id);
+        //     });
+        // })->whereHas('items', function ($query) use ($item_id) {
+        //     $query->where('item_id', $item_id);
+        // })->get();
+        // return $services;
+        // dd($services->isEmpty());
         // }
         if (isset(auth()->user()->address[0]) and isset($item)) {
             // whereHas('avilabilty_range')
@@ -48,10 +47,8 @@ class ServiceRepository implements ServiceInterface
                     $query->whereHas('garage_support_cars', function ($q) {
                         $q->where('car_id', auth()->user()->user_information->car_id);
                     });
-                })->whereHas('provider.user', function ($query) use ($item_id) {
-                    $query->whereHas('garage_support_items', function ($q) use ($item_id) {
-                        $q->where('item_id', $item_id);
-                    });
+                })->whereHas('items', function ($query) use ($item_id) {
+                    $query->where('item_id', $item_id);
                 })
 
                 ->with('provider_avilabilty_time')
@@ -75,10 +72,8 @@ class ServiceRepository implements ServiceInterface
             $userLatitude = auth()->user()->address[0]->latitude;
             $userLongitude = auth()->user()->address[0]->longitude;
             $services = Service::getRelashinIndex()
-                ->whereHas('provider.user', function ($query) use ($item_id) {
-                    $query->whereHas('garage_support_items', function ($q) use ($item_id) {
-                        $q->where('item_id', $item_id);
-                    });
+                ->whereHas('items', function ($query) use ($item_id) {
+                    $query->where('item_id', $item_id);
                 })->with('provider_avilabilty_time')
                 ->join('garage_data', 'garage_data.id', '=', 'services.provider_id')
                 ->join('addresses', 'garage_data.address_id', '=', 'addresses.id')

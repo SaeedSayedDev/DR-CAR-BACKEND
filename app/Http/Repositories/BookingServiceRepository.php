@@ -98,11 +98,13 @@ class BookingServiceRepository implements BookingServiceInterface
         if ($payment_method->name == 'Stripe') {
             $retrieve = $this->payWithStripe($request, $total_amount);
             return  $this->stripeService->payWithStripe($request, $bookingService, $total_amount, $retrieve);
-        } elseif ($payment_method->name == 'Paypal') {
-            $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
+        } 
+        // elseif ($payment_method->name == 'Paypal') {
+        //     $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
 
-            return  $this->paypalService->createOrder($amount_usd, $bookingService->id, 'booking');
-        } else if ($payment_method->name == 'Wallet') {
+        //     return  $this->paypalService->createOrder($amount_usd, $bookingService->id, 'booking');
+        // } 
+        else if ($payment_method->name == 'Wallet') {
 
             return  $this->walletService->payWithWallet($request, $bookingService, $total_amount);
         }

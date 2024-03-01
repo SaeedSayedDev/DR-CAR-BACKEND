@@ -55,6 +55,18 @@ class PasswordRepository implements PasswordInterface
         return redirect()->back()->with('erorr', 'this otp is expired');
     }
 
+    public function resetPasswordApi($request)
+    {
+        $user = User::where('email', $request->email)
+            ->whereHas('otpUser')->with('otpUser')->firstOrFail();
+        if ($request->verification_code == $user->otpUser->otp and $user->otpUser->updated_at->addMinutes(10) >= now()) {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+            return response()->json(['message' => 'your password updated sucessfully']);
+        }
+        return response()->json(['message' => 'This code is not correct or expire'], 401);
+    }
     public function changePassword($request)
     {
         $user = auth()->user();

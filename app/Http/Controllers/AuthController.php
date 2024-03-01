@@ -31,14 +31,14 @@ class AuthController extends Controller
     {
         return $this->authInterface->login($request);
     }
-    function provider_register(RegisterRequest $request)
+    function register(RegisterRequest $request)
     {
-        return $this->authInterface->provider_register($request);
+        return $this->authInterface->register($request);
     }
-    function user_register(RegisterUserRequest $request)
-    {
-        return $this->authInterface->user_register($request);
-    }
+    // function user_register(RegisterUserRequest $request)
+    // {
+    //     return $this->authInterface->user_register($request);
+    // }
     
     public function me()
     {
@@ -68,6 +68,11 @@ class AuthController extends Controller
     {
         return $this->passwordInterface->forgetPassword($request);
     }
+     function resetPasswordApi(ForgetPasswordRequest $request)
+    {
+        return $this->passwordInterface->resetPasswordApi($request);
+    }
+    
     function resetPassword(ResetPasswordRequest $request)
     {
         return $this->passwordInterface->resetPassword($request);
