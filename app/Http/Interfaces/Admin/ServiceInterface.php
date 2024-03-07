@@ -4,7 +4,7 @@ namespace App\Http\Interfaces\Admin;
 
 interface ServiceInterface
 {
-    public function index($filter_key, $item_id);
+    public function index($filter_key, $item_id, $type_category_or_subCategory);
 
     public function indexGarage();
 

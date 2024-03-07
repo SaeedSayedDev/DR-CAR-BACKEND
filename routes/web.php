@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\CommissionController;
 use App\Http\Controllers\Web\CouponController;
 use App\Http\Controllers\Web\DashboardController;
+use App\Http\Controllers\Web\ExportController;
 use App\Http\Controllers\Web\MessageController;
 use App\Http\Controllers\Web\PriceController;
 use App\Http\Controllers\Web\ProviderController;
@@ -139,3 +140,7 @@ Route::post('galleries', function () {
 Route::post('awards', function () {
     dd('awards');
 })->name('awards.index');
+
+
+Route::get('exportPDF', [ExportController::class, 'exportPDF']);
+

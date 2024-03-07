@@ -88,7 +88,6 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::put('update/bookingWinch/done', [BookingController::class, 'doneStatusFromUser']);
         # Booking Ads
-        Route::get('user/booking/ads', [BookingController::class, 'userBookingAds']);
         # Car Licenses
         Route::get('car/licenses/show', [CarController::class, 'showCarLicense']);
         Route::post('car/licenses/store', [CarController::class, 'storeCarLicense']);
@@ -204,6 +203,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('service/reports/history/garage/{carLicense}', [ServiceController::class, 'historyGarageReports']);
     });
 });
+Route::get('user/booking/ads', [BookingController::class, 'userBookingAds']);
+
 Route::get('cars', [CarController::class, 'index']);
 
 Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
@@ -211,7 +212,7 @@ Route::get('notifications/count', [NotificationController::class, 'notificationC
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
 
-Route::get('services/{filter_key}/{item_id}', [ServiceController::class, 'index'])->name('services');
+Route::get('services/{filter_key}/{item_id}/{type_category_or_subCategory}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
 Route::get('recommended/services', [ServiceController::class, 'recommended']);
 
