@@ -4,18 +4,28 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookingAd;
+use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class BookingAdController extends Controller
 {
     public function __construct(private NotificationService $notificationService)
-    {   
+    {
     }
 
     public function index()
     {
-        $bookingAds = BookingAd::with('garage:id,full_name')->paginate(10);
+        $bookingAds = BookingAd::with([
+            'garage:id,full_name', 'media'
+        ])->paginate(10);
+
+        return view('booking_ads.index', ['dataTable' => $bookingAds]);
+    }
+
+    public function user(User $user)
+    {
+        $bookingAds = $user->bookingAds()->with('garage:id,full_name')->paginate(10);
 
         return view('booking_ads.index', ['dataTable' => $bookingAds]);
     }
@@ -37,7 +47,7 @@ class BookingAdController extends Controller
         $bookingAd->update($data);
         $this->notification($bookingAd->id, $bookingAd->garage_id, auth()->user()->full_name);
 
-        return  redirect()->route('booking-ads.index')->with('success', 'Booking ad has been approved');
+        return  redirect()->route('booking.ads.index')->with('success', 'Booking ad has been approved');
     }
 
     public function reject(Request $request, BookingAd $bookingAd)
@@ -48,7 +58,7 @@ class BookingAdController extends Controller
         $bookingAd->update($data);
         $this->notification($bookingAd->id, $bookingAd->garage_id, auth()->user()->full_name);
 
-        return  redirect()->route('booking-ads.index')->with('success', 'Booking ad has been rejected');
+        return  redirect()->route('booking.ads.index')->with('success', 'Booking ad has been rejected');
     }
 
     public function notification($booking_id, $reciver_id, $creator_name)

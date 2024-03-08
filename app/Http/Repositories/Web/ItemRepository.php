@@ -15,7 +15,14 @@ class ItemRepository implements ItemInterface
 
     public function index()
     {
-        $items = Item::paginate(10);
+        $items = Item::with('category', 'media')->paginate(10);
+
+        return view('items.index', ['dataTable' => $items]);
+    }
+
+    public function category($category)
+    {
+        $items = $category->items()->paginate(10);
         return view('items.index', ['dataTable' => $items]);
     }
 
@@ -34,6 +41,11 @@ class ItemRepository implements ItemInterface
         $requestData['desc'] = strip_tags($request->input('desc'));
 
         $item = Item::create($requestData);
+
+        // store the other locale
+        $requestData['locale'] = config('app.locale') === 'en' ? 'ar' : 'en';
+        $item->translations()->create($requestData);
+
         if ($request->hasFile('image')) {
             $item->media()->create([
                 'type' => 'item',
@@ -42,7 +54,7 @@ class ItemRepository implements ItemInterface
         }
 
         return redirect()->route('items.index')->with([
-            'success' => 'Created successfully'
+            'success' => trans('lang.created_success')
         ]);
     }
 
@@ -78,7 +90,7 @@ class ItemRepository implements ItemInterface
         }
 
         return redirect()->route('items.index')->with([
-            'success' => 'Updated successfully',
+            'success' => trans('lang.updated_success')
         ]);
     }
 
@@ -89,9 +101,9 @@ class ItemRepository implements ItemInterface
         $this->imageService->delete($item->media()->first()?->imageName(), 'admin/items');
         $item->media()->delete();
         $item->delete();
-        
+
         return redirect()->route('items.index')->with([
-            'success' => 'Deleted successfully'
+            'success' => trans('lang.deleted_success')
         ]);
     }
 }

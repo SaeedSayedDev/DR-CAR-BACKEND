@@ -124,6 +124,21 @@ class User extends Authenticatable implements JWTSubject
         };
     }
 
+    public function loadUserInfo()
+    {
+        $userInfo = match ($this->role_id) {
+            2 => $this->user_information,
+            3 => $this->winch_information,
+            4 => $this->garage_information,
+            default => null,
+        };
+
+        $this->info = $userInfo;
+        unset($this->user_information, $this->winch_information, $this->garage_information);
+
+        return $this;
+    }
+
     public function avilabilty_range()
     {
         $userLatitude = auth()->user()->address[0]['latitude'];

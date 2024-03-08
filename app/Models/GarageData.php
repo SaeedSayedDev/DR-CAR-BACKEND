@@ -43,4 +43,9 @@ class GarageData extends Model
     {
         return $this->hasMany(Media::class, 'type_id')->where('type', 'garage_data');
     }
+
+    public function checkService()
+    {
+        return $this->belongsTo(Service::class, 'check_servic_id');
+    }
 }

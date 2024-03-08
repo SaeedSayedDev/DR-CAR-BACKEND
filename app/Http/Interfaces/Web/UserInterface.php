@@ -4,7 +4,7 @@ namespace App\Http\Interfaces\Web;
 
 interface UserInterface
 {
-    public function index();
+    public function index($request);
 
     public function create();
     
@@ -23,4 +23,6 @@ interface UserInterface
     public function unban($id);
 
     public function message($request);
+
+    public function user($user);
 }

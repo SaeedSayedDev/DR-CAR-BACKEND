@@ -24,6 +24,6 @@ class CommissionRepository implements CommissionInterface
         $commission = Commission::findOrFail($id);
         $requestData = $request->validated();
         $commission->update($requestData);
-        return redirect()->route('commissions.index');
+        return redirect()->route('commissions.index')->withSuccess(trans('lang.updated_success'));
     }
 }

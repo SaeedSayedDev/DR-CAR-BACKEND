@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Interfaces\Web\UserInterface;
 use App\Http\Requests\Web\MessageRequest;
 use App\Http\Requests\Web\UserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,9 +15,9 @@ class UserController extends Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->userInterface->index();
+        return $this->userInterface->index($request);
     }
 
     public function create()
@@ -62,5 +63,10 @@ class UserController extends Controller
     public function message(MessageRequest $request)
     {
         return $this->userInterface->message($request);
+    }
+
+    public function user(User $user)
+    {
+        return $this->userInterface->user($user);
     }
 }

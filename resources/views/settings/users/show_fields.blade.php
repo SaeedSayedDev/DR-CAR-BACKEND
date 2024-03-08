@@ -1,81 +1,174 @@
-<!-- Id Field -->
-<div class="form-group row col-6">
-    {!! Form::label('id', 'Id:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->id !!}</p>
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ trans('lang.info_basic') }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>{{ trans('lang.user_name') }}:</strong>
+                </div>
+                <div class="col-sm-6">
+                    {{ $user->full_name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>{{ trans('lang.email') }}:</strong>
+                </div>
+                <div class="col-sm-6">
+                    {{ $user->email }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>{{ trans('lang.role') }}:</strong>
+                </div>
+                <div class="col-sm-6">
+                    <span class="badge bg-primary">
+                        @if ($user->role_id == 2)
+                            {{ trans('lang.customer') }}
+                        @elseif ($user->role_id == 3)
+                            {{ trans('lang.winch') }}
+                        @elseif ($user->role_id == 4)
+                            {{ trans('lang.garage') }}
+                        @endif
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Name Field -->
-<div class="form-group row col-6">
-    {!! Form::label('full_name', trans('lang.user_name'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->full_name !!}</p>
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ trans('lang.info_more') }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>{{ trans('lang.user_phone_number') }}:</strong>
+                </div>
+                <div class="col-sm-6">
+                    {{ $user->info->phone_number }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>{{ trans('lang.address') }}:</strong>
+                </div>
+                <div class="col-sm-6">
+                    {{ $user->info->address }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>{{ trans('lang.bio') }}:</strong>
+                </div>
+                <div class="col-sm-6">
+                    {{ $user->info->short_biography }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Email Field -->
-<div class="form-group row col-6">
-    {!! Form::label('email', trans('lang.user_email'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->email !!}</p>
-    </div>
-</div>
+@if ($user->carLicense)
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ trans('lang.car_license') }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a href="{{ route('carLicenses.user', $user->id) }}" class="btn btn-primary">
+                            {{ trans('lang.car_license_details') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+@endif
 
-<!-- Image Field -->
-<div class="form-group row col-6">
-    {!! Form::label('image', trans('lang.user_avatar'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <img class="col-md-3 control-label text-md-right mx-1" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                src="{{ asset('storage/images/accounts/' . $user->media()->first()?->imageName()) }}">
-    </div>
-</div>
+@if ($user->wallet)
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{{ trans('lang.wallet') }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a href="{{ route('wallets.wallet', $user->wallet->id) }}" class="btn btn-primary">
+                            {{ trans('lang.wallet_details') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+@endif
 
-<!-- Password Field -->
-{{-- <div class="form-group row col-6">
-    {!! Form::label('password', 'Password:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->password !!}</p>
-    </div>
-</div> --}}
+@if ($user->garage_data)
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h3 class="card-title">{{ trans('lang.e_service_plural') }}</h3>
+                <span class="ml-auto">{{ trans('lang.total') }}: {{ $user->garage_data->services_count }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a href="{{ route('eServices.user', $user->id) }}" class="btn btn-primary">
+                            {{ trans('lang.e_service_details') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+@endif
 
-<!-- Api Token Field -->
-{{-- <div class="form-group row col-6">
-    {!! Form::label('api_token', 'Api Token:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->api_token !!}</p>
-    </div>
-</div> --}}
+@if ($user->bookingAds->isNotEmpty())
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h3 class="card-title">{{ trans('lang.booking_ad_plural') }}</h3>
+                <span class="ml-auto">{{ trans('lang.total') }}: {{ $user->bookingAds_count }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a href="{{ route('booking.ads.user', $user->id) }}" class="btn btn-primary">
+                            {{ trans('lang.booking_ads_details') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+@endif
 
-<!-- Store Id Field -->
-{{-- <div class="form-group row col-6">
-    {!! Form::label('store_id', 'Store Id:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->store_id !!}</p>
-    </div>
-</div> --}}
-
-<!-- Role Id Field -->
-<div class="form-group row col-6">
-    {!! Form::label('role_id', trans('lang.user_role_id'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->role_id !!}</p>
-    </div>
-</div>
-
-{{-- <!-- Remember Token Field -->
-<div class="form-group row col-6">
-    {!! Form::label('remember_token', 'Remember Token:', ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->remember_token !!}</p>
-    </div>
-</div> --}}
-
-<!-- Updated At Field -->
-<div class="form-group row col-6">
-    {!! Form::label('updated_at', trans('lang.user_updated_at'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
-    <div class="col-md-9">
-        <p>{!! $user->updated_at !!}</p>
-    </div>
-</div>
-
+@if ($user->carReports->isNotEmpty())
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h3 class="card-title">{{ trans('lang.car_report_plural') }}</h3>
+                <span class="ml-auto">{{ trans('lang.total') }}: {{ $user->carReports_count }}</span>
+            </div>
+            
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a href="{{ route('carReports.user', $user->id) }}" class="btn btn-primary">
+                            {{ trans('lang.car_report_details') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+@endif

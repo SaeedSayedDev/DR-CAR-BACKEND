@@ -8,6 +8,7 @@ use App\Http\Requests\CarLicenseRequest;
 use App\Http\Requests\CarReportRequest;
 use App\Models\BookingService;
 use App\Models\CarLicense;
+use App\Models\CarReport;
 
 class CarController extends Controller
 {
@@ -46,9 +47,14 @@ class CarController extends Controller
 
     # Car Report
 
-    public function showReports(BookingService $bookingService)
+    public function indexReports(BookingService $bookingService)
     {
-        return $this->carReportInterface->show($bookingService);
+        return $this->carReportInterface->index($bookingService);
+    }
+
+    public function showReports(CarReport $carReport)
+    {
+        return $this->carReportInterface->show($carReport);
     }
 
     public function storeReports(BookingService $bookingService, CarReportRequest $request)

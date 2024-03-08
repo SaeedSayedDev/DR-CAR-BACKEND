@@ -36,11 +36,9 @@
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-row align-items-start card-header-tabs">
-                    @can('prices.index')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('prices.index') !!}"><i class="fas fa-list mr-2"></i>{{trans('lang.price_table')}}</a>
                         </li>
-                    @endcan
                     @can('prices.create')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('prices.create') !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.price_create')}}</a>

@@ -37,9 +37,7 @@ class CarController extends Controller
             ]);
         }
 
-        return redirect()->route('cars.index')->with([
-            'success' => 'Created successfully'
-        ]);
+        return redirect()->route('cars.index')->withSuccess(trans('lang.created_success'));
     }
     
     public function edit(Car $car)
@@ -60,9 +58,7 @@ class CarController extends Controller
             ]);
         }
 
-        return redirect()->route('cars.index')->with([
-            'success' => 'Updated successfully',
-        ]);
+        return redirect()->route('cars.index')->withSuccess(trans('lang.updated_success'));
     }
 
     public function destroy(Car $car)
@@ -71,8 +67,6 @@ class CarController extends Controller
         $car->media()->delete();
         $car->delete();
         
-        return redirect()->route('cars.index')->with([
-            'success' => 'Deleted successfully'
-        ]);
+        return redirect()->route('cars.index')->withSuccess(trans('lang.deleted_success'));
     }
 }

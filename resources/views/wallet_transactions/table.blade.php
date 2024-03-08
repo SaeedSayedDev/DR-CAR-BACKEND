@@ -9,29 +9,39 @@
     {{-- {!! $dataTable->scripts() !!} --}}
 @endpush
 
-<table class="table">
-    <thead>
-        <tr class="text-center">
-            <th>{{ trans('lang.wallet_transaction_amount') }}</th>
-            <th>{{ trans('lang.wallet_transaction_description') }}</th>
-            <th>{{ trans('lang.wallet_transaction_action') }}</th>
-            <th>{{ trans('lang.wallet') }}</th>
-            <th>{{ trans('lang.user') }}</th>
-            <th>{{ trans('lang.wallet_transaction_updated_at') }}</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($dataTable as $walletTransaction)
-            <tr class="text-center">
-                <td>{{ $walletTransaction->amount }}</td>
-                <td>{{ $walletTransaction->description }}</td>
-                <td>{{ $walletTransaction->action }}</td>
-                <td>{{ $walletTransaction->wallet->name }}</td>
-                <td>{{ $walletTransaction->user->full_name }}</td>
-                <td>{{ $walletTransaction->updated_at->diffForHumans() }}</td>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ trans('lang.user') }}</th>
+                <th>{{ trans('lang.wallet') }}</th>
+                <th>{{ trans('lang.wallet_transaction_amount') }}</th>
+                <th>{{ trans('lang.wallet_transaction_action') }}</th>
+                <th>{{ trans('lang.wallet_transaction_description') }}</th>
+                <th>{{ trans('lang.wallet_transaction_updated_at') }}</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($dataTable as $walletTransaction)
+                <tr>
+                    <td>
+                        <a href="{{ route('users.user', $walletTransaction->user->id) }}">
+                            {{ $walletTransaction->user->full_name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ route('wallets.wallet', $walletTransaction->wallet->id) }}">
+                            {{ $walletTransaction->wallet->name }}
+                        </a>
+                    </td>
+                    <td>{{ $walletTransaction->amount }}</td>
+                    <td>{{ $walletTransaction->action }}</td>
+                    <td>{{ $walletTransaction->description }}</td>
+                    <td>{{ $walletTransaction->updated_at->diffForHumans() }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
 {{ $dataTable->links() }}

@@ -24,8 +24,8 @@
         @foreach ($dataTable as $slide)
             <tr>
                 <td>
-                    <img class="rounded" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                        src="{{ asset('storage/images/admin/slides/' . $slide->media()->first()?->imageName()) }}">
+                    <img class="rounded image-thumbnail" alt="{{ trans('lang.category_image') }}"
+                        src="{{ $slide->media[0]->image }}">
                 </td>
                 <td>{{ $slide->order }}</td>
                 <td>{{ $slide->text }}</td>

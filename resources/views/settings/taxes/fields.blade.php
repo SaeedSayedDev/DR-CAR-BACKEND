@@ -1,6 +1,9 @@
+@include('partials.request_errors_first')
+
 {{-- @if($customFields)
     <h5 class="col-12 pb-4">{!! trans('lang.main_fields') !!}</h5>
 @endif --}}
+
 <div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- Name Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">

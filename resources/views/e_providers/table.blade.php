@@ -1,65 +1,57 @@
 @push('css_lib')
-@include('layouts.datatables_css')
+    @include('layouts.datatables_css')
 @endpush
 
 {{-- {!! $dataTable->table(['width' => '100%']) !!} --}}
 
 @push('scripts_lib')
-@include('layouts.datatables_js')
-{{-- {!! $dataTable->scripts() !!} --}}
+    @include('layouts.datatables_js')
+    {{-- {!! $dataTable->scripts() !!} --}}
 @endpush
 
-<table class="table">
-    <thead>
-        <tr class="text-center">
-            <th>{{ trans('lang.e_provider_image') }}</th>
-            <th>{{ trans('lang.e_provider_name') }}</th>
-            <th>{{ trans('lang.e_provider_e_provider_type_id') }}</th>
-            <th>{{ trans('lang.e_provider_users') }}</th>
-            <th>{{ trans('lang.e_provider_phone_number') }}</th>
-            <th>{{ trans('lang.e_provider_addresses') }}</th>
-            <th>{{ trans('lang.e_provider_availability_range') }}</th>
-            <th>{{ trans('lang.e_provider_taxes') }}</th>
-            <th>{{ trans('lang.address_updated_at') }}</th>
-            <th>{{ trans('lang.actions') }}</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($dataTable as $eProvider)
+<div class="table-responsive">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    <img class="rounded" style="height:50px" alt="{{ trans('lang.e_provider_image') }}"
-                        src="{{ asset('storage/images/providers/' . $eProvider->media()->first()?->imageName()) }}">
-                </td>
-                <td>{{ $eProvider->name }}</td>
-                <td>{{ $eProvider->garage_type == 0 ? trans('lang.private') : trans('lang.company') }}</td>
-                <td>{{ $eProvider->user->full_name }}</td>
-                <td>{{ $eProvider->user->garage_information?->phone_number }}</td>
-                <td>{{ $eProvider->address->address }}</td>
-                <td>{{ $eProvider->availability_range }}</td>
-                <td>{{ $eProvider->taxe->value }}</td>
-                <td>{{ $eProvider->updated_at->diffForHumans() }}</td>
-                <td>
-                    <div class='btn-group btn-group-sm'>
-                        <a data-toggle="tooltip" data-placement="left" 
-                            href="{{ route('eProviders.edit', $eProvider->id) }}" class='btn btn-link'>
-                            <i class="fas fa-edit"></i> </a>
-                        {!! Form::open(['route' => ['eProviders.destroy', $eProvider->id], 'method' => 'delete']) !!}
-                        {!! Form::button('<i class="fas fa-trash"></i>', [
-                            'type' => 'submit',
-                            'class' => 'btn btn-link text-danger',
-                            'onclick' => "return confirm('Are you sure?')",
-                        ]) !!}
-                        {!! Form::close() !!}
-                        {{-- <a data-toggle="tooltip" data-placement="left" href="{{ route('eProviders.show', $eProvider->id) }}"
-                            class='btn btn-link'>
-                            <i class="fas fa-eye"></i>
-                        </a> --}}
-                    </div>
-                </td>
+                <th>{{ trans('lang.e_provider_name') }}</th>
+                <th>{{ trans('lang.garage') }}</th>
+                <th>{{ trans('lang.e_service') }}</th>
+                <th>{{ trans('lang.address_updated_at') }}</th>
+                <th>{{ trans('lang.actions') }}</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($dataTable as $eProvider)
+                <tr>
+                    <td>{{ $eProvider->name }}</td>
+                    <td>
+                        <a href="{{ route('users.user', $eProvider->user->id) }}">
+                            {{ $eProvider->user->full_name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ route('eServices.service', $eProvider->checkService->id) }}">
+                            {{ $eProvider->checkService->name }}
+                        </a>
+                    </td>
+                    <td>{{ $eProvider->updated_at->diffForHumans() }}</td>
+                    <td>
+                        <div class='btn-group btn-group-sm'>
+                            <a data-toggle="tooltip" data-placement="left"
+                                href="{{ route('eProviders.edit', $eProvider->id) }}" class='btn btn-link'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="" title="{{ trans('lang.view_details') }}" class='btn btn-link'
+                                data-toggle="modal" data-target="#eProviderDetailsModal{{ $eProvider->id }}">
+                                <i class="fas fa-info-circle text-info text-md"></i>
+                            </a>
+                            @include('e_providers.modal')
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
 {{ $dataTable->links() }}

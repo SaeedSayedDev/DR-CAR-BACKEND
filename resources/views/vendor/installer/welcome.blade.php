@@ -9,10 +9,10 @@
 @endsection
 
 @section('container')
-    <p class="text-center">
+    <p>
         {{ trans('installer_messages.welcome.message') }}
     </p>
-    <p class="text-center">
+    <p>
         <a href="{{ route('LaravelInstaller::requirements') }}" class="button">
             {{ trans('installer_messages.welcome.next') }}
             <i class="fa fa-angle-right fa-fw" aria-hidden="true"></i> </a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\Web\ItemInterface;
 use App\Http\Requests\Web\ItemRequest;
+use App\Models\Admin\Category;
 
 class ItemController extends Controller
 {
@@ -45,5 +46,10 @@ class ItemController extends Controller
     public function destroy(string $id)
     {
         return $this->itemInterface->destroy($id);
+    }
+
+    public function category(Category $category)
+    {
+        return $this->itemInterface->category($category);
     }
 }

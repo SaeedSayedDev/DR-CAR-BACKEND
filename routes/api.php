@@ -101,7 +101,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
         Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'refundBookingAd']);
         # Car Reports
-        Route::get('car/reports/show/{bookingService}', [CarController::class, 'showReports']);
+        Route::get('car/reports/index/{bookingService}', [CarController::class, 'indexReports']);
+        Route::get('car/reports/show/{carReport}', [CarController::class, 'showReports']);
         Route::post('car/reports/store/{bookingService}', [CarController::class, 'storeReports']);
         Route::put('car/reports/update/{bookingService}', [CarController::class, 'updateReports']);
         Route::delete('car/reports/delete/{bookingService}', [CarController::class, 'deleteReports']);

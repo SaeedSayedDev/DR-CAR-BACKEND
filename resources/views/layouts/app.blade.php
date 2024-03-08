@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-@php
-    $logo = App\Models\Media::appLogo()->imageName();
-@endphp
 
 <head>
     <meta charset="UTF-8">
     <title>Dr Car | Manage Mobile Application</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <link rel="icon" type="image/png" href="{{  $app_logo ?? asset('storage/images/app/' . $logo)  }}" />
+    <link rel="icon" type="image/png" href="{{  $app_logo ?? $noneImage }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
 
@@ -68,7 +65,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <img src="{{ asset('storage/images/accounts/' . $admin->media()->first()?->imageName()) }}"
+                        <img src="{{ $app_logo ?? $noneImage }}"
                             class="brand-image mx-2 img-circle elevation-2" alt="User Image">
                         <i class="fa fas fa-angle-down"></i> {{ auth()->user()->full_name }}
                     </a>

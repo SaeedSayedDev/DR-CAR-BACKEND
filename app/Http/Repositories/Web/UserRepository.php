@@ -15,10 +15,30 @@ class UserRepository implements UserInterface
     {
     }
 
-    public function index()
+    public function index($request)
     {
-        $users = User::where('role_id', '!=', 1)->paginate(10);
-        return view('settings.users.index', ['dataTable' => $users]);
+        $query = User::where('role_id', '!=', 1);
+
+        if ($request->filled('filters')) {
+            foreach ($request->filters as $index => $filter) {
+                $index
+                    ? $this->applyFilter($query, $filter)
+                    : $this->firstFilter($query, $filter);
+            }
+        }
+
+        $users = $query->with([
+            'media', 'carLicense', 'wallet', 'garage_data'
+        ])->paginate(10);
+
+        return view('settings.users.index', ['dataTable' => $users, 'filters' => $this->getFilters()]);
+    }
+
+    public function user($user)
+    {
+        $users = User::where('role_id', '!=', 1)->where('id', $user->id)->paginate(10);
+
+        return view('settings.users.index', ['dataTable' => $users, 'filters' => $this->getFilters()]);
     }
 
     public function create()
@@ -57,14 +77,23 @@ class UserRepository implements UserInterface
             ]);
         }
 
-        return redirect()->route('users.index')->with([
-            'success' => 'Created successfully'
-        ]);
+        return redirect()->route('users.index')->withSuccess(trans('lang.created_success'));
     }
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id)->load([
+            'media', 
+            'carLicense', 
+            'wallet', 
+            'garage_data' => fn ($query) => $query->withCount('services'),
+            'bookingAds', 
+            'carReports'
+        ])->loadCount([
+            'bookingAds', 
+            'carReports'
+        ])->loadUserInfo();
+                
         return view('settings.users.show', compact('user'));
     }
 
@@ -101,9 +130,7 @@ class UserRepository implements UserInterface
             ]);
         }
 
-        return redirect()->route('users.index')->with([
-            'success' => 'Updated successfully',
-        ]);
+        return redirect()->route('users.index')->withSuccess(trans('lang.updated_success'));
     }
 
     public function destroy($id)
@@ -115,38 +142,72 @@ class UserRepository implements UserInterface
         $user->info()->delete();
         $user->delete();
 
-        return redirect()->route('users.index')->with([
-            'success' => 'Deleted successfully'
-        ]);
+        return redirect()->route('users.index')->withSuccess(trans('lang.deleted_success'));
     }
 
     public function ban($id)
     {
         $user = User::findOrFail($id);
         $user->update(['ban' => true]);
-        return redirect()->route('users.index')->with([
-            'success' => 'banned successfully'
-        ]);
+        return redirect()->route('users.index')->withWarning(trans('lang.banned_success'));
     }
 
     public function unban($id)
     {
         $user = User::findOrFail($id);
         $user->update(['ban' => false]);
-        return redirect()->route('users.index')->with([
-            'success' => 'unbanned successfully'
-        ]);
+        return redirect()->route('users.index')->withWarning(trans('lang.unbanned_success'));
     }
 
     public function message($request)
     {
         $data = $request->validated();
-        return $data;
 
-        # TODO: Send email
-        
-        return redirect()->route('users.index')->with([
-            'success' => 'Message sent successfully'
-        ]);
+        foreach ($data['users'] as $userId) {
+            $user = User::find($userId);
+
+            Mail::send('settings.users.message',  ['otp' => $data['message']], function ($message) use ($data, $user) {
+                $message->to($user->email)->subject('Dr.Car');
+            });
+        }
+
+        return redirect()->route('users.index')->withSuccess(trans('lang.message_send_success'));
+    }
+
+    ############################# Helpers ################################
+
+    protected function getFilters()
+    {
+        return [
+            'customer' => trans('lang.customer'),
+            'winch' => trans('lang.winch'),
+            'garage' => trans('lang.garage'),
+            // 'wallet' => trans('lang.wallet_has'),
+            // 'carLicense' => trans('lang.car_has'),
+        ];
+    }
+
+    protected function applyFilter($query, $filter)
+    {
+        match ($filter) {
+            'customer' => $query->orWhere('role_id', 2),
+            'winch' => $query->orWhere('role_id', 3),
+            'garage' => $query->orWhere('role_id', 4),
+                // 'wallet' => $query->orWhereHas('wallet'),
+                // 'carLicense' => $query->orWhereHas('carLicense'),
+            default => null,
+        };
+    }
+
+    protected function firstFilter($query, $filter)
+    {
+        match ($filter) {
+            'customer' => $query->where('role_id', 2),
+            'winch' => $query->where('role_id', 3),
+            'garage' => $query->where('role_id', 4),
+                // 'wallet' => $query->whereHas('wallet'),
+                // 'carLicense' => $query->whereHas('carLicense'),
+            default => null,
+        };
     }
 }

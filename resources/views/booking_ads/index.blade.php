@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb bg-white float-sm-right rounded-pill px-4 py-2 d-none d-md-flex">
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt"></i> {{trans('lang.dashboard')}}</a></li>
-                        <li class="breadcrumb-item"><a href="{!! route('booking-ads.index') !!}">{{trans('lang.booking_ad_plural')}}</a>
+                        <li class="breadcrumb-item"><a href="{!! route('booking.ads.index') !!}">{{trans('lang.booking_ad_plural')}}</a>
                         </li>
                         <li class="breadcrumb-item active">{{trans('lang.booking_ad_table')}}</li>
                     </ol>

@@ -13,7 +13,6 @@ class MessageRequest extends FormRequest
 
     public function rules()
     {
-        dd($this->users);
         return [
             'users' => 'required|array',
             'users.*' => 'required|exists:users,id',

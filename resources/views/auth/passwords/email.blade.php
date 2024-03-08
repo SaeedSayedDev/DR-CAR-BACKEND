@@ -32,7 +32,7 @@
             </div>
         </form>
         <p class="mb-0 text-center">
-            <a href="{{ url('/login') }}" class="text-center">{{__('auth.remember_password')}}</a>
+            <a href="{{ url('/login') }}">{{__('auth.remember_password')}}</a>
         </p>
     </div>
 @endsection
