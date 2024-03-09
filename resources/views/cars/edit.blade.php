@@ -36,16 +36,12 @@
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-row align-items-start card-header-tabs">
-                    @can('cars.index')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('cars.index') !!}"><i class="fas fa-list mr-2"></i>{{trans('lang.car_table')}}</a>
                         </li>
-                    @endcan
-                    @can('cars.create')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('cars.create') !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.car_create')}}</a>
                         </li>
-                    @endcan
                     <li class="nav-item">
                         <a class="nav-link active" href="{!! url()->current() !!}"><i class="fas fa-edit mr-2"></i>{{trans('lang.car_edit')}}</a>
                     </li>

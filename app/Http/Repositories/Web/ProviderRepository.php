@@ -10,11 +10,6 @@ use App\Models\Taxe;
 use App\Models\User;
 use App\Services\ImageService;
 
-/**
- * EProvider => GarageData
- * GarageData Types => 0 -> private, 1 -> company
- * phone_number and name from garage user (not form field)
- */
 class ProviderRepository implements ProviderInterface
 {
     function __construct(private ImageService $imageService)
@@ -24,8 +19,9 @@ class ProviderRepository implements ProviderInterface
     public function index()
     {
         $eProviders = GarageData::with([
-            'user.garage_information', 'address', 'taxe', 'media'
+            'user.garage_information', 'address', 'taxe', 'media', 'checkService:id,name'
         ])->paginate(10);
+        
         return view('e_providers.index', ['dataTable' => $eProviders]);
     }
 
@@ -47,13 +43,15 @@ class ProviderRepository implements ProviderInterface
         if (User::find($request->garage_id)->role_id != 4) return back();
 
         $requestData['check_servic_id'] = 0;
+        $requestData['garage_type'] = 0;
+
         $eProvider = GarageData::create($requestData);
-        if ($request->hasFile('image')) {
-            $eProvider->media()->create([
-                'type' => 'garage_data',
-                'image' => $this->imageService->store($request->image, 'providers', 'garage')
-            ]);
-        }
+        // if ($request->hasFile('image')) {
+        //     $eProvider->media()->create([
+        //         'type' => 'garage_data',
+        //         'image' => $this->imageService->store($request->image, 'providers', 'garage')
+        //     ]);
+        // }
 
         $service = Service::create([
             'name' => 'check service',
@@ -64,11 +62,10 @@ class ProviderRepository implements ProviderInterface
             'available' => true,
             'provider_id' => $eProvider->id
         ]);
+
         $eProvider->update(['check_servic_id' => $service->id]);
 
-        return redirect()->route('eProviders.index')->with([
-            'success' => 'Created successfully'
-        ]);
+        return redirect()->route('eProviders.index')->withSuccess(trans('lang.created_success'));
     }
 
     public function show($id)
@@ -80,6 +77,7 @@ class ProviderRepository implements ProviderInterface
     public function edit($id)
     {
         $eProvider = GarageData::findOrFail($id);
+
         $eProviderType = [
             '0' => trans('lang.private'),
             '1' => trans('lang.company'),
@@ -97,29 +95,34 @@ class ProviderRepository implements ProviderInterface
         $requestData = $request->validated();
 
         $eProvider->update($requestData);
-        if ($request->hasFile('image')) {
-            $eProvider->media()->updateOrCreate([
-                'type' => 'garage_data'
-            ], [
-                'image' => $this->imageService->update($eProvider->media()->first()?->imageName(), $request->image, 'providers', 'garage')
-            ]);
-        }
+        // if ($request->hasFile('image')) {
+        //     $eProvider->media()->updateOrCreate([
+        //         'type' => 'garage_data'
+        //     ], [
+        //         'image' => $this->imageService->update($eProvider->media()->first()?->imageName(), $request->image, 'providers', 'garage')
+        //     ]);
+        // }
 
-        return redirect()->route('eProviders.index')->with([
-            'success' => 'Updated successfully',
-        ]);
+        return redirect()->route('eProviders.index')->withSuccess(trans('lang.updated_success'));
     }
 
     public function destroy($id)
     {
         $eProvider = GarageData::findOrFail($id);
 
-        $this->imageService->delete($eProvider->media()->first()?->imageName(), 'providers');
-        $eProvider->media()->delete();
+        // $this->imageService->delete($eProvider->media()->first()?->imageName(), 'providers');
+        // $eProvider->media()->delete();
         $eProvider->delete();
 
-        return redirect()->route('eProviders.index')->with([
-            'success' => 'Deleted successfully'
-        ]);
+        return redirect()->route('eProviders.index')->withSuccess(trans('lang.deleted_success'));
+    }
+
+    public function provider($provider)
+    {
+        $eProviders = GarageData::where('id', $provider->id)->with([
+            'user.garage_information', 'address', 'taxe', 'media', 'checkService:id,name'
+        ])->paginate(10);
+
+        return view('e_providers.index', ['dataTable' => $eProviders]);
     }
 }

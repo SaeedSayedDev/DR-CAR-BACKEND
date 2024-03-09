@@ -64,28 +64,28 @@ class UserTrait
             'availability_range' => 8,
             'garage_id' => 4,
             'garage_type' => 1, // company
-            'tax_id' => 2,
+            'tax_id' => 1,
             'address_id' => 1,
             'check_servic_id' => 1
         ],
-        [
-            'name' => 'Speedy Repairs',
-            'availability_range' => 10,
-            'garage_id' => 5,
-            'garage_type' => 0, // private
-            'tax_id' => 3,
-            'address_id' => 1,
-            'check_servic_id' => 1
-        ],
-        [
-            'name' => 'ProFix Auto Solutions',
-            'availability_range' => 6,
-            'garage_id' => 6,
-            'garage_type' => 1, // company
-            'tax_id' => 4,
-            'address_id' => 1,
-            'check_servic_id' => 1
-        ],
+        // [
+        //     'name' => 'Speedy Repairs',
+        //     'availability_range' => 10,
+        //     'garage_id' => 5,
+        //     'garage_type' => 0, // private
+        //     'tax_id' => 3,
+        //     'address_id' => 1,
+        //     'check_servic_id' => 1
+        // ],
+        // [
+        //     'name' => 'ProFix Auto Solutions',
+        //     'availability_range' => 6,
+        //     'garage_id' => 6,
+        //     'garage_type' => 1, // company
+        //     'tax_id' => 4,
+        //     'address_id' => 1,
+        //     'check_servic_id' => 1
+        // ],
     ];
 
     // 5 records
@@ -122,14 +122,14 @@ class UserTrait
             'price_unit' => 1, // fixed
             'enable_booking' => true,
         ],
-        [
-            'name' => 'Wheel Alignment',
-            'desc' => 'Precise wheel alignment services for improved vehicle performance.',
-            'provider_id' => 3,
-            'price' => 75,
-            'price_unit' => 0, // hourly
-            'enable_booking' => true,
-        ],
+        // [
+        //     'name' => 'Wheel Alignment',
+        //     'desc' => 'Precise wheel alignment services for improved vehicle performance.',
+        //     'provider_id' => 3,
+        //     'price' => 75,
+        //     'price_unit' => 0, // hourly
+        //     'enable_booking' => true,
+        // ],
     ];
 
     // 5 records
@@ -149,16 +149,16 @@ class UserTrait
             'order' => '3',
             'service_id' => 3,
         ],
-        [
-            'text' => 'slide 4',
-            'order' => '4',
-            'service_id' => 4,
-        ],
-        [
-            'text' => 'slide 5',
-            'order' => '5',
-            'service_id' => 5,
-        ]
+        // [
+        //     'text' => 'slide 4',
+        //     'order' => '4',
+        //     'service_id' => 4,
+        // ],
+        // [
+        //     'text' => 'slide 5',
+        //     'order' => '5',
+        //     'service_id' => 5,
+        // ]
     ];
 
     // 2 records

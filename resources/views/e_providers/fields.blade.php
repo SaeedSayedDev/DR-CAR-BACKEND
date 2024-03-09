@@ -1,11 +1,11 @@
-@include('partials.form_errors')
+@include('partials.request_errors_first')
 
 {{-- @if ($customFields)
     <h5 class="col-12 pb-4">{!! trans('lang.main_fields') !!}</h5>
 @endif --}}
 <div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- Image Field -->
-    <div class="form-group align-items-start d-flex flex-column flex-md-row">
+    {{-- <div class="form-group align-items-start d-flex flex-column flex-md-row">
         {!! Form::label('image', trans('lang.category_image'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
         <div class="col-md-9">
             {!! Form::file('image', ['class' => 'form-control-file']) !!}
@@ -13,7 +13,7 @@
                 {{ trans('lang.category_image_help') }}
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Name Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
@@ -30,7 +30,7 @@
     </div>
 
     <!-- E Provider Type Id Field -->
-    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+    {{-- <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
         {!! Form::label('garage_type', trans('lang.e_provider_e_provider_type_id'), [
             'class' => 'col-md-3 control-label text-md-right mx-1',
         ]) !!}
@@ -38,20 +38,18 @@
             {!! Form::select('garage_type', $eProviderType, null, ['class' => 'select2 form-control']) !!}
             <div class="form-text text-muted">{{ trans('lang.e_provider_e_provider_type_id_help') }}</div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- E Provider User Id Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
-        {!! Form::label('garage_id', trans('lang.user'), [
+        {!! Form::label('garage_id', trans('lang.garage'), [
             'class' => 'col-md-3 control-label text-md-right mx-1',
         ]) !!}
         <div class="col-md-9">
             {!! Form::select('garage_id', $eProviderUser, null, ['class' => 'select2 form-control']) !!}
-            <div class="form-text text-muted">{{ trans('lang.user') }}</div>
+            <div class="form-text text-muted">{{ trans('lang.garage') }}</div>
         </div>
     </div>
-</div>
-<div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- Addresses Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
         {!! Form::label('address_id', trans('lang.e_provider_addresses'), [
@@ -68,7 +66,9 @@
             </div>
         </div>
     </div>
+</div>
 
+<div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- Taxes Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
         {!! Form::label('tax_id', trans('lang.e_provider_taxes'), [
@@ -95,7 +95,7 @@
                 ]) !!}
                 <div class="input-group-append">
                     <div class="input-group-text text-bold px-3">
-                        {{ trans('lang.app_setting_mi') }}</div>
+                        {{ trans('lang.app_setting_km') }}</div>
                 </div>
             </div>
             <div class="form-text text-muted">
@@ -104,21 +104,23 @@
         </div>
     </div>
 
+    @if (Route::is('eProviders.create'))
         <!-- Check Service Price Field -->
         <div class="form-group align-items-baseline d-flex flex-column flex-md-row ">
-        {!! Form::label('checkServicePrice', trans('lang.check_service_price'), [
-            'class' => 'col-md-3 control-label text-md-right mx-1',
-        ]) !!}
-        <div class="col-md-9">
-            <div class="input-group">
-                {!! Form::number('checkServicePrice', null, [
-                    'class' => 'form-control',
-                    'step' => 'any',
-                    'min' => '0',
-                ]) !!}
+            {!! Form::label('checkServicePrice', trans('lang.check_service_price'), [
+                'class' => 'col-md-3 control-label text-md-right mx-1',
+            ]) !!}
+            <div class="col-md-9">
+                <div class="input-group">
+                    {!! Form::number('checkServicePrice', null, [
+                        'class' => 'form-control',
+                        'step' => 'any',
+                        'min' => '0',
+                    ]) !!}
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
 <!-- Submit Field -->
 <div

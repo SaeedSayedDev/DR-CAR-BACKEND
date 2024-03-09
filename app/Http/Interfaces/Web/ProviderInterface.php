@@ -17,4 +17,6 @@ interface ProviderInterface
     public function update($request, $id);
 
     public function destroy($id);
+
+    public function provider($provider);
 }

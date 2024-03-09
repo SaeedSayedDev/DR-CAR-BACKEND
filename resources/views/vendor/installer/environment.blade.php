@@ -11,7 +11,7 @@
 
 @section('container')
 
-    <p class="text-center">
+    <p>
         {!! trans('installer_messages.environment.menu.desc') !!}
     </p>
     <div class="buttons">

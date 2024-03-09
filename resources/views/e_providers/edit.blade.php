@@ -35,16 +35,12 @@
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-row align-items-start card-header-tabs">
-                    @can('eProviders.index')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('eProviders.index') !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.e_provider_table')}}</a>
                         </li>
-                    @endcan
-                    @can('eProviders.create')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('eProviders.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.e_provider_create')}}</a>
                         </li>
-                    @endcan
                     <li class="nav-item">
                         <a class="nav-link active" href="{!! url()->current() !!}"><i class="fas fa-edit mr-2"></i>{{trans('lang.e_provider_edit')}}</a>
                     </li>

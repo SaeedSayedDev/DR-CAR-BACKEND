@@ -28,17 +28,15 @@
     <!-- /.content-header -->
     <div class="content">
         <div class="clearfix"></div>
-        @include('flash::message')
-        @include('adminlte-templates::common.errors')
+        {{-- @include('flash::message')
+        @include('adminlte-templates::common.errors') --}}
         <div class="clearfix"></div>
         <div class="card shadow-sm">
             <div class="card-header">
                 <ul class="nav nav-tabs d-flex flex-row align-items-start card-header-tabs">
-                    @can('addresses.index')
                         <li class="nav-item">
                             <a class="nav-link" href="{!! route('addresses.index') !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.address_table')}}</a>
                         </li>
-                    @endcan
                     <li class="nav-item">
                         <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.address_create')}}</a>
                     </li>

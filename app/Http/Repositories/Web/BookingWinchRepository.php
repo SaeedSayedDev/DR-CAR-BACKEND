@@ -9,7 +9,10 @@ class BookingWinchRepository implements BookingWinchInterface
 {
     public function index()
     {
-        $booking_winch = BookingWinch::paginate(10);
+        $booking_winch = BookingWinch::with([
+            'user:id,full_name', 'winch:id,full_name','bookingService.service:id,name', 'address:id,address'
+        ])->paginate(10);
+
         return view('booking_winch.index', ['dataTable' => $booking_winch]);
     }
 }

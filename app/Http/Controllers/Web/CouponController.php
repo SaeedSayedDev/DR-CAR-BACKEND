@@ -37,8 +37,8 @@ class CouponController extends Controller
         return $this->couponInterface->update($request, $id);
     }
 
-    public function destroy(string $id)
-    {
-        return $this->couponInterface->destroy($id);
-    }
+    // public function destroy(string $id)
+    // {
+    //     return $this->couponInterface->destroy($id);
+    // }
 }

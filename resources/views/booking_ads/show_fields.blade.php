@@ -33,7 +33,7 @@
                         <strong>{{ trans('lang.image') }}:</strong>
                         <div>
                             <img class="rounded" style="height: 100px;" alt="{{ trans('lang.image') }}"
-                                src="{{ asset('storage/images/ads/' . $booking_ad->media()->first()?->imageName()) }}">
+                                src="{{ $booking_ad->media[0]->image ?? $noneImage }}">
                         </div>
                     </div>
 

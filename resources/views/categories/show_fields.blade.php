@@ -26,8 +26,8 @@
 <div class="form-group row col-6">
     {!! Form::label('image', trans('lang.category_image'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
-        <img class="col-md-3 control-label text-md-right mx-1" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                src="{{ asset('storage/images/admin/categories/' . $category->media()->first()?->imageName()) }}">
+        <img class="col-md-3 control-label text-md-right mx-1" style="width: 50px; height: 50px;" alt="{{ trans('lang.category_image') }}"
+                src="{{ $category->media[0]->image ?? $noneImage }}">
     </div>
 </div>
 

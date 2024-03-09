@@ -14,7 +14,7 @@ class CarReportRepository implements CarReportInterface
     {
     }
 
-    public function show($bookingService)
+    public function index($bookingService)
     {
         $reports = $bookingService->user->carLicense->reports()->with('media')->get();
 
@@ -22,6 +22,15 @@ class CarReportRepository implements CarReportInterface
             'success' => true,
             'message' => 'Retrieved successfully',
             'data' => $reports,
+        ]);
+    }
+
+    public function show($carReport)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieved successfully',
+            'data' => $carReport->load('media'),
         ]);
     }
 

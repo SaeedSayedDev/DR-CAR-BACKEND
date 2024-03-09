@@ -26,6 +26,6 @@ class PriceController extends Controller
 
         $price->update($data);
 
-        return redirect()->route('prices.index');
+        return redirect()->route('prices.index')->withSuccess(trans('lang.updated_success'));
     }
 }

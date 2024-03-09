@@ -18,9 +18,9 @@
                     </li>
                 {{-- @endcan
                 @can('taxes.create') --}}
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{!! route('taxes.create') !!}"><i class="fas fa-plus mr-2"></i>{{trans('lang.tax_create')}}</a>
-                    </li>
+                    </li> --}}
                 {{-- @endcan --}}
                 <li class="nav-item">
                     <a class="nav-link active" href="{!! url()->current() !!}"><i class="fas fa-edit mr-2"></i>{{trans('lang.tax_edit')}}</a>

@@ -26,9 +26,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{!! route('taxes.index') !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.tax_table')}}</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link active" href="{!! route('taxes.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.tax_create')}}</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <div class="card-body">

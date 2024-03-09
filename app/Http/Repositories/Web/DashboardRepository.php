@@ -17,7 +17,7 @@ class DashboardRepository implements DashboardInterface
             'total_earnings' => $this->totalEarnings(),
             'count_providers' => GarageData::count(),
             'count_customers' => User::where('role_id', 2)->count(),
-            'eProviders' => GarageData::take(5)->get(),
+            'eProviders' => GarageData::take(2)->get(),
             'bookings' => BookingService::all()->concat(BookingWinch::all())->take(5),
         ];
         return view('dashboard.index', $stats);

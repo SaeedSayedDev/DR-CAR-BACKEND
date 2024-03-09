@@ -33,7 +33,7 @@
                     <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                     </div>
-                    <a href="{{ route('booking.service') }}"
+                    <a href="{{ route('booking.service.index') }}"
                         class="small-box-footer">{{ trans('lang.dashboard_more_info') }}
                         <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -99,7 +99,7 @@
                     <div class="card-header no-border">
                         <div class="d-flex justify-content-between">
                             <h3 class="card-title">{{ trans('lang.earning_plural') }}</h3>
-                            <a href="{{ route('payments.index') }}">{{ trans('lang.dashboard_view_all_payments') }}</a>
+                            {{-- <a href="{{ route('payments.index') }}">{{ trans('lang.dashboard_view_all_payments') }}</a> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -151,13 +151,13 @@
                                 @foreach ($eProviders as $eProvider)
                                     <tr>
                                         <td>
-                                            <img class="rounded" style="height:50px"
-                                                alt="{{ trans('lang.e_provider_image') }}"
-                                                src="{{ asset('storage/images/providers/' . $eProvider->media()->first()?->imageName()) }}">
+                                            <img class="rounded" alt="{{ trans('lang.e_provider_image') }}"
+                                                src="{{ $provider->media[0]->image ?? $noneImage }}"
+                                                style="width: 50px; height: 50px;">
                                         </td>
                                         <td>{{ $eProvider->name }}</td>
                                         <td>{{ $eProvider->address->address }}</td>
-                                        <td class="text-center">
+                                        <td>
                                             <a href="{!! route('eProviders.edit', $eProvider->id) !!}" class="text-muted"> <i
                                                     class="fas fa-edit"></i>
                                             </a>

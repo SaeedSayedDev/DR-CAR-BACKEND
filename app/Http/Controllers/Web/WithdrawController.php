@@ -17,10 +17,10 @@ class WithdrawController extends Controller
         return $this->withdrawInterface->index();
     }
 
-    public function show($id)
-    {
-        return $this->withdrawInterface->show($id);
-    }
+    // public function show($id)
+    // {
+    //     return $this->withdrawInterface->show($id);
+    // }
 
     public function filterStatus(confirmWithdraw $request)
     {

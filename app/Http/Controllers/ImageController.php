@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Media;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class ImageController extends Controller
             'Ad' => 'ads',
             'CarLicense' => 'admin/cars/licenses',
             'Report' => 'car_reports',
+            'App' => 'app',
             default => null,
         };
 

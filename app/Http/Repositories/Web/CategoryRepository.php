@@ -14,7 +14,8 @@ class CategoryRepository implements CategoryInterface
 
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::with('media')->withCount('items')->paginate(10);
+        
         return view('categories.index', ['dataTable' => $categories]);
     }
 
@@ -29,6 +30,11 @@ class CategoryRepository implements CategoryInterface
         $requestData['desc'] = strip_tags($request->input('desc'));
 
         $category = Category::create($requestData);
+
+        // store the other locale
+        $requestData['locale'] = config('app.locale') === 'en' ? 'ar' : 'en';
+        $category->translations()->create($requestData);
+
         if ($request->hasFile('image')) {
             $category->media()->create([
                 'type' => 'category',
@@ -37,7 +43,7 @@ class CategoryRepository implements CategoryInterface
         }
 
         return redirect()->route('categories.index')->with([
-            'success' => 'Created successfully'
+            'success' => trans('lang.created_success')
         ]);
     }
 
@@ -70,7 +76,7 @@ class CategoryRepository implements CategoryInterface
         }
 
         return redirect()->route('categories.index')->with([
-            'success' => 'Updated successfully',
+            'success' => trans('lang.updated_success')
         ]);
     }
 
@@ -83,7 +89,7 @@ class CategoryRepository implements CategoryInterface
         $category->delete();
 
         return redirect()->route('categories.index')->with([
-            'success' => 'Deleted successfully'
+            'success' => trans('lang.deleted_success')
         ]);
     }
 }

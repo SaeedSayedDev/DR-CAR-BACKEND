@@ -24,4 +24,9 @@ class Notification extends Model
         return $this->belongsTo(BookingWinch::class, 'type_id')
             ->where('api', 'LIKE', '%api/booking/winch/show%');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -27,6 +27,7 @@
 
     <div class="content">
         <div class="clearfix"></div>
+        @include('partials.session_messages')
         {{-- @include('flash::message') --}}
         <div class="card shadow-sm">
             <div class="card-header">

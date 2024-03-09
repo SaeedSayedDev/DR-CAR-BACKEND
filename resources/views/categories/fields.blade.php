@@ -1,14 +1,5 @@
-<div class="d-flex flex-column col-sm-12 col-md-12">
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-</div>
+@include('partials.request_errors_first')
+
 {{-- @if ($customFields)
     <h5 class="col-12 pb-4">{!! trans('lang.main_fields') !!}</h5>
 @endif --}}

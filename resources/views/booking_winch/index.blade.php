@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fas fa-tachometer-alt mx-1"></i> {{trans('lang.dashboard')}}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{!! route('bookings.index') !!}">{{trans('lang.booking_plural')}}</a>
+                            <a href="{!! route('booking.winch.index') !!}">{{trans('lang.booking_plural')}}</a>
                         </li>
                         <li class="breadcrumb-item active">{{trans('lang.booking_table')}}</li>
                     </ol>

@@ -26,13 +26,23 @@
             @foreach ($dataTable as $booking_ad)
                 <tr>
                     <td>
-                        <img class="rounded" style="height:50px" alt="{{ trans('lang.category_image') }}"
-                            src="{{ asset('storage/images/ads/' . $booking_ad->media()->first()?->imageName()) }}">
-                    </td>    
-                    <td>{{ $booking_ad->garage->full_name }}</td>
+                        <img class="rounded image-thumbnail" alt="{{ trans('lang.category_image') }}"
+                            src="{{ $booking_ad->media[0]->image ?? $noneImage }}">
+                    </td>
+                    <td>
+                        <a href="{{ route('users.user', $booking_ad->garage->id) }}">
+                            {{ $booking_ad->garage->full_name }}
+                        </a>
+                    </td>
                     <td>{{ $booking_ad->display_duration }} {{ trans('lang.days') }}</td>
                     <td>{{ $booking_ad->amount }}</td>
-                    <td>{{ $booking_ad->display ? trans('lang.yes') : trans('lang.no') }}</td>
+                    <td>
+                        @if ($booking_ad->display)
+                            <span class="badge bg-success">{{ trans('lang.yes') }}</span>
+                        @else
+                            <span class="badge bg-danger">{{ trans('lang.no') }}</span>
+                        @endif
+                    </td>
                     <td>
                         @if ($booking_ad->status == 0)
                             <span class="badge bg-warning">{{ trans('lang.pending') }}</span>
@@ -45,60 +55,32 @@
                         @endif
                     </td>
                     <td>
-                        <a data-toggle="tooltip" data-placement="left"
-                            href="{{ route('booking-ads.show', $booking_ad->id) }}" class='btn btn-link'>
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        @if ($booking_ad->status === 0)
-                            <form action="{{ route('booking-ads.approve', $booking_ad->id) }}" method="POST"
-                                style="display: inline;">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-success btn-sm"
-                                    title="{{ trans('lang.approve') }}" onclick='return confirm("Are you sure?")'>
-                                    <i class="fas fa-check-circle"></i>
-                                </button>
-                            </form>
-                            <button type="button" class="btn btn-danger btn-sm" title="{{ trans('lang.reject') }}"
-                                data-toggle="modal" data-target="#rejectModal{{ $booking_ad->id }}">
-                                <i class="fas fa-times-circle"></i>
-                            </button>
-                            <!-- Reject Modal -->
-                            <div class="modal fade" id="rejectModal{{ $booking_ad->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="rejectModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="rejectModalLabel">{{ trans('lang.reject') }}
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('booking-ads.reject', $booking_ad->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PUT')
+                        <div class='btn-group btn-group-sm'>
+                            <a href="" title="{{ trans('lang.view_details') }}" class='btn btn-link'
+                                data-toggle="modal" data-target="#bookingAdDetailsModal{{ $booking_ad->id }}">
+                                <i class="fas fa-info-circle text-info text-md"></i>
+                            </a>
+                            @include('booking_ads.modal')
+                            @if ($booking_ad->status == 0)
+                                <a href="{{ route('booking.ads.approve', $booking_ad->id) }}"
+                                    title="{{ trans('lang.approve') }}" class='btn btn-link'
+                                    onclick="return confirm('Are you sure?')">
+                                    <i class="fas fa-check-circle text-success text-md"></i>
+                                </a>
 
-                                                <div class="form-group">
-                                                    <label
-                                                        for="rejection_reason">{{ trans('lang.rejection_reason') }}</label>
-                                                    <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="3" required></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-danger"
-                                                    onclick='return confirm("Are you sure?")'>{{ trans('lang.reject') }}</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+                                <a href="{{ route('booking.ads.reject', $booking_ad->id) }}"
+                                    title="{{ trans('lang.reject') }}" class='btn btn-link' data-toggle="modal"
+                                    data-target="#rejectModal{{ $booking_ad->id }}">
+                                    <i class="fas fa-times-circle text-danger text-md"></i>
+                                </a>
+                                @include('booking_ads.reject_modal')
+                            @endif
+                        </div>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+
 {{ $dataTable->links() }}

@@ -1,12 +1,9 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-light-primary shadow">
     <!-- Brand Logo -->
-    @php
-        $logo = App\Models\Media::appLogo()->imageName();
-    @endphp
 
     <a href="{{ url('dashboard') }}" class="brand-link border-bottom-0 text-light  navbar-navy">
-        <img src="{{ asset('storage/images/app/' . $logo) }}" alt="Dr Car" class="brand-image">
+        <img src="{{ $app_logo ?? $noneImage }}" alt="Dr Car" class="brand-image">
         <span class="brand-text font-weight-light">Dr Car</span> </a>
 
     <!-- Sidebar -->

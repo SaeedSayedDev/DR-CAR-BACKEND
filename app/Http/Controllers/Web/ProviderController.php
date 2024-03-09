@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\Web\ProviderInterface;
 use App\Http\Requests\Web\ProviderRequest;
+use App\Models\GarageData;
 
 class ProviderController extends Controller
 {
@@ -15,6 +16,11 @@ class ProviderController extends Controller
     public function index()
     {
         return $this->providerInterface->index();
+    }
+
+    public function provider(GarageData $provider)
+    {
+        return $this->providerInterface->provider($provider);
     }
 
     public function create()

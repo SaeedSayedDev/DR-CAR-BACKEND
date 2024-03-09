@@ -25,7 +25,7 @@ class TaxRepository implements TaxInterface
         
         Taxe::create($validatedData);
 
-        return redirect()->route('taxes.index');
+        return redirect()->route('taxes.index')->withSuccess(trans('lang.created_success'));
     }
 
     public function edit($id)
@@ -42,7 +42,7 @@ class TaxRepository implements TaxInterface
 
         $tax->update($validatedData);
 
-        return redirect()->route('taxes.index');
+        return redirect()->route('taxes.index')->withSuccess(trans('lang.updated_success'));
     }
 
     public function destroy($id)
@@ -51,6 +51,6 @@ class TaxRepository implements TaxInterface
 
         $tax->delete();
 
-        return redirect()->route('taxes.index');
+        return redirect()->route('taxes.index')->withSuccess(trans('lang.deleted_success'));
     }
 }

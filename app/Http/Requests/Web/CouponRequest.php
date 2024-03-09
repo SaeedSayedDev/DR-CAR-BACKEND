@@ -17,7 +17,7 @@ class CouponRequest extends FormRequest
             'start_date' => "required",
             'end_date' => "required|after:start_date",
             'coupon' => 'required|string|unique:coupons,coupon,' . $this->route('coupon'),
-            'coupon_unit' => 'required|boolean',/* (fixed =>0 , percentage=>1) */
+            'coupon_unit' => 'required|boolean',
             'coupon_price' => 'required|string',
             'provider_id' => 'required|exists:users,id',
         ];

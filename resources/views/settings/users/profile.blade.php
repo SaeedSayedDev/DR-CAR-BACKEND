@@ -32,22 +32,12 @@
     <!-- /.content-header -->
     @php
         $admin = auth()->user();
-        $logo = App\Models\Media::appLogo()->imageName();
     @endphp
 
     <section class="content">
         <div class="container-fluid">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-
-            @if ($errors->any())
-                <div class="alert alert-danger">{{ $errors->first() }}</div>
-            @endif
+            @include('partials.session_messages')
+            @include('partials.request_errors_first')
 
             <div class="row">
                 <div class="col-md-4">
@@ -58,7 +48,7 @@
                         </div>
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img src="{{ asset('storage/images/accounts/' . $admin->media()->first()?->imageName()) }}"
+                                <img src="{{ $admin->media[0]->image ?? $noneImage }}"
                                     class="profile-user-img img-fluid img-circle" alt="{{ $admin->name }}">
                             </div>
                             <h3 class="profile-username text-center">{{ $admin->full_name }}</h3>
@@ -135,14 +125,14 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <!-- Profile Image -->
+                    <!-- App Logo -->
                     <div class="card shadow-sm">
                         <div class="card-header">
                             <h3 class="card-title"> {{ trans('lang.upload_app_logo') }}</h3>
                         </div>
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img src="{{ asset('storage/images/app/' . $logo) }}"
+                                <img src="{{ $app_logo ?? $noneImage }}"
                                     class="profile-user-img img-fluid img-circle">
                             </div>
                             <form class="pt-3" method="POST" action="{{ route('logo.update') }}"

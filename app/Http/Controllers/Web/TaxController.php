@@ -17,15 +17,15 @@ class TaxController extends Controller
         return $this->taxInterface->index();
     }
 
-    public function create()
-    {
-        return $this->taxInterface->create();
-    }
+    // public function create()
+    // {
+    //     return $this->taxInterface->create();
+    // }
 
-    public function store(TaxRequest $request)
-    {
-        return $this->taxInterface->store($request);
-    }
+    // public function store(TaxRequest $request)
+    // {
+    //     return $this->taxInterface->store($request);
+    // }
 
     public function edit(string $id)
     {
@@ -37,8 +37,8 @@ class TaxController extends Controller
         return $this->taxInterface->update($request, $id);
     }
 
-    public function destroy(string $id)
-    {
-        return $this->taxInterface->destroy($id);
-    }
+    // public function destroy(string $id)
+    // {
+    //     return $this->taxInterface->destroy($id);
+    // }
 }

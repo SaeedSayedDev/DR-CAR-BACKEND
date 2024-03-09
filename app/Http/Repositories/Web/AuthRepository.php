@@ -102,7 +102,7 @@ class AuthRepository implements AuthInterface
         return redirect()->route('users.profile')->with([
             'success' => trans('lang.updated_successfully'),
         ]);
-            }
+    }
 
     public function updateLogo($request)
     {
@@ -120,5 +120,5 @@ class AuthRepository implements AuthInterface
         return redirect()->route('users.profile')->with([
             'success' => trans('lang.app_logo_updated_successfully'),
         ]);
-            }
+    }
 }

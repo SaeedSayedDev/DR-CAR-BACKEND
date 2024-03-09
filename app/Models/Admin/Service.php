@@ -11,6 +11,7 @@ use App\Models\ImagesService;
 use App\Models\Media;
 use App\Models\Options;
 use App\Models\Review;
+use App\Models\Slide;
 use App\Models\User;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,8 +22,8 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'desc', 'price', 'discount_price', 'price_unit',
-        'quantity_unit', 'duration', 'featured', 'enable_booking', 'provider_id'
+        'name', 'desc', 'price', 'discount_price', 'price_unit', 'available',
+        'quantity_unit', 'duration', 'featured', 'enable_booking', 'provider_id', 'status',
     ];
 
     protected $hidden = [
@@ -104,5 +105,10 @@ class Service extends Model
         return  $this->with('provider.user.userRole', 'provider.address', 'provider.user.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');
+    }
+
+    public function slide()
+    {
+        return $this->hasOne(Slide::class, 'service_id');
     }
 }

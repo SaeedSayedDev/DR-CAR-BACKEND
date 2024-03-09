@@ -201,21 +201,21 @@ class AdminTrailt
             'value' => '20',
             'type' => 1,
         ],
-        [
-            'name' => 'tax 10',
-            'value' => '10',
-            'type' => 1,
-        ],
-        [
-            'name' => 'maintenance',
-            'value' => '2',
-            'type' => 0,
-        ],
-        [
-            'name' => 'tools fee',
-            'value' => '5',
-            'type' => 0,
-        ],
+        // [
+        //     'name' => 'tax 10',
+        //     'value' => '10',
+        //     'type' => 1,
+        // ],
+        // [
+        //     'name' => 'maintenance',
+        //     'value' => '2',
+        //     'type' => 0,
+        // ],
+        // [
+        //     'name' => 'tools fee',
+        //     'value' => '5',
+        //     'type' => 0,
+        // ],
     ];
 
     public static $statusOrders = [

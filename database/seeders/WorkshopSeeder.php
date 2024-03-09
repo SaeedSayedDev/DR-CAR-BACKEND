@@ -12,6 +12,17 @@ use Illuminate\Database\Seeder;
 
 class WorkshopSeeder extends Seeder
 {
+    private $baseUrl;
+    
+    public function __construct()
+    {
+        $this->baseUrl = rtrim(config('app.url'), '/');
+        if (strpos($this->baseUrl, 'localhost') !== false && strpos($this->baseUrl, ':') !== false) {
+            $this->baseUrl .= ':8000';
+        }
+        $this->baseUrl .= '/api/images';
+    }
+
     public function run()
     {
         $WorkshopData = [
@@ -24,7 +35,7 @@ class WorkshopSeeder extends Seeder
                 'longitude' => 55.230131138179736,
             ],
             [
-                'name' => 'Street King Auto Garage ( Al Hashmi Technical Work )',
+                'name' => 'Al Hashmi Technical Work',
                 'email' => 'street.king.auto.garage@drcar.me',
                 'phone_number' => '0526581436',
                 'address' => 'Al Quoz Industrial Area 4',
@@ -272,17 +283,13 @@ class WorkshopSeeder extends Seeder
                 Media::create([
                     'type' => 'user',
                     'type_id' => $user->id,
-                    'image' => url("api/images/Provider/($i).jpg")
+                    'image' => "$this->baseUrl/Provider/($i).jpg"
                 ]);
-                Media::create([
-                    'type' => 'garage_data',
-                    'type_id' => $eProvider->id,
-                    'image' => url("api/images/Provider/($i).jpg")
-                ]);
+                
                 Media::create([
                     'type' => 'service',
                     'type_id' => $service->id,
-                    'image' => url("api/images/Service/($i).jpg")
+                    'image' => "$this->baseUrl/Service/($i).jpg"
                 ]);
             }
         }

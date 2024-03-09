@@ -11,6 +11,7 @@ class CouponRepository implements CouponInterface
     public function index()
     {
         $coupons = Coupon::paginate(10);
+        
         return view('coupons.index', ['dataTable' => $coupons]);
     }
 
@@ -28,7 +29,7 @@ class CouponRepository implements CouponInterface
         
         Coupon::create($validatedData);
 
-        return redirect()->route('coupons.index');
+        return redirect()->route('coupons.index')->withSuccess(trans('lang.created_success'));
     }
 
     public function edit($id)
@@ -46,7 +47,7 @@ class CouponRepository implements CouponInterface
 
         $coupon->update($validatedData);
 
-        return redirect()->route('coupons.index');
+        return redirect()->route('coupons.index')->withSuccess(trans('lang.updated_success'));
     }
 
     public function destroy($id)
@@ -55,6 +56,6 @@ class CouponRepository implements CouponInterface
 
         $coupon->delete();
 
-        return redirect()->route('coupons.index');
+        return redirect()->route('coupons.index')->withSuccess(trans('lang.deleted_success'));
     }
 }

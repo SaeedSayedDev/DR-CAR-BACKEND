@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-@php
-    $logo = App\Models\Media::appLogo()->imageName();
-@endphp
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dr Car | Manage Mobile Application</title>
-    <link rel="icon" type="image/png" href="{{ asset('storage/images/app/' . $logo) }}" />
+    <link rel="icon" type="image/png" href="{{ $app_logo ?? $noneImage }}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,600&display=fallback">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">

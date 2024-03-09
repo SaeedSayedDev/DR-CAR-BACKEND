@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-@php
-    $logo = App\Models\Media::appLogo()->imageName();
-@endphp
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dr Car | Login</title>
-    <link rel="icon" type="image/png" href="{{ $app_logo ?? asset('storage/images/app/' . $logo) }}" />
+    <link rel="icon" type="image/png" href="{{ $app_logo ?? $noneImage }}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,600&display=fallback">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
@@ -21,7 +18,7 @@
     <div class="login-box" @if (isset($width)) style="width:{{ $width }}" @endif>
         <div class="login-logo">
             <a href="{{ url('/') }}">
-                <img src="{{ asset('storage/images/app/' . $logo) }}" alt="{{ env('app_name') }}">
+                <img src="{{ $app_logo ?? $noneImage }}" alt="{{ env('app_name') }}">
             </a>
         </div>
 

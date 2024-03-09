@@ -17,4 +17,6 @@ interface ItemInterface
     public function update($request, $id);
 
     public function destroy($id);
+
+    public function category($category);
 }
