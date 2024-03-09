@@ -6,6 +6,7 @@ use App\Http\Interfaces\BookingAdInterface;
 use App\Models\BookingAd;
 use App\Services\BookingAdService;
 use App\Services\ImageService;
+use Carbon\Carbon;
 
 class BookingAdRepository implements BookingAdInterface
 {
@@ -131,7 +132,11 @@ class BookingAdRepository implements BookingAdInterface
     public function userBookingAds()
     {
         $user = auth()->user();
-        $bookingAds = BookingAd::where('display', true)->where('car_type',$user->carLicense->)->where('gender', $user->id)->orWhere('gender', 2)->with('media')->get();
+        $bookingAds = BookingAd::where('display', true)->where('car_type', $user->user_information->car_id)->where('car_type', $user->carLicense->model)->where('gender', $user->id)->orWhere('gender', 2)->with('media')->get()
+            ->map(function ($bookingAd) {
+                if (Carbon::now() > $bookingAd->updated_at->addDays(10))
+                    return  $bookingAd;
+            });
 
         return response()->json([
             'success' => true,

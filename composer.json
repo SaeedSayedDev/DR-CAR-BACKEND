@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "astrotomic/laravel-translatable": "^11.12",
-        "barryvdh/laravel-dompdf": "^0.9.0",
+        "barryvdh/laravel-dompdf": "^2.0",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",

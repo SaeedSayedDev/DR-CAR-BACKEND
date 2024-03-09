@@ -67,11 +67,6 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <img src="{{ asset('storage/images/accounts/' . $admin->media()->first()?->imageName()) }}"
-                            class="brand-image mx-2 img-circle elevation-2" alt="User Image">
-                        <i class="fa fas fa-angle-down"></i> {{ auth()->user()->full_name }}
-                    </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="{{ route('users.profile') }}" class="dropdown-item"> <i class="fas fa-user mr-2"></i>
                             {{ trans('lang.user_profile') }}

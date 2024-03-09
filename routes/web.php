@@ -1,5 +1,6 @@
 <?php
 
+use AmrShawky\LaravelCurrency\Facade\Currency;
 use App\Http\Controllers\Web\ItemController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Web\AuthController;
@@ -144,3 +145,38 @@ Route::post('awards', function () {
 
 Route::get('exportPDF', [ExportController::class, 'exportPDF']);
 
+
+// Route::get('aed', function () {
+//     $originLat = 29.817446;
+//     $originLng = 31.238099;
+//     $destinationLat = 29.472148;
+//     $destinationLng = 30.880290;
+//     // $originLat = 30.050979; // Latitude of origin
+//     // $originLng = 31.234700; // Longitude of origin
+//     // $destinationLat = 29.808785; // Latitude of destination
+//     // $destinationLng = 31.266972; // Longitude of destination
+//     $apiKey = 'AIzaSyBss8QIwWZ9Q3E-ziCVDsQOOvYWI3tDPfA';
+
+//     function getDistance($originLat, $originLng, $destinationLat, $destinationLng, $apiKey)
+//     {
+//         $url = "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=$destinationLat,$destinationLng&origins=$originLat,$originLng&key=$apiKey";
+//         $response = file_get_contents($url);
+//         $data = json_decode($response, true);
+//         // return $data;
+//         if ($data['status'] == 'OK') {
+//             return $data['rows'][0]['elements'][0]['distance']['value'] /1000; // Distance in meters
+//         } else {
+//             return false;
+//         }
+//     }
+
+//     // Example usage
+
+//     return $distance = getDistance($originLat, $originLng, $destinationLat, $destinationLng, $apiKey);
+//     if ($distance !== false) {
+//         echo "Distance between the two places: " . ($distance / 1000) . " kilometers";
+//     } else {
+//         echo "Failed to retrieve distance";
+//     }
+//     // AIzaSyBss8QIwWZ9Q3E-ziCVDsQOOvYWI3tDPfA
+// });
