@@ -23,6 +23,7 @@ class GarageDataRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'name' => 'required|string|min:3',
             'availability_range' => 'required|integer|min:1',
@@ -32,7 +33,7 @@ class GarageDataRequest extends FormRequest
             'checkServicePrice' => 'required',
 
             'categories' => 'required|array|min:1',
-            'categories.*' => 'exists:items,id',
+            'categories.*' => 'exists:categories,id',
             'cars' => 'nullable|array|min:1|max:2',
             'cars.*' => 'exists:cars,id',
         ];

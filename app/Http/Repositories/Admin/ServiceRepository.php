@@ -94,6 +94,20 @@ class ServiceRepository implements ServiceInterface
                         // }
                         return  $service;
                     });
+            } elseif (!isset(auth()->user()->address[0])) {
+                $services = Service::getRelashinIndex()
+                    ->with('provider_avilabilty_time')
+                    ->get()
+                    ->map(function ($service) use ($filter_key) {
+
+                        $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                        $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                        unset($service->favourite);
+                        // if ($filter_key == 2) {
+                        //     return   $this->avilabilty_time_filter($service);
+                        // }
+                        return  $service;
+                    });
             } else {
 
                 return response()->json([
@@ -177,6 +191,20 @@ class ServiceRepository implements ServiceInterface
                     ->whereRaw("latitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLatitude, $userLatitude])
                     ->whereRaw("longitude BETWEEN (? - garage_data.availability_range) AND (? + garage_data.availability_range)", [$userLongitude, $userLongitude])
 
+                    ->get()
+                    ->map(function ($service) use ($filter_key) {
+
+                        $service->rate = $service->review_count > 0 ? $service->review_sum_review_value / $service->review_count : 0;
+                        $service->is_favorite = $service->favourite->count() > 0 ? true : false;
+                        unset($service->favourite);
+                        // if ($filter_key == 2) {
+                        //     return   $this->avilabilty_time_filter($service);
+                        // }
+                        return  $service;
+                    });
+            } elseif (!isset(auth()->user()->address[0])) {
+                $services = Service::getRelashinIndex()
+                    ->with('provider_avilabilty_time')
                     ->get()
                     ->map(function ($service) use ($filter_key) {
 

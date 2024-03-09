@@ -124,6 +124,7 @@ class CarReportRepository implements CarReportInterface
     public function userReports()
     {
         $carLicense = auth()->user()->carLicense;
+
         $reports = isset($carLicense) ? $carLicense->reports()->with('media')->get() : [];
 
         return response()->json([

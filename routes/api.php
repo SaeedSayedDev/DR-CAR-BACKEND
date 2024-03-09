@@ -106,6 +106,7 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
         Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'refundBookingAd']);
         # Car Reports
+        Route::get('garage/car/reports', [CarController::class, 'get_all_reports_for_garage']);
         Route::get('car/reports/show/{bookingService}', [CarController::class, 'showReports']);
         Route::post('car/reports/store/{bookingService}', [CarController::class, 'storeReports']);
         Route::put('car/reports/update/{bookingService}', [CarController::class, 'updateReports']);
@@ -129,6 +130,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::delete('coupon/delete/{id}', [ServiceController::class, 'deleteCoupon'])->name('coupon.delete');
 
         Route::post('garageData/store', [AuthController::class, 'storeGarageData'])->name('garageData');
+        Route::put('garageData/update', [AuthController::class, 'updateGarageData']);
+        
         Route::post('availabilityTime/store', [AuthController::class, 'availabilityTime'])->name('availabilityTime');
         // 
         Route::get('taxes', [TaxeController::class, 'index']);
@@ -269,25 +272,25 @@ Route::get('env/data', function () {
 
 
 Route::get('testNotification', [SettingController::class, 'testNotification']);
-Route::get('testAddress', function () {
-    $R = 6371.0;
+// Route::get('testAddress', function () {
+//     $R = 6371.0;
 
-    // Convert latitude and longitude from degrees to radians
-    $lat1 = deg2rad(29.817446293635);
-    $lon1 = deg2rad(31.238099608604);
-    $lat2 = deg2rad(23.8920019);
-    $lon2 = deg2rad(54.8594067);
+//     // Convert latitude and longitude from degrees to radians
+//     $lat1 = deg2rad(29.817446293635);
+//     $lon1 = deg2rad(31.238099608604);
+//     $lat2 = deg2rad(23.8920019);
+//     $lon2 = deg2rad(54.8594067);
 
-    // Calculate the change in coordinates
-    $dLon = $lon2 - $lon1;
-    $dLat = $lat2 - $lat1;
+//     // Calculate the change in coordinates
+//     $dLon = $lon2 - $lon1;
+//     $dLat = $lat2 - $lat1;
 
-    // Haversine formula
-    $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1) * cos($lat2) * sin($dLon / 2) * sin($dLon / 2);
-    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+//     // Haversine formula
+//     $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1) * cos($lat2) * sin($dLon / 2) * sin($dLon / 2);
+//     $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
-    // Calculate the distance
-    $distance = $R * $c;
+//     // Calculate the distance
+//     $distance = $R * $c;
 
-    return $distance;
-});
+//     return $distance;
+// });

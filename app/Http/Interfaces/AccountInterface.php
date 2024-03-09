@@ -16,5 +16,7 @@ interface AccountInterface
 
     // garage data
     public function storeGarageData($request);
+    public function updateGarageData($request);
+
     public function availabilityTime($request);
 }

@@ -24,11 +24,11 @@ class ServiceController extends Controller
     ) {
     }
 
-    public function index($filter_key, $item_id ,$type_category_or_subCategory)
+   public function index($filter_key, $item_id ,$type_category_or_subCategory)
     {
         return $this->serviceInterface->index($filter_key, $item_id ,$type_category_or_subCategory);
     }
-
+    
     public function servicesProvider($provider_id)
     {
         return $this->serviceInterface->servicesProvider($provider_id);

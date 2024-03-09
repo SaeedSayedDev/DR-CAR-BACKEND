@@ -127,6 +127,19 @@ class AccountRepository implements AccountInterface
         return response()->json(['success' => true, 'data' => $GarageData]);
     }
 
+    public function updateGarageData($request)
+    {
+        $garage = auth()->user();
+        $data = request()->all();
+        $garage->garage_support_cars()->sync($request['cars']);
+        $garage->garage_support_category()->sync($request['categories']);
+
+        $GarageData = GarageData::where('garage_id', $garage->id)->first()->update($data);
+        DB::commit();
+
+        return response()->json(['success' => true, 'data' => $GarageData]);
+    }
+
     public function availabilityTime($request)
     {
         if (auth()->user()->garage_data) {
