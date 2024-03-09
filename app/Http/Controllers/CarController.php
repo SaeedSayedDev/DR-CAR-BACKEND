@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Interfaces\CarLicenseInterface;
 use App\Http\Interfaces\CarReportInterface;
 use App\Http\Requests\CarLicenseRequest;
+use App\Models\Car;
 use App\Http\Requests\CarReportRequest;
 use App\Models\BookingService;
 use App\Models\CarLicense;
@@ -17,7 +18,12 @@ class CarController extends Controller
         private CarReportInterface $carReportInterface,
     ) {
     }
+    public function index()
+    {
+        $cars = Car::get();
 
+        return response()->json(['data' => $cars]);
+    }
     public function showCarLicense()
     {
         return $this->carLicenseInterface->show();

@@ -34,42 +34,21 @@ class AuthRepository implements AuthInterface
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-    public function provider_register($request)
+    public function register($request)
     {
         DB::beginTransaction();
-        if ($request->role_id == 4) {
+        if ($request->role_id != 1)
             $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, $request->role_id);
-            $this->authServcie->createGarageCarSupport($request, $user->id);
-            $this->authServcie->createGarageSubCategorySupport($request, $user->id);
-            $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
-        } else if ($request->role_id == 3) {
-            $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, $request->role_id);
-            $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
-        } else
+        else
             return response()->json(['message' => 'this role not avalible'], 404);
 
-        // $this->otpService->createEmail($user->email, $user->id, 'user');
-        DB::commit();
-        $user = $this->authServcie->credentialUser($request);
-        $user->user_role;
 
-        Wallet::create([
-            'name' => $user->full_name . ' Wallet',
-            'user_id' => $user->id,
-            'total_balance' => 0,
-            'awating_transfer' => 0,
-        ]);
-        return response()->json([
-            "success" => true,
-            'data' => $user
-        ]);
-    }
-
-    public function user_register($request)
-    {
-        DB::beginTransaction();
-        $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, 2);
-        $this->authServcie->createUserInfo($request->phone_number, $request->car_id,  $user->id);
+        if ($request->role_id == 2)
+            $this->authServcie->createUserInfo($request->phone_number, $request->car_id, $request->gender,  $user->id);
+        else if ($request->role_id == 3)
+            $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
+        else if ($request->role_id == 4)
+            $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
 
         // $this->otpService->createEmail($user->email, $user->id, 'user');
         $user = $this->authServcie->credentialUser($request);
@@ -82,11 +61,36 @@ class AuthRepository implements AuthInterface
             'awating_transfer' => 0,
         ]);
         DB::commit();
-        return response()->json([
-            "success" => true,
-            'data' => $user
-        ]);
+       return  $this->otpService->createEmail($user->email, $user->id, 'user');
+
+        // return response()->json([
+        //     "success" => true,
+        //     'data' => $user
+        // ]);
     }
+
+    // public function user_register($request)
+    // {
+    //     DB::beginTransaction();
+    //     $user = $this->authServcie->createUser($request->full_name, $request->email,  $request->password, 2);
+    //     $this->authServcie->createUserInfo($request->phone_number, $request->car_id,  $user->id);
+
+    //     // $this->otpService->createEmail($user->email, $user->id, 'user');
+    //     $user = $this->authServcie->credentialUser($request);
+    //     $user->user_role;
+
+    //     Wallet::create([
+    //         'name' => $user->full_name . ' Wallet',
+    //         'user_id' => $user->id,
+    //         'total_balance' => 0,
+    //         'awating_transfer' => 0,
+    //     ]);
+    //     DB::commit();
+    //     return response()->json([
+    //         "success" => true,
+    //         'data' => $user
+    //     ]);
+    // }
 
     public function me()
     {
@@ -96,7 +100,7 @@ class AuthRepository implements AuthInterface
         $user->load(match ($user->role_id) {
             2 => 'user_information',
             3 => 'winch_information',
-            4 => ['garage_information', 'garage_data.media', 'garage_support_items'],
+            4 => ['garage_information', 'garage_data.media', 'garage_support_category.items'],
         });
         return response()->json([
             'data' => $user,

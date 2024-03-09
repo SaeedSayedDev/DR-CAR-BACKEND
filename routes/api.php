@@ -37,15 +37,19 @@ Route::get('paypal/success', [SettingController::class, 'testPaypal']);
 
 Route::get('images/image_default', [ImageController::class, 'imageDefault']);
 Route::get('image_default', [ImageController::class, 'getImageDefault']);
+
+
+
 Route::get('images/{type}/{name}', [ImageController::class, 'show']);
 
 
 
-Route::post('provider/register', [AuthController::class, 'provider_register']);
+Route::post('register', [AuthController::class, 'register']);
 Route::post('user/register', [AuthController::class, 'user_register']);
-Route::post('/confirm-email', [AuthController::class, 'confirmCodeEmail']);
+Route::post('confirm/email', [AuthController::class, 'confirmCodeEmail']);
 
-Route::post('/forget-password', [AuthController::class, 'forgetPassword']);
+Route::post('/forget/password', [AuthController::class, 'forgetPassword']);
+Route::post('/reset/password', [AuthController::class, 'resetPasswordApi']);
 
 // Route::group(['middleware' => 'IsEnable'], function () {
 Route::post('user/login', [AuthController::class, 'login'])->middleware('checkTypeUser')->name('login.user');
@@ -81,8 +85,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
 
         Route::get('user/booking/onTheWay/{booking_id}', [BookingController::class, 'onTheWayFromUser']);
 
+
+        Route::put('update/bookingWinch/done', [BookingController::class, 'doneStatusFromUser']);
         # Booking Ads
-        Route::get('user/booking/ads', [BookingController::class, 'userBookingAds']);
         # Car Licenses
         Route::get('car/licenses/show', [CarController::class, 'showCarLicense']);
         Route::post('car/licenses/store', [CarController::class, 'storeCarLicense']);
@@ -101,8 +106,10 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
         Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'refundBookingAd']);
         # Car Reports
-        Route::get('car/reports/index/{bookingService}', [CarController::class, 'indexReports']);
         Route::get('car/reports/show/{carReport}', [CarController::class, 'showReports']);
+
+        Route::get('garage/car/reports', [CarController::class, 'get_all_reports_for_garage']);
+        Route::get('car/reports/show/{bookingService}', [CarController::class, 'showReports']);
         Route::post('car/reports/store/{bookingService}', [CarController::class, 'storeReports']);
         Route::put('car/reports/update/{bookingService}', [CarController::class, 'updateReports']);
         Route::delete('car/reports/delete/{bookingService}', [CarController::class, 'deleteReports']);
@@ -125,6 +132,8 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::delete('coupon/delete/{id}', [ServiceController::class, 'deleteCoupon'])->name('coupon.delete');
 
         Route::post('garageData/store', [AuthController::class, 'storeGarageData'])->name('garageData');
+        Route::put('garageData/update', [AuthController::class, 'updateGarageData']);
+        
         Route::post('availabilityTime/store', [AuthController::class, 'availabilityTime'])->name('availabilityTime');
         // 
         Route::get('taxes', [TaxeController::class, 'index']);
@@ -181,14 +190,34 @@ Route::group(['middleware' => 'apiAuth'], function () {
     // Route::delete('address/delete/{id}', [AddressController::class, 'delete']);
 
     Route::get('message/notification', [NotificationController::class, 'messageNotification']);
+
+
+
+    Route::group(['middleware' => 'garage.auth'], function () {
+        # Booking Ads
+        Route::get('booking/ads', [BookingController::class, 'indexBookingAds']);
+        Route::get('booking/ads/show/{bookingAd}', [BookingController::class, 'showBookingAd']);
+        Route::post('booking/ads/store', [BookingController::class, 'storeBookingAd']);
+        Route::put('booking/ads/update/{bookingAd}', [BookingController::class, 'updateBookingAd']);
+        Route::delete('booking/ads/delete/{bookingAd}', [BookingController::class, 'deleteBookingAd']);
+
+        # Service Reports
+        Route::post('service/reports/store/{bookingService}', [ServiceController::class, 'storeReports']);
+        Route::put('service/reports/update/{bookingService}', [ServiceController::class, 'updateReports']);
+        Route::delete('service/reports/delete/{bookingService}', [ServiceController::class, 'destroyReports']);
+        Route::get('service/reports/history/garage/{carLicense}', [ServiceController::class, 'historyGarageReports']);
+    });
 });
+Route::get('user/booking/ads', [BookingController::class, 'userBookingAds']);
+
+Route::get('cars', [CarController::class, 'index']);
 
 Route::get('notifications/count', [NotificationController::class, 'notificationCount']);
 
 Route::get('provider/show/{id}', [ProviderController::class, 'show'])->name('show.provider');
 Route::get('providers', [ProviderController::class, 'index'])->name('providers');
 
-Route::get('services/{filter_key}/{item_id}', [ServiceController::class, 'index'])->name('services');
+Route::get('services/{filter_key}/{item_id}/{type_category_or_subCategory}', [ServiceController::class, 'index'])->name('services');
 Route::get('service/show/{id}', [ServiceController::class, 'show'])->name('service.show');
 Route::get('recommended/services', [ServiceController::class, 'recommended']);
 
@@ -245,25 +274,25 @@ Route::get('env/data', function () {
 
 
 Route::get('testNotification', [SettingController::class, 'testNotification']);
-Route::get('testAddress', function () {
-    $R = 6371.0;
+// Route::get('testAddress', function () {
+//     $R = 6371.0;
 
-    // Convert latitude and longitude from degrees to radians
-    $lat1 = deg2rad(29.817446293635);
-    $lon1 = deg2rad(31.238099608604);
-    $lat2 = deg2rad(23.8920019);
-    $lon2 = deg2rad(54.8594067);
+//     // Convert latitude and longitude from degrees to radians
+//     $lat1 = deg2rad(29.817446293635);
+//     $lon1 = deg2rad(31.238099608604);
+//     $lat2 = deg2rad(23.8920019);
+//     $lon2 = deg2rad(54.8594067);
 
-    // Calculate the change in coordinates
-    $dLon = $lon2 - $lon1;
-    $dLat = $lat2 - $lat1;
+//     // Calculate the change in coordinates
+//     $dLon = $lon2 - $lon1;
+//     $dLat = $lat2 - $lat1;
 
-    // Haversine formula
-    $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1) * cos($lat2) * sin($dLon / 2) * sin($dLon / 2);
-    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+//     // Haversine formula
+//     $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1) * cos($lat2) * sin($dLon / 2) * sin($dLon / 2);
+//     $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
-    // Calculate the distance
-    $distance = $R * $c;
+//     // Calculate the distance
+//     $distance = $R * $c;
 
-    return $distance;
-});
+//     return $distance;
+// });

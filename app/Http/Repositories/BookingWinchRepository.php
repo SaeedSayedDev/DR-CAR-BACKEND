@@ -111,17 +111,32 @@ class BookingWinchRepository implements BookingWinchInterface
             ->with('booking_winch_in_show_bookingService')
             ->findOrFail($data['booking_service_id']);
         if (!isset($bookingService->service->provider->address))
-
-            return response()->json(["message" => "please create address first or update it"]);
+            return response()->json(["message" => "garage has not address"]);
 
 
         if (!$bookingService->booking_winch_in_show_bookingService) {
 
-            $distance = $this->addressService->calDistance($bookingService->service->provider->address->latitude, $bookingService->service->provider->address->longitude, auth()->user()->address[0]->latitude, auth()->user()->address[0]->longitude);
+            $check_winch_has_booking =  BookingWinch::where('winch_id', $data['winch_id'])->where('order_status_id', '>', '1')->where('order_status_id', '<', '6')->with('bookingService')->first();
+            if (isset($check_winch_has_booking) and $check_winch_has_booking->round_trip == 0)
+                return response()->json(["message" => "please choose another winch"]);
+            else if (
+                isset($check_winch_has_booking) and $check_winch_has_booking->round_trip == 1
+                and $check_winch_has_booking->bookingService->order_status_id == 6
+                and $check_winch_has_booking->order_status_id != 6
+            )
+                return response()->json(["message" => "please choose another winch"]);
 
+            $distance = $this->addressService->calDistance(
+                number_format($bookingService->service->provider->address->latitude, 10, '.', ''),
+                number_format($bookingService->service->provider->address->longitude, 10, '.', ''),
+                number_format(auth()->user()->address[0]->latitude, 10, '.', ''),
+                number_format(auth()->user()->address[0]->longitude, 10, '.', ''),
+            );
             $data['address_id'] = $bookingService->address_id;
             $WinchInformation = WinchInformation::where('winch_id', $data['winch_id'])->first();
             $data['payment_amount'] = number_format($distance * $WinchInformation->KM_price, 2, '.', '');
+            if ($request->round_trip == 1)
+                $data['payment_amount'] = $data['payment_amount'] * 2;
             $data['user_id'] = $user->id;
 
             $bookingWinch = BookingWinch::create($data);
@@ -135,7 +150,7 @@ class BookingWinchRepository implements BookingWinchInterface
         }
         return response()->json([
             'success' => false,
-            "message" => "You have already one booking winch"
+            "message" => "You have already one booking winch, cancel it first to can booking new winch"
         ]);
     }
 
@@ -143,6 +158,10 @@ class BookingWinchRepository implements BookingWinchInterface
 
     public function updateBookingStatusFromWinch($request, $booking_id)
     {
+        if ($request->order_status_id > 4)
+            return response()->json(['message' => 'you can not update to this status'], 404);
+
+
         $user = auth()->user();
 
         DB::beginTransaction();
@@ -174,7 +193,19 @@ class BookingWinchRepository implements BookingWinchInterface
     }
 
 
+    public function doneStatusFromUser($booking_id)
+    {
+        DB::beginTransaction();
 
+        $bookingWinch = BookingWinch::where('user_id', auth()->user()->id)->where('order_status_id', 5)->findOrFail($booking_id);
+
+        $bookingWinch->update(['order_status_id' => 6]);
+        $this->notification($bookingWinch->id,  $bookingWinch->winch_id, auth()->user()->full_name);
+
+        DB::commit();
+
+        return response()->json(['message' => 'success']);
+    }
 
     public function cancelBookingWinchFromUser($booking_id)
     {

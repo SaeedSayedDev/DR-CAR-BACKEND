@@ -6,6 +6,7 @@ use App\Http\Interfaces\BookingAdInterface;
 use App\Models\BookingAd;
 use App\Services\BookingAdService;
 use App\Services\ImageService;
+use Carbon\Carbon;
 
 class BookingAdRepository implements BookingAdInterface
 {
@@ -50,14 +51,14 @@ class BookingAdRepository implements BookingAdInterface
         $data = $request->validated();
         $data['garage_id'] = $garage->id;
         $data['amount'] = $this->bookingAdService->calculateAmount($data);
-        
+
         if (!$garage->wallet) {
             return response()->json(['message' => 'You do not have a wallet'], 400);
         } elseif ($this->bookingAdService->checkSufficientBalance($garage, $data['amount'])) {
             return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
         }
 
-        
+
         $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
         $bookingAd = BookingAd::create($data);
         $bookingAd->media()->create([
@@ -90,7 +91,7 @@ class BookingAdRepository implements BookingAdInterface
         //     return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
         // }
         // $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
-        
+
         $bookingAd->update($data);
         if ($request->hasFile('image')) {
             $bookingAd->media()->updateOrCreate([
@@ -113,7 +114,7 @@ class BookingAdRepository implements BookingAdInterface
 
         if ($garage->id != $bookingAd->garage_id) {
             return response()->json(['message' => 'Unauthorized'], 401);
-        }elseif ($bookingAd->status != 2) {
+        } elseif ($bookingAd->status != 2) {
             return response()->json(['message' => 'You can not refund this ad'], 400);
         }
 
@@ -130,7 +131,12 @@ class BookingAdRepository implements BookingAdInterface
 
     public function userBookingAds()
     {
-        $bookingAds = BookingAd::where('display', true)->with('media')->get();
+        $user = auth()->user();
+        $bookingAds = BookingAd::where('display', true)->where('car_type', $user->user_information->car_id)->where('car_type', $user->carLicense->model)->where('gender', $user->id)->orWhere('gender', 2)->with('media')->get()
+            ->map(function ($bookingAd) {
+                if (Carbon::now() > $bookingAd->updated_at->addDays(10))
+                    return  $bookingAd;
+            });
 
         return response()->json([
             'success' => true,

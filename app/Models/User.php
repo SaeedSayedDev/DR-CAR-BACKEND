@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Admin\Category;
 use App\Models\Admin\Item;
 use App\Models\Admin\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -162,14 +163,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(BookingAd::class, 'garage_id');
     }
-    
+
     public function garage_support_cars()
     {
         return $this->belongsToMany(Car::class, GarageCars::class, 'garage_id', 'car_id');
     }
-    public function garage_support_items()
+    public function garage_support_category()
     {
-        return $this->belongsToMany(Item::class, GarageItem::class, 'garage_id', 'item_id');
+        return $this->belongsToMany(Category::class, GarageCategory::class, 'garage_id', 'category_id');
     }
 
     public function carReports()

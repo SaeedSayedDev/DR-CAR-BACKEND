@@ -94,15 +94,17 @@ class BookingServiceRepository implements BookingServiceInterface
         $payment_method =  PaymentMethod::where('enabled', 1)->where('payment_type', $request->payment_type)->firstOrFail();
 
         DB::beginTransaction();
-        $total_amount = number_format($total_amount,2,'.','');
+        $total_amount = number_format($total_amount, 2, '.', '');
         if ($payment_method->name == 'Stripe') {
             $retrieve = $this->payWithStripe($request, $total_amount);
             return  $this->stripeService->payWithStripe($request, $bookingService, $total_amount, $retrieve);
-        } elseif ($payment_method->name == 'Paypal') {
-            $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
+        } 
+        // elseif ($payment_method->name == 'Paypal') {
+        //     $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
 
-            return  $this->paypalService->createOrder($amount_usd, $bookingService->id, 'booking');
-        } else if ($payment_method->name == 'Wallet') {
+        //     return  $this->paypalService->createOrder($amount_usd, $bookingService->id, 'booking');
+        // } 
+        else if ($payment_method->name == 'Wallet') {
 
             return  $this->walletService->payWithWallet($request, $bookingService, $total_amount);
         }
@@ -231,10 +233,9 @@ class BookingServiceRepository implements BookingServiceInterface
         DB::beginTransaction();
         if ($request->order_status_id == 3)
             return response()->json(['message' => 'this status updated from user'], 404);
-
         $bookingService = BookingService::whereHas('serviceProvider', function ($query) {
             $query->where('provider_id', auth()->user()->garage_data->id);
-        })->with('serviceProvider.media', 'serviceProvider:id,name')->findOrFail($booking_id);
+        })->with('serviceProvider.media', 'serviceProvider:id,name', 'booking_winch')->findOrFail($booking_id);
 
         if ($bookingService->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);
@@ -245,6 +246,9 @@ class BookingServiceRepository implements BookingServiceInterface
         ) {
             return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted']);
         }
+        if ($request->order_status_id == 6 and !isset($bookingService->report))
+            return response()->json(['message' => 'you should make report befor update booking to this status']);
+
 
         $bookingService->update(['order_status_id' => $request->order_status_id]);
         if ($request->order_status_id == 4) {
@@ -254,10 +258,18 @@ class BookingServiceRepository implements BookingServiceInterface
                 2 => $request->image_right_side,
                 3 => $request->image_left_side,
             ];
-            // return $request->images;
-            isset($bookingService->booking_winch) ? $bookingService->booking_winch->update(['order_status_id' => 6]) : null;
+            if (isset($bookingService->booking_winch)) {
+                if ($bookingService->booking_winch->round_trip == 1) {
+                    $bookingService->booking_winch->update(['order_status_id' => 5]);
+                } else if ($bookingService->booking_winch->round_trip == 0) {
+                    $bookingService->booking_winch->update(['order_status_id' => 6]);
+                }
+            }
+            // isset($bookingService->booking_winch) ? $bookingService->booking_winch->update(['order_status_id' => 6]) : null;
             $this->imageService->storeMedia($request, $bookingService->id, 'garage_receive', 'public/images/admin/receives', url("api/images/Receive/"));
         }
+        if ($request->order_status_id == 6 and  isset($bookingService->booking_winch) and $bookingService->booking_winch->round_trip == 1)
+            $this->notification($bookingService->id, $bookingService->booking_winch->winch_id, auth()->user()->full_name);
 
         $this->notification($bookingService->id, $bookingService->user_id, auth()->user()->full_name);
         DB::commit();

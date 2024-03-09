@@ -1,5 +1,6 @@
 <?php
 
+use AmrShawky\LaravelCurrency\Facade\Currency;
 use App\Http\Controllers\Web\ItemController;
 use App\Http\Controllers\Web\AddressController;
 use App\Http\Controllers\Web\AuthController;
@@ -15,6 +16,8 @@ use App\Http\Controllers\Web\CouponController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\ImageController;
 use App\Http\Controllers\Web\NotificationController;
+use App\Http\Controllers\Web\ExportController;
+use App\Http\Controllers\Web\MessageController;
 use App\Http\Controllers\Web\PriceController;
 use App\Http\Controllers\Web\ProviderController;
 use App\Http\Controllers\Web\ServiceController;
@@ -188,4 +191,91 @@ Route::group([
 
         // Route::resource('slides', SlideController::class);
     });
+
 });
+
+Route::get('bookings', function () {
+    dd('bookings');
+})->name('bookings.index');
+Route::get('/favorites', function () {
+    dd('favorites');
+})->name('favorites.index');
+Route::get('/notifications', function () {
+    dd('notifications');
+})->name('notifications.index');
+Route::get('modules', function () {
+    dd('modules');
+})->name('modules.index');
+
+Route::get('eProviderTypes', function () {
+    dd('eProviderTypes');
+})->name('eProviderTypes.index');
+
+Route::get('EProviderDocuments', function () {
+    dd('EProviderDocuments');
+})->name('documents.index');
+
+Route::get('requestedEProviders', function () {
+    dd('requestedEProviders');
+})->name('requestedEProviders.index');
+
+Route::get('earnings', function () {
+    dd('earnings');
+})->name('earnings.index');
+Route::get('earnings', function () {
+    dd('earnings');
+})->name('earnings.index');
+
+Route::get('payments', function () {
+    dd('payments');
+})->name('payments.index');
+
+// Route::put('eProvider/edit', function () {
+//     dd('eProvider-edit');
+// })->name('eProviders.edit');
+
+Route::post('galleries', function () {
+    dd('galleries');
+})->name('galleries.index');
+Route::post('awards', function () {
+    dd('awards');
+})->name('awards.index');
+
+
+Route::get('exportPDF', [ExportController::class, 'exportPDF']);
+
+
+// Route::get('aed', function () {
+//     $originLat = 29.817446;
+//     $originLng = 31.238099;
+//     $destinationLat = 29.472148;
+//     $destinationLng = 30.880290;
+//     // $originLat = 30.050979; // Latitude of origin
+//     // $originLng = 31.234700; // Longitude of origin
+//     // $destinationLat = 29.808785; // Latitude of destination
+//     // $destinationLng = 31.266972; // Longitude of destination
+//     $apiKey = 'AIzaSyBss8QIwWZ9Q3E-ziCVDsQOOvYWI3tDPfA';
+
+//     function getDistance($originLat, $originLng, $destinationLat, $destinationLng, $apiKey)
+//     {
+//         $url = "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=$destinationLat,$destinationLng&origins=$originLat,$originLng&key=$apiKey";
+//         $response = file_get_contents($url);
+//         $data = json_decode($response, true);
+//         // return $data;
+//         if ($data['status'] == 'OK') {
+//             return $data['rows'][0]['elements'][0]['distance']['value'] /1000; // Distance in meters
+//         } else {
+//             return false;
+//         }
+//     }
+
+//     // Example usage
+
+//     return $distance = getDistance($originLat, $originLng, $destinationLat, $destinationLng, $apiKey);
+//     if ($distance !== false) {
+//         echo "Distance between the two places: " . ($distance / 1000) . " kilometers";
+//     } else {
+//         echo "Failed to retrieve distance";
+//     }
+//     // AIzaSyBss8QIwWZ9Q3E-ziCVDsQOOvYWI3tDPfA
+// });

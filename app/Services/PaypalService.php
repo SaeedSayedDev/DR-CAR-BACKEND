@@ -85,7 +85,7 @@ class PaypalService
 
                 if (isset($booking_service->booking_winch) and $booking_service->delivery_car == true) {
                     $winchNetAfterCommission = $this->bookingService->commissionNet($payment_amount_winch, $netDivision['winch_net']);
-                    $this->bookingService->updateBooking($booking_service->booking_winch, 1, $request['token']);
+                    $this->bookingService->updateBookingWinch($booking_service->booking_winch, 1, $request['token']);
                     $this->walletService->updateWallet($booking_service->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $booking_service->user_id, $request->payment_type, $payment_amount_winch);
                 }
 

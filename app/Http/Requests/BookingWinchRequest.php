@@ -26,6 +26,7 @@ class BookingWinchRequest extends FormRequest
         return [
             'booking_service_id' => 'required|integer|exists:booking_services,id',
             'winch_id' => 'required|integer|exists:winch_information,winch_id',
+            'round_trip' => 'required|boolean',
             // 'address_id' => 'required|integer|exists:addresses,id,user_id,' . auth()->id(),
         ];
     }

@@ -92,6 +92,10 @@ class BookingController extends Controller
     {
         return $this->bookingWinchInterface->updateBookingStatusFromWinch($request, $booking_id);
     }
+    public function doneStatusFromUser($booking_id)
+    {
+        return $this->bookingWinchInterface->doneStatusFromUser($booking_id);
+    }
     public function getBookingForWinch($filter_key)
     {
         return $this->bookingWinchInterface->getBookingForWinch($filter_key);
@@ -106,6 +110,7 @@ class BookingController extends Controller
     {
         return $this->bookingWinchInterface->getWinchsInUser();
     }
+
 
 
     # Booking Ad
