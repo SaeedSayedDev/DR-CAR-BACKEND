@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
+use App\Services\OtpService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,12 @@ class checkTypeUser
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+    public function __construct(private OtpService $otpService)
+    {
+    }
+
+
+
     public function handle(Request $request, Closure $next): Response
     {
         $routeName = $request->route()->getName();
@@ -27,8 +34,12 @@ class checkTypeUser
                     if (auth()->user()->ban == 1)
                         return response()->json(['message' => 'your are rejected'], 404);
                     $user = auth()->user();
-                    if ($user->userRole->id == 2 or $user->userRole->id == 1)
+                    if ($user->userRole->id == 2 or $user->userRole->id == 1) {
+                        if (!$user->email_verified_at) {
+                            return $this->otpService->createEmail($user->email, $user->id, 'user');
+                        }
                         return $next($request);
+                    }
 
                     return response()->json(['message' => 'your email can not access this app'], 404);
                 }

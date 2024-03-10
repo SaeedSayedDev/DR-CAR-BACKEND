@@ -88,7 +88,7 @@ class StripeService
         $netDivision = $this->bookingService->netDivision($bookingService->delivery_car, $bookingService->payment_amount, $payment_amount_winch, $retrieve->balance_transaction->net / 100);
 
         if ($bookingService->delivery_car == true and isset($bookingService->booking_winch)) {
-            $this->bookingService->updateBooking($bookingService->booking_winch, 2, $retrieve->id);
+            $this->bookingService->updateBookingWinch($bookingService->booking_winch, 2, $retrieve->id);
             $winchNetAfterCommission = $this->bookingService->commissionNet($payment_amount_winch, $netDivision['winch_net']);
             $this->walletService->updateWallet($bookingService->booking_winch->winch_id, $winchNetAfterCommission, 'booking', $bookingService->user_id, $request->payment_type, $payment_amount_winch);
         }

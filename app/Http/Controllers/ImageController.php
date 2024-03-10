@@ -67,4 +67,7 @@ class ImageController extends Controller
             return response()->json(['message' => "image default Is Not Found"], 404);
         }
     }
+
+ 
+    
 }

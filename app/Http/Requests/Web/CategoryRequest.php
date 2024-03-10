@@ -17,7 +17,7 @@ class CategoryRequest extends FormRequest
             'name' => 'required|string|max:255',
             'desc' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'public' => 'boolean',
+            'public' => 'required|boolean',
         ];
     }
 }

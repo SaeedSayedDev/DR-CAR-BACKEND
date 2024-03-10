@@ -71,7 +71,7 @@ class CarReportRepository implements CarReportInterface
             'success' => true,
             'message' => 'Created successfully',
             'data' => $report->load('media'),
-        ], 201);
+        ]);
     }
 
     public function update($bookingService, $request)
@@ -134,7 +134,7 @@ class CarReportRepository implements CarReportInterface
     {
         $carLicense = auth()->user()->carLicense;
 
-        $reports = $carLicense->reports()->with('media')->get();
+        $reports = isset($carLicense) ? $carLicense->reports()->with('media')->get() : [];
 
         return response()->json([
             'success' => true,
