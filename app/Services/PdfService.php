@@ -11,7 +11,7 @@ class PdfService
     {
         if ($request->hasFile('pdf') or isset($request->pdf)) {
             $this->deleteMedia($type_id, $type, $path, $api_pdf);
-            $data['pdf'] =  time() . '.' . $request->pdf->extension();
+            $data['pdf'] =  time() . '.pdf';
             Media::create([
                 'image' => $api_pdf . '/' . $data['pdf'],
                 'type_id' => $type_id,
@@ -24,17 +24,13 @@ class PdfService
     public function deleteMedia($type_id, $type, $path, $api_pdf)
     {
         if (request()->isMethod('put') || request()->isMethod('delete')) {
-            $mediaDelete = Media::where('type_id', $type_id)->where('type', $type)->get();
-            foreach ($mediaDelete as $media) {
-
-                $media->delete();
-
-                $directoryName = basename(parse_url($media->image, PHP_URL_PATH));
-                return $directoryName;
-                $pathOldpdf = storage_path("app/$path/" . $directoryName);
-                if (File::exists($pathOldpdf)) {
-                    unlink($pathOldpdf);
-                }
+            $media = Media::where('type_id', $type_id)->where('type', $type)->first();
+            if (!$media) return;
+            $media->delete();
+            $directoryName = basename(parse_url($media->image, PHP_URL_PATH));
+            $pathOldpdf = storage_path("app/$path/" . $directoryName);
+            if (File::exists($pathOldpdf)) {
+                unlink($pathOldpdf);
             }
         }
     }

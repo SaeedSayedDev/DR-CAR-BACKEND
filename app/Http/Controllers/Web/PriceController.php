@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\PriceRequest;
 use App\Models\Price;
 use Illuminate\Http\Request;
 
@@ -20,9 +21,9 @@ class PriceController extends Controller
         return view('prices.edit', compact('price'));
     }
 
-    public function update(Request $request, Price $price)
+    public function update(PriceRequest $request, Price $price)
     {
-        $data = $request->validate(['amount' => 'required|integer|min:0']);
+        $data = $request->validated();
 
         $price->update($data);
 

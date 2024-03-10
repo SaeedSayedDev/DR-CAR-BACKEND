@@ -19,7 +19,12 @@
                     </div>
                     <div class="col-md-7">
                         <p><strong>{{ trans('lang.item_describion') }}:</strong> {{ $item->desc }}</p>
-                        <p><strong>{{ trans('lang.category') }}:</strong> {{ $item->category->name }}</p>
+                        <p>
+                            <strong>{{ trans('lang.category') }}:</strong>
+                            <a href="{{ route('categories.category', $item->category_id) }}">
+                                {{ $item->category->name }}
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>

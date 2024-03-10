@@ -75,7 +75,7 @@ class AuthRepository implements AuthInterface
         $user = auth()->user();
 
         if (!Hash::check($request->oldPassword, $user->password))
-            return back()->with('error', trans('validation.password'));
+            return back()->withError(trans('validation.password'));
 
 
         User::find($user->id)->update([
@@ -106,7 +106,7 @@ class AuthRepository implements AuthInterface
 
     public function updateLogo($request)
     {
-        $currentLogo = Media::appLogo();
+        $currentLogo = Media::where('type', 'logo')->first();
         unlink(storage_path('app/public/images/app/' . $currentLogo->imageName()));
 
         $logo = $request->file('logo');

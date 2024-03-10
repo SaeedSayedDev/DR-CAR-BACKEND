@@ -19,6 +19,13 @@ class CategoryRepository implements CategoryInterface
         return view('categories.index', ['dataTable' => $categories]);
     }
 
+    public function category($category)
+    {
+        $categories = Category::where('id', $category->id)->with('media')->withCount('items')->paginate(10);
+
+        return view('categories.index', ['dataTable' => $categories]);
+    }
+
     public function create()
     {
         return view('categories.create');

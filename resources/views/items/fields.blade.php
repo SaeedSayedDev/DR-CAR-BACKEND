@@ -75,7 +75,9 @@
             {!! Form::checkbox('featured', 1, null) !!} <label for="featured"></label> </span>
     </div> --}}
     <button type="submit" class="btn bg-primary mx-md-3 my-lg-0 my-xl-0 my-md-0 my-2">
-        <i class="fa fa-save"></i> {{ trans('lang.save') }} {{ trans('lang.category') }}
+        <i class="fa fa-save"></i> {{ trans('lang.save') }} {{ trans('lang.item') }}
     </button>
-    <a href="{!! route('items.index') !!}" class="btn btn-default"><i class="fa fa-undo"></i> {{ trans('lang.cancel') }}</a>
+    <a href="{!! route('items.index') !!}" class="btn btn-default">
+        <i class="fa fa-undo"></i> {{ trans('lang.cancel') }}
+    </a>
 </div>

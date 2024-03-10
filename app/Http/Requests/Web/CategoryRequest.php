@@ -14,8 +14,8 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|required|max:255',
-            'desc' => 'string|nullable',
+            'name' => 'required|string|max:255',
+            'desc' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'public' => 'boolean',
         ];

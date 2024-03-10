@@ -68,6 +68,7 @@ Route::group([
         Route::delete('notifications/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 
         # App Management
+        Route::get('categories/category/{category}', [CategoryController::class, 'category'])->name('categories.category');
         Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
         Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
         Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -145,6 +146,7 @@ Route::group([
         Route::get('carLicenses/user/{user}', [CarLicenseController::class, 'user'])->name('carLicenses.user');
         Route::get('carLicenses', [CarLicenseController::class, 'index'])->name('carLicenses.index');
 
+        Route::get('carReports/attachments/{id}', [CarReportController::class, 'attachments'])->name('carReports.attachments');
         Route::get('carReports/report/{carLicense}', [CarReportController::class, 'report'])->name('carReports.report');
         Route::get('carReports/user/{user}', [CarReportController::class, 'user'])->name('carReports.user');
         Route::get('carReports', [CarReportController::class, 'index'])->name('carReports.index');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\Web\CategoryInterface;
 use App\Http\Requests\Web\CategoryRequest;
+use App\Models\Admin\Category;
 
 class CategoryController extends Controller
 {
@@ -15,6 +16,11 @@ class CategoryController extends Controller
     public function index()
     {
         return $this->categoryInterface->index();
+    }
+
+    public function category(Category $category)
+    {
+        return $this->categoryInterface->category($category);
     }
 
     public function create()

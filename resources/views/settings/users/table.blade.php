@@ -65,7 +65,7 @@
                         @endif
                         @if ($user->wallet)
                             <a href="{{ route('wallets.wallet', $user->wallet->id) }}"
-                                title="{{ trans('lang.car_license_details') }}">
+                                title="{{ trans('lang.wallet_details') }}">
                                 <i class="fas fa-wallet"></i>
                             </a>
                         @endif

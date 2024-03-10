@@ -5,6 +5,8 @@ namespace App\Http\Interfaces\Web;
 interface CategoryInterface
 {
     public function index();
+
+    public function category($category);
     
     public function create();
     

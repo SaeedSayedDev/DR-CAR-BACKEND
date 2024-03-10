@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Dr Car | Manage Mobile Application</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <link rel="icon" type="image/png" href="{{  $app_logo ?? $noneImage }}" />
+    <link rel="icon" type="image/png" href="{{ $app_logo ?? $noneImage }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
 
@@ -18,25 +18,29 @@
     @yield('css_custom')
 </head>
 
+@php
+    $admin = auth()->user()->load('media');
+@endphp
+
 <body
     class="{{ LaravelLocalization::getCurrentLocaleDirection() }} layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-mini primary light-mode"
     data-scrollbar-auto-hide="l" data-scrollbar-theme="os-theme-dark">
 
-    @php
-        $admin = auth()->user();
-    @endphp
-    
+
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand navbar-dark navbar-navy border-bottom-0">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                        <i class="fas fa-bars"></i>
+                    </a>
                 </li>
+                
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ url('dashboard') }}" class="nav-link">{{ trans('lang.dashboard') }}</a>
                 </li>
             </ul>
+
             <ul class="navbar-nav ml-auto">
                 @if (env('APP_CONSTRUCTION', false))
                     <li class="nav-item">
@@ -44,10 +48,12 @@
                             {{ env('APP_CONSTRUCTION', '') }}</a>
                     </li>
                 @endif
+
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('notifications*') ? 'active' : '' }}"
-                        href="{!! route('dashboard') !!}"><i class="fas fa-bell"></i></a>
+                        href="{!! route('notifications.index') !!}"><i class="fas fa-bell"></i></a>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fa fas fa-angle-down"></i>
@@ -63,11 +69,12 @@
                         @endforeach
                     </div>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <img src="{{ $app_logo ?? $noneImage }}"
+                        <img src="{{ $admin->media->image ?? $noneImage }}"
                             class="brand-image mx-2 img-circle elevation-2" alt="User Image">
-                        <i class="fa fas fa-angle-down"></i> {{ auth()->user()->full_name }}
+                        <i class="fa fas fa-angle-down"></i> {{ $admin->full_name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="{{ route('users.profile') }}" class="dropdown-item"> <i class="fas fa-user mr-2"></i>

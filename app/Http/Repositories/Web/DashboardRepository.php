@@ -3,46 +3,58 @@
 namespace App\Http\Repositories\Web;
 
 use App\Http\Interfaces\Web\DashboardInterface;
+use App\Models\BookingAd;
 use App\Models\BookingService;
 use App\Models\BookingWinch;
 use App\Models\GarageData;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class DashboardRepository implements DashboardInterface
 {
     public function index()
     {
         $stats = [
-            'total_bookings' => $this->totalBookings(),
-            'total_earnings' => $this->totalEarnings(),
-            'count_providers' => GarageData::count(),
-            'count_customers' => User::where('role_id', 2)->count(),
-            'eProviders' => GarageData::take(2)->get(),
-            'bookings' => BookingService::all()->concat(BookingWinch::all())->take(5),
+            'customers_count' => User::where('role_id', 2)->count(),
+            'providers_count' => GarageData::count(),
+            'bookings_count' => BookingService::count() + BookingWinch::count() + BookingAd::count(),
+            'bookings_amount' => $this->calculateBookingsAmount(),
+            'bookings' => $this->getBookings(),
+            'eProviders' => GarageData::with('checkService:id,name')->take(3)->get(),
         ];
+
         return view('dashboard.index', $stats);
     }
 
-    private function totalBookings()
+    private function calculateBookingsAmount()
     {
-        return number_format(
-            BookingService::where('payment_stataus', 'paid')->get()->sum('payment_amount')
-                + BookingWinch::where('payment_stataus', 'paid')->get()->sum('payment_amount'),
-            2,
-            '.',
-            ''
-        );
+        $bookingServiceAmount = BookingService::where('payment_stataus', 'paid')->sum('payment_amount');
+        $bookingWinchAmount = BookingWinch::where('payment_stataus', 'paid')->sum('payment_amount');
+        $bookingAdAmount = BookingAd::where('status', '!=', 3)->sum('amount');
+
+        return number_format($bookingServiceAmount + $bookingWinchAmount + $bookingAdAmount, 2, '.', '');
     }
 
-    private function totalEarnings()
+
+    private function getBookings()
     {
-        return BookingService::all()->sum(function ($booking_service) {
-            $total = $booking_service->payment_amount * $booking_service->quantity;
-            if ($booking_service->payment_type) {
-                return $total + $booking_service->taxes;
-            } else {
-                return $total + ($total * $booking_service->taxes / 100);
-            }
-        }) + BookingWinch::sum('payment_amount');
+        $currentYear = Carbon::now()->year;
+
+        $bookingServices = BookingService::selectRaw('payment_amount as amount')
+            ->where('payment_stataus', 'paid')
+            ->whereYear('created_at', $currentYear)
+            ->get();
+
+        $bookingWinchs = BookingWinch::selectRaw('payment_amount as amount')
+            ->where('payment_stataus', 'paid')
+            ->whereYear('created_at', $currentYear)
+            ->get();
+
+        $bookingAds = BookingAd::select('amount')
+            ->where('status', '!=', 3)
+            ->whereYear('created_at', $currentYear)
+            ->get();
+
+        return $bookingServices->concat($bookingWinchs)->concat($bookingAds);
     }
 }

@@ -19,7 +19,7 @@
                             {{ $eProvider->availability_range }}
                         </p>
                         <p>
-                            <strong>{{ trans('lang.taxe') }}:</strong>
+                            <strong>{{ trans('lang.tax') }}:</strong>
                             {{ $eProvider->taxe->value }}
                         </p>
                     </div>

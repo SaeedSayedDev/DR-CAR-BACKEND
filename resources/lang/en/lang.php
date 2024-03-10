@@ -1535,4 +1535,10 @@ return [
     'wallet_details' => 'Wallet Details',
     'approved_success' => 'Approved successfully',
     'rejected_success' => 'Rejected successfully',
+    'attachment' => 'Attachment',
+    'attachment_plural' => 'Attachments',
+    'ad' => 'Ad',
+    'dollar' => 'Dollar',
+    'dirham' => 'Dirham',
+    'day' => 'Day',
 ];

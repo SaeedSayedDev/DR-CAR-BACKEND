@@ -15,7 +15,7 @@ class CreateCarReportsTable extends Migration
     {
         Schema::create('car_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('garage_id')->on('users');
+            $table->foreignId('garage_id')->constrained('users');
             $table->foreignId('car_license_id')->constrained();
             $table->foreignId('booking_service_id')->constrained();
 

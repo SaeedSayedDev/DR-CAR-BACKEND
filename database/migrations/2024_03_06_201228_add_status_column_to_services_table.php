@@ -14,7 +14,7 @@ class AddStatusColumnToServicesTable extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->tinyInteger('status')->default(0)->commen('0: pending, 1: approved, 2: rejected')->after('desc');
+            $table->tinyInteger('status')->default(0)->comment('0: pending, 1: approved, 2: rejected')->after('desc');
         });
     }
 

@@ -41,10 +41,12 @@
                                 <i class="fas fa-info-circle text-info text-md mr-3"></i>
                             </a>
                             @include('car_licenses.modal')
-                            <a href="{{ route('carReports.report', $carLicense->id) }}"
-                                title="{{ trans('lang.car_report_plural') }}">
-                                <i class="fas fa-file-alt text-orange text-md"></i>
-                            </a>
+                            @if ($carLicense->reports->count())
+                                <a href="{{ route('carReports.report', $carLicense->id) }}"
+                                    title="{{ trans('lang.car_report_plural') }}">
+                                    <i class="fas fa-file-alt text-orange text-md"></i>
+                                </a>
+                            @endif
                         </div>
                     </td>
                 </tr>

@@ -20,7 +20,7 @@ class CarReportRequest extends FormRequest
             'changed_parts' => 'required_if:parts_changed,true|string',
             'report_details' => 'nullable|string',
             
-            'pdf' => 'nullable|file|mimes:pdf',
+            'pdf' => 'nullable|file|mimes:pdf|max:2048',
             'images' => 'nullable|array|max:5',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
