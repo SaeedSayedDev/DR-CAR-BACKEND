@@ -53,15 +53,11 @@ class CarController extends Controller
 
     # Car Report
 
-    public function indexReports(BookingService $bookingService)
+    public function showReports(BookingService $bookingService)
     {
-        return $this->carReportInterface->index($bookingService);
+        return $this->carReportInterface->showReports($bookingService);
     }
 
-    public function showReports(CarReport $carReport)
-    {
-        return $this->carReportInterface->show($carReport);
-    }
 
     public function storeReports(BookingService $bookingService, CarReportRequest $request)
     {
@@ -81,5 +77,9 @@ class CarController extends Controller
     public function userReports()
     {
         return $this->carReportInterface->userReports();
+    }
+    public function get_all_reports_for_garage()
+    {
+        return $this->carReportInterface->get_all_reports_for_garage();
     }
 }
