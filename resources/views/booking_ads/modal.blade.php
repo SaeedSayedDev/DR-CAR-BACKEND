@@ -31,8 +31,11 @@
                             {{ $booking_ad->coupon }}
                         </p>
                         <p>
-                            <strong>{{ trans('lang.car_type') }}:</strong>
-                            {{ $booking_ad->car_type }}
+                            <strong>{{ trans('lang.car_plural') }}:</strong>
+                            <a href="{{ route('cars.ad', $booking_ad->id) }}"
+                                title="{{ trans('lang.view_details') }}">
+                                {{ $booking_ad->cars_count }}
+                            </a>
                         </p>
                         <p>
                             <strong>{{ trans('lang.car_start_date') }}:</strong>

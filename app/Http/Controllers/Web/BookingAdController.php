@@ -18,7 +18,7 @@ class BookingAdController extends Controller
     {
         $bookingAds = BookingAd::with([
             'garage:id,full_name', 'media'
-        ])->paginate(10);
+        ])->withCount('cars')->paginate(10);
 
         return view('booking_ads.index', ['dataTable' => $bookingAds]);
     }

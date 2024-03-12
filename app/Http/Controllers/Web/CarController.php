@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\CarRequest;
+use App\Models\BookingAd;
 use App\Models\Car;
 use App\Services\ImageService;
 
@@ -15,7 +16,14 @@ class CarController extends Controller
 
     public function index()
     {
-        $cars = Car::paginate(10);
+        $cars = Car::with('media')->paginate(10);
+
+        return view('cars.index', ['dataTable' => $cars]);
+    }
+
+    public function ad(BookingAd $bookingAd)
+    {
+        $cars = $bookingAd->cars()->with('media')->paginate(10);
 
         return view('cars.index', ['dataTable' => $cars]);
     }

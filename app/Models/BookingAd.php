@@ -36,4 +36,9 @@ class BookingAd extends Model
     {
         return $this->hasMany(Media::class, 'type_id')->where('type', 'ad');
     }
+
+    public function cars()
+    {
+        return $this->belongsToMany(Car::class, 'booking_ad_car', 'booking_ad_id', 'car_id');
+    }
 }
