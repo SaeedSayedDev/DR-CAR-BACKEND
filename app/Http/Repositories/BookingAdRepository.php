@@ -21,7 +21,7 @@ class BookingAdRepository implements BookingAdInterface
         /** @var User */
         $garage = auth()->user();
 
-        $bookingAds = $garage->bookingAds()->with('media')->get();
+        $bookingAds = $garage->bookingAds()->with('media', 'cars:id,name')->get();
 
         return response()->json([
             'success' => true,
@@ -41,7 +41,7 @@ class BookingAdRepository implements BookingAdInterface
         return response()->json([
             'success' => true,
             'message' => 'Retrieved successfully',
-            'data' => $bookingAd->load('media'),
+            'data' => $bookingAd->load('media', 'cars:id,name'),
         ]);
     }
 
