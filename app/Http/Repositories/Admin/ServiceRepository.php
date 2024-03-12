@@ -45,7 +45,7 @@ class ServiceRepository implements ServiceInterface
                 $userLatitude = auth()->user()->address[0]->latitude;
                 $userLongitude = auth()->user()->address[0]->longitude;
 
-                $services = Service::getRelashinIndex()
+                $services = Service::where('status', 1)->getRelashinIndex()
                     ->whereHas('provider.user', function ($query) {
                         $query->whereHas('garage_support_cars', function ($q) {
                             $q->where('car_id', auth()->user()->user_information->car_id);
@@ -74,7 +74,7 @@ class ServiceRepository implements ServiceInterface
 
                 $userLatitude = auth()->user()->address[0]->latitude;
                 $userLongitude = auth()->user()->address[0]->longitude;
-                $services = Service::getRelashinIndex()
+                $services = Service::where('status', 1)->getRelashinIndex()
                     ->whereHas('items', function ($query) use ($item_id) {
                         $query->where('item_id', $item_id);
                     })->with('provider_avilabilty_time')
@@ -95,7 +95,7 @@ class ServiceRepository implements ServiceInterface
                         return  $service;
                     });
             } elseif (!isset(auth()->user()->address[0])) {
-                $services = Service::getRelashinIndex()
+                $services = Service::where('status', 1)->getRelashinIndex()
                     ->with('provider_avilabilty_time')
                     ->get()
                     ->map(function ($service) use ($filter_key) {
@@ -152,7 +152,7 @@ class ServiceRepository implements ServiceInterface
                 $userLatitude = auth()->user()->address[0]->latitude;
                 $userLongitude = auth()->user()->address[0]->longitude;
 
-                $services = Service::getRelashinIndex()
+                $services = Service::where('status', 1)->getRelashinIndex()
                     ->whereHas('provider.user', function ($query) {
                         $query->whereHas('garage_support_cars', function ($q) {
                             $q->where('car_id', auth()->user()->user_information->car_id);
@@ -181,7 +181,7 @@ class ServiceRepository implements ServiceInterface
 
                 $userLatitude = auth()->user()->address[0]->latitude;
                 $userLongitude = auth()->user()->address[0]->longitude;
-                $services = Service::getRelashinIndex()
+                $services = Service::where('status', 1)->getRelashinIndex()
                     ->whereHas('items.category', function ($query) use ($item_id) {
                         $query->where('id', $item_id);
                     })
@@ -203,7 +203,7 @@ class ServiceRepository implements ServiceInterface
                         return  $service;
                     });
             } elseif (!isset(auth()->user()->address[0])) {
-                $services = Service::getRelashinIndex()
+                $services = Service::where('status', 1)->getRelashinIndex()
                     ->with('provider_avilabilty_time')
                     ->get()
                     ->map(function ($service) use ($filter_key) {
@@ -255,7 +255,7 @@ class ServiceRepository implements ServiceInterface
     public function servicesProvider($provider_id)
     {
         $userAddress = auth()->user()->address;
-        $services = Service::where()->whereHas('provider', function ($q) use ($userAddress) {
+        $services = Service::where('status', 1)->where()->whereHas('provider', function ($q) use ($userAddress) {
             $q->selectRaw('*, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + 
             sin(radians(?)) * sin(radians(latitude)))) AS distance_in_km', [$userAddress->latitude, $userAddress->longitude, $userAddress->latitude])
                 ->having('distance_in_km', '<=', 'availability_range');
@@ -280,7 +280,7 @@ class ServiceRepository implements ServiceInterface
     public function indexGarage()
     {
         if (isset(auth()->user()->garage_data)) {
-            $services = Service::where('provider_id', auth()->user()->garage_data->id)
+            $services = Service::where('status', 1)->where('provider_id', auth()->user()->garage_data->id)
                 ->with('provider.user')
                 ->with('media', 'items', 'review')
                 ->withSum('review', 'review_value')
@@ -304,7 +304,7 @@ class ServiceRepository implements ServiceInterface
 
     public function show($id)
     {
-        $service = Service::with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite', 'options.media', 'review')
+        $service = Service::where('status', 1)->with('provider.user.userRole', 'provider.user.media', 'media', 'items', 'favourite', 'options.media', 'review')
             ->withSum('review', 'review_value')
             ->withCount('review')
             ->findOrFail($id);
@@ -351,7 +351,7 @@ class ServiceRepository implements ServiceInterface
 
     public function update($request, $id)
     {
-        $service = Service::where('provider_id', auth()->user()->garage_data->id)->findOrFail($id);
+        $service = Service::where('status', 1)->where('provider_id', auth()->user()->garage_data->id)->findOrFail($id);
         $requestData = request()->all();
 
         $service->update($requestData);
@@ -365,7 +365,7 @@ class ServiceRepository implements ServiceInterface
 
     public function delete($id)
     {
-        $service = Service::where('provider_id', auth()->user()->garage_data->id)->findOrFail($id);
+        $service = Service::where('status', 1)->where('provider_id', auth()->user()->garage_data->id)->findOrFail($id);
         if (auth()->user()->garage_data->check_servic_id == $service->id)
             return response()->json(['message' => 'you can not delete this service'], 404);
         $service->delete();
@@ -376,7 +376,7 @@ class ServiceRepository implements ServiceInterface
 
     public function recommended()
     {
-        $services = Service::with('media', 'review')
+        $services = Service::where('status', 1)->with('media', 'review')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular')
             ->get()->sortByDesc('popular_count')->values()->take(6);

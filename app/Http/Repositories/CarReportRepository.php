@@ -14,9 +14,11 @@ class CarReportRepository implements CarReportInterface
     {
     }
 
-    public function index($bookingService)
+
+    public function get_all_reports_for_garage()
     {
-        $reports = $bookingService->user->carLicense->reports()->with('media')->get();
+        $garage = auth()->user();
+        $reports = $garage->carReports()->with('media')->get();
 
         return response()->json([
             'success' => true,
@@ -25,13 +27,24 @@ class CarReportRepository implements CarReportInterface
         ]);
     }
 
-    public function show($carReport)
+    public function showReports($bookingService)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Retrieved successfully',
-            'data' => $carReport->load('media'),
-        ]);
+        $garage = auth()->user();
+
+        if ($garage->id != $bookingService->service->provider->garage_id)
+            return response()->json(['message' => 'this booking not for you']);
+        if ($bookingService->order_status_id > 3 and $bookingService->order_status_id < 7) {
+            if (!isset($bookingService->user->carLicense))
+                return response()->json(['success' => false, 'message' => 'this user has not car licence']);
+
+            $reports = $bookingService->user->carLicense->reports()->with('media')->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Retrieved successfully',
+                'data' => $reports,
+            ]);
+        }
+        return response()->json(['success' => false, 'message' => 'now you can not see reports for this car']);
     }
 
     public function store($bookingService, $request)
