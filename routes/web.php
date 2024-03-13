@@ -27,6 +27,7 @@ use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\WalletController;
 use App\Http\Controllers\Web\WalletTransactionController;
 use App\Http\Controllers\Web\WithdrawController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -138,6 +139,7 @@ Route::group([
         Route::put('withdraws/status/{id}', [WithdrawController::class, 'updateStatus'])->name('withdraws.status.update');
 
         # Cars
+        Route::get('cars/car/{car}', [CarController::class, 'car'])->name('cars.car');
         Route::get('cars/ad/{bookingAd}', [CarController::class, 'ad'])->name('cars.ad');
         Route::get('cars', [CarController::class, 'index'])->name('cars.index');
         Route::get('cars/create', [CarController::class, 'create'])->name('cars.create');
@@ -195,6 +197,9 @@ Route::group([
         // Route::resource('slides', SlideController::class);
     });
 
+    Route::get('test', function (Request $request) {
+        return $_SERVER['SERVER_NAME'];
+    });
 });
 
 // Route::get('bookings', function () {

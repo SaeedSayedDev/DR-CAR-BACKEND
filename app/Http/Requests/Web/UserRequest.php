@@ -23,6 +23,8 @@ class UserRequest extends FormRequest
             'address' => 'nullable|string',
             'short_biography' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'car_id' => 'required|exists:cars,id',
+            'gender' => 'required|boolean',
         ];
     }
 }

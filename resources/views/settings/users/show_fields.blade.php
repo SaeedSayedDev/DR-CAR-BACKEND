@@ -36,6 +36,16 @@
                     </span>
                 </div>
             </div>
+            @if ($user->user_information)
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong>{{ trans('lang.gender') }}:</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        {{ $user->user_information->gender ? trans('lang.male') : trans('lang.female') }}
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
@@ -70,6 +80,18 @@
                     {{ $user->info->short_biography }}
                 </div>
             </div>
+            @if ($user->user_information)
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong>{{ trans('lang.car') }}:</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="{{ route('cars.car', $user->user_information->car_id) }}">
+                            {{ $user->user_information->car->name }}
+                        </a>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
@@ -90,7 +112,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endif
 
 @if ($user->wallet)
@@ -109,7 +131,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endif
 
 @if ($user->garage_data)
@@ -129,7 +151,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endif
 
 @if ($user->bookingAds->isNotEmpty())
@@ -149,7 +171,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endif
 
 @if ($user->carReports->isNotEmpty())
@@ -159,7 +181,7 @@
                 <h3 class="card-title">{{ trans('lang.car_report_plural') }}</h3>
                 <span class="ml-auto">{{ trans('lang.total') }}: {{ $user->carReports_count }}</span>
             </div>
-            
+
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-12">
@@ -170,5 +192,5 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endif

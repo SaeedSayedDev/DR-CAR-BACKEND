@@ -17,6 +17,7 @@ class CarReportRepository implements CarReportInterface
 
     public function get_all_reports_for_garage()
     {
+        /** @var User $garage */
         $garage = auth()->user();
         $reports = $garage->carReports()->with('media')->get();
 
@@ -32,7 +33,7 @@ class CarReportRepository implements CarReportInterface
         $garage = auth()->user();
 
         if ($garage->id != $bookingService->service->provider->garage_id)
-            return response()->json(['message' => 'this booking not for you']);
+            return response()->json(['message' => 'This service is not for you']);
         if ($bookingService->order_status_id > 3 and $bookingService->order_status_id < 7) {
             if (!isset($bookingService->user->carLicense))
                 return response()->json(['success' => false, 'message' => 'this user has not car licence']);
@@ -54,7 +55,7 @@ class CarReportRepository implements CarReportInterface
         $carLicense = $bookingService->user->carLicense;
 
         if ($garage->id != $bookingService->service->provider->garage_id) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'This service is not for you'], 401);
         } elseif ($bookingService->order_status_id < 4) {
             return response()->json(['message' => 'You can not report before your status is ready'], 404);
         } elseif (!$carLicense) {
@@ -94,7 +95,7 @@ class CarReportRepository implements CarReportInterface
         $report = $garage->carReports()->where('booking_service_id', $bookingService->id)->first();
 
         if ($garage->id != $bookingService->service->provider->garage_id) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'This service is not for you'], 401);
         } elseif (!$report) {
             return response()->json(['message' => 'Report not found'], 404);
         }
@@ -127,7 +128,7 @@ class CarReportRepository implements CarReportInterface
         $report = $garage->carReports()->where('booking_service_id', $bookingService->id)->first();
 
         if ($garage->id != $bookingService->service->provider->garage_id) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'This service is not for you'], 401);
         } else if (!$report) {
             return response()->json(['message' => 'Report not found'], 404);
         }
