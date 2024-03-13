@@ -208,6 +208,9 @@ Route::group(['middleware' => 'apiAuth'], function () {
         Route::get('service/reports/history/garage/{carLicense}', [ServiceController::class, 'historyGarageReports']);
     });
 });
+
+
+Route::get('ads/price', [BookingController::class, 'adsPrice']);
 Route::get('user/booking/ads', [BookingController::class, 'userBookingAds']);
 
 Route::get('cars', [CarController::class, 'index']);

@@ -182,4 +182,25 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Wallet::class);
     }
+
+
+
+    public function bookingsWinch()
+    {
+        return $this->hasMany(BookingWinch::class, 'winch_id');
+    }
+
+
+    public function scopeWithBookingWinch($query)
+    {
+        return $query->join('booking_winches', 'booking_winches.winch_id', '=', 'users.id')
+            ->select('booking_winches.*', 'users.*')
+            ->with(['bookingsWinch.bookingService']);
+        }
+    public function scopeWithBookingService($query)
+
+    {
+        return $query->join('booking_services', 'booking_services.id', '=', 'booking_winches.booking_service_id')
+            ->select('booking_services.*', 'booking_winches.*');
+    }
 }

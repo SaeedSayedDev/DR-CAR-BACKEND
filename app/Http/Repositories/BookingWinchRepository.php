@@ -38,14 +38,31 @@ class BookingWinchRepository implements BookingWinchInterface
             ->where('ban', 0)
             ->join('winch_information', 'winch_information.winch_id', '=', 'users.id')
             ->join('addresses', 'addresses.user_id', '=', 'users.id')
+            ->join('booking_winches', 'booking_winches.winch_id', '=', 'users.id')->select('booking_winches.*', 'users.*')->with(['bookingsWinch.bookingService'])
             // ->select('users.id', 'winch_information.phone_number', 'addresses.latitude')
             ->whereRaw("latitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLatitude, $userLatitude])
             ->whereRaw("longitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLongitude, $userLongitude])
-            ->with('winch_information', 'address', 'media')
+            ->with('winch_information', 'address', 'media', 'bookingsWinch')
             ->whereHas('winch_information', function ($q) {
                 $q->where('available_now', 1);
             })
-            ->get();
+            ->get()->map(function ($winch) {
+                foreach ($winch->bookingsWinch as $bookingWinch) {
+                    if ($bookingWinch->order_status_id > 1 and $bookingWinch->order_status_id < 6) {
+                        if ($bookingWinch->round_trip == 0)
+                            return null;
+                        else if (
+                            $bookingWinch->round_trip == 1
+                            and $bookingWinch->bookingService->order_status_id == 6
+                            and $bookingWinch->order_status_id != 6
+                        )
+                            return null;
+                    }
+                }
+
+
+                return $winch;
+            });
         return ['data' => $winchs];
     }
 
@@ -158,8 +175,7 @@ class BookingWinchRepository implements BookingWinchInterface
 
     public function updateBookingStatusFromWinch($request, $booking_id)
     {
-        if ($request->order_status_id > 4)
-            return response()->json(['message' => 'you can not update to this status'], 404);
+
 
 
         $user = auth()->user();
@@ -167,6 +183,7 @@ class BookingWinchRepository implements BookingWinchInterface
         DB::beginTransaction();
 
         $bookingWinch = BookingWinch::where('winch_id', $user->id)->findOrFail($booking_id);
+
 
         if ($bookingWinch->order_status_id > 2 and $request->order_status_id == 7)
             return response()->json(['message' => 'you can not decline this booking now'], 404);

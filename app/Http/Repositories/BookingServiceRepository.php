@@ -9,6 +9,7 @@ use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\Service;
 use App\Models\BookingService;
 use App\Models\BookingWinch;
+use App\Models\CarReport;
 use App\Models\Coupon;
 use App\Models\Wallet;
 use App\Services\BookingServices;
@@ -17,6 +18,7 @@ use App\Services\ConvertCurrencyService;
 use App\Services\ImageService;
 use App\Services\NotificationService;
 use App\Services\PaypalService;
+use App\Services\PdfService;
 use App\Services\StripeService;
 use App\Services\WalletService;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +27,7 @@ use Stripe\Charge;
 class BookingServiceRepository implements BookingServiceInterface
 {
 
-    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService, private ImageService $imageService)
+    public function __construct(private StripeService $stripeService, private PaypalService $paypalService, private BookingServices $bookingService, private WalletService $walletService, private ConvertCurrencyService $convertCurrencyService, private NotificationService $notificationService, private ImageService $imageService, private PdfService $pdfService)
     {
     }
 
@@ -98,7 +100,7 @@ class BookingServiceRepository implements BookingServiceInterface
         if ($payment_method->name == 'Stripe') {
             $retrieve = $this->payWithStripe($request, $total_amount);
             return  $this->stripeService->payWithStripe($request, $bookingService, $total_amount, $retrieve);
-        } 
+        }
         // elseif ($payment_method->name == 'Paypal') {
         //     $amount_usd = $this->convertCurrencyService->convertAmountFromAEDToUSA($total_amount);
 
@@ -246,8 +248,6 @@ class BookingServiceRepository implements BookingServiceInterface
         ) {
             return response()->json(['message' => 'you can not update this booking now, you should booking winch and and status winch should be accepted']);
         }
-        if ($request->order_status_id == 6 and !isset($bookingService->report))
-            return response()->json(['message' => 'you should make report befor update booking to this status']);
 
 
         $bookingService->update(['order_status_id' => $request->order_status_id]);
@@ -267,6 +267,25 @@ class BookingServiceRepository implements BookingServiceInterface
             }
             // isset($bookingService->booking_winch) ? $bookingService->booking_winch->update(['order_status_id' => 6]) : null;
             $this->imageService->storeMedia($request, $bookingService->id, 'garage_receive', 'public/images/admin/receives', url("api/images/Receive/"));
+        }
+        if ($request->order_status_id == 6) {
+            $dataReports = $request->all();
+            $dataReports['garage_id'] = auth()->id();
+            if (!isset($bookingService->user->carLicense))
+                return response()->json(['message' => 'this user has not car license']);
+
+            $dataReports['car_license_id'] = $bookingService->user->carLicense->id;
+            $dataReports['booking_service_id'] = $bookingService->id;
+            if ($request->hasFile('pdf') && $request->hasFile('images')) {
+                return response()->json(['message' => 'You can only upload one of the attachments (pdf or images)'], 422);
+            }
+
+            $report = CarReport::create($dataReports);
+            if ($request->hasFile('pdf')) {
+                $this->pdfService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
+            } else {
+                $this->imageService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
+            }
         }
         if ($request->order_status_id == 6 and  isset($bookingService->booking_winch) and $bookingService->booking_winch->round_trip == 1)
             $this->notification($bookingService->id, $bookingService->booking_winch->winch_id, auth()->user()->full_name);

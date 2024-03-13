@@ -30,13 +30,13 @@ class UpdateBookingServiceRequest extends FormRequest
             'image_right_side' => 'image|required_if:order_status_id,==,4',
             'image_left_side' => 'image|required_if:order_status_id,==,4',
 
-            'maintenance_type' => 'required_if:order_status_id,==,5|string',
-            'maintenance_date' => 'required_if:order_status_id,==,5|date',
-            'parts_changed' => 'required_if:order_status_id,==,5|boolean',
-            'changed_parts' => 'required_if:parts_changed,true|string',
-            'report_details' => 'nullable|string',
+            'maintenance_type' => 'required_if:order_status_id,==,6',
+            'maintenance_date' => 'required_if:order_status_id,==,6',
+            'parts_changed' => 'required_if:order_status_id,==,6',
+            'changed_parts' => 'required_if:parts_changed,true',
+            'report_details' => 'nullable',
             'pdf' => 'nullable|file|mimes:pdf',
-            'images' => 'nullable|array|max:5',
+            'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }

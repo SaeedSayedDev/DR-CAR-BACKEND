@@ -13,6 +13,7 @@ use App\Http\Requests\PaypalSeuccessRequest;
 use App\Http\Requests\UpdateBookingServiceRequest;
 use App\Http\Requests\updateBookingWinchRequest;
 use App\Models\BookingAd;
+use App\Models\Price;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -143,5 +144,14 @@ class BookingController extends Controller
     public function userBookingAds()
     {
         return $this->bookingAdInterface->userBookingAds();
+    }
+
+    public function adsPrice()
+    {
+        $dayPrice = Price::where(['type' => 'ad', 'per' => 'day'])->first()->amount;
+        return response()->json([
+            'success' => true,
+            'data' => $dayPrice
+        ]);
     }
 }
