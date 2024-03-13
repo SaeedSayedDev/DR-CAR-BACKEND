@@ -24,7 +24,13 @@
                         </p>
                         <p>
                             <strong>{{ trans('lang.gender') }}:</strong>
-                            {{ $booking_ad->gender ? trans('lang.male') : trans('lang.female') }}
+                            @if($booking_ad->gender == 0)
+                                {{ trans('lang.female') }}
+                            @elseif($booking_ad->gender == 1)
+                                {{ trans('lang.male') }}
+                            @elseif($booking_ad->gender == 2)
+                                {{ trans('lang.both') }}
+                            @endif
                         </p>
                         <p>
                             <strong>{{ trans('lang.coupon') }}:</strong>

@@ -17,7 +17,7 @@
 <div class="col-lg-3 col-6">
     <div class="small-box bg-white shadow-sm">
         <div class="inner">
-            <h3 class="text-primary">{{ $bookings_amount }} {{ trans('lang.dirham')}}</h3>
+            <h3 class="text-primary">{{ $bookings_amount }}</h3>
 
             <p>
                 {{ trans('lang.dashboard_total_earnings') }}

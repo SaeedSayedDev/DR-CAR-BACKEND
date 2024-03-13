@@ -1541,4 +1541,5 @@ return [
     'dollar' => 'Dollar',
     'dirham' => 'Dirham',
     'day' => 'Day',
+    'both' => 'Both',
 ];
