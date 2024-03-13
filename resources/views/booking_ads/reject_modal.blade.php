@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <label
                             for="rejection_reason">{{ trans('lang.rejection_reason') }}</label>
-                        <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="3" required></textarea>
+                        <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="3"></textarea>
                     </div>
                     <button type="submit" class="btn btn-danger" onclick='return confirm("Are you sure?")'>
                         {{ trans('lang.reject') }}

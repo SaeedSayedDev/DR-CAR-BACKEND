@@ -71,6 +71,7 @@ Route::group([
         Route::delete('notifications/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 
         # App Management
+        Route::get('categories/category/{category}', [CategoryController::class, 'category'])->name('categories.category');
         Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
         Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
         Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -137,6 +138,7 @@ Route::group([
         Route::put('withdraws/status/{id}', [WithdrawController::class, 'updateStatus'])->name('withdraws.status.update');
 
         # Cars
+        Route::get('cars/ad/{bookingAd}', [CarController::class, 'ad'])->name('cars.ad');
         Route::get('cars', [CarController::class, 'index'])->name('cars.index');
         Route::get('cars/create', [CarController::class, 'create'])->name('cars.create');
         Route::post('cars', [CarController::class, 'store'])->name('cars.store');
@@ -148,6 +150,7 @@ Route::group([
         Route::get('carLicenses/user/{user}', [CarLicenseController::class, 'user'])->name('carLicenses.user');
         Route::get('carLicenses', [CarLicenseController::class, 'index'])->name('carLicenses.index');
 
+        Route::get('carReports/attachments/{id}', [CarReportController::class, 'attachments'])->name('carReports.attachments');
         Route::get('carReports/report/{carLicense}', [CarReportController::class, 'report'])->name('carReports.report');
         Route::get('carReports/user/{user}', [CarReportController::class, 'user'])->name('carReports.user');
         Route::get('carReports', [CarReportController::class, 'index'])->name('carReports.index');
@@ -194,55 +197,55 @@ Route::group([
 
 });
 
-Route::get('bookings', function () {
-    dd('bookings');
-})->name('bookings.index');
-Route::get('/favorites', function () {
-    dd('favorites');
-})->name('favorites.index');
-Route::get('/notifications', function () {
-    dd('notifications');
-})->name('notifications.index');
-Route::get('modules', function () {
-    dd('modules');
-})->name('modules.index');
+// Route::get('bookings', function () {
+//     dd('bookings');
+// })->name('bookings.index');
+// Route::get('/favorites', function () {
+//     dd('favorites');
+// })->name('favorites.index');
+// Route::get('/notifications', function () {
+//     dd('notifications');
+// })->name('notifications.index');
+// Route::get('modules', function () {
+//     dd('modules');
+// })->name('modules.index');
 
-Route::get('eProviderTypes', function () {
-    dd('eProviderTypes');
-})->name('eProviderTypes.index');
+// Route::get('eProviderTypes', function () {
+//     dd('eProviderTypes');
+// })->name('eProviderTypes.index');
 
-Route::get('EProviderDocuments', function () {
-    dd('EProviderDocuments');
-})->name('documents.index');
+// Route::get('EProviderDocuments', function () {
+//     dd('EProviderDocuments');
+// })->name('documents.index');
 
-Route::get('requestedEProviders', function () {
-    dd('requestedEProviders');
-})->name('requestedEProviders.index');
+// Route::get('requestedEProviders', function () {
+//     dd('requestedEProviders');
+// })->name('requestedEProviders.index');
 
-Route::get('earnings', function () {
-    dd('earnings');
-})->name('earnings.index');
-Route::get('earnings', function () {
-    dd('earnings');
-})->name('earnings.index');
+// Route::get('earnings', function () {
+//     dd('earnings');
+// })->name('earnings.index');
+// Route::get('earnings', function () {
+//     dd('earnings');
+// })->name('earnings.index');
 
-Route::get('payments', function () {
-    dd('payments');
-})->name('payments.index');
+// Route::get('payments', function () {
+//     dd('payments');
+// })->name('payments.index');
 
 // Route::put('eProvider/edit', function () {
 //     dd('eProvider-edit');
 // })->name('eProviders.edit');
 
-Route::post('galleries', function () {
-    dd('galleries');
-})->name('galleries.index');
-Route::post('awards', function () {
-    dd('awards');
-})->name('awards.index');
+// Route::post('galleries', function () {
+//     dd('galleries');
+// })->name('galleries.index');
+// Route::post('awards', function () {
+//     dd('awards');
+// })->name('awards.index');
 
 
-Route::get('exportPDF', [ExportController::class, 'exportPDF']);
+// Route::get('exportPDF', [ExportController::class, 'exportPDF']);
 
 
 // Route::get('aed', function () {

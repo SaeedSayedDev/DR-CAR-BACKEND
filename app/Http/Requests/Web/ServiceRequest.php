@@ -14,18 +14,17 @@ class ServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|required|max:255',
-            'desc' => 'string|nullable',
+            'name' => 'required|string|max:255',
+            'desc' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'price' => 'numeric|required',
-
-            'discount_price' => 'numeric|nullable',
-            'price_unit' => 'string|nullable',
-            'quantity_unit' => 'string|nullable',
-            'duration' => 'string|nullable',
+            'price' => 'required|numeric',
+            'discount_price' => 'nullable|numeric',
+            'price_unit' => 'nullable|string',
+            'quantity_unit' => 'nullable|string',
+            'duration' => 'nullable|string',
             'featured' => 'boolean',
             'enable_booking' => 'boolean',
-            'provider_id' => 'integer|required',
+            'provider_id' => 'required|integer',
             'available' => 'boolean',
         ];
     }

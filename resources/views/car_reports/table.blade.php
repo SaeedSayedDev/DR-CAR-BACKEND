@@ -47,6 +47,12 @@
                                 <i class="fas fa-info-circle text-info text-md mr-3"></i>
                             </a>
                             @include('car_reports.modal')
+                            @if ($carReport->media_exists)
+                                <a href="{{ route('carReports.attachments', $carReport->id) }}" class='btn btn-link'
+                                    title="{{ trans('lang.attachment_plural') }}">
+                                    <i class="fas fa-paperclip"></i>
+                                </a>
+                            @endif
                         </div>
                     </td>
                 </tr>

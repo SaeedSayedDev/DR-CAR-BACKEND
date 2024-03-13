@@ -48,7 +48,7 @@
                         </div>
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img src="{{ $admin->media[0]->image ?? $noneImage }}"
+                                <img src="{{ $admin->media->image ?? $noneImage }}"
                                     class="profile-user-img img-fluid img-circle" alt="{{ $admin->name }}">
                             </div>
                             <h3 class="profile-username text-center">{{ $admin->full_name }}</h3>

@@ -22,7 +22,7 @@ class CarLicenseRequest extends FormRequest
             'nationality_ar' => 'nullable|string|max:255',
 
             'number_of_passengers' => 'required|integer',
-            'model' => 'required|integer',
+            'model' => 'required|date_format:Y',
             'origin_en' => 'required|string',
             'origin_ar' => 'nullable|string',
             'color' => 'required|string',

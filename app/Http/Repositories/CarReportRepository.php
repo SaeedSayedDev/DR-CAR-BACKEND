@@ -104,11 +104,11 @@ class CarReportRepository implements CarReportInterface
         if ($request->hasFile('pdf') && $request->hasFile('images')) {
             return response()->json(['message' => 'You can only upload one of the attachments (pdf or images)'], 422);
         } elseif ($request->hasFile('pdf')) {
-            $this->pdfService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
             $this->imageService->deleteMedia($report->id, 'car_report', 'public/images/car_reports', '');
+            $this->pdfService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
         } elseif ($request->hasFile('images')) {
-            $this->imageService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
             $this->pdfService->deleteMedia($report->id, 'car_report', 'public/images/car_reports', '');
+            $this->imageService->storeMedia($request, $report->id, 'car_report', 'public/images/car_reports', url("api/images/Report/"));
         }
 
         $report->update($data);

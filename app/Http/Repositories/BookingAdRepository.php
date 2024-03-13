@@ -21,7 +21,7 @@ class BookingAdRepository implements BookingAdInterface
         /** @var User */
         $garage = auth()->user();
 
-        $bookingAds = $garage->bookingAds()->with('media')->get();
+        $bookingAds = $garage->bookingAds()->with('media', 'cars:id,name')->get();
 
         return response()->json([
             'success' => true,
@@ -41,7 +41,7 @@ class BookingAdRepository implements BookingAdInterface
         return response()->json([
             'success' => true,
             'message' => 'Retrieved successfully',
-            'data' => $bookingAd->load('media'),
+            'data' => $bookingAd->load('media', 'cars:id,name'),
         ]);
     }
 
@@ -58,13 +58,15 @@ class BookingAdRepository implements BookingAdInterface
             return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
         }
 
-
+        
         $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
         $bookingAd = BookingAd::create($data);
         $bookingAd->media()->create([
             'type' => 'ad',
             'image' => $this->imageService->store($data['image'], 'ads', 'Ad')
         ]);
+
+        $bookingAd->cars()->attach($data['car_ids']);
 
         return response()->json([
             'success' => true,
@@ -101,6 +103,8 @@ class BookingAdRepository implements BookingAdInterface
             ]);
         }
 
+        $bookingAd->cars()->sync($data['car_ids']);
+
         return response()->json([
             'success' => true,
             'message' => 'Updated successfully',
@@ -131,13 +135,12 @@ class BookingAdRepository implements BookingAdInterface
 
     public function userBookingAds()
     {
+        /** @var User */
         $user = auth()->user();
-        $bookingAds = BookingAd::where('display', true)->where('car_type', $user->user_information->car_id)->where('car_type', $user->carLicense->model)->where('gender', $user->id)->orWhere('gender', 2)->with('media')->get()
-            ->map(function ($bookingAd) {
-                if (Carbon::now() > $bookingAd->updated_at->addDays(10))
-                    return  $bookingAd;
-            });
+        $user->load('user_information', 'carLicense');
 
+        $bookingAds = BookingAd::adsForUser($user);
+        
         return response()->json([
             'success' => true,
             'message' => 'Retrieved successfully',

@@ -18,9 +18,11 @@ class BookingAdRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'gender' => 'nullable|in:0,1,2',
 
-            'car_type' => 'required|string',
             'car_start_date' => 'required|date_format:Y',
             'car_end_date' => 'required|date_format:Y',
+
+            'car_ids' => 'required|array|min:1',
+            'car_ids.*' => 'exists:cars,id',
         ];
 
         if ($this->isMethod('post')) {

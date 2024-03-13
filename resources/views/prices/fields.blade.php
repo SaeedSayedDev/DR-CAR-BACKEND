@@ -22,7 +22,7 @@
 <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
     {!! Form::label('amount', trans("lang.payment_amount"), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
     <div class="col-md-9">
-        {!! Form::number('amount', null, ['class' => 'form-control', 'placeholder' => trans("lang.payment_amount_placeholder"), 'min' => '0']) !!}
+        {!! Form::number('amount', null, ['class' => 'form-control', 'placeholder' => trans("lang.payment_amount_placeholder"), 'min' => '0', 'step' => '0.01']) !!}
     </div>
 </div>
 </div>

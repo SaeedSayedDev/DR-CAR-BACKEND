@@ -20,6 +20,7 @@ class ImageController extends Controller
             'Provider' => "accounts",
             'Garage' => "providers",
             'Ad' => 'ads',
+            'Car' => 'admin/cars',
             'CarLicense' => 'admin/cars/licenses',
             'Report' => 'car_reports',
             'App' => 'app',
@@ -27,7 +28,7 @@ class ImageController extends Controller
         };
 
         if (!$folder) {
-            return response()->json(['message' => "Invalid image type: $type"], 400);
+            return response()->json(['message' => "Invalid file type: $type"], 400);
         }
 
         try {
@@ -35,6 +36,17 @@ class ImageController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => "This file $name is not found"], 404);
         }
+    }
+
+    public function type($type)
+    {
+        if (!in_array($type, ['logo', 'default', 'none'])) {
+            return response()->json(['message' => "Invalid file type: $type"], 400);
+        }
+
+        $name = Media::where('type', $type)->first()->imageName();
+
+        return $this->show('App', $name);
     }
 
     function imageDefault()

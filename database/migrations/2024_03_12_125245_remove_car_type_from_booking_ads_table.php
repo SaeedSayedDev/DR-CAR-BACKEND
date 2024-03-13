@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusColumnToServicesTable extends Migration
+class RemoveCarTypeFromBookingAdsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddStatusColumnToServicesTable extends Migration
      */
     public function up()
     {
-        Schema::table('services', function (Blueprint $table) {
-            $table->tinyInteger('status')->default(0)->comment('0: pending, 1: approved, 2: rejected')->after('desc');
+        Schema::table('booking_ads', function (Blueprint $table) {
+            $table->dropColumn('car_type');
         });
     }
 
@@ -25,8 +25,8 @@ class AddStatusColumnToServicesTable extends Migration
      */
     public function down()
     {
-        Schema::table('services', function (Blueprint $table) {
-            //
+        Schema::table('booking_ads', function (Blueprint $table) {
+            $table->string('car_type');
         });
     }
 }

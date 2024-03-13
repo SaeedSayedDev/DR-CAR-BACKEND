@@ -21,7 +21,7 @@ class UserTrait
     ];
 
     public static  $user_information = [
-        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'user_id' => 1, 'car_id' => 1]
+        ['phone_number' => '01096505009', 'address' => 'address', 'short_biography' => 'short_biography', 'phone_verified_at' => '2023-11-17 14:30:43', 'user_id' => 1, 'car_id' => 1, 'gender' => 1]
     ];
     public static $wallets = [
         ['user_id' => 1, 'total_balance' => 0, 'awating_transfer' => 0, 'name' => 'customer_name'],

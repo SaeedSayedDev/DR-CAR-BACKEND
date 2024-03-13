@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusColumnToServicesTable extends Migration
+class CreateBookingAdCarTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddStatusColumnToServicesTable extends Migration
      */
     public function up()
     {
-        Schema::table('services', function (Blueprint $table) {
-            $table->tinyInteger('status')->default(0)->comment('0: pending, 1: approved, 2: rejected')->after('desc');
+        Schema::create('booking_ad_car', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('booking_ad_id')->constrained()->onDelete('cascade');
+            $table->foreignId('car_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -25,8 +27,6 @@ class AddStatusColumnToServicesTable extends Migration
      */
     public function down()
     {
-        Schema::table('services', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('booking_ad_car');
     }
 }

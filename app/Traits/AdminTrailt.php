@@ -256,6 +256,11 @@ class AdminTrailt
             'type' => 'ad',
             'per' => 'day',
             'amount' => 10,
+        ],
+        [
+            'type' => 'dollar',
+            'per' => 'dirham',
+            'amount' => 3.67,
         ]
     ];
 }
