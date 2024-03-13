@@ -11,4 +11,9 @@ class UserInformation extends Model
     protected $fillable = [
         'user_id', 'address', 'short_biography', 'phone_number', 'phone_verified_at', 'car_id', 'gender'
     ];
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }

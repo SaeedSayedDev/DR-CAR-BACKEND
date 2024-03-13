@@ -4,6 +4,7 @@ namespace App\Http\Repositories\Web;
 
 use App\Http\Interfaces\Web\UserInterface;
 use App\Mail\UserEmail;
+use App\Models\Car;
 use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Hash;
@@ -48,7 +49,9 @@ class UserRepository implements UserInterface
             3 => trans('lang.winch'),
             4 => trans('lang.garage'),
         ];
-        return view('settings.users.create', compact('roles'));
+        $cars = Car::pluck('name', 'id');
+
+        return view('settings.users.create', compact('roles', 'cars'));
     }
 
     public function store($request)
@@ -111,7 +114,9 @@ class UserRepository implements UserInterface
             3 => trans('lang.winch'),
             4 => trans('lang.garage'),
         ];
-        return view('settings.users.edit', compact('user', 'roles'));
+        $cars = Car::pluck('name', 'id');
+
+        return view('settings.users.edit', compact('user', 'roles', 'cars'));
     }
 
     public function update($request, $id)

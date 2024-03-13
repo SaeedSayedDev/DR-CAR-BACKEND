@@ -67,6 +67,7 @@
         </div>
     @endif
 </div>
+
 <div class="d-flex flex-column col-sm-12 col-md-6">
     <!-- $FIELD_NAME_TITLE$ Field -->
     <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
@@ -79,13 +80,32 @@
         </div>
     </div>
 
-    <!-- Roles Field -->
     @if (Route::is('users.create'))
+        <!-- Roles Field -->
         <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
             {!! Form::label('role_id', trans('lang.user_role_id'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
             <div class="col-md-9">
                 {!! Form::select('role_id', $roles, null, ['class' => 'select2 form-control']) !!}
-                <div class="form-text text-muted">{{ trans('lang.user_role_id_help') }}</div>
+            </div>
+        </div>
+    @endif
+
+    @if (Route::is('users.create') || (Route::is('users.edit') && $user->user_information))
+        <!-- Car Field -->
+        <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+            {!! Form::label('car_id', trans('lang.car'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+            <div class="col-md-9">
+                {!! Form::select('car_id', $cars, null, ['class' => 'select2 form-control']) !!}
+            </div>
+        </div>
+
+        <!-- Gender Field -->
+        <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+            {!! Form::label('gender', trans('lang.gender'), ['class' => 'col-md-3 control-label text-md-right mx-1']) !!}
+            <div class="col-md-9">
+                {!! Form::select('gender', ['1' => trans('lang.male'), '0' => trans('lang.female')], null, [
+                    'class' => 'select2 form-control',
+                ]) !!}
             </div>
         </div>
     @endif
@@ -130,6 +150,7 @@
         {!! $customFields !!}
     </div>
 @endif --}}
+
 <!-- Submit Field -->
 <div
     class="form-group col-12 d-flex flex-column flex-md-row justify-content-md-end justify-content-sm-center border-top pt-4">
@@ -138,3 +159,24 @@
     <a href="{!! route('users.index') !!}" class="btn btn-default"><i class="fas fa-undo"></i>
         {{ trans('lang.cancel') }}</a>
 </div>
+
+@push('scripts_lib')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleSelect = document.getElementById('roleSelect');
+            const carField = document.getElementById('carField');
+            const genderField = document.getElementById('genderField');
+
+            roleSelect.addEventListener('change', function() {
+                const selectedRoleId = roleSelect.value;
+                if (selectedRoleId === 'CUSTOMER_ROLE_ID') {
+                    carField.style.display = 'flex';
+                    genderField.style.display = 'flex';
+                } else {
+                    carField.style.display = 'none';
+                    genderField.style.display = 'none';
+                }
+            });
+        });
+    </script>
+@endpush

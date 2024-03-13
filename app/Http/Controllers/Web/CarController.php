@@ -21,6 +21,13 @@ class CarController extends Controller
         return view('cars.index', ['dataTable' => $cars]);
     }
 
+    public function car(Car $car)
+    {
+        $cars = Car::where('id', $car->id)->with('media')->paginate(10);
+
+        return view('cars.index', ['dataTable' => $cars]);
+    }
+
     public function ad(BookingAd $bookingAd)
     {
         $cars = $bookingAd->cars()->with('media')->paginate(10);
