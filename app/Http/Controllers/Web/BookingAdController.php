@@ -67,7 +67,7 @@ class BookingAdController extends Controller
         $text_ar = "#$booking_id تم تغيير حالة حجز الاعلان ";
         $notification_type_en = "booking";
         $notification_type_ar = "حجز";
-        $api =  url("api/booking/show/" . $booking_id);
+        $api =  url("api/booking/ads/show/" . $booking_id);
         $this->notificationService->notification($booking_id, $creator_name,  $text_en, $text_ar, $notification_type_en, $notification_type_ar, $api, $reciver_id);
     }
 }
