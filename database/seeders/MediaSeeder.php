@@ -59,23 +59,5 @@ class MediaSeeder extends Seeder
                 'image' => "$this->baseUrl/Provider/$i.jpg"
             ]);
         }
-
-        Media::create([
-            'type' => 'default',
-            'type_id' => '0',
-            'image' => "$this->baseUrl/App/default.jpeg"
-        ]);
-
-        Media::create([
-            'type' => 'logo',
-            'type_id' => '0',
-            'image' => "$this->baseUrl/App/logo.png"
-        ]);    
-
-        Media::create([
-            'type' => 'none',
-            'type_id' => '0',
-            'image' => "$this->baseUrl/App/none.png"
-        ]);
     }
 }
