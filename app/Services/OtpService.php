@@ -29,6 +29,7 @@ class OtpService
         $data['otp'] = rand(100000, 999999);
 
         Mail::send('sendEmailOtp',  ['otp' => $data['otp']], function ($message) use ($data, $email) {
+            $message->from('support@drcar.me', 'DRCAR');
             $message->to($email)->subject($data['title']);
         });
 
@@ -42,6 +43,6 @@ class OtpService
                 'type_user' => $type_user
             ]
         );
-        return response()->json(['message'=>'please check your email']);
+        return response()->json(['message' => 'please check your email']);
     }
 }

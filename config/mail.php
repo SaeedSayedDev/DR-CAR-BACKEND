@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => 'smtp.hostinger.com',
+            'host' => 'smtp.sendgrid.net',
             'port' => 465,
             'encryption' =>  'ssl',
-            'username' => 'drcar@abdelrahman-salah.online',
-            'password' =>  'Abdo11@@',
+            'username' => 'apikey',
+            'password' =>  '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',
             'timeout' => null,
             'local_domain' => null,
 
