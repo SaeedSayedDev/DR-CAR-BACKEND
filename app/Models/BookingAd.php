@@ -59,4 +59,11 @@ class BookingAd extends Model
                 $query->where('car_id', $user->user_information->car_id);
             })->get();
     }
+
+    public static function adsForGuest()
+    {
+        static::expire();
+
+        return static::where('display', true)->get();
+    }
 }

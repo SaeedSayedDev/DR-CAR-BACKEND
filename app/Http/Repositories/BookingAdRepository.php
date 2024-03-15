@@ -58,7 +58,7 @@ class BookingAdRepository implements BookingAdInterface
             return response()->json(['message' => 'Insufficient balance in the wallet'], 400);
         }
 
-        
+
         $this->bookingAdService->updateWalletBalance($garage, -$data['amount']);
         $bookingAd = BookingAd::create($data);
         $bookingAd->media()->create([
@@ -137,10 +137,14 @@ class BookingAdRepository implements BookingAdInterface
     {
         /** @var User */
         $user = auth()->user();
-        $user->load('user_information', 'carLicense');
+        if (isset($user)) {
+            $user->load('user_information', 'carLicense');
 
-        $bookingAds = BookingAd::adsForUser($user);
-        
+            $bookingAds = BookingAd::adsForUser($user);
+        } else {
+            $bookingAds = BookingAd::adsForGuest();
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Retrieved successfully',

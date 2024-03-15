@@ -1411,7 +1411,7 @@ return [
     'car_edit' => 'Edit Car',
     'car_create' => 'Create Car',
     'privacy' => 'Privacy',
-    'public' => 'Public',
+    'public' => 'Maintanance all cars',
     'booking_ad' => 'Booking Ad',
     'booking_ad_plural' => 'Booking Ads',
     'booking_ad_table' => 'Booking Ads List',

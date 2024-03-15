@@ -1340,7 +1340,7 @@ return [
     'car_table' => 'قائمة السيارات',
     'car_create' => 'إنشاء سيارة',
     'privacy' => 'الخصوصية',
-    'public' => 'عام',
+    'public' => 'تصليح كل السيارات',
     'booking_ad' => 'حجز إعلان',
     'booking_ad_plural' => 'حجز إعلانات',
     'booking_ad_table' => 'قائمة حجز الإعلانات',

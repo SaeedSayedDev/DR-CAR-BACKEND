@@ -89,6 +89,9 @@ class AccountRepository implements AccountInterface
     public function storeGarageData($request)
     {
         $user = auth()->user();
+        if (isset($user->garage_data))
+            return response()->json(['success' => false, 'message' => 'you arleady have garage data']);
+
         if ($user->garage_information->gender == null)
             return response()->json(['success' => false, 'message' => 'please update your profile first']);
 
