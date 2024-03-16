@@ -14,7 +14,6 @@ class ServiceRequest extends FormRequest
     public function rules(): array
     {
 
-        request()['items'] = json_decode(request()->items);
 
         return [
             'name' => 'string|required|max:255',

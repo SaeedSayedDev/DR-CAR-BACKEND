@@ -61,6 +61,9 @@ class BookingServiceRepository implements BookingServiceInterface
 
     public function bookingService($request)
     {
+        if (!isset(auth()->user()->carLicense))
+            return response()->json(['success' => false, 'message' => 'this user has not car licence']);
+
         $service =  Service::where('enable_booking', true)->findOrFail($request->service_id);
         $service_price = $this->bookingService->priceBooking($request, $service);
         $service_price_plus_commission = $this->bookingService->commissionForPayment($service_price);
