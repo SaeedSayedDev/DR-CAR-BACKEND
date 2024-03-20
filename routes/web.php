@@ -197,9 +197,9 @@ Route::group([
         // Route::resource('slides', SlideController::class);
     });
 
-    Route::get('test', function (Request $request) {
-        return $_SERVER['SERVER_NAME'];
-    });
+    // Route::get('test', function (Request $request) {
+    //     return $_SERVER['SERVER_NAME'];
+    // });
 });
 
 // Route::get('bookings', function () {
