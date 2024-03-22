@@ -20,7 +20,7 @@ class CarController extends Controller
     }
     public function index()
     {
-        $cars = Car::get();
+        $cars = Car::with('media')->get();
 
         return response()->json(['data' => $cars]);
     }
