@@ -48,7 +48,7 @@ class AuthRepository implements AuthInterface
         else if ($request->role_id == 3)
             $this->authServcie->createWinchInfo($request->phone_number,  $user->id);
         else if ($request->role_id == 4)
-            $this->authServcie->createGarageInfo($request->phone_number,  $user->id);
+            $this->authServcie->createGarageInfo($request->phone_number,  $user->id, $request->gender);
 
         // $this->otpService->createEmail($user->email, $user->id, 'user');
         $user = $this->authServcie->credentialUser($request);
@@ -61,7 +61,7 @@ class AuthRepository implements AuthInterface
             'awating_transfer' => 0,
         ]);
         DB::commit();
-       return  $this->otpService->createEmail($user->email, $user->id, 'user');
+        return  $this->otpService->createEmail($user->email, $user->id, 'user');
 
         // return response()->json([
         //     "success" => true,

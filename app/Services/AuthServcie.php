@@ -71,11 +71,12 @@ class AuthServcie
         ]);
     }
 
-    public function createGarageInfo($phone_number, $garageId)
+    public function createGarageInfo($phone_number, $garageId, $gender)
     {
         return GarageInformation::create([
             'garage_id' => $garageId,
             'phone_number' => $phone_number,
+            'gender' => $gender
             // 'garage_type' => $garage_type,
         ]);
     }
