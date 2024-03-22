@@ -37,6 +37,10 @@ Route::get('paypal/success', [SettingController::class, 'testPaypal']);
 
 Route::get('images/image_default', [ImageController::class, 'imageDefault']);
 Route::get('image_default', [ImageController::class, 'getImageDefault']);
+
+Route::get('images/image_default_2', [ImageController::class, 'imageDefault_2']);
+Route::get('image_default_2', [ImageController::class, 'getImageDefault_2']);
+
 Route::get('images/type/{type}', [ImageController::class, 'type']);
 Route::get('images/{type}/{name}', [ImageController::class, 'show']);
 
