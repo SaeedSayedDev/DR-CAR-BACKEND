@@ -32,13 +32,17 @@ class BookingWinchRepository implements BookingWinchInterface
 
     public function getWinchsInUser()
     {
+        if (!isset(auth()->user()->address[0]))
+            return response()->json([
+                "message" => "please create address first"
+            ]);
         $userLatitude = auth()->user()->address[0]['latitude'];
         $userLongitude = auth()->user()->address[0]['longitude'];
         $winchs = User::where('role_id', 3)
             ->where('ban', 0)
             ->join('winch_information', 'winch_information.winch_id', '=', 'users.id')
             ->join('addresses', 'addresses.user_id', '=', 'users.id')
-            ->join('booking_winches', 'booking_winches.winch_id', '=', 'users.id')->select('booking_winches.*', 'users.*')->with(['bookingsWinch.bookingService'])
+            ->leftJoin('booking_winches', 'booking_winches.winch_id', '=', 'users.id')->select('booking_winches.*', 'users.*')->with(['bookingsWinch.bookingService'])
             // ->select('users.id', 'winch_information.phone_number', 'addresses.latitude')
             ->whereRaw("latitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLatitude, $userLatitude])
             ->whereRaw("longitude BETWEEN (? - winch_information.availability_range) AND (? + winch_information.availability_range)", [$userLongitude, $userLongitude])
