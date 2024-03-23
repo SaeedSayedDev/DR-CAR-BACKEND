@@ -96,7 +96,7 @@ class Service extends Model
         return  $this
             // ->whereHas('avilabilty_range')
             ->where('status',1)
-            ->with('provider.user.userRole', 'provider.address', 'provider.user.media','provider.user.garage_support_cars', 'media', 'items', 'favourite')
+            ->with('provider.user.userRole', 'provider.address', 'provider.user.media','provider.user.garage_support_cars.media', 'media', 'items', 'favourite')
             ->withSum('review', 'review_value')
             ->withCount('review', 'popular');
     }
