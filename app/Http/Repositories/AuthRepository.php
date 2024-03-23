@@ -100,7 +100,7 @@ class AuthRepository implements AuthInterface
         $user->load(match ($user->role_id) {
             2 => 'user_information',
             3 => 'winch_information',
-            4 => ['garage_information', 'garage_data.media', 'garage_support_category.items'],
+            4 => ['garage_information', 'garage_data.media', 'garage_support_category.items' ,'garage_support_cars'],
         });
         return response()->json([
             'data' => $user,
