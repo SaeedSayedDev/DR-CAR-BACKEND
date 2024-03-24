@@ -17,7 +17,8 @@ class ServiceController extends Controller
 
     public function index()
     {
-        $services = Service::with('provider:id,name')->paginate(10);
+        $services = Service::with('provider:id,name')
+            ->orderBy('created_at', 'desc')->paginate(10);
 
         return view('e_services.index', ['dataTable' => $services]);
     }
@@ -61,7 +62,7 @@ class ServiceController extends Controller
     public function update(ServiceRequest $request, Service $eService)
     {
         $data = $request->validated();
-        
+
         $eService->update($data);
         if ($request->hasFile('image')) {
             $eService->media()->updateOrCreate([
@@ -83,7 +84,7 @@ class ServiceController extends Controller
     //     $this->imageService->delete($eService->media()->first()?->imageName(), 'admin/services');
     //     $eService->media()->delete();
     //     $eService->delete();
-        
+
     //     return redirect()->route('eServices.index')->withSuccess(trans('lang.deleted_success'));
     // }
 

@@ -38,9 +38,9 @@ return [
             'transport' => 'smtp',
             'host' => 'smtp.sendgrid.net',
             'port' => 465,
-            'encryption' =>  'ssl',
+            'encryption' =>  'SSL',
             'username' => 'apikey',
-            'password' =>  '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',
+            'password' =>  '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',
             'timeout' => null,
             'local_domain' => null,
 
