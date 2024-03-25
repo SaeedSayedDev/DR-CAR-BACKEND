@@ -15,12 +15,12 @@ class DropExpiryDateFromCarLicenses extends Migration
     {
         Schema::table('car_licenses', function (Blueprint $table) {
             $table->dropColumn('expiry_date');
-            $table->dropColumn('registration_date');
+            $table->dropColumn('insurance_expiry');
             $table->dropColumn('registration_date');
         });
         Schema::table('car_licenses', function (Blueprint $table) {
             $table->string('expiry_date');
-            $table->string('registration_date');
+            $table->string('insurance_expiry');
             $table->string('registration_date');
         });
     }
